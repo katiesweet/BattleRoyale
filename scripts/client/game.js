@@ -8,6 +8,10 @@ MyGame.main = (function(graphics, renderer, input, components) {
 
   let lastTimeStamp = performance.now(),
     myKeyboard = input.Keyboard(),
+    arena = {
+      model: components.Arena(),
+      texture: MyGame.assets['desert-floor'],
+    },
     playerSelf = {
       model: components.Player(),
       texture: MyGame.assets['player-self'],
@@ -309,6 +313,9 @@ MyGame.main = (function(graphics, renderer, input, components) {
   //------------------------------------------------------------------
   function render() {
     graphics.clear();
+
+    renderer.Arena.render(arena.model, arena.texture);
+
     renderer.Player.render(playerSelf.model, playerSelf.texture);
     for (let id in playerOthers) {
       let player = playerOthers[id];

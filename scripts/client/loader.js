@@ -34,6 +34,7 @@ MyGame.loader = (function() {
       },
       {
         scripts: [
+          'components/arena',
           'components/player',
           'components/player-remote',
           'components/missile',
@@ -49,6 +50,7 @@ MyGame.loader = (function() {
       },
       {
         scripts: [
+          'rendering/arena',
           'rendering/player',
           'rendering/player-remote',
           'rendering/missile',
@@ -65,12 +67,16 @@ MyGame.loader = (function() {
     ],
     assetOrder = [
       {
+        key: 'desert-floor',
+        source: 'assets/desert_tiled.jpg',
+      },
+      {
         key: 'player-self',
-        source: 'assets/playerShip1_blue.png',
+        source: 'assets/single_cowboy.png',
       },
       {
         key: 'player-other',
-        source: 'assets/playerShip1_red.png',
+        source: 'assets/cowboy_black.png',
       },
       {
         key: 'explosion',
