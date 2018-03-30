@@ -17,8 +17,6 @@ function handleRequest(request, response) {
   let lookup = request.url === '/' ? '/index.html' : decodeURI(request.url);
   let file = lookup.substring(1, lookup.length);
 
-  console.log('lookup', lookup);
-
   fs.exists(file, function(exists) {
     if (exists) {
       fs.readFile(file, function(err, data) {
