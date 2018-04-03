@@ -44,6 +44,11 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
+        scripts: ['menu'],
+        message: 'Menu loaded',
+        onComplete: null,
+      },
+      {
         scripts: ['rendering/graphics'],
         message: 'Graphics loaded',
         onComplete: null,
