@@ -3,7 +3,7 @@
 // This function provides the "game" code.
 //
 //------------------------------------------------------------------
-MyGame.main = (function(graphics, renderer, input, components) {
+MyGame.screens['main'] = (function(graphics, renderer, input, components) {
   'use strict';
 
   let lastTimeStamp = performance.now(),

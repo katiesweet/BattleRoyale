@@ -4,6 +4,7 @@ MyGame = {
   renderer: {},
   utilities: {},
   assets: {},
+  screens: {},
 };
 
 //------------------------------------------------------------------
@@ -213,7 +214,8 @@ MyGame.loader = (function() {
   //------------------------------------------------------------------
   function mainComplete() {
     console.log('it is all loaded up');
-    MyGame.main.initialize();
+    console.log('changed');
+    MyGame.screens['main'].initialize();
   }
 
   //
