@@ -417,10 +417,18 @@ MyGame.screens['main'] = (function(graphics, renderer, input, components) {
 
     //
     // Get the game loop started
+    // requestAnimationFrame(gameLoop);
+  }
+
+  function run() {
+    lastTimeStamp = performance.now();
+
     requestAnimationFrame(gameLoop);
   }
 
+
   return {
     initialize: initialize,
+    run: run,
   };
 })(MyGame.graphics, MyGame.renderer, MyGame.input, MyGame.components);

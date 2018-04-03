@@ -214,8 +214,7 @@ MyGame.loader = (function() {
   //------------------------------------------------------------------
   function mainComplete() {
     console.log('it is all loaded up');
-    console.log('changed');
-    MyGame.screens['main'].initialize();
+    MyGame.menu.initialize();
   }
 
   //
