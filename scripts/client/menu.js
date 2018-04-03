@@ -12,16 +12,12 @@
 MyGame.menu = (function(screens) {
 	'use strict';
 
-	//------------------------------------------------------------------
-	//
-	// This function is used to change to a new active screen.
-	//
-	//------------------------------------------------------------------
 	function showScreen(id) {
+		console.log(id);
 		let screen = 0;
 		let active = null;
-		//
-		// Remove the active state from all screens.  There should only be one...
+
+		console.log(screens);
 		active = document.getElementsByClassName('active');
 		for (screen = 0; screen < active.length; screen++) {
 			active[screen].classList.remove('active');
@@ -42,7 +38,7 @@ MyGame.menu = (function(screens) {
 			}
 		}
 
-		// showScreen('main-menu');
+		showScreen('main-menu');
 	}
 
 	return {
