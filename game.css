@@ -47,6 +47,7 @@ ul.menu {
 	text-align: center;
 	padding: 0;
 	margin: 0;
+	margin-top: 60px;
 	list-style: none;
 }
 
@@ -56,30 +57,23 @@ ul.menu li {
 
 ul.menu li button {
 	font-family: Arial, sans-serif;
-	font-size: 0.6em;
+	font-size: 0.9em;
 	background: #69a0db;
 	width: 10em;
-	height: 1.5em;
+	height: 2.0em;
 	color: white;
 	outline: none;
 	border:0 none;
 	border-radius: 4px;
-
-	/* color: #CECEF6;
-
-	background: #0404B4;
-	border: 0.1em solid rgb(255, 0, 0);
-	border-radius: 0.5em;
-	box-shadow: 0.2em 0.2em 0.3em rgb(0, 0, 0); */
 }
 
 ul.menu li button:hover {
-	background: #2E2EFE;
+	background: #5c99db;
 }
 
 ul.menu li button:active {
-	color: #CECEF6;
-	background: rgb(0, 0, 0);
+	color: white;
+	background: #5c99db;
 }
 
 #game div h1 {
