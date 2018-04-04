@@ -89,7 +89,8 @@ MyGame.loader = (function() {
     assetOrder = [
       {
         key: 'desert-floor',
-        source: 'assets/desert_cracks_d.jpg', // desert_tiled.jpg doesn't exists, changed temporarily to source: 'assets/desert_cracks_d.jpg',
+        source: 'assets/desert_cracks_d.jpg', // desert_tiled.jpg doesn't exist in the repo right now,
+        //changed temporarily to source: 'assets/desert_cracks_d.jpg', this can be changed whenever it needs to be
       },
       {
         key: 'player-self',

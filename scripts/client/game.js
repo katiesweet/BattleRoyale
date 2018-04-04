@@ -415,14 +415,10 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components) {
       false
     );
 
-    //
-    // Get the game loop started
-    // requestAnimationFrame(gameLoop);
   }
 
   function run() {
     lastTimeStamp = performance.now();
-
     requestAnimationFrame(gameLoop);
   }
 
