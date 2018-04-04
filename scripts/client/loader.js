@@ -55,6 +55,16 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
+        scripts: ['credits'],
+        message: 'Credits loaded',
+        onComplete: null,
+      },
+      {
+        scripts: ['highScores'],
+        message: 'High scores loaded',
+        onComplete: null,
+      },
+      {
         scripts: ['rendering/graphics'],
         message: 'Graphics loaded',
         onComplete: null,

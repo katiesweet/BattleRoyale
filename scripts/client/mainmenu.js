@@ -10,13 +10,9 @@ MyGame.screens['main-menu'] = (function(menu) {
 			'click',
 			function() { menu.showScreen('high-scores'); });
 
-		document.getElementById('id-help').addEventListener(
+		document.getElementById('id-credits').addEventListener(
 			'click',
-			function() { menu.showScreen('help'); });
-
-		document.getElementById('id-about').addEventListener(
-			'click',
-			function() { menu.showScreen('about'); });
+			function() { menu.showScreen('credits'); });
 	}
 
 	function run() {
