@@ -1,22 +1,22 @@
-MyGame.screens['main-menu'] = (function(game) {
+MyGame.screens['main-menu'] = (function(menu) {
 	'use strict';
 
 	function initialize() {
 		document.getElementById('id-new-game').addEventListener(
 			'click',
-			function() {game.showScreen('gamePlay'); });
+			function() {menu.showScreen('gamePlay'); });
 
 		document.getElementById('id-high-scores').addEventListener(
 			'click',
-			function() { game.showScreen('high-scores'); });
+			function() { menu.showScreen('high-scores'); });
 
 		document.getElementById('id-help').addEventListener(
 			'click',
-			function() { game.showScreen('help'); });
+			function() { menu.showScreen('help'); });
 
 		document.getElementById('id-about').addEventListener(
 			'click',
-			function() { game.showScreen('about'); });
+			function() { menu.showScreen('about'); });
 	}
 
 	function run() {
