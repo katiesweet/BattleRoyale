@@ -4,7 +4,7 @@ MyGame.screens['main-menu'] = (function(game) {
 	function initialize() {
 		document.getElementById('id-new-game').addEventListener(
 			'click',
-			function() {game.showScreen('main'); });
+			function() {game.showScreen('gamePlay'); });
 
 		document.getElementById('id-high-scores').addEventListener(
 			'click',

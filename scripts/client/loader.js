@@ -45,7 +45,7 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
-        scripts: ['menu'],
+        scripts: ['menuSystem'],
         message: 'Menu loaded',
         onComplete: null,
       },
