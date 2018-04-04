@@ -3,7 +3,7 @@
 // This function provides the "game" code.
 //
 //------------------------------------------------------------------
-MyGame.main = (function(graphics, renderer, input, components) {
+MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components) {
   'use strict';
 
   let lastTimeStamp = performance.now(),
@@ -415,12 +415,16 @@ MyGame.main = (function(graphics, renderer, input, components) {
       false
     );
 
-    //
-    // Get the game loop started
+  }
+
+  function run() {
+    lastTimeStamp = performance.now();
     requestAnimationFrame(gameLoop);
   }
 
+
   return {
     initialize: initialize,
+    run: run,
   };
 })(MyGame.graphics, MyGame.renderer, MyGame.input, MyGame.components);

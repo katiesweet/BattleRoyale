@@ -4,6 +4,7 @@ MyGame = {
   renderer: {},
   utilities: {},
   assets: {},
+  screens: {},
 };
 
 //------------------------------------------------------------------
@@ -44,6 +45,26 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
+        scripts: ['menuSystem'],
+        message: 'Menu loaded',
+        onComplete: null,
+      },
+      {
+        scripts: ['mainmenu'],
+        message: 'Main menu loaded',
+        onComplete: null,
+      },
+      {
+        scripts: ['credits'],
+        message: 'Credits loaded',
+        onComplete: null,
+      },
+      {
+        scripts: ['highScores'],
+        message: 'High scores loaded',
+        onComplete: null,
+      },
+      {
         scripts: ['rendering/graphics'],
         message: 'Graphics loaded',
         onComplete: null,
@@ -68,7 +89,8 @@ MyGame.loader = (function() {
     assetOrder = [
       {
         key: 'desert-floor',
-        source: 'assets/desert_tiled.jpg',
+        source: 'assets/desert_cracks_d.jpg', // desert_tiled.jpg doesn't exist in the repo right now,
+        //changed temporarily to source: 'assets/desert_cracks_d.jpg', this can be changed whenever it needs to be
       },
       {
         key: 'player-self',
@@ -208,7 +230,7 @@ MyGame.loader = (function() {
   //------------------------------------------------------------------
   function mainComplete() {
     console.log('it is all loaded up');
-    MyGame.main.initialize();
+    MyGame.menu.initialize();
   }
 
   //
