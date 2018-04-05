@@ -6,6 +6,10 @@ MyGame.screens['main-menu'] = (function(menu) {
 			'click',
 			function() {menu.showScreen('gamePlay'); });
 
+		document.getElementById('id-keyboard-config').addEventListener(
+			'click',
+			function() {menu.showScreen('keyboard-config'); });
+
 		document.getElementById('id-high-scores').addEventListener(
 			'click',
 			function() { menu.showScreen('high-scores'); });

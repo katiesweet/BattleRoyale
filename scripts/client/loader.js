@@ -65,6 +65,11 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
+        scripts: ['keyboard'],
+        message: 'Keyboard config loaded',
+        onComplete: null,
+      },
+      {
         scripts: ['rendering/graphics'],
         message: 'Graphics loaded',
         onComplete: null,
