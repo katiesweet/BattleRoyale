@@ -1,0 +1,30 @@
+{
+  "users": [
+    {
+      "username": "Adam",
+      "highscore": 10000
+    },
+    {
+      "username": "Adam again",
+      "highscore": 9999
+    },
+    {
+      "username": "Katie",
+      "highscore": 1
+    },
+    {
+      "username": "Sarah",
+      "highscore": 1
+    },
+    {
+      "username": "1@1.com",
+      "hashedPassword": "$2a$10$0zFBPFLi/d/DZ94sPInOAOVZqJ.wyBHZgel6NkUYHLuV3PLUTNzE6",
+      "highscore": 0
+    },
+    {
+      "username": "k",
+      "hashedPassword": "$2a$10$AIGQpDqLGbnMY8kkR137VOtQSKHDCHEo82M2./W3JeoU1kx.BeQCy",
+      "highscore": 0
+    }
+  ]
+}
