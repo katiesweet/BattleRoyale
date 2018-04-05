@@ -7,8 +7,8 @@ MyGame.components.Arena = function() {
   'use strict';
   let that = {};
   let position = {
-    x: 0,
-    y: 0,
+    x: 0.5,
+    y: 0.5,
   };
   let size = {
     width: 1,

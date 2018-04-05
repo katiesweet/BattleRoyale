@@ -79,6 +79,8 @@ MyGame.graphics = (function() {
       texture,
       localCenter.x - localSize.width / 2,
       localCenter.y - localSize.height / 2,
+      // localCenter.x,
+      // localCenter.y,
       localSize.width,
       localSize.height
     );
