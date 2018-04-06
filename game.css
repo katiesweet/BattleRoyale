@@ -65,6 +65,10 @@ body {
 	cursor: grab;
 }
 
+.backbutton {
+	max-width: 25%;
+}
+
 button.normal-button:hover {
 	color: #2872c1;
 }
