@@ -145,25 +145,18 @@ MyGame.graphics = (function() {
   //
   //------------------------------------------------------------------
   function drawImageSpriteSheet(spriteSheet, spriteSize, sprite, center, size) {
-    let localCenter = {
-      x: center.x * canvas.width,
-      y: center.y * canvas.width,
-    };
-    let localSize = {
-      width: size.width * canvas.width,
-      height: size.height * canvas.height,
-    };
 
-    context.drawImage(
+    drawImage(
       spriteSheet,
       sprite * spriteSize.width,
       0, // which sprite to render
       spriteSize.width,
       spriteSize.height, // size in the spritesheet
-      localCenter.x - localSize.width / 2,
-      localCenter.y - localSize.height / 2,
-      localSize.width,
-      localSize.height
+      center.x - size.width/2,
+      center.y - size.height/2,
+      size.width,
+      size.height,
+      true
     );
   }
 
@@ -172,19 +165,6 @@ MyGame.graphics = (function() {
   // Draw a circle into the local canvas coordinate system.
   //
   //------------------------------------------------------------------
-  // function drawCircle(center, radius, color) {
-  //   context.beginPath();
-  //   context.arc(
-  //     center.x * canvas.width,
-  //     center.y * canvas.width,
-  //     2 * radius * canvas.width,
-  //     2 * Math.PI,
-  //     false
-  //   );
-  //   context.closePath();
-  //   context.fillStyle = color;
-  //   context.fill();
-  // }
   function drawCircle(style, center, radius, useViewport) {
 		var adjustLeft = (useViewport === true) ? viewport.left : 0,
 			adjustTop = (useViewport === true) ? viewport.top : 0;
@@ -209,7 +189,6 @@ MyGame.graphics = (function() {
     drawImage: drawImage,
     drawImageSpriteSheet: drawImageSpriteSheet,
     drawCircle: drawCircle,
-    // drawViewportImage: drawViewportImage,
     world: world,
     viewport: viewport
   };
