@@ -15,7 +15,14 @@ MyGame.renderer.PlayerRemote = (function(graphics) {
   that.render = function(model, texture) {
     graphics.saveContext();
     graphics.rotateCanvas(model.state.position, model.state.direction);
-    graphics.drawImage(texture, model.state.position, model.size);
+    // graphics.drawImage(texture, model.state.position, model.size);
+    graphics.drawImage(
+      texture, 
+      model.state.position.x,
+      model.state.position.y,
+      model.size.width,
+      model.size.height,
+      true);
     graphics.restoreContext();
   };
 
