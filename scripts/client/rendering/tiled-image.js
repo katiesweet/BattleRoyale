@@ -77,14 +77,7 @@ MyGame.renderer.TiledImage = (function(graphics, assets) {
 				tileRenderYDist = tileRenderWorldHeight * oneOverTileSizeWorld;
 			}
 
-            // tileAssetName = image.assetKey + '-' + numberPad(tileTop * image.tilesX + tileLeft, 4);
-            // console.log("tileTop:", tileTop)
-            // console.log("tilesX:", image.tilesX)
-            // console.log("tileLeft:", tileLeft)
             tileAssetName = image.assetKey + '-' + (tileTop * image.tilesX + tileLeft);
-            // console.log("Tile asset name: ", tileAssetName)
-            // console.log("assets:", assets)
-            // console.log("image:", assets[tileAssetName])
 			graphics.drawImage(
 				assets[tileAssetName],
 				tileRenderXStart * image.tileSize, tileRenderYStart * image.tileSize,

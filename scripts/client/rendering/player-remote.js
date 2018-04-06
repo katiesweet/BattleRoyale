@@ -18,8 +18,8 @@ MyGame.renderer.PlayerRemote = (function(graphics) {
     // graphics.drawImage(texture, model.state.position, model.size);
     graphics.drawImage(
       texture, 
-      model.state.position.x,
-      model.state.position.y,
+      model.state.position.x - model.size.width/2,
+      model.state.position.y - model.size.height/2,
       model.size.width,
       model.size.height,
       true);

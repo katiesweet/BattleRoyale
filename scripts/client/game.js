@@ -321,6 +321,7 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
     graphics.clear();
 
     renderer.TiledImage.render(background, graphics.viewport)
+    renderer.MiniMap.render(playerSelf.model)
 
     renderer.Player.render(playerSelf.model, playerSelf.texture);
     // graphics.drawImage(playerSelf.texture);

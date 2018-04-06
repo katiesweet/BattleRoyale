@@ -35,7 +35,6 @@ MyGame.loader = (function() {
       },
       {
         scripts: [
-          // 'components/arena',
           'components/player',
           'components/player-remote',
           'components/missile',
@@ -58,12 +57,12 @@ MyGame.loader = (function() {
       },
       {
         scripts: [
-          'rendering/arena',
           'rendering/player',
           'rendering/player-remote',
           'rendering/missile',
           'rendering/animated-sprite',
-          'rendering/tiled-image'
+          'rendering/tiled-image',
+          'rendering/mini-map'
         ],
         message: 'Renderers loaded',
         onComplete: null,
@@ -79,11 +78,10 @@ MyGame.loader = (function() {
         key: 'desert-floor',
         source: 'assets/tiles/map_49.png',
       },
-      // {
-      //   key: 'desert-floor',
-      //   source: 'assets/desert_cracks_d.jpg', // desert_tiled.jpg doesn't exist in the repo right now,
-      //   //changed temporarily to source: 'assets/desert_cracks_d.jpg', this can be changed whenever it needs to be
-      // },
+      {
+        key: 'mini-map',
+        source: 'assets/miniMap.png'
+      },
       {
         key: 'player-self',
         source: 'assets/single_cowboy_blue.png',
