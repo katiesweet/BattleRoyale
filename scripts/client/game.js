@@ -3,7 +3,7 @@
 // This function provides the "game" code.
 //
 //------------------------------------------------------------------
-MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components) {
+MyGame.screens['game-play'] = (function(graphics, renderer, input, components) {
   'use strict';
 
   let lastTimeStamp = performance.now(),
@@ -414,14 +414,12 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components) {
       MyGame.input.KeyEvent.DOM_VK_SPACE,
       false
     );
-
   }
 
   function run() {
     lastTimeStamp = performance.now();
     requestAnimationFrame(gameLoop);
   }
-
 
   return {
     initialize: initialize,

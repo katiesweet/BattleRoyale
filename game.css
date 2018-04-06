@@ -7,26 +7,24 @@ body {
 
 body * {
   box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+}
+
+canvas {
+  display: block;
 }
 
 button {
   cursor: pointer;
 }
 
-#game {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 350px;
-  height: 450px;
-  font-size: 40px;
-}
-
 .background {
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  font-size: 40px;
   background-size: cover;
   background-position: bottom;
-  min-width: 600px;
-  min-height: 600px;
   background-image: url('/assets/desert_square.png');
   background-repeat: no-repeat;
 }
@@ -157,4 +155,67 @@ ul.menu li button:active {
   border: 2px solid #b20019;
   font-weight: 500;
   display: none;
+}
+
+.game-container {
+  width: 100%;
+  display: flex !important;
+  flex-direction: row;
+}
+
+.game-container .game-menu {
+  width: calc((100vw - 100vh) / 2);
+  height: 100vh;
+  background-color: #a7dcf3;
+}
+
+.game-container .game-chat {
+  width: calc((100vw - 100vh) / 2);
+  height: 100vh;
+  background-color: #a7dcf3;
+  position: relative;
+  padding: 5px;
+}
+
+.game-container > .game-chat > .new-message > textarea {
+  width: 65%;
+  position: absolute;
+  bottom: 5px;
+  font-size: 16px;
+  border-radius: 4px;
+  line-height: 1.5;
+  padding: 5px 7px;
+  border: 2px solid #1c1c1c;
+  color: #1c1c1c;
+  background-color: #ececec;
+}
+
+.game-container > .game-chat > .new-message > textarea:focus {
+  background-color: white;
+  outline: none;
+}
+
+.game-container > .game-chat > .new-message > button {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 30%;
+  padding: 8px 0;
+  font-size: 16px;
+  background-color: #ececec;
+  border: 2px solid #1c1c1c;
+  color: #1c1c1c;
+  font-weight: 500;
+}
+
+.game-container > .game-chat > .new-message > button:hover {
+  background-color: white;
+}
+
+.game-container > .game-chat > .new-message > button:active {
+  background-color: #cccccc;
+}
+
+.game-container > .game-chat > .new-message > button:focus {
+  outline: none;
 }

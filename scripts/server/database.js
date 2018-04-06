@@ -15,24 +15,30 @@ async function initialize() {
     throw new Error('Lowdb failed to initialize.');
   }
 
+  const hashedPassword = await hashPassword('password');
+
   return db
     .defaults({
       users: [
         {
           username: 'Adam',
           highscore: 10000,
+          hashedPassword,
         },
         {
           username: 'Adam again',
           highscore: 9999,
+          hashedPassword,
         },
         {
           username: 'Katie',
           highscore: 1,
+          hashedPassword,
         },
         {
           username: 'Sarah',
           highscore: 1,
+          hashedPassword,
         },
       ],
     })

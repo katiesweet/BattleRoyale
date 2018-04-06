@@ -9,6 +9,11 @@ MyGame.graphics = (function() {
   let canvas = document.getElementById('canvas-main');
   let context = canvas.getContext('2d');
 
+  canvas.width = window.innerHeight;
+  canvas.height = window.innerHeight;
+
+  window.addEventListener('resize', resizeCanvas);
+
   //------------------------------------------------------------------
   //
   // Place a 'clear' function on the Canvas prototype, this makes it a part
@@ -21,6 +26,11 @@ MyGame.graphics = (function() {
     this.clearRect(0, 0, canvas.width, canvas.height);
     this.restore();
   };
+
+  function resizeCanvas() {
+    canvas.width = window.innerHeight;
+    canvas.height = window.innerHeight;
+  }
 
   //------------------------------------------------------------------
   //

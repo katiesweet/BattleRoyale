@@ -5,7 +5,7 @@ MyGame.screens['main-menu'] = (function(menu) {
     document
       .getElementById('id-new-game')
       .addEventListener('click', function() {
-        menu.showScreen('gamePlay');
+        menu.showScreen('game-play');
       });
 
     document

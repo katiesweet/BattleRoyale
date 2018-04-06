@@ -40,8 +40,18 @@
 				</li>
 			</ul>
 		</div>
-		<div id="gamePlay" class="screen">
-			<canvas id="canvas-main" width="600" height="600" style="background-color: rgb(0, 0, 0)"></canvas>
+		<div id="game-play" class="screen">
+			<div class="game-container">
+				<div class="game-menu"></div>
+				<canvas id="canvas-main" style="background-color: rgb(0, 0, 0)"></canvas>
+				<div class="game-chat">
+					<div class="messages"></div>
+					<div class="new-message">
+						<textarea id="new-message" rows="1"></textarea>
+						<button class="send-message-btn">Send</button>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div id="highscores" class="screen">
 			<h1>Highscores</h1>
