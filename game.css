@@ -2,7 +2,7 @@ body {
 	margin: 0;
 	font-style: normal;
 	font-family: sans-serif;
-	color: #6e6f72;
+	color: #69a0db;
 }
 
 #game {
@@ -41,6 +41,36 @@ body {
 	padding-top: 1em;
 	cursor: pointer;
 	font-size: 0.75em;
+}
+
+.normal-font {
+	font-size: 18px;
+}
+
+.centered {
+	text-align: center;
+}
+
+.normal-button {
+	font-family: Arial, sans-serif;
+	font-size: 0.9em;
+	width: 8em;
+	height: 2.0em;
+	color: #69a0db;
+	background-color: transparent;
+	margin: 5px;
+	margin-right: 20px;
+	border: 4px solid;
+	border-radius: 12px;
+	cursor: grab;
+}
+
+button.normal-button:hover {
+	color: #2872c1;
+}
+
+button.normal-button:active {
+	color: #5c99db;
 }
 
 ul.menu {
