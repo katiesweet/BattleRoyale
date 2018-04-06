@@ -4,6 +4,15 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 	var editing = false;
 	var action = '';
 	var keyCode = [];
+	var codes = {
+		'fire': 'default',
+		'rotate-left': 'default',
+		'rotate-right': 'default',
+		'move-up': 'default',
+		'move-down': 'default',
+		'move-right': 'default',
+		'move-left': 'default',
+	};
 
 	function initialize() {
 		document.getElementById('id-keyboard-back').addEventListener(
@@ -19,6 +28,15 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 
 			window.addEventListener('keydown', keyDown);
 			window.addEventListener('keyup', keyUp);
+
+			for(var code in codes) {
+				// try and get local storage (populate if it exists)
+				// register those that exist with the input
+
+				// QUESTION does the input support multi-key commands??????
+
+				// populate the display table using current value
+			}
 	}
 
 	function keyDown(event) {
@@ -31,9 +49,11 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 
 	function keyUp(event) {
 		editing = false;
-		// unregister old keycode
-		// save key code and update in localstorate and display
-		// use input to register the new keycode
+		// unregister old keycode (in codes array) from input
+		// save new key in codes array
+		// save new key in local storage
+		// register new key to input
+		// update display for new key in table
 		keyCode = [];
 		action = '';
 	}
