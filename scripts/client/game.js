@@ -3,15 +3,19 @@
 // This function provides the "game" code.
 //
 //------------------------------------------------------------------
-MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components) {
+MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, assets) {
   'use strict';
 
   let lastTimeStamp = performance.now(),
     myKeyboard = input.Keyboard(),
-    arena = {
-      model: components.Arena(),
-      texture: MyGame.assets['desert-floor'],
-    },
+    // arena = {
+    //   model: components.Arena(),
+    //   texture: MyGame.assets['desert-floor'],
+    // },
+
+
+		background = null,
+
     playerSelf = {
       model: components.Player(),
       texture: MyGame.assets['player-self'],
@@ -304,6 +308,8 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components) {
         delete explosions[id];
       }
     }
+
+    graphics.viewport.update(playerSelf.model)
   }
 
   //------------------------------------------------------------------
@@ -314,9 +320,11 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components) {
   function render() {
     graphics.clear();
 
-    renderer.Arena.render(arena.model, arena.texture);
+    renderer.TiledImage.render(background, graphics.viewport)
+    renderer.MiniMap.render(playerSelf.model)
 
     renderer.Player.render(playerSelf.model, playerSelf.texture);
+    // graphics.drawImage(playerSelf.texture);
     for (let id in playerOthers) {
       let player = playerOthers[id];
       renderer.PlayerRemote.render(player.model, player.texture);
@@ -329,6 +337,7 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components) {
     for (let id in explosions) {
       renderer.AnimatedSprite.render(explosions[id]);
     }
+
   }
 
   //------------------------------------------------------------------
@@ -347,15 +356,9 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components) {
     requestAnimationFrame(gameLoop);
   }
 
-  //------------------------------------------------------------------
-  //
-  // Public function used to get the game initialized and then up
-  // and running.
-  //
-  //------------------------------------------------------------------
-  function initialize() {
-    console.log('game initializing...');
-    //
+  // Register keyboard
+  function initalizeKeyboard() {
+//
     // Create the keyboard input handler and register the keyboard commands
     myKeyboard.registerHandler(
       elapsedTime => {
@@ -414,6 +417,33 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components) {
       MyGame.input.KeyEvent.DOM_VK_SPACE,
       false
     );
+  }
+
+  //------------------------------------------------------------------
+  //
+  // Public function used to get the game initialized and then up
+  // and running.
+  //
+  //------------------------------------------------------------------
+  function initialize() {
+    console.log('game initializing...');
+
+		var backgroundKey = 'background';
+
+		//
+    // Get the intial viewport settings prepared.
+		graphics.viewport.set(0, 0, 0.25); // The buffer can't really be any larger than world.buffer, guess I could protect against that.
+
+		//
+		// Define the TiledImage model we'll be using for our background.
+		background = components.TiledImage({
+			pixel: { width: assets[backgroundKey].width, height: assets[backgroundKey].height },
+			size: { width: graphics.world.width, height: graphics.world.height },
+			tileSize: assets[backgroundKey].tileSize,
+			assetKey: backgroundKey
+		});
+
+    initalizeKeyboard();
 
   }
 
@@ -427,4 +457,4 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components) {
     initialize: initialize,
     run: run,
   };
-})(MyGame.graphics, MyGame.renderer, MyGame.input, MyGame.components);
+})(MyGame.graphics, MyGame.renderer, MyGame.input, MyGame.components, MyGame.assets);
