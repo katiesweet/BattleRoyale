@@ -1,0 +1,4639 @@
+{
+    "map_0" : {
+        "complete_barriers": [],
+        "shooting_barriers": [],
+        "walking_barriers": []
+    },
+    "map_1" : {
+        "complete_barriers": [],
+        "shooting_barriers": [],
+        "walking_barriers": []
+    },
+    "map_2" : {
+        "complete_barriers": [],
+        "shooting_barriers": [],
+        "walking_barriers": []
+    },
+    "map_3" : {
+        "complete_barriers": [],
+        "shooting_barriers": [
+            {
+                "br_x": 780,
+                "br_y": 372,
+                "tl_x": 680,
+                "tl_y": 276
+            }
+        ],
+        "walking_barriers": []
+    },
+    "map_4" : {
+        "complete_barriers": [],
+        "shooting_barriers": [
+            {
+                "br_x": 770,
+                "br_y": 538,
+                "tl_x": 684,
+                "tl_y": 452
+            },
+            {
+                "br_x": 440,
+                "br_y": 848,
+                "tl_x": 352,
+                "tl_y": 758
+            }
+        ],
+        "walking_barriers": []
+    },
+    "map_5" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 952, 
+                "br_y": 452, 
+                "tl_x": 866, 
+                "tl_y": 368
+            }, 
+            {
+                "br_x": 440, 
+                "br_y": 1012, 
+                "tl_x": 346, 
+                "tl_y": 926
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_6" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 856, 
+                "br_y": 274, 
+                "tl_x": 766, 
+                "tl_y": 172
+            }, 
+            {
+                "br_x": 172, 
+                "br_y": 750, 
+                "tl_x": 72, 
+                "tl_y": 650
+            }, 
+            {
+                "br_x": 630, 
+                "br_y": 936, 
+                "tl_x": 532, 
+                "tl_y": 840
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_7" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 1028, 
+                "br_y": 354, 
+                "tl_x": 952, 
+                "tl_y": 254
+            }, 
+            {
+                "br_x": 356, 
+                "br_y": 834, 
+                "tl_x": 260, 
+                "tl_y": 730
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_8" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 26, 
+                "br_y": 312, 
+                "tl_x": 0, 
+                "tl_y": 268
+            }, 
+            {
+                "br_x": 1022, 
+                "br_y": 190, 
+                "tl_x": 946, 
+                "tl_y": 86
+            }, 
+            {
+                "br_x": 352, 
+                "br_y": 660, 
+                "tl_x": 258, 
+                "tl_y": 560
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_9" : {
+        "complete_barriers": [
+            {
+                "br_x": 1024, 
+                "br_y": 316, 
+                "tl_x": 908, 
+                "tl_y": 198
+            }, 
+            {
+                "br_x": 970, 
+                "br_y": 1024, 
+                "tl_x": 850, 
+                "tl_y": 932
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 24, 
+                "br_y": 144, 
+                "tl_x": 0, 
+                "tl_y": 98
+            }, 
+            {
+                "br_x": 566, 
+                "br_y": 1024, 
+                "tl_x": 470, 
+                "tl_y": 968
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_10" : {
+        "complete_barriers": [
+            {
+                "br_x": 42, 
+                "br_y": 314, 
+                "tl_x": 0, 
+                "tl_y": 196
+            }
+        ], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_11" : {
+        "complete_barriers": [
+            {
+                "br_x": 262, 
+                "br_y": 670, 
+                "tl_x": 32, 
+                "tl_y": 572
+            }
+        ], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_12" : {
+        "complete_barriers": [
+            {
+                "br_x": 278, 
+                "br_y": 848, 
+                "tl_x": 140, 
+                "tl_y": 738
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 608, 
+                "tl_x": 932, 
+                "tl_y": 500
+            }
+        ], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_13" : {
+        "complete_barriers": [
+            {
+                "br_x": 126, 
+                "br_y": 608, 
+                "tl_x": 0, 
+                "tl_y": 482
+            }, 
+            {
+                "br_x": 898, 
+                "br_y": 732, 
+                "tl_x": 740, 
+                "tl_y": 622
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 692, 
+                "br_y": 720, 
+                "tl_x": 626, 
+                "tl_y": 660
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_14" : {
+        "complete_barriers": [
+            {
+                "br_x": 232, 
+                "br_y": 1010, 
+                "tl_x": 26, 
+                "tl_y": 838
+            }
+        ], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_15" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_16" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 594, 
+                "br_y": 404, 
+                "tl_x": 496, 
+                "tl_y": 304
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_17" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 588, 
+                "br_y": 576, 
+                "tl_x": 490, 
+                "tl_y": 474
+            }, 
+            {
+                "br_x": 260, 
+                "br_y": 882, 
+                "tl_x": 160, 
+                "tl_y": 784
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_18" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 232, 
+                "br_y": 234, 
+                "tl_x": 132, 
+                "tl_y": 128
+            }, 
+            {
+                "br_x": 776, 
+                "br_y": 496, 
+                "tl_x": 678, 
+                "tl_y": 394
+            }, 
+            {
+                "br_x": 260, 
+                "br_y": 1024, 
+                "tl_x": 158, 
+                "tl_y": 950
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_19" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 234, 
+                "br_y": 408, 
+                "tl_x": 132, 
+                "tl_y": 300
+            }, 
+            {
+                "br_x": 444, 
+                "br_y": 970, 
+                "tl_x": 342, 
+                "tl_y": 870
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_20" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 424, 
+                "br_y": 326, 
+                "tl_x": 324, 
+                "tl_y": 224
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_21" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_22" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 380, 
+                "br_y": 138, 
+                "tl_x": 284, 
+                "tl_y": 28
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_23" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 568, 
+                "br_y": 222, 
+                "tl_x": 472, 
+                "tl_y": 110
+            }, 
+            {
+                "br_x": 1022, 
+                "br_y": 310, 
+                "tl_x": 950, 
+                "tl_y": 200
+            }, 
+            {
+                "br_x": 356, 
+                "br_y": 784, 
+                "tl_x": 258, 
+                "tl_y": 680
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_24" : {
+        "complete_barriers": [
+            {
+                "br_x": 972, 
+                "br_y": 48, 
+                "tl_x": 854, 
+                "tl_y": 0
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 536, 
+                "br_y": 48, 
+                "tl_x": 496, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 22, 
+                "br_y": 262, 
+                "tl_x": 0, 
+                "tl_y": 216
+            }, 
+            {
+                "br_x": 248, 
+                "br_y": 936, 
+                "tl_x": 148, 
+                "tl_y": 836
+            }, 
+            {
+                "br_x": 542, 
+                "br_y": 868, 
+                "tl_x": 448, 
+                "tl_y": 762
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_25" : {
+        "complete_barriers": [
+            {
+                "br_x": 1024, 
+                "br_y": 672, 
+                "tl_x": 966, 
+                "tl_y": 570
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 212, 
+                "br_y": 392, 
+                "tl_x": 114, 
+                "tl_y": 288
+            }, 
+            {
+                "br_x": 538, 
+                "br_y": 690, 
+                "tl_x": 440, 
+                "tl_y": 590
+            }, 
+            {
+                "br_x": 246, 
+                "br_y": 1024, 
+                "tl_x": 152, 
+                "tl_y": 1008
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_26" : {
+        "complete_barriers": [
+            {
+                "br_x": 160, 
+                "br_y": 668, 
+                "tl_x": 0, 
+                "tl_y": 554
+            }, 
+            {
+                "br_x": 814, 
+                "br_y": 290, 
+                "tl_x": 680, 
+                "tl_y": 126
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 210, 
+                "br_y": 222, 
+                "tl_x": 112, 
+                "tl_y": 112
+            }, 
+            {
+                "br_x": 434, 
+                "br_y": 1020, 
+                "tl_x": 332, 
+                "tl_y": 928
+            }, 
+            {
+                "br_x": 752, 
+                "br_y": 1024, 
+                "tl_x": 650, 
+                "tl_y": 994
+            }, 
+            {
+                "br_x": 922, 
+                "br_y": 266, 
+                "tl_x": 870, 
+                "tl_y": 176
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_27" : {
+        "complete_barriers": [
+            {
+                "br_x": 172, 
+                "br_y": 708, 
+                "tl_x": 40, 
+                "tl_y": 584
+            }, 
+            {
+                "br_x": 864, 
+                "br_y": 866, 
+                "tl_x": 662, 
+                "tl_y": 692
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 290, 
+                "br_y": 706, 
+                "tl_x": 222, 
+                "tl_y": 642
+            }, 
+            {
+                "br_x": 968, 
+                "br_y": 92, 
+                "tl_x": 886, 
+                "tl_y": 18
+            }, 
+            {
+                "br_x": 992, 
+                "br_y": 210, 
+                "tl_x": 870, 
+                "tl_y": 140
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_28" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 122, 
+                "br_y": 126, 
+                "tl_x": 18, 
+                "tl_y": 78
+            }, 
+            {
+                "br_x": 334, 
+                "br_y": 192, 
+                "tl_x": 212, 
+                "tl_y": 132
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_29" : {
+        "complete_barriers": [
+            {
+                "br_x": 440, 
+                "br_y": 414, 
+                "tl_x": 316, 
+                "tl_y": 276
+            }, 
+            {
+                "br_x": 324, 
+                "br_y": 784, 
+                "tl_x": 192, 
+                "tl_y": 654
+            }
+        ], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_30" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 1024, 
+                "br_y": 264, 
+                "tl_x": 976, 
+                "tl_y": 170
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_31" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 46, 
+                "br_y": 260, 
+                "tl_x": 0, 
+                "tl_y": 160
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 440, 
+                "tl_x": 974, 
+                "tl_y": 340
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_32" : {
+        "complete_barriers": [
+            {
+                "br_x": 784, 
+                "br_y": 980, 
+                "tl_x": 640, 
+                "tl_y": 808
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 50, 
+                "br_y": 436, 
+                "tl_x": 0, 
+                "tl_y": 336
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 990, 
+                "tl_x": 944, 
+                "tl_y": 894
+            }, 
+            {
+                "br_x": 324, 
+                "br_y": 1022, 
+                "tl_x": 270, 
+                "tl_y": 1002
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_33" : {
+        "complete_barriers": [
+            {
+                "br_x": 380, 
+                "br_y": 922, 
+                "tl_x": 160, 
+                "tl_y": 812
+            }, 
+            {
+                "br_x": 706, 
+                "br_y": 920, 
+                "tl_x": 480, 
+                "tl_y": 820
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 236, 
+                "br_y": 30, 
+                "tl_x": 196, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 234, 
+                "br_y": 348, 
+                "tl_x": 136, 
+                "tl_y": 250
+            }, 
+            {
+                "br_x": 902, 
+                "br_y": 916, 
+                "tl_x": 804, 
+                "tl_y": 812
+            }, 
+            {
+                "br_x": 16, 
+                "br_y": 928, 
+                "tl_x": 0, 
+                "tl_y": 884
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_34" : {
+        "complete_barriers": [
+            {
+                "br_x": 136, 
+                "br_y": 912, 
+                "tl_x": 0, 
+                "tl_y": 800
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 924, 
+                "tl_x": 890, 
+                "tl_y": 796
+            }
+        ], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_35" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 200, 
+                "br_y": 1024, 
+                "tl_x": 102, 
+                "tl_y": 976
+            }, 
+            {
+                "br_x": 674, 
+                "br_y": 254, 
+                "tl_x": 584, 
+                "tl_y": 200
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 534, 
+                "br_y": 310, 
+                "tl_x": 476, 
+                "tl_y": 240
+            }
+        ]
+    },
+    "map_36" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 1024, 
+                "br_y": 924, 
+                "tl_x": 994, 
+                "tl_y": 878
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_37" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 60, 
+                "br_y": 966, 
+                "tl_x": 0, 
+                "tl_y": 866
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_38" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 728, 
+                "br_y": 796, 
+                "tl_x": 632, 
+                "tl_y": 694
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_39" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 568, 
+                "br_y": 166, 
+                "tl_x": 468, 
+                "tl_y": 60
+            }, 
+            {
+                "br_x": 938, 
+                "br_y": 394, 
+                "tl_x": 844, 
+                "tl_y": 294
+            }, 
+            {
+                "br_x": 728, 
+                "br_y": 964, 
+                "tl_x": 632, 
+                "tl_y": 868
+            }, 
+            {
+                "br_x": 250, 
+                "br_y": 1024, 
+                "tl_x": 150, 
+                "tl_y": 952
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_40" : {
+        "complete_barriers": [
+            {
+                "br_x": 446, 
+                "br_y": 522, 
+                "tl_x": 308, 
+                "tl_y": 410
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 244, 
+                "br_y": 86, 
+                "tl_x": 148, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 754, 
+                "br_y": 248, 
+                "tl_x": 658, 
+                "tl_y": 142
+            }, 
+            {
+                "br_x": 934, 
+                "br_y": 558, 
+                "tl_x": 842, 
+                "tl_y": 464
+            }, 
+            {
+                "br_x": 912, 
+                "br_y": 880, 
+                "tl_x": 818, 
+                "tl_y": 784
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_41" : {
+        "complete_barriers": [
+            {
+                "br_x": 718, 
+                "br_y": 894, 
+                "tl_x": 492, 
+                "tl_y": 796
+            }, 
+            {
+                "br_x": 306, 
+                "br_y": 1024, 
+                "tl_x": 232, 
+                "tl_y": 984
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 752, 
+                "br_y": 76, 
+                "tl_x": 650, 
+                "tl_y": 0
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_42" : {
+        "complete_barriers": [
+            {
+                "br_x": 496, 
+                "br_y": 494, 
+                "tl_x": 382, 
+                "tl_y": 356
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 464, 
+                "tl_x": 1006, 
+                "tl_y": 352
+            }, 
+            {
+                "br_x": 510, 
+                "br_y": 1024, 
+                "tl_x": 382, 
+                "tl_y": 1008
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 102, 
+                "br_y": 476, 
+                "tl_x": 6, 
+                "tl_y": 378
+            }, 
+            {
+                "br_x": 652, 
+                "br_y": 486, 
+                "tl_x": 580, 
+                "tl_y": 406
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_43" : {
+        "complete_barriers": [
+            {
+                "br_x": 118, 
+                "br_y": 462, 
+                "tl_x": 0, 
+                "tl_y": 350
+            }, 
+            {
+                "br_x": 652, 
+                "br_y": 462, 
+                "tl_x": 430, 
+                "tl_y": 366
+            }, 
+            {
+                "br_x": 692, 
+                "br_y": 970, 
+                "tl_x": 476, 
+                "tl_y": 862
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 766, 
+                "br_y": 452, 
+                "tl_x": 718, 
+                "tl_y": 360
+            }, 
+            {
+                "br_x": 912, 
+                "br_y": 992, 
+                "tl_x": 810, 
+                "tl_y": 946
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_44" : {
+        "complete_barriers": [
+            {
+                "br_x": 184, 
+                "br_y": 208, 
+                "tl_x": 46, 
+                "tl_y": 50
+            }, 
+            {
+                "br_x": 522, 
+                "br_y": 478, 
+                "tl_x": 370, 
+                "tl_y": 366
+            }, 
+            {
+                "br_x": 266, 
+                "br_y": 1024, 
+                "tl_x": 56, 
+                "tl_y": 854
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 482, 
+                "br_y": 36, 
+                "tl_x": 376, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 672, 
+                "br_y": 900, 
+                "tl_x": 594, 
+                "tl_y": 824
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_45" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 856, 
+                "br_y": 1016, 
+                "tl_x": 760, 
+                "tl_y": 918
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_46" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_47" : {
+        "complete_barriers": [
+            {
+                "br_x": 448, 
+                "br_y": 534, 
+                "tl_x": 244, 
+                "tl_y": 358
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 300, 
+                "tl_x": 940, 
+                "tl_y": 188
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 722, 
+                "tl_x": 944, 
+                "tl_y": 596
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 500, 
+                "br_y": 844, 
+                "tl_x": 400, 
+                "tl_y": 750
+            }, 
+            {
+                "br_x": 1010, 
+                "br_y": 1024, 
+                "tl_x": 948, 
+                "tl_y": 1008
+            }, 
+            {
+                "br_x": 342, 
+                "br_y": 30, 
+                "tl_x": 250, 
+                "tl_y": 0
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 200, 
+                "br_y": 88, 
+                "tl_x": 140, 
+                "tl_y": 16
+            }
+        ]
+    },
+    "map_48" : {
+        "complete_barriers": [
+            {
+                "br_x": 52, 
+                "br_y": 300, 
+                "tl_x": 0, 
+                "tl_y": 188
+            }, 
+            {
+                "br_x": 48, 
+                "br_y": 724, 
+                "tl_x": 0, 
+                "tl_y": 596
+            }, 
+            {
+                "br_x": 916, 
+                "br_y": 646, 
+                "tl_x": 798, 
+                "tl_y": 514
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 496, 
+                "br_y": 1016, 
+                "tl_x": 394, 
+                "tl_y": 918
+            }, 
+            {
+                "br_x": 708, 
+                "br_y": 446, 
+                "tl_x": 612, 
+                "tl_y": 342
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 134, 
+                "tl_x": 938, 
+                "tl_y": 40
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_49" : {
+        "complete_barriers": [
+            {
+                "br_x": 426, 
+                "br_y": 398, 
+                "tl_x": 224, 
+                "tl_y": 218
+            }, 
+            {
+                "br_x": 440, 
+                "br_y": 782, 
+                "tl_x": 216, 
+                "tl_y": 690
+            }, 
+            {
+                "br_x": 704, 
+                "br_y": 128, 
+                "tl_x": 584, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 960, 
+                "br_y": 466, 
+                "tl_x": 806, 
+                "tl_y": 350
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 696, 
+                "br_y": 616, 
+                "tl_x": 608, 
+                "tl_y": 516
+            }, 
+            {
+                "br_x": 684, 
+                "br_y": 938, 
+                "tl_x": 584, 
+                "tl_y": 836
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_50" : {
+        "complete_barriers": [
+            {
+                "br_x": 294, 
+                "br_y": 344, 
+                "tl_x": 160, 
+                "tl_y": 176
+            }, 
+            {
+                "br_x": 570, 
+                "br_y": 680, 
+                "tl_x": 358, 
+                "tl_y": 566
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 174, 
+                "br_y": 50, 
+                "tl_x": 122, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 886, 
+                "br_y": 526, 
+                "tl_x": 797, 
+                "tl_y": 430
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_51" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 554, 
+                "br_y": 926, 
+                "tl_x": 448, 
+                "tl_y": 728
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_52" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 540, 
+                "br_y": 996, 
+                "tl_x": 444, 
+                "tl_y": 898
+            }, 
+            {
+                "br_x": 756, 
+                "br_y": 418, 
+                "tl_x": 656, 
+                "tl_y": 320
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 72, 
+                "tl_x": 990, 
+                "tl_y": 24
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_53" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 60, 
+                "br_y": 116, 
+                "tl_x": 0, 
+                "tl_y": 16
+            }, 
+            {
+                "br_x": 754, 
+                "br_y": 596, 
+                "tl_x": 654, 
+                "tl_y": 492
+            }, 
+            {
+                "br_x": 732, 
+                "br_y": 912, 
+                "tl_x": 630, 
+                "tl_y": 820
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_54" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 224, 
+                "br_y": 30, 
+                "tl_x": 186, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 944, 
+                "br_y": 512, 
+                "tl_x": 840, 
+                "tl_y": 412
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_55" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_56" : {
+        "complete_barriers": [
+            {
+                "br_x": 336, 
+                "br_y": 128, 
+                "tl_x": 202, 
+                "tl_y": 0
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 512, 
+                "br_y": 160, 
+                "tl_x": 464, 
+                "tl_y": 74
+            }, 
+            {
+                "br_x": 520, 
+                "br_y": 562, 
+                "tl_x": 402, 
+                "tl_y": 486
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_57" : {
+        "complete_barriers": [
+            {
+                "br_x": 512, 
+                "br_y": 112, 
+                "tl_x": 380, 
+                "tl_y": 0
+            }
+        ], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_58" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 58, 
+                "br_y": 262, 
+                "tl_x": 0, 
+                "tl_y": 200
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_59" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 680, 
+                "br_y": 332, 
+                "tl_x": 592, 
+                "tl_y": 272
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 540, 
+                "br_y": 390, 
+                "tl_x": 472, 
+                "tl_y": 314
+            }
+        ]
+    },
+    "map_60" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 314, 
+                "br_y": 878, 
+                "tl_x": 214, 
+                "tl_y": 772
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_61" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 310, 
+                "br_y": 1022, 
+                "tl_x": 212, 
+                "tl_y": 950
+            }, 
+            {
+                "br_x": 524, 
+                "br_y": 472, 
+                "tl_x": 424, 
+                "tl_y": 372
+            }, 
+            {
+                "br_x": 860, 
+                "br_y": 168, 
+                "tl_x": 758, 
+                "tl_y": 68
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_62" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 1024, 
+                "br_y": 82, 
+                "tl_x": 944, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 522, 
+                "br_y": 646, 
+                "tl_x": 422, 
+                "tl_y": 546
+            }, 
+            {
+                "br_x": 494, 
+                "br_y": 962, 
+                "tl_x": 400, 
+                "tl_y": 868
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_63" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 710, 
+                "br_y": 560, 
+                "tl_x": 612, 
+                "tl_y": 462
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_64" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_65" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_66" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_67" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_68" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 476, 
+                "br_y": 932, 
+                "tl_x": 376, 
+                "tl_y": 828
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_69" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 476, 
+                "br_y": 1024, 
+                "tl_x": 371, 
+                "tl_y": 1002
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_70" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 122, 
+                "br_y": 758, 
+                "tl_x": 18, 
+                "tl_y": 686
+            }, 
+            {
+                "br_x": 664, 
+                "br_y": 1018, 
+                "tl_x": 564, 
+                "tl_y": 920
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_71" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 118, 
+                "br_y": 934, 
+                "tl_x": 16, 
+                "tl_y": 832
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_72" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 302, 
+                "br_y": 848, 
+                "tl_x": 208, 
+                "tl_y": 750
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_73" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_74" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_75" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_76" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 284, 
+                "br_y": 24, 
+                "tl_x": 246, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 800, 
+                "br_y": 904, 
+                "tl_x": 698, 
+                "tl_y": 806
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_77" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 796, 
+                "br_y": 1024, 
+                "tl_x": 698, 
+                "tl_y": 978
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_78" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 984, 
+                "br_y": 992, 
+                "tl_x": 884, 
+                "tl_y": 890
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_79" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_80" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_81" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 124, 
+                "br_y": 124, 
+                "tl_x": 968, 
+                "tl_y": 982
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_82" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 38, 
+                "br_y": 1024, 
+                "tl_x": 0, 
+                "tl_y": 998
+            }, 
+            {
+                "br_x": 958, 
+                "br_y": 792, 
+                "tl_x": 860, 
+                "tl_y": 696
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_83" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 956, 
+                "br_y": 962, 
+                "tl_x": 862, 
+                "tl_y": 862
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_84" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 148, 
+                "br_y": 384, 
+                "tl_x": 46, 
+                "tl_y": 284
+            }, 
+            {
+                "br_x": 470, 
+                "br_y": 74, 
+                "tl_x": 378, 
+                "tl_y": 0
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_85" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 144, 
+                "br_y": 558, 
+                "tl_x": 44, 
+                "tl_y": 458
+            }, 
+            {
+                "br_x": 120, 
+                "br_y": 880, 
+                "tl_x": 20, 
+                "tl_y": 778
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_86" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 330, 
+                "br_y": 472, 
+                "tl_x": 230, 
+                "tl_y": 378
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_87" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_88" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 450, 
+                "br_y": 366, 
+                "tl_x": 330, 
+                "tl_y": 300
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_89" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_90" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 608, 
+                "br_y": 1024, 
+                "tl_x": 514, 
+                "tl_y": 1006
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_91" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 254, 
+                "br_y": 762, 
+                "tl_x": 156, 
+                "tl_y": 664
+            }, 
+            {
+                "br_x": 800, 
+                "br_y": 1024, 
+                "tl_x": 700, 
+                "tl_y": 918
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_92" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 250, 
+                "br_y": 930, 
+                "tl_x": 154, 
+                "tl_y": 832
+            }, 
+            {
+                "br_x": 454, 
+                "br_y": 356, 
+                "tl_x": 370, 
+                "tl_y": 256
+            }, 
+            {
+                "br_x": 768, 
+                "br_y": 46, 
+                "tl_x": 726, 
+                "tl_y": 6
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_93" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 456, 
+                "br_y": 526, 
+                "tl_x": 366, 
+                "tl_y": 430
+            }, 
+            {
+                "br_x": 440, 
+                "br_y": 852, 
+                "tl_x": 340, 
+                "tl_y": 754
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_94" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 188, 
+                "br_y": 632, 
+                "tl_x": 88, 
+                "tl_y": 552
+            }, 
+            {
+                "br_x": 648, 
+                "br_y": 446, 
+                "tl_x": 550, 
+                "tl_y": 346
+            }, 
+            {
+                "br_x": 874, 
+                "br_y": 158, 
+                "tl_x": 784, 
+                "tl_y": 50
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_95" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 380, 
+                "br_y": 716, 
+                "tl_x": 280, 
+                "tl_y": 612
+            }, 
+            {
+                "br_x": 396, 
+                "br_y": 1024, 
+                "tl_x": 302, 
+                "tl_y": 932
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 238, 
+                "tl_x": 970, 
+                "tl_y": 132
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_96" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 42, 
+                "br_y": 236, 
+                "tl_x": 0, 
+                "tl_y": 148
+            }, 
+            {
+                "br_x": 372, 
+                "br_y": 546, 
+                "tl_x": 276, 
+                "tl_y": 438
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 68, 
+                "tl_x": 996, 
+                "tl_y": 0
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_97" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 38, 
+                "br_y": 62, 
+                "tl_x": 0, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 578, 
+                "br_y": 948, 
+                "tl_x": 486, 
+                "tl_y": 844
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_98" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_99" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_100" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_101" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_102" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_103" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_104" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_102" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 604, 
+                "br_y": 80, 
+                "tl_x": 512, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 280, 
+                "br_y": 388, 
+                "tl_x": 182, 
+                "tl_y": 292
+            }, 
+            {
+                "br_x": 578, 
+                "br_y": 800, 
+                "tl_x": 478, 
+                "tl_y": 696
+            }, 
+            {
+                "br_x": 66, 
+                "br_y": 962, 
+                "tl_x": 0, 
+                "tl_y": 864
+            }, 
+            {
+                "br_x": 900, 
+                "br_y": 1024, 
+                "tl_x": 808, 
+                "tl_y": 998
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_106" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 276, 
+                "br_y": 556, 
+                "tl_x": 178, 
+                "tl_y": 456
+            }, 
+            {
+                "br_x": 570, 
+                "br_y": 626, 
+                "tl_x": 474, 
+                "tl_y": 522
+            }, 
+            {
+                "br_x": 254, 
+                "br_y": 878, 
+                "tl_x": 158, 
+                "tl_y": 780
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_107" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 466, 
+                "br_y": 470, 
+                "tl_x": 368, 
+                "tl_y": 376
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_108" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_109" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_110" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_111" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 590, 
+                "br_y": 96, 
+                "tl_x": 490, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 182, 
+                "tl_x": 966, 
+                "tl_y": 80
+            }, 
+            {
+                "br_x": 372, 
+                "br_y": 666, 
+                "tl_x": 280, 
+                "tl_y": 556
+            }, 
+            {
+                "br_x": 794, 
+                "br_y": 542, 
+                "tl_x": 718, 
+                "tl_y": 468
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_112" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 42, 
+                "br_y": 178, 
+                "tl_x": 0, 
+                "tl_y": 98
+            }, 
+            {
+                "br_x": 424, 
+                "br_y": 234, 
+                "tl_x": 348, 
+                "tl_y": 154
+            }, 
+            {
+                "br_x": 70, 
+                "br_y": 382, 
+                "tl_x": 0, 
+                "tl_y": 302
+            }, 
+            {
+                "br_x": 356, 
+                "br_y": 440, 
+                "tl_x": 282, 
+                "tl_y": 364
+            }, 
+            {
+                "br_x": 724, 
+                "br_y": 394, 
+                "tl_x": 650, 
+                "tl_y": 320
+            }, 
+            {
+                "br_x": 140, 
+                "br_y": 592, 
+                "tl_x": 70, 
+                "tl_y": 512
+            }, 
+            {
+                "br_x": 560, 
+                "br_y": 746, 
+                "tl_x": 464, 
+                "tl_y": 640
+            }, 
+            {
+                "br_x": 582, 
+                "br_y": 1024, 
+                "tl_x": 486, 
+                "tl_y": 964
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_113" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 226, 
+                "br_y": 226, 
+                "tl_x": 130, 
+                "tl_y": 164
+            }, 
+            {
+                "br_x": 556, 
+                "br_y": 572, 
+                "tl_x": 462, 
+                "tl_y": 470
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_114" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 228, 
+                "br_y": 96, 
+                "tl_x": 126, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 766, 
+                "br_y": 978, 
+                "tl_x": 674, 
+                "tl_y": 876
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_115" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 720, 
+                "br_y": 100, 
+                "tl_x": 592, 
+                "tl_y": 32
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_116" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_117" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 268, 
+                "br_y": 978, 
+                "tl_x": 146, 
+                "tl_y": 912
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_118" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_119" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_120" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 906, 
+                "br_y": 80, 
+                "tl_x": 806, 
+                "tl_y": 0
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 1024, 
+                "br_y": 530, 
+                "tl_x": 0, 
+                "tl_y": 492
+            }, 
+            {
+                "br_x": 998, 
+                "br_y": 876, 
+                "tl_x": 962, 
+                "tl_y": 836
+            }, 
+            {
+                "br_x": 908, 
+                "br_y": 922, 
+                "tl_x": 874, 
+                "tl_y": 882
+            }
+        ]
+    },
+    "map_121" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 96, 
+                "br_y": 654, 
+                "tl_x": 0, 
+                "tl_y": 550
+            }, 
+            {
+                "br_x": 572, 
+                "br_y": 744, 
+                "tl_x": 478, 
+                "tl_y": 642
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 1024, 
+                "br_y": 538, 
+                "tl_x": 0, 
+                "tl_y": 496
+            }, 
+            {
+                "br_x": 552, 
+                "br_y": 832, 
+                "tl_x": 520, 
+                "tl_y": 792
+            }, 
+            {
+                "br_x": 462, 
+                "br_y": 876, 
+                "tl_x": 428, 
+                "tl_y": 834
+            }
+        ]
+    },
+    "map_122" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 94, 
+                "br_y": 486, 
+                "tl_x": 0, 
+                "tl_y": 378
+            }, 
+            {
+                "br_x": 754, 
+                "br_y": 828, 
+                "tl_x": 664, 
+                "tl_y": 722
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 1024, 
+                "br_y": 530, 
+                "tl_x": 0, 
+                "tl_y": 496
+            }, 
+            {
+                "br_x": 192, 
+                "br_y": 922, 
+                "tl_x": 158, 
+                "tl_y": 882
+            }, 
+            {
+                "br_x": 282, 
+                "br_y": 878, 
+                "tl_x": 248, 
+                "tl_y": 834
+            }, 
+            {
+                "br_x": 770, 
+                "br_y": 876, 
+                "tl_x": 732, 
+                "tl_y": 834
+            }, 
+            {
+                "br_x": 858, 
+                "br_y": 834, 
+                "tl_x": 826, 
+                "tl_y": 792
+            }
+        ]
+    },
+    "map_123" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 760, 
+                "br_y": 662, 
+                "tl_x": 660, 
+                "tl_y": 554
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 182, 
+                "br_y": 536, 
+                "tl_x": 0, 
+                "tl_y": 496
+            }
+        ]
+    },
+    "map_124" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_125" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 616, 
+                "br_y": 766, 
+                "tl_x": 520, 
+                "tl_y": 660
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_126" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 806, 
+                "br_y": 850, 
+                "tl_x": 712, 
+                "tl_y": 744
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_127" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 550, 
+                "br_y": 42, 
+                "tl_x": 514, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 802, 
+                "br_y": 678, 
+                "tl_x": 706, 
+                "tl_y": 574
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_128" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 768, 
+                "br_y": 124, 
+                "tl_x": 674, 
+                "tl_y": 22
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_129" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_130" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_131" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_132" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_133" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_134" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_135" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 900, 
+                "br_y": 196, 
+                "tl_x": 808, 
+                "tl_y": 92
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 470, 
+                "br_y": 82, 
+                "tl_x": 434, 
+                "tl_y": 44
+            }, 
+            {
+                "br_x": 380, 
+                "br_y": 126, 
+                "tl_x": 344, 
+                "tl_y": 84
+            }, 
+            {
+                "br_x": 638, 
+                "br_y": 156, 
+                "tl_x": 604, 
+                "tl_y": 114
+            }, 
+            {
+                "br_x": 726, 
+                "br_y": 110, 
+                "tl_x": 694, 
+                "tl_y": 70
+            }, 
+            {
+                "br_x": 954, 
+                "br_y": 80, 
+                "tl_x": 924, 
+                "tl_y": 42
+            }, 
+            {
+                "br_x": 108, 
+                "br_y": 384, 
+                "tl_x": 74, 
+                "tl_y": 344
+            }, 
+            {
+                "br_x": 198, 
+                "br_y": 338, 
+                "tl_x": 166, 
+                "tl_y": 296
+            }, 
+            {
+                "br_x": 688, 
+                "br_y": 340, 
+                "tl_x": 654, 
+                "tl_y": 298
+            }, 
+            {
+                "br_x": 778, 
+                "br_y": 296, 
+                "tl_x": 744, 
+                "tl_y": 254
+            }, 
+            {
+                "br_x": 934, 
+                "br_y": 310, 
+                "tl_x": 898, 
+                "tl_y": 272
+            }, 
+            {
+                "br_x": 454, 
+                "br_y": 452, 
+                "tl_x": 420, 
+                "tl_y": 412
+            }, 
+            {
+                "br_x": 618, 
+                "br_y": 432, 
+                "tl_x": 586, 
+                "tl_y": 394
+            }, 
+            {
+                "br_x": 808, 
+                "br_y": 430, 
+                "tl_x": 618, 
+                "tl_y": 432
+            }, 
+            {
+                "br_x": 996, 
+                "br_y": 516, 
+                "tl_x": 960, 
+                "tl_y": 478
+            }, 
+            {
+                "br_x": 330, 
+                "br_y": 570, 
+                "tl_x": 296, 
+                "tl_y": 530
+            }, 
+            {
+                "br_x": 512, 
+                "br_y": 656, 
+                "tl_x": 480, 
+                "tl_y": 618
+            }, 
+            {
+                "br_x": 666, 
+                "br_y": 696, 
+                "tl_x": 634, 
+                "tl_y": 658
+            }, 
+            {
+                "br_x": 756, 
+                "br_y": 652, 
+                "tl_x": 724, 
+                "tl_y": 616
+            }, 
+            {
+                "br_x": 924, 
+                "br_y": 724, 
+                "tl_x": 888, 
+                "tl_y": 686
+            }, 
+            {
+                "br_x": 1014, 
+                "br_y": 682, 
+                "tl_x": 984, 
+                "tl_y": 644
+            }, 
+            {
+                "br_x": 394, 
+                "br_y": 952, 
+                "tl_x": 362, 
+                "tl_y": 914
+            }, 
+            {
+                "br_x": 486, 
+                "br_y": 910, 
+                "tl_x": 454, 
+                "tl_y": 872
+            }, 
+            {
+                "br_x": 974, 
+                "br_y": 910, 
+                "tl_x": 940, 
+                "tl_y": 870
+            }, 
+            {
+                "br_x": 752, 
+                "br_y": 994, 
+                "tl_x": 716, 
+                "tl_y": 956
+            }, 
+            {
+                "br_x": 660, 
+                "br_y": 1024, 
+                "tl_x": 628, 
+                "tl_y": 994
+            }, 
+            {
+                "br_x": 1010, 
+                "br_y": 1022, 
+                "tl_x": 976, 
+                "tl_y": 984
+            }, 
+            {
+                "br_x": 880, 
+                "br_y": 368, 
+                "tl_x": 836, 
+                "tl_y": 316
+            }, 
+            {
+                "br_x": 400, 
+                "br_y": 508, 
+                "tl_x": 364, 
+                "tl_y": 458
+            }, 
+            {
+                "br_x": 566, 
+                "br_y": 496, 
+                "tl_x": 524, 
+                "tl_y": 440
+            }, 
+            {
+                "br_x": 756, 
+                "br_y": 490, 
+                "tl_x": 716, 
+                "tl_y": 436
+            }, 
+            {
+                "br_x": 942, 
+                "br_y": 580, 
+                "tl_x": 900, 
+                "tl_y": 522
+            }, 
+            {
+                "br_x": 276, 
+                "br_y": 630, 
+                "tl_x": 236, 
+                "tl_y": 578
+            }, 
+            {
+                "br_x": 462, 
+                "br_y": 716, 
+                "tl_x": 420, 
+                "tl_y": 662
+            }
+        ]
+    },
+    "map_136" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 1022, 
+                "br_y": 222, 
+                "tl_x": 994, 
+                "tl_y": 180
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 24, 
+                "br_y": 34, 
+                "tl_x": 0, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 192, 
+                "br_y": 112, 
+                "tl_x": 156, 
+                "tl_y": 72
+            }, 
+            {
+                "br_x": 280, 
+                "br_y": 66, 
+                "tl_x": 248, 
+                "tl_y": 30
+            }, 
+            {
+                "br_x": 684, 
+                "br_y": 126, 
+                "tl_x": 652, 
+                "tl_y": 86
+            }, 
+            {
+                "br_x": 776, 
+                "br_y": 80, 
+                "tl_x": 742, 
+                "tl_y": 42
+            }, 
+            {
+                "br_x": 944, 
+                "br_y": 154, 
+                "tl_x": 910, 
+                "tl_y": 114
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 112, 
+                "tl_x": 1002, 
+                "tl_y": 70
+            }, 
+            {
+                "br_x": 18, 
+                "br_y": 352, 
+                "tl_x": 0, 
+                "tl_y": 298
+            }, 
+            {
+                "br_x": 74, 
+                "br_y": 292, 
+                "tl_x": 42, 
+                "tl_y": 252
+            }, 
+            {
+                "br_x": 172, 
+                "br_y": 466, 
+                "tl_x": 136, 
+                "tl_y": 426
+            }, 
+            {
+                "br_x": 260, 
+                "br_y": 426, 
+                "tl_x": 172, 
+                "tl_y": 466
+            }, 
+            {
+                "br_x": 414, 
+                "br_y": 384, 
+                "tl_x": 380, 
+                "tl_y": 342
+            }, 
+            {
+                "br_x": 506, 
+                "br_y": 338, 
+                "tl_x": 472, 
+                "tl_y": 298
+            }, 
+            {
+                "br_x": 760, 
+                "br_y": 452, 
+                "tl_x": 714, 
+                "tl_y": 384
+            }, 
+            {
+                "br_x": 840, 
+                "br_y": 378, 
+                "tl_x": 804, 
+                "tl_y": 342
+            }, 
+            {
+                "br_x": 994, 
+                "br_y": 336, 
+                "tl_x": 962, 
+                "tl_y": 302
+            }, 
+            {
+                "br_x": 924, 
+                "br_y": 432, 
+                "tl_x": 894, 
+                "tl_y": 396
+            }, 
+            {
+                "br_x": 706, 
+                "br_y": 512, 
+                "tl_x": 672, 
+                "tl_y": 456
+            }, 
+            {
+                "br_x": 870, 
+                "br_y": 490, 
+                "tl_x": 830, 
+                "tl_y": 436
+            }, 
+            {
+                "br_x": 638, 
+                "br_y": 572, 
+                "tl_x": 606, 
+                "tl_y": 530
+            }, 
+            {
+                "br_x": 218, 
+                "br_y": 652, 
+                "tl_x": 186, 
+                "tl_y": 612
+            }, 
+            {
+                "br_x": 310, 
+                "br_y": 606, 
+                "tl_x": 278, 
+                "tl_y": 568
+            }, 
+            {
+                "br_x": 478, 
+                "br_y": 682, 
+                "tl_x": 444, 
+                "tl_y": 642
+            }, 
+            {
+                "br_x": 580, 
+                "br_y": 640, 
+                "tl_x": 532, 
+                "tl_y": 578
+            }, 
+            {
+                "br_x": 822, 
+                "br_y": 656, 
+                "tl_x": 784, 
+                "tl_y": 618
+            }, 
+            {
+                "br_x": 766, 
+                "br_y": 714, 
+                "tl_x": 728, 
+                "tl_y": 662
+            }, 
+            {
+                "br_x": 742, 
+                "br_y": 766, 
+                "tl_x": 710, 
+                "tl_y": 724
+            }, 
+            {
+                "br_x": 834, 
+                "br_y": 722, 
+                "tl_x": 798, 
+                "tl_y": 678
+            }, 
+            {
+                "br_x": 972, 
+                "br_y": 698, 
+                "tl_x": 940, 
+                "tl_y": 658
+            }, 
+            {
+                "br_x": 38, 
+                "br_y": 866, 
+                "tl_x": 6, 
+                "tl_y": 828
+            }, 
+            {
+                "br_x": 164, 
+                "br_y": 804, 
+                "tl_x": 130, 
+                "tl_y": 770
+            }, 
+            {
+                "br_x": 254, 
+                "br_y": 764, 
+                "tl_x": 220, 
+                "tl_y": 726
+            }, 
+            {
+                "br_x": 214, 
+                "br_y": 992, 
+                "tl_x": 180, 
+                "tl_y": 952
+            }, 
+            {
+                "br_x": 302, 
+                "br_y": 948, 
+                "tl_x": 272, 
+                "tl_y": 912
+            }, 
+            {
+                "br_x": 472, 
+                "br_y": 1022, 
+                "tl_x": 438, 
+                "tl_y": 982
+            }, 
+            {
+                "br_x": 562, 
+                "br_y": 980, 
+                "tl_x": 530, 
+                "tl_y": 938
+            }, 
+            {
+                "br_x": 702, 
+                "br_y": 952, 
+                "tl_x": 670, 
+                "tl_y": 914
+            }, 
+            {
+                "br_x": 792, 
+                "br_y": 910, 
+                "tl_x": 762, 
+                "tl_y": 872
+            }, 
+            {
+                "br_x": 968, 
+                "br_y": 1024, 
+                "tl_x": 932, 
+                "tl_y": 992
+            }
+        ]
+    },
+    "map_137" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 62, 
+                "br_y": 278, 
+                "tl_x": 0, 
+                "tl_y": 180
+            }, 
+            {
+                "br_x": 86, 
+                "br_y": 606, 
+                "tl_x": 0, 
+                "tl_y": 500
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 108, 
+                "tl_x": 994, 
+                "tl_y": 6
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 330, 
+                "br_y": 34, 
+                "tl_x": 296, 
+                "tl_y": 8
+            }, 
+            {
+                "br_x": 240, 
+                "br_y": 78, 
+                "tl_x": 206, 
+                "tl_y": 40
+            }, 
+            {
+                "br_x": 496, 
+                "br_y": 108, 
+                "tl_x": 464, 
+                "tl_y": 72
+            }, 
+            {
+                "br_x": 588, 
+                "br_y": 64, 
+                "tl_x": 554, 
+                "tl_y": 26
+            }, 
+            {
+                "br_x": 214, 
+                "br_y": 310, 
+                "tl_x": 184, 
+                "tl_y": 274
+            }, 
+            {
+                "br_x": 380, 
+                "br_y": 290, 
+                "tl_x": 348, 
+                "tl_y": 256
+            }, 
+            {
+                "br_x": 160, 
+                "br_y": 364, 
+                "tl_x": 134, 
+                "tl_y": 316
+            }, 
+            {
+                "br_x": 380, 
+                "br_y": 294, 
+                "tl_x": 348, 
+                "tl_y": 256
+            }, 
+            {
+                "br_x": 326, 
+                "br_y": 344, 
+                "tl_x": 294, 
+                "tl_y": 298
+            }, 
+            {
+                "br_x": 94, 
+                "br_y": 430, 
+                "tl_x": 62, 
+                "tl_y": 392
+            }, 
+            {
+                "br_x": 36, 
+                "br_y": 476, 
+                "tl_x": 6, 
+                "tl_y": 436
+            }, 
+            {
+                "br_x": 220, 
+                "br_y": 566, 
+                "tl_x": 192, 
+                "tl_y": 520
+            }, 
+            {
+                "br_x": 276, 
+                "br_y": 516, 
+                "tl_x": 242, 
+                "tl_y": 476
+            }, 
+            {
+                "br_x": 476, 
+                "br_y": 468, 
+                "tl_x": 444, 
+                "tl_y": 430
+            }, 
+            {
+                "br_x": 568, 
+                "br_y": 424, 
+                "tl_x": 536, 
+                "tl_y": 386
+            }, 
+            {
+                "br_x": 40, 
+                "br_y": 652, 
+                "tl_x": 6, 
+                "tl_y": 614
+            }, 
+            {
+                "br_x": 206, 
+                "br_y": 726, 
+                "tl_x": 174, 
+                "tl_y": 686
+            }, 
+            {
+                "br_x": 298, 
+                "br_y": 680, 
+                "tl_x": 264, 
+                "tl_y": 644
+            }, 
+            {
+                "br_x": 522, 
+                "br_y": 650, 
+                "tl_x": 494, 
+                "tl_y": 614
+            }, 
+            {
+                "br_x": 618, 
+                "br_y": 608, 
+                "tl_x": 586, 
+                "tl_y": 570
+            }, 
+            {
+                "br_x": 782, 
+                "br_y": 680, 
+                "tl_x": 752, 
+                "tl_y": 642
+            }, 
+            {
+                "br_x": 874, 
+                "br_y": 640, 
+                "tl_x": 842, 
+                "tl_y": 602
+            }, 
+            {
+                "br_x": 560, 
+                "br_y": 762, 
+                "tl_x": 530, 
+                "tl_y": 726
+            }, 
+            {
+                "br_x": 470, 
+                "br_y": 808, 
+                "tl_x": 438, 
+                "tl_y": 768
+            }, 
+            {
+                "br_x": 346, 
+                "br_y": 866, 
+                "tl_x": 316, 
+                "tl_y": 828
+            }, 
+            {
+                "br_x": 252, 
+                "br_y": 908, 
+                "tl_x": 224, 
+                "tl_y": 870
+            }, 
+            {
+                "br_x": 32, 
+                "br_y": 992, 
+                "tl_x": 0, 
+                "tl_y": 954
+            }, 
+            {
+                "br_x": 290, 
+                "br_y": 1020, 
+                "tl_x": 260, 
+                "tl_y": 982
+            }, 
+            {
+                "br_x": 520, 
+                "br_y": 990, 
+                "tl_x": 488, 
+                "tl_y": 950
+            }, 
+            {
+                "br_x": 610, 
+                "br_y": 948, 
+                "tl_x": 580, 
+                "tl_y": 908
+            }, 
+            {
+                "br_x": 778, 
+                "br_y": 1018, 
+                "tl_x": 746, 
+                "tl_y": 984
+            }, 
+            {
+                "br_x": 868, 
+                "br_y": 978, 
+                "tl_x": 838, 
+                "tl_y": 938
+            }
+        ]
+    },
+    "map_138" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 62, 
+                "br_y": 108, 
+                "tl_x": 0, 
+                "tl_y": 12
+            }, 
+            {
+                "br_x": 276, 
+                "br_y": 688, 
+                "tl_x": 182, 
+                "tl_y": 584
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 446, 
+                "br_y": 1024, 
+                "tl_x": 404, 
+                "tl_y": 232
+            }, 
+            {
+                "br_x": 30, 
+                "br_y": 424, 
+                "tl_x": 0, 
+                "tl_y": 384
+            }, 
+            {
+                "br_x": 120, 
+                "br_y": 380, 
+                "tl_x": 90, 
+                "tl_y": 340
+            }, 
+            {
+                "br_x": 24, 
+                "br_y": 762, 
+                "tl_x": 0, 
+                "tl_y": 724
+            }, 
+            {
+                "br_x": 116, 
+                "br_y": 718, 
+                "tl_x": 84, 
+                "tl_y": 682
+            }
+        ]
+    },
+    "map_139" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 272, 
+                "br_y": 514, 
+                "tl_x": 180, 
+                "tl_y": 412
+            }, 
+            {
+                "br_x": 946, 
+                "br_y": 218, 
+                "tl_x": 856, 
+                "tl_y": 118
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_140" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_141" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 112, 
+                "br_y": 300, 
+                "tl_x": 18, 
+                "tl_y": 200
+            }, 
+            {
+                "br_x": 132, 
+                "br_y": 624, 
+                "tl_x": 38, 
+                "tl_y": 522
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_142" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 110, 
+                "br_y": 126, 
+                "tl_x": 18, 
+                "tl_y": 26
+            }, 
+            {
+                "br_x": 320, 
+                "br_y": 704, 
+                "tl_x": 228, 
+                "tl_y": 604
+            }, 
+            {
+                "br_x": 796, 
+                "br_y": 796, 
+                "tl_x": 708, 
+                "tl_y": 694
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_143" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 316, 
+                "br_y": 530, 
+                "tl_x": 226, 
+                "tl_y": 432
+            }, 
+            {
+                "br_x": 984, 
+                "br_y": 874, 
+                "tl_x": 896, 
+                "tl_y": 774
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_144" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 984, 
+                "br_y": 704, 
+                "tl_x": 892, 
+                "tl_y": 604
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_145" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_146" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_147" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_148" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_149" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_150" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 358, 
+                "br_y": 740, 
+                "tl_x": 276, 
+                "tl_y": 688
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 214, 
+                "br_y": 790, 
+                "tl_x": 164, 
+                "tl_y": 742
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 986, 
+                "tl_x": 0, 
+                "tl_y": 946
+            }, 
+            {
+                "br_x": 918, 
+                "br_y": 40, 
+                "tl_x": 884, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 968, 
+                "br_y": 224, 
+                "tl_x": 934, 
+                "tl_y": 184
+            }, 
+            {
+                "br_x": 478, 
+                "br_y": 226, 
+                "tl_x": 446, 
+                "tl_y": 188
+            }, 
+            {
+                "br_x": 388, 
+                "br_y": 268, 
+                "tl_x": 358, 
+                "tl_y": 232
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 538, 
+                "tl_x": 1006, 
+                "tl_y": 502
+            }, 
+            {
+                "br_x": 946, 
+                "br_y": 582, 
+                "tl_x": 916, 
+                "tl_y": 546
+            }, 
+            {
+                "br_x": 768, 
+                "br_y": 798, 
+                "tl_x": 734, 
+                "tl_y": 760
+            }, 
+            {
+                "br_x": 676, 
+                "br_y": 840, 
+                "tl_x": 646, 
+                "tl_y": 802
+            }
+        ]
+    },
+    "map_151" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": [
+            {
+                "br_x": 32, 
+                "br_y": 182, 
+                "tl_x": 0, 
+                "tl_y": 144
+            }, 
+            {
+                "br_x": 16, 
+                "br_y": 540, 
+                "tl_x": 0, 
+                "tl_y": 498
+            }, 
+            {
+                "br_x": 450, 
+                "br_y": 356, 
+                "tl_x": 418, 
+                "tl_y": 316
+            }, 
+            {
+                "br_x": 542, 
+                "br_y": 312, 
+                "tl_x": 510, 
+                "tl_y": 272
+            }, 
+            {
+                "br_x": 694, 
+                "br_y": 270, 
+                "tl_x": 664, 
+                "tl_y": 228
+            }, 
+            {
+                "br_x": 786, 
+                "br_y": 226, 
+                "tl_x": 756, 
+                "tl_y": 188
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 312, 
+                "tl_x": 998, 
+                "tl_y": 272
+            }, 
+            {
+                "br_x": 180, 
+                "br_y": 612, 
+                "tl_x": 148, 
+                "tl_y": 578
+            }, 
+            {
+                "br_x": 270, 
+                "br_y": 572, 
+                "tl_x": 240, 
+                "tl_y": 532
+            }, 
+            {
+                "br_x": 500, 
+                "br_y": 540, 
+                "tl_x": 470, 
+                "tl_y": 502
+            }, 
+            {
+                "br_x": 590, 
+                "br_y": 492, 
+                "tl_x": 560, 
+                "tl_y": 458
+            }, 
+            {
+                "br_x": 758, 
+                "br_y": 568, 
+                "tl_x": 728, 
+                "tl_y": 532
+            }, 
+            {
+                "br_x": 850, 
+                "br_y": 526, 
+                "tl_x": 818, 
+                "tl_y": 490
+            }, 
+            {
+                "br_x": 230, 
+                "br_y": 794, 
+                "tl_x": 200, 
+                "tl_y": 758
+            }, 
+            {
+                "br_x": 322, 
+                "br_y": 754, 
+                "tl_x": 290, 
+                "tl_y": 716
+            }, 
+            {
+                "br_x": 984, 
+                "br_y": 840, 
+                "tl_x": 952, 
+                "tl_y": 804
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 984, 
+                "tl_x": 0, 
+                "tl_y": 948
+            }
+        ]
+    },
+    "map_152" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": [
+            {
+                "br_x": 200, 
+                "br_y": 44, 
+                "tl_x": 166, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 96, 
+                "br_y": 268, 
+                "tl_x": 62, 
+                "tl_y": 230
+            }, 
+            {
+                "br_x": 250, 
+                "br_y": 226, 
+                "tl_x": 218, 
+                "tl_y": 186
+            }, 
+            {
+                "br_x": 342, 
+                "br_y": 180, 
+                "tl_x": 310, 
+                "tl_y": 146
+            }, 
+            {
+                "br_x": 758, 
+                "br_y": 356, 
+                "tl_x": 726, 
+                "tl_y": 318
+            }, 
+            {
+                "br_x": 850, 
+                "br_y": 310, 
+                "tl_x": 818, 
+                "tl_y": 272
+            }, 
+            {
+                "br_x": 230, 
+                "br_y": 586, 
+                "tl_x": 198, 
+                "tl_y": 546
+            }, 
+            {
+                "br_x": 320, 
+                "br_y": 538, 
+                "tl_x": 288, 
+                "tl_y": 502
+            }, 
+            {
+                "br_x": 486, 
+                "br_y": 614, 
+                "tl_x": 456, 
+                "tl_y": 576
+            }, 
+            {
+                "br_x": 580, 
+                "br_y": 570, 
+                "tl_x": 548, 
+                "tl_y": 532
+            }, 
+            {
+                "br_x": 808, 
+                "br_y": 540, 
+                "tl_x": 776, 
+                "tl_y": 498
+            }, 
+            {
+                "br_x": 900, 
+                "br_y": 496, 
+                "tl_x": 868, 
+                "tl_y": 458
+            }, 
+            {
+                "br_x": 52, 
+                "br_y": 798, 
+                "tl_x": 900, 
+                "tl_y": 496
+            }, 
+            {
+                "br_x": 536, 
+                "br_y": 798, 
+                "tl_x": 506, 
+                "tl_y": 758
+            }, 
+            {
+                "br_x": 630, 
+                "br_y": 752, 
+                "tl_x": 598, 
+                "tl_y": 714
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 984, 
+                "tl_x": 0, 
+                "tl_y": 946
+            }
+        ]
+    },
+    "map_153" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": [
+            {
+                "br_x": 446, 
+                "br_y": 984, 
+                "tl_x": 406, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 408, 
+                "br_y": 980, 
+                "tl_x": 0, 
+                "tl_y": 948
+            }, 
+            {
+                "br_x": 40, 
+                "br_y": 570, 
+                "tl_x": 10, 
+                "tl_y": 530
+            }, 
+            {
+                "br_x": 132, 
+                "br_y": 526, 
+                "tl_x": 102, 
+                "tl_y": 486
+            }, 
+            {
+                "br_x": 310, 
+                "br_y": 312, 
+                "tl_x": 280, 
+                "tl_y": 272
+            }, 
+            {
+                "br_x": 404, 
+                "br_y": 266, 
+                "tl_x": 370, 
+                "tl_y": 230
+            }
+        ]
+    },
+    "map_154" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 670, 
+                "br_y": 352, 
+                "tl_x": 580, 
+                "tl_y": 250
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_155" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 338, 
+                "br_y": 828, 
+                "tl_x": 246, 
+                "tl_y": 734
+            }, 
+            {
+                "br_x": 668, 
+                "br_y": 518, 
+                "tl_x": 580, 
+                "tl_y": 428
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_156" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 332, 
+                "br_y": 998, 
+                "tl_x": 242, 
+                "tl_y": 904
+            }, 
+            {
+                "br_x": 856, 
+                "br_y": 436, 
+                "tl_x": 766, 
+                "tl_y": 344
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 668, 
+                "tl_x": 996, 
+                "tl_y": 628
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_157" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 62, 
+                "br_y": 728, 
+                "tl_x": 0, 
+                "tl_y": 632
+            }, 
+            {
+                "br_x": 110, 
+                "br_y": 246, 
+                "tl_x": 16, 
+                "tl_y": 146
+            }, 
+            {
+                "br_x": 752, 
+                "br_y": 250, 
+                "tl_x": 664, 
+                "tl_y": 150
+            }, 
+            {
+                "br_x": 522, 
+                "br_y": 916, 
+                "tl_x": 432, 
+                "tl_y": 820
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_158" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 292, 
+                "br_y": 330, 
+                "tl_x": 204, 
+                "tl_y": 230
+            }, 
+            {
+                "br_x": 316, 
+                "br_y": 650, 
+                "tl_x": 228, 
+                "tl_y": 552
+            }, 
+            {
+                "br_x": 254, 
+                "br_y": 812, 
+                "tl_x": 160, 
+                "tl_y": 712
+            }, 
+            {
+                "br_x": 946, 
+                "br_y": 338, 
+                "tl_x": 850, 
+                "tl_y": 234
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_159" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 294, 
+                "br_y": 160, 
+                "tl_x": 200, 
+                "tl_y": 58
+            }, 
+            {
+                "br_x": 938, 
+                "br_y": 164, 
+                "tl_x": 848, 
+                "tl_y": 64
+            }, 
+            {
+                "br_x": 246, 
+                "br_y": 648, 
+                "tl_x": 156, 
+                "tl_y": 538
+            }, 
+            {
+                "br_x": 508, 
+                "br_y": 740, 
+                "tl_x": 414, 
+                "tl_y": 634
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_160" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 506, 
+                "br_y": 566, 
+                "tl_x": 410, 
+                "tl_y": 464
+            }, 
+            {
+                "br_x": 462, 
+                "br_y": 1024, 
+                "tl_x": 366, 
+                "tl_y": 946
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_161" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_162" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_163" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 652, 
+                "br_y": 586, 
+                "tl_x": 536, 
+                "tl_y": 522
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_164" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_165" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_166" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_167" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 488, 
+                "br_y": 378, 
+                "tl_x": 396, 
+                "tl_y": 284
+            }, 
+            {
+                "br_x": 334, 
+                "br_y": 900, 
+                "tl_x": 246, 
+                "tl_y": 846
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 444, 
+                "br_y": 954, 
+                "tl_x": 390, 
+                "tl_y": 904
+            }
+        ]
+    },
+    "map_168" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 152, 
+                "br_y": 860, 
+                "tl_x": 60, 
+                "tl_y": 768
+            }, 
+            {
+                "br_x": 484, 
+                "br_y": 550, 
+                "tl_x": 392, 
+                "tl_y": 456
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_169" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 136, 
+                "br_y": 210, 
+                "tl_x": 36, 
+                "tl_y": 114
+            }, 
+            {
+                "br_x": 674, 
+                "br_y": 470, 
+                "tl_x": 580, 
+                "tl_y": 372
+            }, 
+            {
+                "br_x": 154, 
+                "br_y": 1024, 
+                "tl_x": 60, 
+                "tl_y": 934
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_170" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 128, 
+                "br_y": 380, 
+                "tl_x": 34, 
+                "tl_y": 284
+            }, 
+            {
+                "br_x": 342, 
+                "br_y": 946, 
+                "tl_x": 248, 
+                "tl_y": 854
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_171" : {
+        "complete_barriers": [
+            {
+                "br_x": 1024, 
+                "br_y": 306, 
+                "tl_x": 836, 
+                "tl_y": 194
+            }, 
+            {
+                "br_x": 678, 
+                "br_y": 654, 
+                "tl_x": 548, 
+                "tl_y": 530
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 964, 
+                "tl_x": 848, 
+                "tl_y": 792
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 316, 
+                "br_y": 300, 
+                "tl_x": 222, 
+                "tl_y": 204
+            }, 
+            {
+                "br_x": 502, 
+                "br_y": 644, 
+                "tl_x": 428, 
+                "tl_y": 566
+            }, 
+            {
+                "br_x": 776, 
+                "br_y": 644, 
+                "tl_x": 732, 
+                "tl_y": 556
+            }, 
+            {
+                "br_x": 826, 
+                "br_y": 958, 
+                "tl_x": 764, 
+                "tl_y": 896
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_172" : {
+        "complete_barriers": [
+            {
+                "br_x": 26, 
+                "br_y": 304, 
+                "tl_x": 0, 
+                "tl_y": 210
+            }, 
+            {
+                "br_x": 28, 
+                "br_y": 962, 
+                "tl_x": 0, 
+                "tl_y": 800
+            }, 
+            {
+                "br_x": 308, 
+                "br_y": 300, 
+                "tl_x": 88, 
+                "tl_y": 204
+            }, 
+            {
+                "br_x": 728, 
+                "br_y": 310, 
+                "tl_x": 526, 
+                "tl_y": 136
+            }, 
+            {
+                "br_x": 930, 
+                "br_y": 310, 
+                "tl_x": 792, 
+                "tl_y": 200
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 316, 
+                "tl_x": 1008, 
+                "tl_y": 208
+            }, 
+            {
+                "br_x": 344, 
+                "br_y": 930, 
+                "tl_x": 204, 
+                "tl_y": 822
+            }, 
+            {
+                "br_x": 564, 
+                "br_y": 960, 
+                "tl_x": 440, 
+                "tl_y": 794
+            }, 
+            {
+                "br_x": 854, 
+                "br_y": 918, 
+                "tl_x": 738, 
+                "tl_y": 782
+            }, 
+            {
+                "br_x": 1024, 
+                "br_y": 878, 
+                "tl_x": 936, 
+                "tl_y": 766
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 952, 
+                "br_y": 136, 
+                "tl_x": 842, 
+                "tl_y": 70
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_173" : {
+        "complete_barriers": [
+            {
+                "br_x": 112, 
+                "br_y": 318, 
+                "tl_x": 0, 
+                "tl_y": 156
+            }, 
+            {
+                "br_x": 292, 
+                "br_y": 302, 
+                "tl_x": 174, 
+                "tl_y": 168
+            }, 
+            {
+                "br_x": 528, 
+                "br_y": 302, 
+                "tl_x": 384, 
+                "tl_y": 188
+            }, 
+            {
+                "br_x": 870, 
+                "br_y": 322, 
+                "tl_x": 658, 
+                "tl_y": 212
+            }, 
+            {
+                "br_x": 62, 
+                "br_y": 876, 
+                "tl_x": 0, 
+                "tl_y": 762
+            }, 
+            {
+                "br_x": 310, 
+                "br_y": 882, 
+                "tl_x": 178, 
+                "tl_y": 758
+            }, 
+            {
+                "br_x": 762, 
+                "br_y": 942, 
+                "tl_x": 536, 
+                "tl_y": 850
+            }
+        ], 
+        "shooting_barriers": [
+            {
+                "br_x": 272, 
+                "br_y": 112, 
+                "tl_x": 178, 
+                "tl_y": 12
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_174" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 252, 
+                "br_y": 762, 
+                "tl_x": 156, 
+                "tl_y": 658
+            }, 
+            {
+                "br_x": 464, 
+                "br_y": 192, 
+                "tl_x": 368, 
+                "tl_y": 90
+            }, 
+            {
+                "br_x": 940, 
+                "br_y": 282, 
+                "tl_x": 846, 
+                "tl_y": 178
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_175" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 140, 
+                "br_y": 912, 
+                "tl_x": 48, 
+                "tl_y": 820
+            }, 
+            {
+                "br_x": 438, 
+                "br_y": 850, 
+                "tl_x": 344, 
+                "tl_y": 738
+            }, 
+            {
+                "br_x": 430, 
+                "br_y": 24, 
+                "tl_x": 390, 
+                "tl_y": 0
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_176" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 106, 
+                "br_y": 364, 
+                "tl_x": 12, 
+                "tl_y": 264
+            }, 
+            {
+                "br_x": 436, 
+                "br_y": 672, 
+                "tl_x": 338, 
+                "tl_y": 568
+            }, 
+            {
+                "br_x": 140, 
+                "br_y": 1024, 
+                "tl_x": 48, 
+                "tl_y": 986
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_177" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 105, 
+                "br_y": 196, 
+                "tl_x": 6, 
+                "tl_y": 90
+            }, 
+            {
+                "br_x": 330, 
+                "br_y": 1004, 
+                "tl_x": 234, 
+                "tl_y": 906
+            }, 
+            {
+                "br_x": 648, 
+                "br_y": 1024, 
+                "tl_x": 552, 
+                "tl_y": 974
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_178" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_179" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_180" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 988, 
+                "br_y": 596, 
+                "tl_x": 892, 
+                "tl_y": 506
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_181" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 654, 
+                "br_y": 1024, 
+                "tl_x": 560, 
+                "tl_y": 976
+            }, 
+            {
+                "br_x": 986, 
+                "br_y": 766, 
+                "tl_x": 890, 
+                "tl_y": 672
+            }, 
+            {
+                "br_x": 970, 
+                "br_y": 236, 
+                "tl_x": 876, 
+                "tl_y": 144
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_182" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 630, 
+                "br_y": 424, 
+                "tl_x": 534, 
+                "tl_y": 332
+            }, 
+            {
+                "br_x": 970, 
+                "br_y": 410, 
+                "tl_x": 872, 
+                "tl_y": 316
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_183" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 152, 
+                "br_y": 686, 
+                "tl_x": 52, 
+                "tl_y": 588
+            }, 
+            {
+                "br_x": 630, 
+                "br_y": 594, 
+                "tl_x": 532, 
+                "tl_y": 500
+            }, 
+            {
+                "br_x": 938, 
+                "br_y": 960, 
+                "tl_x": 840, 
+                "tl_y": 872
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_184" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 136, 
+                "br_y": 324, 
+                "tl_x": 36, 
+                "tl_y": 230
+            }, 
+            {
+                "br_x": 818, 
+                "br_y": 512, 
+                "tl_x": 720, 
+                "tl_y": 414
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_185" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_186" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 102, 
+                "br_y": 1024, 
+                "tl_x": 0, 
+                "tl_y": 958
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_187" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 984, 
+                "br_y": 942, 
+                "tl_x": 888, 
+                "tl_y": 846
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_188" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 140, 
+                "br_y": 122, 
+                "tl_x": 42, 
+                "tl_y": 82
+            }, 
+            {
+                "br_x": 982, 
+                "br_y": 1024, 
+                "tl_x": 926, 
+                "tl_y": 1014
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_189" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 628, 
+                "br_y": 768, 
+                "tl_x": 530, 
+                "tl_y": 676
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_190" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 462, 
+                "br_y": 138, 
+                "tl_x": 368, 
+                "tl_y": 38
+            }, 
+            {
+                "br_x": 834, 
+                "br_y": 366, 
+                "tl_x": 740, 
+                "tl_y": 274
+            }, 
+            {
+                "br_x": 626, 
+                "br_y": 942, 
+                "tl_x": 528, 
+                "tl_y": 848
+            }, 
+            {
+                "br_x": 146, 
+                "br_y": 1024, 
+                "tl_x": 50, 
+                "tl_y": 934
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_191" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 118, 
+                "br_y": 60, 
+                "tl_x": 50, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 650, 
+                "br_y": 220, 
+                "tl_x": 556, 
+                "tl_y": 122
+            }, 
+            {
+                "br_x": 834, 
+                "br_y": 532, 
+                "tl_x": 738, 
+                "tl_y": 440
+            }, 
+            {
+                "br_x": 810, 
+                "br_y": 856, 
+                "tl_x": 712, 
+                "tl_y": 756
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_192" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 640, 
+                "br_y": 50, 
+                "tl_x": 578, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 1018, 
+                "br_y": 450, 
+                "tl_x": 922, 
+                "tl_y": 358
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_193" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_194" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_195" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 444, 
+                "br_y": 452, 
+                "tl_x": 348, 
+                "tl_y": 354
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_196" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 630, 
+                "br_y": 48, 
+                "tl_x": 570, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 442, 
+                "br_y": 626, 
+                "tl_x": 346, 
+                "tl_y": 528
+            }, 
+            {
+                "br_x": 748, 
+                "br_y": 988, 
+                "tl_x": 654, 
+                "tl_y": 898
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_197" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 650, 
+                "br_y": 220, 
+                "tl_x": 556, 
+                "tl_y": 122
+            }, 
+            {
+                "br_x": 626, 
+                "br_y": 542, 
+                "tl_x": 536, 
+                "tl_y": 444
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_198" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 844, 
+                "br_y": 138, 
+                "tl_x": 744, 
+                "tl_y": 40
+            }, 
+            {
+                "br_x": 396, 
+                "br_y": 820, 
+                "tl_x": 294, 
+                "tl_y": 726
+            }, 
+            {
+                "br_x": 938, 
+                "br_y": 1024, 
+                "tl_x": 840, 
+                "tl_y": 984
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_199" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 390, 
+                "br_y": 996, 
+                "tl_x": 294, 
+                "tl_y": 898
+            }, 
+            {
+                "br_x": 602, 
+                "br_y": 416, 
+                "tl_x": 508, 
+                "tl_y": 324
+            }, 
+            {
+                "br_x": 936, 
+                "br_y": 108, 
+                "tl_x": 838, 
+                "tl_y": 16
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_200" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 600, 
+                "br_y": 588, 
+                "tl_x": 506, 
+                "tl_y": 494
+            }, 
+            {
+                "br_x": 580, 
+                "br_y": 912, 
+                "tl_x": 482, 
+                "tl_y": 816
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_201" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 74, 
+                "br_y": 28, 
+                "tl_x": 34, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 790, 
+                "br_y": 504, 
+                "tl_x": 692, 
+                "tl_y": 410
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_202" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 440, 
+                "br_y": 804, 
+                "tl_x": 344, 
+                "tl_y": 708
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_203" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 982, 
+                "br_y": 92, 
+                "tl_x": 884, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 654, 
+                "br_y": 394, 
+                "tl_x": 554, 
+                "tl_y": 296
+            }, 
+            {
+                "br_x": 440, 
+                "br_y": 974, 
+                "tl_x": 342, 
+                "tl_y": 874
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_204" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 648, 
+                "br_y": 566, 
+                "tl_x": 552, 
+                "tl_y": 468
+            }, 
+            {
+                "br_x": 626, 
+                "br_y": 890, 
+                "tl_x": 530, 
+                "tl_y": 794
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_205" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 836, 
+                "br_y": 484, 
+                "tl_x": 738, 
+                "tl_y": 390
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_206" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_207" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 352, 
+                "br_y": 414, 
+                "tl_x": 266, 
+                "tl_y": 358
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 215, 
+                "br_y": 470, 
+                "tl_x": 158, 
+                "tl_y": 394
+            }
+        ]
+    },
+    "map_208" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_209" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_210" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 356, 
+                "br_y": 602, 
+                "tl_x": 270, 
+                "tl_y": 554
+            }
+        ], 
+        "walking_barriers": [
+            {
+                "br_x": 218, 
+                "br_y": 660, 
+                "tl_x": 162, 
+                "tl_y": 588
+            }
+        ]
+    },
+    "map_211" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 210, 
+                "br_y": 854, 
+                "tl_x": 112, 
+                "tl_y": 754
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_212" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 750, 
+                "br_y": 140, 
+                "tl_x": 654, 
+                "tl_y": 44
+            }, 
+            {
+                "br_x": 422, 
+                "br_y": 444, 
+                "tl_x": 324, 
+                "tl_y": 346
+            }, 
+            {
+                "br_x": 208, 
+                "br_y": 1024, 
+                "tl_x": 110, 
+                "tl_y": 928
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_213" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 912, 
+                "br_y": 58, 
+                "tl_x": 844, 
+                "tl_y": 0
+            }, 
+            {
+                "br_x": 416, 
+                "br_y": 616, 
+                "tl_x": 320, 
+                "tl_y": 520
+            }, 
+            {
+                "br_x": 396, 
+                "br_y": 938, 
+                "tl_x": 296, 
+                "tl_y": 844
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_214" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [
+            {
+                "br_x": 608, 
+                "br_y": 534, 
+                "tl_x": 508, 
+                "tl_y": 434
+            }
+        ], 
+        "walking_barriers": []
+    },
+    "map_215" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_216" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_217" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_218" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_219" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_220" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_221" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_222" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_223" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    },
+    "map_224" : {
+        "complete_barriers": [], 
+        "shooting_barriers": [], 
+        "walking_barriers": []
+    }            
+}

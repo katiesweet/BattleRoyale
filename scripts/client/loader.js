@@ -35,11 +35,12 @@ MyGame.loader = (function() {
       },
       {
         scripts: [
-          'components/arena',
           'components/player',
           'components/player-remote',
           'components/missile',
           'components/animated-sprite',
+          'components/tiled-image',
+          'components/viewport'
         ],
         message: 'Player models loaded',
         onComplete: null,
@@ -56,11 +57,12 @@ MyGame.loader = (function() {
       },
       {
         scripts: [
-          'rendering/arena',
           'rendering/player',
           'rendering/player-remote',
           'rendering/missile',
           'rendering/animated-sprite',
+          'rendering/tiled-image',
+          'rendering/mini-map'
         ],
         message: 'Renderers loaded',
         onComplete: null,
@@ -74,27 +76,62 @@ MyGame.loader = (function() {
     assetOrder = [
       {
         key: 'desert-floor',
-        source: 'assets/desert_square.png',
+        source: 'assets/tiles/map_49.png',
       },
       {
-        key: 'desert-floor',
-        source: 'assets/desert_cracks_d.jpg', // desert_tiled.jpg doesn't exist in the repo right now,
-        //changed temporarily to source: 'assets/desert_cracks_d.jpg', this can be changed whenever it needs to be
+        key: 'mini-map',
+        source: 'assets/miniMap.png'
       },
       {
         key: 'player-self',
-        source: 'assets/single_cowboy.png',
+        source: 'assets/single_cowboy_blue.png',
       },
       {
         key: 'player-other',
-        source: 'assets/cowboy_black.png',
+        source: 'assets/single_cowboy.png',
       },
       {
         key: 'explosion',
         source: 'assets/explosion.png',
       },
     ];
+	//------------------------------------------------------------------
+	//
+	// Helper function used to generate the asset entries necessary to
+	// load a tiled image into memory.
+	//
+	//------------------------------------------------------------------
+	function prepareTiledImage(assetArray, rootName, rootKey, sizeX, sizeY, tileSize) {
+		var numberX = sizeX / tileSize,
+			numberY = sizeY / tileSize,
+			tileFile = '',
+			tileSource = '',
+			tileKey = '',
+			tileX = 0,
+			tileY = 0;
 
+		//
+		// Create an entry in the assets that holds the properties of the tiled image
+		MyGame.assets[rootKey] = {
+			width: sizeX,
+			height: sizeY,
+			tileSize: tileSize
+		};
+
+		for (tileY = 0; tileY < numberY; tileY += 1) {
+			for (tileX = 0; tileX < numberX; tileX += 1) {
+        // tileFile = numberPad((tileY * numberX + tileX), 4);
+        tileFile = tileY * numberX + tileX;
+				tileSource = rootName + tileFile + '.png';
+				tileKey = rootKey + '-' + tileFile;
+				assetArray.push({
+					key: tileKey,
+					source: tileSource
+				});
+			}
+		}
+  }
+  
   //------------------------------------------------------------------
   //
   // Helper function used to load scripts in the order specified by the
@@ -225,6 +262,7 @@ MyGame.loader = (function() {
   //
   // Start with loading the assets, then the scripts.
   console.log('Starting to dynamically load project assets');
+  prepareTiledImage(assetOrder, 'assets/tiles/map_', 'background', 15360, 15360, 1024)
   loadAssets(
     assetOrder,
     function(source, asset) {
@@ -238,6 +276,7 @@ MyGame.loader = (function() {
       console.log('All assets loaded');
       console.log('Starting to dynamically load project scripts');
       loadScripts(scriptOrder, mainComplete);
+      console.log("My assets:", MyGame.assets)
     }
   );
 })();
