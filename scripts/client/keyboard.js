@@ -2,6 +2,8 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 	'use strict';
 
 	var editing = false;
+	var action = '';
+	var keyCode = [];
 
 	function initialize() {
 		document.getElementById('id-keyboard-back').addEventListener(
@@ -15,16 +17,32 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
       document.getElementById('move-right-config').addEventListener('click', function() { edit('move-right') });
       document.getElementById('move-left-config').addEventListener('click', function() { edit('move-left') });
 
+			window.addEventListener('keydown', keyDown);
+			window.addEventListener('keyup', keyUp);
+	}
 
+	function keyDown(event) {
+		if (editing && action) {
+			if (keyCode.indexOf(event.which) < 0) {
+				keyCode.push(event.which);
+			}
+		}
+	}
+
+	function keyUp(event) {
+		editing = false;
+		// unregister old keycode
+		// save key code and update in localstorate and display
+		// use input to register the new keycode
+		keyCode = [];
+		action = '';
 	}
 
 	function run() { }
 
-
-
   function edit(id) {
 		editing = true;
-    // open up "Edit tab" and populate the title of what is being edited like move-down command or something
+		action = id;
   }
 
 	return {
