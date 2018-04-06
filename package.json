@@ -1,11 +1,20 @@
 {
-	"name": "websockets",
-	"version": "1.0.0",
-	"scripts": {
-		"start": "node server.js"
-	},
-	"dependencies": {
-		"socket.io": "2.0.*",
-		"present": "1.0.0"
-	}
+  "name": "websockets",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js --ignore db.json"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.0",
+    "lowdb": "^1.0.0",
+    "present": "1.0.0",
+    "socket.io": "2.0.*"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.3"
+  }
 }
