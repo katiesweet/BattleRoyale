@@ -1,46 +1,54 @@
 body {
-	margin: 0;
-	font-style: normal;
-	font-family: sans-serif;
-	color: #69a0db;
+  margin: 0;
+  font-style: normal;
+  font-family: Roboto, sans-serif;
+  color: #69a0db;
+}
+
+body * {
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
 }
 
 #game {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 350px;
-	height: 450px;
-	font-size: 40px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 350px;
+  height: 450px;
+  font-size: 40px;
 }
 
 .background {
-	background-size: cover;
-	background-position: bottom;
-	min-width: 600px;
-	min-height: 600px;
-	background-image: url('/assets/desert_square.png');
-	background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  min-width: 600px;
+  min-height: 600px;
+  background-image: url('/assets/desert_square.png');
+  background-repeat: no-repeat;
 }
 
 #game .screen {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: none;
-	z-index: 10;
-	min-width: 600px;
-	min-height: 600px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 10;
+  min-width: 600px;
+  min-height: 600px;
 }
 
 #game .screen.active {
-	display: block;
+  display: block;
 }
 
 #main-menu {
-	padding-top: 1em;
-	cursor: pointer;
-	font-size: 0.75em;
+  padding-top: 1em;
+  cursor: pointer;
+  font-size: 0.75em;
 }
 
 .normal-font {
@@ -78,54 +86,109 @@ button.normal-button:active {
 }
 
 ul.menu {
-	text-align: center;
-	padding: 0;
-	margin: 0;
-	margin-top: 60px;
-	list-style: none;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  margin-top: 60px;
+  list-style: none;
 }
 
 ul.menu li {
-	margin: 0.8em 0;
+  margin: 0.8em 0;
 }
 
 ul.menu li button {
-	font-family: Arial, sans-serif;
-	font-size: 0.9em;
-	background: #69a0db;
-	width: 10em;
-	height: 2.0em;
-	color: white;
-	outline: none;
-	border:0 none;
-	border-radius: 4px;
+  font-family: Arial, sans-serif;
+  font-size: 0.9em;
+  background: #69a0db;
+  width: 10em;
+  height: 2em;
+  color: white;
+  outline: none;
+  border: 0 none;
+  border-radius: 4px;
+  border: 2px solid #1d6ab9;
 }
 
 ul.menu li button:hover {
-	background: #5c99db;
+  background: #5c99db;
 }
 
 ul.menu li button:active {
-	color: white;
-	background: #5c99db;
+  color: white;
+  background: #5c99db;
 }
 
 #game div h1 {
-	font-size: 1em;
-	text-align: center;
+  font-size: 1em;
+  text-align: center;
 }
 
-#high-scores ol {
-	text-align: center;
-	padding: 0;
-	margin: 0;
-	list-style: none;
+#highscores ol {
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  height: 470px;
+  overflow: scroll;
 }
 
 #game div p {
-	font-size: 0.5em;
+  font-size: 0.5em;
 }
 
 #about p {
-	text-align: center;
+  text-align: center;
+}
+
+.login-form {
+  width: 60%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form > input {
+  width: 100%;
+  padding: 5px 7px;
+  font-size: 20px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 2px solid #1c1c1c;
+  color: #1c1c1c;
+}
+
+.login-form > .actions {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.login-form > .actions > button {
+  flex: 0 0 49%;
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  background: #69a0db;
+  height: 2em;
+  color: white;
+  outline: none;
+  border: 0 none;
+  border-radius: 4px;
+  border: 2px solid #1d6ab9;
+}
+
+#error-notification {
+  width: 100%;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 5px 7px;
+  background-color: #db0623;
+  color: white;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 2px solid #b20019;
+  font-weight: 500;
+  display: none;
 }

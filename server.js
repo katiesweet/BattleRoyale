@@ -1,44 +1,27 @@
-let http = require('http'),
-  path = require('path'),
-  fs = require('fs'),
-  game = require('./scripts/server/game');
+const fs = require('fs');
+const path = require('path');
+const http = require('http');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-let mimeTypes = {
-  '.js': 'text/javascript',
-  '.map': 'text/javascript',
-  '.html': 'text/html',
-  '.css': 'text/css',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.mp3': 'audio/mpeg3',
-};
+const game = require('./scripts/server/game');
+const routes = require('./scripts/server/routes');
+const db = require('./scripts/server/database');
 
-function handleRequest(request, response) {
-  let lookup = request.url === '/' ? '/index.html' : decodeURI(request.url);
-  let file = lookup.substring(1, lookup.length);
+const app = express();
+const server = http.createServer(app);
 
-  fs.exists(file, function(exists) {
-    if (exists) {
-      fs.readFile(file, function(err, data) {
-        if (err) {
-          response.writeHead(500);
-          response.end('Server Error!');
-        } else {
-          let headers = { 'Content-type': mimeTypes[path.extname(lookup)] };
-          response.writeHead(200, headers);
-          response.end(data);
-        }
-      });
-    } else {
-      response.writeHead(404);
-      response.end();
-    }
-  });
-}
+app.use('/', express.static(__dirname));
 
-let server = http.createServer(handleRequest);
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '/index.html'));
+});
 
-server.listen(3000, function() {
+app.use(bodyParser.json(), routes);
+
+server.listen(3000, async function() {
+  await db.initialize();
+
   game.initialize(server);
   console.log('Server is listening on port 3000');
 });

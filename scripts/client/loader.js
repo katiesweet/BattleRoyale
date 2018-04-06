@@ -45,28 +45,8 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
-        scripts: ['menuSystem'],
-        message: 'Menu loaded',
-        onComplete: null,
-      },
-      {
-        scripts: ['mainmenu'],
-        message: 'Main menu loaded',
-        onComplete: null,
-      },
-      {
-        scripts: ['credits'],
-        message: 'Credits loaded',
-        onComplete: null,
-      },
-      {
-        scripts: ['highScores'],
-        message: 'High scores loaded',
-        onComplete: null,
-      },
-      {
-        scripts: ['keyboard'],
-        message: 'Keyboard config loaded',
+        scripts: ['menuSystem', 'mainmenu', 'credits', 'highScores', 'login', 'keyboard'],
+        message: 'All menus loaded',
         onComplete: null,
       },
       {

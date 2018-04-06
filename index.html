@@ -5,16 +5,42 @@
 	<meta charset="UTF-8">
 	<title>Battle Royale</title>
 	<script src="/node_modules/socket.io-client/dist/socket.io.slim.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="game.css">
 </head>
+
 <body>
 	<div id="game" class="background">
+		<div id="login" class="screen">
+			<h1>Login</h1>
+			<div class="login-form">
+				<div id="error-notification"></div>
+				<input id="username-input" name="username" type="text" />
+				<input id="password-input" name="password" type="password" />
+				<div class="actions">
+					<button id="register-btn">Create Account</button>
+					<button id="login-btn">Login</button>
+				</div>
+			</div>
+		</div>
 		<div id="main-menu" class="screen">
 			<ul class="menu">
-				<li><button id="id-new-game">New&nbsp;Game</button></li>
-				<li><button id="id-keyboard-config">Configure&nbsp;Keyboard</button></li>
-				<li><button id="id-high-scores">High&nbsp;Scores</button></li>
-				<li><button id="id-credits">About</button></li>
+				<li>
+					<button id="id-new-game">New&nbsp;Game</button>
+				</li>
+				<li>
+					<button id="id-keyboard-config">Configure&nbsp;Keyboard</button>
+				</li>
+				<li>
+					<button id="id-highscores">Highscores</button>
+				</li>
+				<li>
+					<button id="id-credits">About</button>
+				</li>
+				<li>
+					<button id="id-logout">Logout</button>
+				</li>
 			</ul>
 		</div>
 		<div id="gamePlay" class="screen">
@@ -58,16 +84,11 @@
 				<input class="backbutton" type="image" src="assets/back_button.png" id="id-keyboard-back"/>
 			</ul>
 		</div>
-		<div id="high-scores" class="screen">
+		<div id="highscores" class="screen">
 			<h1>High Scores</h1>
-			<ol>
-				<li>10000</li>
-				<li>9000</li>
-				<li>8000</li>
-				<li>7000</li>
-			</ol>
+			<ol id="hs-list" />
 			<ul class="menu">
-				<input class="backbutton" type="image" src="assets/back_button.png" id="id-high-scores-back"/>
+				<input class="backbutton" type="image" src="assets/back_button.png" id="id-highscores-back"/>
 			</ul>
 		</div>
 		<div id="credits" class="screen">
@@ -81,6 +102,7 @@
 			</ul>
 		</div>
 	</div>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script data-main="scripts/client/loader" src="scripts/client/require.js"></script>
 </body>
 
