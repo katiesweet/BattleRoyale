@@ -3,18 +3,21 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 
 	var editing = false;
 	var action = '';
-	var keyCode = [];
-	var codes = {
-		'fire': 'default',
-		'rotate-left': 'default',
-		'rotate-right': 'default',
-		'move-up': 'default',
-		'move-down': 'default',
-		'move-right': 'default',
-		'move-left': 'default',
-	};
+	var keyCode = '';
+	var codes = {};
 
 	function initialize() {
+		codes = {
+			'fire': {'input': input.KeyEvent.DOM_VK_SPACE, 'network': NetworkIds.INPUT_FIRE},
+			'rotate-left': {'input': input.KeyEvent.DOM_VK_A, 'network': NetworkIds.INPUT_ROTATE_LEFT},
+			'rotate-right': {'input': input.KeyEvent.DOM_VK_D, 'network': NetworkIds.INPUT_ROTATE_RIGHT},
+			'move-up': {'input': input.KeyEvent.DOM_VK_UP, 'network': NetworkIds.INPUT_MOVE},
+			'move-down': {'input': input.KeyEvent.DOM_VK_DOWN, 'network': NetworkIds.INPUT_MOVE},
+			'move-right':{'input':  input.KeyEvent.DOM_VK_RIGHT, 'network': NetworkIds.INPUT_MOVE},
+			'move-left': {'input': input.KeyEvent.DOM_VK_LEFT, 'network': NetworkIds.INPUT_MOVE},
+			'sprint': {'input': input.KeyEvent.DOM_VK_S, 'network': NetworkIds.INPUT_MOVE},
+		};
+
 		document.getElementById('id-keyboard-back').addEventListener(
 			'click',
 			function() { menu.showScreen('main-menu'); });
@@ -27,35 +30,33 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
       document.getElementById('move-left-config').addEventListener('click', function() { edit('move-left') });
 
 			window.addEventListener('keydown', keyDown);
-			window.addEventListener('keyup', keyUp);
 
 			for(var code in codes) {
-				// try and get local storage (populate if it exists)
-				// register those that exist with the input
-
-				// QUESTION does the input support multi-key commands??????
-
-				// populate the display table using current value
+				let predef = localstorage.getItem(code);
+				let input = codes[code].input;
+				if (predef) {
+					input = predef;
+				}
+				MyGame.registerEvent(codes[code].network, input, code);
 			}
+
 	}
+
 
 	function keyDown(event) {
 		if (editing && action) {
-			if (keyCode.indexOf(event.which) < 0) {
-				keyCode.push(event.which);
-			}
-		}
-	}
+			keycode = event.which;
+			editing = false;
+			// unregister old keycode (in codes array) from input
 
-	function keyUp(event) {
-		editing = false;
-		// unregister old keycode (in codes array) from input
-		// save new key in codes array
-		// save new key in local storage
-		// register new key to input
-		// update display for new key in table
-		keyCode = [];
-		action = '';
+			codes[action].input = keycode;
+			MyGame.registerEvent(codes[action].network, codes[action].input, action);
+			localstorage.setItem(code, keycode);
+
+			// update display for new key in table
+			action = '';
+			editing = false;
+		}
 	}
 
 	function run() { }

@@ -356,6 +356,33 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
     requestAnimationFrame(gameLoop);
   }
 
+  MyGame.registerEvent = function(networkId, keyboardInput, action) {
+    let repeat = true;
+    if (action == 'fire') {
+      repeat = false;
+    }
+    myKeyboard.registerHandler(
+      elapsedTime => {
+        let message = {
+          id: messageId++,
+          elapsedTime: elapsedTime,
+          type: NetworkId,
+        };
+        socket.emit(NetworkIds.INPUT, message);
+        messageHistory.enqueue(message);
+        if (action.indexOf('move') >= 0) {
+          playerSelf.model.move(elapsedTime);
+        } else if (action == 'rotate-right') {
+          playerSelf.model.rotateRight(elapsedTime);
+        } else if (action == 'rotate-left') {
+          playerSelf.model.rotateLeft(elapsedTime);
+        }
+      },
+      keyboardInput,
+      repeat
+    );
+  }
+
   // Register keyboard
   function initalizeKeyboard() {
 //

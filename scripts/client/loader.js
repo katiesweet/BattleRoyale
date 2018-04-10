@@ -5,6 +5,8 @@ MyGame = {
   utilities: {},
   assets: {},
   screens: {},
+  player: '',
+  socket: ''
 };
 
 //------------------------------------------------------------------
@@ -131,7 +133,7 @@ MyGame.loader = (function() {
 			}
 		}
   }
-  
+
   //------------------------------------------------------------------
   //
   // Helper function used to load scripts in the order specified by the
