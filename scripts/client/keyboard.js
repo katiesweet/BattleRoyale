@@ -8,14 +8,14 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 
 	function initialize() {
 		codes = {
-			'fire': {'input': input.KeyEvent.DOM_VK_SPACE, 'network': NetworkIds.INPUT_FIRE},
-			'rotate-left': {'input': input.KeyEvent.DOM_VK_A, 'network': NetworkIds.INPUT_ROTATE_LEFT},
-			'rotate-right': {'input': input.KeyEvent.DOM_VK_D, 'network': NetworkIds.INPUT_ROTATE_RIGHT},
-			'move-up': {'input': input.KeyEvent.DOM_VK_UP, 'network': NetworkIds.INPUT_MOVE},
-			'move-down': {'input': input.KeyEvent.DOM_VK_DOWN, 'network': NetworkIds.INPUT_MOVE},
-			'move-right':{'input':  input.KeyEvent.DOM_VK_RIGHT, 'network': NetworkIds.INPUT_MOVE},
-			'move-left': {'input': input.KeyEvent.DOM_VK_LEFT, 'network': NetworkIds.INPUT_MOVE},
-			'sprint': {'input': input.KeyEvent.DOM_VK_S, 'network': NetworkIds.INPUT_MOVE},
+			'fire': {'input': input.KeyEvent.DOM_VK_SPACE, 'network': NetworkIds.INPUT_FIRE, 'id': 0},
+			'rotate-left': {'input': input.KeyEvent.DOM_VK_A, 'network': NetworkIds.INPUT_ROTATE_LEFT, 'id': 0},
+			'rotate-right': {'input': input.KeyEvent.DOM_VK_D, 'network': NetworkIds.INPUT_ROTATE_RIGHT, 'id': 0},
+			'move-up': {'input': input.KeyEvent.DOM_VK_UP, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
+			'move-down': {'input': input.KeyEvent.DOM_VK_DOWN, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
+			'move-right':{'input':  input.KeyEvent.DOM_VK_RIGHT, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
+			'move-left': {'input': input.KeyEvent.DOM_VK_LEFT, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
+			'sprint': {'input': input.KeyEvent.DOM_VK_S, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
 		};
 
 		document.getElementById('id-keyboard-back').addEventListener(
@@ -37,7 +37,8 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 				if (predef) {
 					input = predef;
 				}
-				MyGame.registerEvent(codes[code].network, input, code);
+				codes[code].id = MyGame.registerEvent(codes[code].network, input, code);
+				document.getElementById(code).innerHTML = ('<span>' + input + '</span>');
 			}
 
 	}
@@ -47,13 +48,12 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 		if (editing && action) {
 			keycode = event.which;
 			editing = false;
-			// unregister old keycode (in codes array) from input
-
+			input.unregister(codes[action], codes[action].id)
 			codes[action].input = keycode;
-			MyGame.registerEvent(codes[action].network, codes[action].input, action);
+			codes[action].id = MyGame.registerEvent(codes[action].network, codes[action].input, action);
 			localstorage.setItem(code, keycode);
+			document.getElementById(action).innerHTML = ('<span>' + input + '</span>');
 
-			// update display for new key in table
 			action = '';
 			editing = false;
 		}

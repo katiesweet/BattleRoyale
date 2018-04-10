@@ -361,7 +361,7 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
     if (action == 'fire') {
       repeat = false;
     }
-    myKeyboard.registerHandler(
+    let id = myKeyboard.registerHandler(
       elapsedTime => {
         let message = {
           id: messageId++,
@@ -381,6 +381,7 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
       keyboardInput,
       repeat
     );
+    return id;
   }
 
   // Register keyboard
