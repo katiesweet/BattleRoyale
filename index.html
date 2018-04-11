@@ -41,42 +41,46 @@
 			</ul>
 		</div>
 		<div id="game-play" class="screen">
-			<div class="game-container">
-				<div class="game-menu"></div>
-				<canvas id="canvas-main" style="background-color: rgb(0, 0, 0)"></canvas>
-				<div class="game-chat">
-					<div class="messages"></div>
-					<div class="new-message">
-						<textarea id="new-message" rows="1"></textarea>
-						<button class="send-message-btn">Send</button>
+
+			<div id="gamePlay" class="screen">
+				<div class="game-container">
+					<div class="game-menu">
+						<canvas id="mini-map" width="150" height="150" style="background-color: rgb(0, 0, 0)"></canvas>
+					</div>
+					<canvas id="canvas-main" style="background-color: rgb(0, 0, 0)"></canvas>
+					<div class="game-chat">
+						<div class="messages"></div>
+						<div class="new-message">
+							<textarea id="new-message" rows="1"></textarea>
+							<button class="send-message-btn">Send</button>
+						</div>
 					</div>
 				</div>
 			</div>
+			<div id="highscores" class="screen">
+				<h1>Highscores</h1>
+				<ol id="hs-list" />
+				<ul class="menu">
+					<li>
+						<button id="id-highscores-back">Back</button>
+					</li>
+				</ul>
+			</div>
+			<div id="credits" class="screen">
+				<h1>About</h1>
+				<p>Developed by</p>
+				<p>Katie</p>
+				<p>Adam</p>
+				<p>Sarah</p>
+				<ul class="menu">
+					<li>
+						<button id="id-credits-back">Back</button>
+					</li>
+				</ul>
+			</div>
 		</div>
-		<div id="highscores" class="screen">
-			<h1>Highscores</h1>
-			<ol id="hs-list" />
-			<ul class="menu">
-				<li>
-					<button id="id-highscores-back">Back</button>
-				</li>
-			</ul>
-		</div>
-		<div id="credits" class="screen">
-			<h1>About</h1>
-			<p>Developed by</p>
-			<p>Katie</p>
-			<p>Adam</p>
-			<p>Sarah</p>
-			<ul class="menu">
-				<li>
-					<button id="id-credits-back">Back</button>
-				</li>
-			</ul>
-		</div>
-	</div>
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script data-main="scripts/client/loader" src="scripts/client/require.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script data-main="scripts/client/loader" src="scripts/client/require.js"></script>
 </body>
 
 </html>
