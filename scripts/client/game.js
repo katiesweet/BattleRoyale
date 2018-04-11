@@ -320,12 +320,6 @@ MyGame.screens['gameplay'] = (function(
   function initialize() {
     console.log('game initializing...');
 
-    document
-      .getElementById('id-game-quit')
-      .addEventListener('click', function() {
-        menu.showScreen('main-menu');
-      });
-
     //
     // Get the intial viewport settings prepared.
     graphics.viewport.set(0, 0, 0.25); // The buffer can't really be any larger than world.buffer, guess I could protect against that.

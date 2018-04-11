@@ -32,10 +32,19 @@ MyGame.menu = (function(screens) {
   }
 
   function initialize() {
-    let screen = null;
-    for (screen in screens) {
+    for (let screen in screens) {
       if (screens.hasOwnProperty(screen)) {
         screens[screen].initialize();
+      }
+    }
+
+    const buttons = document.getElementsByTagName('button');
+
+    for (let i = 0; i < buttons.length; i++) {
+      if (buttons[i].hasAttribute('data-route')) {
+        buttons[i].onclick = function() {
+          showScreen(buttons[i].getAttribute('data-route'));
+        };
       }
     }
 

@@ -1,19 +1,7 @@
-MyGame.screens['lobby'] = (function(menu) {
+MyGame.screens['lobby'] = (function(menu, network) {
   'use strict';
 
-  function initialize() {
-    document
-      .getElementById('id-lobby-back')
-      .addEventListener('click', function() {
-        menu.showScreen('main-menu');
-      });
-
-    document
-      .getElementById('id-lobby-start-game')
-      .addEventListener('click', function() {
-        menu.showScreen('gameplay');
-      });
-  }
+  function initialize() {}
 
   function run() {}
 
@@ -21,4 +9,4 @@ MyGame.screens['lobby'] = (function(menu) {
     initialize: initialize,
     run: run,
   };
-})(MyGame.menu);
+})(MyGame.menu, MyGame.network);
