@@ -34,19 +34,29 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
+        scripts: ['network'],
+        message: 'Network loaded',
+        onComplete: null,
+      },
+      {
         scripts: [
           'components/player',
           'components/player-remote',
           'components/missile',
           'components/animated-sprite',
           'components/tiled-image',
-          'components/viewport'
+          'components/viewport',
         ],
         message: 'Player models loaded',
         onComplete: null,
       },
       {
-        scripts: ['menuSystem', 'mainmenu', 'credits', 'highScores', 'login'],
+        scripts: ['menuSystem'],
+        message: 'Menu system loaded',
+        onComplete: null,
+      },
+      {
+        scripts: ['mainmenu', 'lobby', 'credits', 'highScores', 'login'],
         message: 'All menus loaded',
         onComplete: null,
       },
@@ -62,7 +72,7 @@ MyGame.loader = (function() {
           'rendering/missile',
           'rendering/animated-sprite',
           'rendering/tiled-image',
-          'rendering/mini-map'
+          'rendering/mini-map',
         ],
         message: 'Renderers loaded',
         onComplete: null,
@@ -80,7 +90,7 @@ MyGame.loader = (function() {
       },
       {
         key: 'mini-map',
-        source: 'assets/miniMap.png'
+        source: 'assets/miniMap.png',
       },
       {
         key: 'player-self',
@@ -95,43 +105,49 @@ MyGame.loader = (function() {
         source: 'assets/explosion.png',
       },
     ];
-	//------------------------------------------------------------------
-	//
-	// Helper function used to generate the asset entries necessary to
-	// load a tiled image into memory.
-	//
-	//------------------------------------------------------------------
-	function prepareTiledImage(assetArray, rootName, rootKey, sizeX, sizeY, tileSize) {
-		var numberX = sizeX / tileSize,
-			numberY = sizeY / tileSize,
-			tileFile = '',
-			tileSource = '',
-			tileKey = '',
-			tileX = 0,
-			tileY = 0;
+  //------------------------------------------------------------------
+  //
+  // Helper function used to generate the asset entries necessary to
+  // load a tiled image into memory.
+  //
+  //------------------------------------------------------------------
+  function prepareTiledImage(
+    assetArray,
+    rootName,
+    rootKey,
+    sizeX,
+    sizeY,
+    tileSize
+  ) {
+    let numberX = sizeX / tileSize,
+      numberY = sizeY / tileSize,
+      tileFile = '',
+      tileSource = '',
+      tileKey = '',
+      tileX = 0,
+      tileY = 0;
 
-		//
-		// Create an entry in the assets that holds the properties of the tiled image
-		MyGame.assets[rootKey] = {
-			width: sizeX,
-			height: sizeY,
-			tileSize: tileSize
-		};
+    //
+    // Create an entry in the assets that holds the properties of the tiled image
+    MyGame.assets[rootKey] = {
+      width: sizeX,
+      height: sizeY,
+      tileSize: tileSize,
+    };
 
-		for (tileY = 0; tileY < numberY; tileY += 1) {
-			for (tileX = 0; tileX < numberX; tileX += 1) {
-        // tileFile = numberPad((tileY * numberX + tileX), 4);
+    for (tileY = 0; tileY < numberY; tileY += 1) {
+      for (tileX = 0; tileX < numberX; tileX += 1) {
         tileFile = tileY * numberX + tileX;
-				tileSource = rootName + tileFile + '.png';
-				tileKey = rootKey + '-' + tileFile;
-				assetArray.push({
-					key: tileKey,
-					source: tileSource
-				});
-			}
-		}
+        tileSource = rootName + tileFile + '.png';
+        tileKey = rootKey + '-' + tileFile;
+        assetArray.push({
+          key: tileKey,
+          source: tileSource,
+        });
+      }
+    }
   }
-  
+
   //------------------------------------------------------------------
   //
   // Helper function used to load scripts in the order specified by the
@@ -255,14 +271,32 @@ MyGame.loader = (function() {
   //
   //------------------------------------------------------------------
   function mainComplete() {
-    console.log('it is all loaded up');
+    const loading = document.getElementById('loading');
+
+    loading.style.opacity = 0;
+
+    setTimeout(() => {
+      loading.style.display = 'none';
+    }, 1000);
+
+    console.log("We're all loaded up!");
+
     MyGame.menu.initialize();
   }
 
   //
   // Start with loading the assets, then the scripts.
   console.log('Starting to dynamically load project assets');
-  prepareTiledImage(assetOrder, 'assets/tiles/map_', 'background', 15360, 15360, 1024)
+
+  prepareTiledImage(
+    assetOrder,
+    'assets/tiles/map_',
+    'background',
+    15360,
+    15360,
+    1024
+  );
+
   loadAssets(
     assetOrder,
     function(source, asset) {
@@ -276,7 +310,7 @@ MyGame.loader = (function() {
       console.log('All assets loaded');
       console.log('Starting to dynamically load project scripts');
       loadScripts(scriptOrder, mainComplete);
-      console.log("My assets:", MyGame.assets)
+      console.log('My assets:', MyGame.assets);
     }
   );
 })();

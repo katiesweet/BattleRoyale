@@ -46,21 +46,7 @@ MyGame.screens['login'] = (function(menu) {
     document.getElementById('register-btn').addEventListener('click', register);
   }
 
-  function run() {
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/me',
-      headers: { authorization: localStorage.getItem('token') || null },
-    })
-      .then(({ status, data }) => {
-        if (data && data.username) {
-          menu.showScreen('main-menu');
-        }
-      })
-      .catch(err => {
-        console.log('Error fetching current user', err);
-      });
-  }
+  function run() {}
 
   return {
     initialize: initialize,

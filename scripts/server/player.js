@@ -5,7 +5,7 @@
 // ------------------------------------------------------------------
 'use strict';
 
-let random = require('./random');
+const random = require('./random');
 
 //------------------------------------------------------------------
 //
@@ -17,8 +17,8 @@ function createPlayer() {
   let that = {};
 
   let position = {
-    x: random.nextDouble()*15,
-    y: random.nextDouble()*15,
+    x: random.nextDouble() * 15,
+    y: random.nextDouble() * 15,
   };
 
   let size = {

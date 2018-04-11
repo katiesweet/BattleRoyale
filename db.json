@@ -19,6 +19,26 @@
       "username": "Sarah",
       "highscore": 1,
       "hashedPassword": "$2a$10$N3rMkXQvhIk5RZ2vEtlBQOra0PGYdDdl0U3sLQOhoc48dug6n9gny"
+    },
+    {
+      "username": "asdf",
+      "hashedPassword": "$2a$10$89rmKw8gwrAeSzGjkAUM3eRaH7HHUPhjXaOMa788/aLbtIl4RwOq.",
+      "highscore": 0
+    },
+    {
+      "username": "asdfasdf",
+      "hashedPassword": "$2a$10$wAofkp9zRWn.3yS6FbXYUegupilqdpAZIk8mU81JeSN5lf1iZqsIu",
+      "highscore": 0
+    },
+    {
+      "username": "1@1.com",
+      "hashedPassword": "$2a$10$TwjsGR.cjFdEYRzROwPqIeJ5Rt/OVi3AKb8XYNRa.J4lW4xNDP6sK",
+      "highscore": 0
+    },
+    {
+      "username": "asdfasdfsdf",
+      "hashedPassword": "$2a$10$Kua2oGXlka2pf761lU3sOO/93/Qd.76YNs1bsd1r8K7tapgZSRSSi",
+      "highscore": 0
     }
   ]
 }

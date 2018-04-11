@@ -9,10 +9,8 @@ MyGame.graphics = (function() {
   let canvas = document.getElementById('canvas-main');
   let context = canvas.getContext('2d');
 
-  canvas.width = window.innerHeight;
-  canvas.height = window.innerHeight;
-
   window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
 
   let world = {
     // The size of the world must match the world-size of the background image
@@ -71,8 +69,8 @@ MyGame.graphics = (function() {
   };
 
   function resizeCanvas() {
-    canvas.width = window.innerHeight;
-    canvas.height = window.innerHeight;
+    canvas.width = window.innerHeight - 20;
+    canvas.height = window.innerHeight - 20;
   }
 
   //------------------------------------------------------------------

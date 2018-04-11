@@ -6,12 +6,15 @@
 	<title>Battle Royale</title>
 	<script src="/node_modules/socket.io-client/dist/socket.io.slim.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua|Roboto" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="game.css">
 </head>
 
 <body>
 	<div id="game" class="background">
+		<div id="loading">
+			<h1>Loading...</h1>
+		</div>
 		<div id="login" class="screen">
 			<h1>Login</h1>
 			<div class="login-form">
@@ -40,47 +43,112 @@
 				</li>
 			</ul>
 		</div>
-		<div id="game-play" class="screen">
-
-			<div id="gamePlay" class="screen">
-				<div class="game-container">
-					<div class="game-menu">
-						<canvas id="mini-map" width="150" height="150" style="background-color: rgb(0, 0, 0)"></canvas>
-					</div>
-					<canvas id="canvas-main" style="background-color: rgb(0, 0, 0)"></canvas>
-					<div class="game-chat">
-						<div class="messages"></div>
-						<div class="new-message">
-							<textarea id="new-message" rows="1"></textarea>
-							<button class="send-message-btn">Send</button>
+		<div id="lobby" class="screen">
+			<div class="lobby-actions">
+				<button id="id-lobby-back">Back</button>
+				<button id="id-lobby-start-game">Start Game</button>
+			</div>
+			<div class="waiting-room">
+				<div class="user-list">
+					<h2>Players</h2>
+					<div class="user">user53</div>
+					<div class="user">otheruser</div>
+				</div>
+				<div class="game-chat">
+					<div class="messages">
+						<div class="message chat-message">
+							<div class="username">user53</div>
+							<p>o</p>
 						</div>
+						<div class="message chat-message">
+							<div class="username">otheruser</div>
+							<p>no u r</p>
+						</div>
+						<div class="message chat-message">
+							<div class="username">user53</div>
+							<p>ur goin down</p>
+						</div>
+					</div>
+
+					<div class="new-message">
+						<textarea id="new-message" rows="1"></textarea>
+						<button class="send-message-btn">Send</button>
 					</div>
 				</div>
 			</div>
-			<div id="highscores" class="screen">
-				<h1>Highscores</h1>
-				<ol id="hs-list" />
-				<ul class="menu">
-					<li>
-						<button id="id-highscores-back">Back</button>
-					</li>
-				</ul>
-			</div>
-			<div id="credits" class="screen">
-				<h1>About</h1>
-				<p>Developed by</p>
-				<p>Katie</p>
-				<p>Adam</p>
-				<p>Sarah</p>
-				<ul class="menu">
-					<li>
-						<button id="id-credits-back">Back</button>
-					</li>
-				</ul>
+		</div>
+		<div id="gameplay" class="screen">
+			<div class="game-container">
+				<div class="game-menu">
+					<div class="mini-map-window">
+						<canvas id="mini-map" style="background-color: rgb(0, 0, 0)"></canvas>
+					</div>
+
+					<ul class="options">
+						<li>
+							<button id="id-game-quit">Quit</button>
+						</li>
+					</ul>
+				</div>
+				<div class="game-window">
+					<canvas id="canvas-main" style="background-color: rgb(0, 0, 0)"></canvas>
+				</div>
+				<div class="game-chat">
+					<div class="messages">
+						<div class="message chat-message">
+							<div class="username">user53</div>
+							<p>o</p>
+						</div>
+
+						<div class="message game-message">
+							<p>
+								<span class="red">user53</span>
+								<i>was killed by</i>
+								<span class="red">otheruser</span>
+							</p>
+						</div>
+
+						<div class="message chat-message">
+							<div class="username">otheruser</div>
+							<p>no u r</p>
+						</div>
+
+						<div class="message chat-message">
+							<div class="username">user53</div>
+							<p>ur goin down</p>
+						</div>
+					</div>
+					<div class="new-message">
+						<textarea id="new-message" rows="1"></textarea>
+						<button class="send-message-btn">Send</button>
+					</div>
+				</div>
 			</div>
 		</div>
-		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-		<script data-main="scripts/client/loader" src="scripts/client/require.js"></script>
+		<div id="highscores" class="screen">
+			<h1>Highscores</h1>
+			<ol id="hs-list" />
+			<ul class="menu">
+				<li>
+					<button id="id-highscores-back">Back</button>
+				</li>
+			</ul>
+		</div>
+		<div id="credits" class="screen">
+			<h1>About</h1>
+			<p>Developed by</p>
+			<p>Katie</p>
+			<p>Adam</p>
+			<p>Sarah</p>
+			<ul class="menu">
+				<li>
+					<button id="id-credits-back">Back</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script data-main="scripts/client/loader" src="scripts/client/require.js"></script>
 </body>
 
 </html>

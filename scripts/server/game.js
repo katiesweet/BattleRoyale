@@ -5,11 +5,11 @@
 // ------------------------------------------------------------------
 'use strict';
 
-let present = require('present');
-let Player = require('./player');
-let Missile = require('./missile');
-let NetworkIds = require('../shared/network-ids');
-let Queue = require('../shared/queue.js');
+const present = require('present');
+const Player = require('./player');
+const Missile = require('./missile');
+const NetworkIds = require('../shared/network-ids');
+const Queue = require('../shared/queue.js');
 
 const SIMULATION_UPDATE_RATE_MS = 50;
 const STATE_UPDATE_RATE_MS = 100;

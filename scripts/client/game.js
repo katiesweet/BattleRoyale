@@ -3,22 +3,19 @@
 // This function provides the "game" code.
 //
 //------------------------------------------------------------------
-MyGame.screens['game-play'] = (function(
+MyGame.screens['gameplay'] = (function(
+  menu,
   graphics,
   renderer,
   input,
   components,
-  assets
+  assets,
+  network
 ) {
   'use strict';
 
   let lastTimeStamp = performance.now(),
     myKeyboard = input.Keyboard(),
-    // arena = {
-    //   model: components.Arena(),
-    //   texture: MyGame.assets['desert-floor'],
-    // },
-
     background = null,
     playerSelf = {
       model: components.Player(),
@@ -29,58 +26,7 @@ MyGame.screens['game-play'] = (function(
     explosions = {},
     messageHistory = Queue.create(),
     messageId = 1,
-    nextExplosionId = 1,
-    socket = io(),
-    networkQueue = Queue.create();
-
-  socket.on(NetworkIds.CONNECT_ACK, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.CONNECT_ACK,
-      data: data,
-    });
-  });
-
-  socket.on(NetworkIds.CONNECT_OTHER, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.CONNECT_OTHER,
-      data: data,
-    });
-  });
-
-  socket.on(NetworkIds.DISCONNECT_OTHER, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.DISCONNECT_OTHER,
-      data: data,
-    });
-  });
-
-  socket.on(NetworkIds.UPDATE_SELF, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.UPDATE_SELF,
-      data: data,
-    });
-  });
-
-  socket.on(NetworkIds.UPDATE_OTHER, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.UPDATE_OTHER,
-      data: data,
-    });
-  });
-
-  socket.on(NetworkIds.MISSILE_NEW, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.MISSILE_NEW,
-      data: data,
-    });
-  });
-
-  socket.on(NetworkIds.MISSILE_HIT, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.MISSILE_HIT,
-      data: data,
-    });
-  });
+    nextExplosionId = 1;
 
   //------------------------------------------------------------------
   //
@@ -255,10 +201,12 @@ MyGame.screens['game-play'] = (function(
     //
     // Double buffering on the queue so we don't asynchronously receive messages
     // while processing.
-    let processMe = networkQueue;
-    networkQueue = networkQueue = Queue.create();
+    const processMe = network.queue;
+    network.queue = Queue.create();
+
     while (!processMe.empty) {
       let message = processMe.dequeue();
+
       switch (message.type) {
         case NetworkIds.CONNECT_ACK:
           connectPlayerSelf(message.data);
@@ -370,7 +318,7 @@ MyGame.screens['game-play'] = (function(
           elapsedTime: elapsedTime,
           type: NetworkIds.INPUT_MOVE,
         };
-        socket.emit(NetworkIds.INPUT, message);
+        network.socket.emit(NetworkIds.INPUT, message);
         messageHistory.enqueue(message);
         playerSelf.model.move(elapsedTime);
       },
@@ -385,7 +333,7 @@ MyGame.screens['game-play'] = (function(
           elapsedTime: elapsedTime,
           type: NetworkIds.INPUT_ROTATE_RIGHT,
         };
-        socket.emit(NetworkIds.INPUT, message);
+        network.socket.emit(NetworkIds.INPUT, message);
         messageHistory.enqueue(message);
         playerSelf.model.rotateRight(elapsedTime);
       },
@@ -400,7 +348,7 @@ MyGame.screens['game-play'] = (function(
           elapsedTime: elapsedTime,
           type: NetworkIds.INPUT_ROTATE_LEFT,
         };
-        socket.emit(NetworkIds.INPUT, message);
+        network.socket.emit(NetworkIds.INPUT, message);
         messageHistory.enqueue(message);
         playerSelf.model.rotateLeft(elapsedTime);
       },
@@ -415,7 +363,7 @@ MyGame.screens['game-play'] = (function(
           elapsedTime: elapsedTime,
           type: NetworkIds.INPUT_FIRE,
         };
-        socket.emit(NetworkIds.INPUT, message);
+        network.socket.emit(NetworkIds.INPUT, message);
       },
       MyGame.input.KeyEvent.DOM_VK_SPACE,
       false
@@ -430,6 +378,12 @@ MyGame.screens['game-play'] = (function(
   //------------------------------------------------------------------
   function initialize() {
     console.log('game initializing...');
+
+    document
+      .getElementById('id-game-quit')
+      .addEventListener('click', function() {
+        menu.showScreen('main-menu');
+      });
 
     var backgroundKey = 'background';
 
@@ -462,9 +416,11 @@ MyGame.screens['game-play'] = (function(
     run: run,
   };
 })(
+  MyGame.menu,
   MyGame.graphics,
   MyGame.renderer,
   MyGame.input,
   MyGame.components,
-  MyGame.assets
+  MyGame.assets,
+  MyGame.network
 );
