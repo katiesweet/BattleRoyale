@@ -9,11 +9,11 @@ MyGame.renderer.MiniMap = (function(graphics, assets) {
 
   function resizeMap() {
     map.width = Math.min(
-      (window.innerWidth - window.innerHeight + 20) / 2 - 20,
+      (window.innerWidth - window.innerHeight + 20) / 2 - 25,
       window.innerHeight
     );
     map.height = Math.min(
-      (window.innerWidth - window.innerHeight + 20) / 2 - 20,
+      (window.innerWidth - window.innerHeight + 20) / 2 - 25,
       window.innerHeight
     );
   }

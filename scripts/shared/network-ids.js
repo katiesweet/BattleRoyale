@@ -52,12 +52,12 @@
       value: 'update-other',
       writable: false,
     },
-    MISSILE_NEW: {
-      value: 'missile-new',
+    BULLET_NEW: {
+      value: 'bullet-new',
       writable: false,
     },
-    MISSILE_HIT: {
-      value: 'missile-hit',
+    BULLET_HIT: {
+      value: 'bullet-hit',
       writable: false,
     },
   });

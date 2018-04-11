@@ -7,7 +7,7 @@
 
 const present = require('present');
 const Player = require('./player');
-const Missile = require('./missile');
+const Bullet = require('./bullet');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
 
@@ -16,20 +16,20 @@ const STATE_UPDATE_RATE_MS = 100;
 let lastUpdate = 0;
 let quit = false;
 let activeClients = {};
-let newMissiles = [];
-let activeMissiles = [];
+let newBullets = [];
+let activeBullets = [];
 let hits = [];
 let inputQueue = Queue.create();
-let nextMissileId = 1;
+let nextBulletId = 1;
 
 //------------------------------------------------------------------
 //
-// Used to create a missile in response to user input.
+// Used to create a bullet in response to user input.
 //
 //------------------------------------------------------------------
-function createMissile(clientId, playerModel) {
-  let missile = Missile.create({
-    id: nextMissileId++,
+function createBullet(clientId, playerModel) {
+  let bullet = Bullet.create({
+    id: nextBulletId++,
     clientId: clientId,
     position: {
       x: playerModel.position.x,
@@ -39,7 +39,7 @@ function createMissile(clientId, playerModel) {
     speed: playerModel.speed,
   });
 
-  newMissiles.push(missile);
+  newBullets.push(bullet);
 }
 
 //------------------------------------------------------------------
@@ -70,7 +70,7 @@ function processInput(elapsedTime) {
         client.player.rotateRight(input.message.elapsedTime);
         break;
       case NetworkIds.INPUT_FIRE:
-        createMissile(input.clientId, client.player);
+        createBullet(input.clientId, client.player);
         break;
     }
   }
@@ -102,45 +102,45 @@ function update(elapsedTime, currentTime) {
     activeClients[clientId].player.update(currentTime);
   }
 
-  for (let missile = 0; missile < newMissiles.length; missile++) {
-    newMissiles[missile].update(elapsedTime);
+  for (let bullet = 0; bullet < newBullets.length; bullet++) {
+    newBullets[bullet].update(elapsedTime);
   }
 
-  let keepMissiles = [];
-  for (let missile = 0; missile < activeMissiles.length; missile++) {
+  let keepBullets = [];
+  for (let bullet = 0; bullet < activeBullets.length; bullet++) {
     //
-    // If update returns false, that means the missile lifetime ended and
+    // If update returns false, that means the bullet lifetime ended and
     // we don't keep it around any longer.
-    if (activeMissiles[missile].update(elapsedTime)) {
-      keepMissiles.push(activeMissiles[missile]);
+    if (activeBullets[bullet].update(elapsedTime)) {
+      keepBullets.push(activeBullets[bullet]);
     }
   }
-  activeMissiles = keepMissiles;
+  activeBullets = keepBullets;
 
   //
-  // Check to see if any missiles collide with any players (no friendly fire)
-  keepMissiles = [];
-  for (let missile = 0; missile < activeMissiles.length; missile++) {
+  // Check to see if any bullets collide with any players (no friendly fire)
+  keepBullets = [];
+  for (let bullet = 0; bullet < activeBullets.length; bullet++) {
     let hit = false;
     for (let clientId in activeClients) {
       //
-      // Don't allow a missile to hit the player it was fired from.
-      if (clientId !== activeMissiles[missile].clientId) {
-        if (collided(activeMissiles[missile], activeClients[clientId].player)) {
+      // Don't allow a bullet to hit the player it was fired from.
+      if (clientId !== activeBullets[bullet].clientId) {
+        if (collided(activeBullets[bullet], activeClients[clientId].player)) {
           hit = true;
           hits.push({
             clientId: clientId,
-            missileId: activeMissiles[missile].id,
+            bulletId: activeBullets[bullet].id,
             position: activeClients[clientId].player.position,
           });
         }
       }
     }
     if (!hit) {
-      keepMissiles.push(activeMissiles[missile]);
+      keepBullets.push(activeBullets[bullet]);
     }
   }
-  activeMissiles = keepMissiles;
+  activeBullets = keepBullets;
 }
 
 //------------------------------------------------------------------
@@ -158,29 +158,29 @@ function updateClients(elapsedTime) {
   }
 
   //
-  // Build the missile messages one time, then reuse inside the loop
-  let missileMessages = [];
-  for (let item = 0; item < newMissiles.length; item++) {
-    let missile = newMissiles[item];
-    missileMessages.push({
-      id: missile.id,
-      direction: missile.direction,
+  // Build the bullet messages one time, then reuse inside the loop
+  let bulletMessages = [];
+  for (let item = 0; item < newBullets.length; item++) {
+    let bullet = newBullets[item];
+    bulletMessages.push({
+      id: bullet.id,
+      direction: bullet.direction,
       position: {
-        x: missile.position.x,
-        y: missile.position.y,
+        x: bullet.position.x,
+        y: bullet.position.y,
       },
-      radius: missile.radius,
-      speed: missile.speed,
-      timeRemaining: missile.timeRemaining,
+      radius: bullet.radius,
+      speed: bullet.speed,
+      timeRemaining: bullet.timeRemaining,
     });
   }
 
   //
-  // Move all the new missiles over to the active missiles array
-  for (let missile = 0; missile < newMissiles.length; missile++) {
-    activeMissiles.push(newMissiles[missile]);
+  // Move all the new bullets over to the active bullets array
+  for (let bullet = 0; bullet < newBullets.length; bullet++) {
+    activeBullets.push(newBullets[bullet]);
   }
-  newMissiles.length = 0;
+  newBullets.length = 0;
 
   for (let clientId in activeClients) {
     let client = activeClients[clientId];
@@ -205,15 +205,15 @@ function updateClients(elapsedTime) {
     }
 
     //
-    // Report any new missiles to the active clients
-    for (let missile = 0; missile < missileMessages.length; missile++) {
-      client.socket.emit(NetworkIds.MISSILE_NEW, missileMessages[missile]);
+    // Report any new bullets to the active clients
+    for (let bullet = 0; bullet < bulletMessages.length; bullet++) {
+      client.socket.emit(NetworkIds.BULLET_NEW, bulletMessages[bullet]);
     }
 
     //
-    // Report any missile hits to this client
+    // Report any bullet hits to this client
     for (let hit = 0; hit < hits.length; hit++) {
-      client.socket.emit(NetworkIds.MISSILE_HIT, hits[hit]);
+      client.socket.emit(NetworkIds.BULLET_HIT, hits[hit]);
     }
   }
 

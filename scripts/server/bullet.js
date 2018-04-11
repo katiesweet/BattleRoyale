@@ -1,16 +1,16 @@
 // ------------------------------------------------------------------
 //
-// Nodejs module that represents the model for a missile.
+// Nodejs module that represents the model for a bullet.
 //
 // ------------------------------------------------------------------
 'use strict';
 
 //------------------------------------------------------------------
 //
-// Public function used to initially create a newly fired missile.
+// Public function used to initially create a newly fired bullet.
 //
 //------------------------------------------------------------------
-function createMissile(spec) {
+function createBullet(spec) {
   let that = {};
 
   let radius = 0.0025;
@@ -47,7 +47,7 @@ function createMissile(spec) {
 
   //------------------------------------------------------------------
   //
-  // Function used to update the missile during the game loop.
+  // Function used to update the bullet during the game loop.
   //
   //------------------------------------------------------------------
   that.update = function(elapsedTime) {
@@ -69,4 +69,4 @@ function createMissile(spec) {
   return that;
 }
 
-module.exports.create = spec => createMissile(spec);
+module.exports.create = spec => createBullet(spec);

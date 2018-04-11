@@ -1,9 +1,9 @@
 //------------------------------------------------------------------
 //
-// Model for each missile in the game.
+// Model for each bullet in the game.
 //
 //------------------------------------------------------------------
-MyGame.components.Missile = function(spec) {
+MyGame.components.Bullet = function(spec) {
   'use strict';
   let that = {};
 
@@ -22,7 +22,7 @@ MyGame.components.Missile = function(spec) {
   //------------------------------------------------------------------
   //
   // Update the position of the missle.  We don't receive updates from
-  // the server, because the missile moves in a straight line until it
+  // the server, because the bullet moves in a straight line until it
   // explodes.
   //
   //------------------------------------------------------------------

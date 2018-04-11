@@ -42,7 +42,8 @@ MyGame.loader = (function() {
         scripts: [
           'components/player',
           'components/player-remote',
-          'components/missile',
+          'components/bullet',
+          'components/explosion',
           'components/animated-sprite',
           'components/tiled-image',
           'components/viewport',
@@ -69,7 +70,7 @@ MyGame.loader = (function() {
         scripts: [
           'rendering/player',
           'rendering/player-remote',
-          'rendering/missile',
+          'rendering/bullet',
           'rendering/animated-sprite',
           'rendering/tiled-image',
           'rendering/mini-map',
