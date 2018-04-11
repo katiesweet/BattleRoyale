@@ -356,6 +356,10 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
     requestAnimationFrame(gameLoop);
   }
 
+  MyGame.unregisterEvent = function(key, id) {
+    myKeyboard.unregisterHandler(key, id);
+  }
+
   MyGame.registerEvent = function(networkId, keyboardInput, action) {
     let repeat = true;
     if (action == 'fire') {

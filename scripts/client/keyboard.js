@@ -3,7 +3,6 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 
 	var editing = false;
 	var action = '';
-	var keyCode = '';
 	var codes = {};
 
 	function initialize() {
@@ -15,8 +14,10 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 			'move-down': {'input': input.KeyEvent.DOM_VK_DOWN, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
 			'move-right':{'input':  input.KeyEvent.DOM_VK_RIGHT, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
 			'move-left': {'input': input.KeyEvent.DOM_VK_LEFT, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
-			'sprint': {'input': input.KeyEvent.DOM_VK_S, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
+			// 'sprint': {'input': input.KeyEvent.DOM_VK_S, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
 		};
+
+		console.log('INPUT', input);
 
 		document.getElementById('id-keyboard-back').addEventListener(
 			'click',
@@ -32,7 +33,7 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 			window.addEventListener('keydown', keyDown);
 
 			for(var code in codes) {
-				let predef = localstorage.getItem(code);
+				let predef = localStorage.getItem(code);
 				let input = codes[code].input;
 				if (predef) {
 					input = predef;
@@ -46,14 +47,12 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 
 	function keyDown(event) {
 		if (editing && action) {
-			keycode = event.which;
 			editing = false;
-			input.unregister(codes[action], codes[action].id)
-			codes[action].input = keycode;
+			MyGame.unregisterEvent(codes[action], codes[action].id);
+			codes[action].input = event.which;
 			codes[action].id = MyGame.registerEvent(codes[action].network, codes[action].input, action);
-			localstorage.setItem(code, keycode);
-			document.getElementById(action).innerHTML = ('<span>' + input + '</span>');
-
+			localStorage.setItem(action, event.which);
+			document.getElementById(action).innerHTML = ('<span>' + event.which + '</span>');
 			action = '';
 			editing = false;
 		}
@@ -64,6 +63,7 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
   function edit(id) {
 		editing = true;
 		action = id;
+		document.getElementById(id).innerHTML = ('<span> press any key to set the new code </span>');
   }
 
 	return {
