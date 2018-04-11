@@ -1,9 +1,7 @@
 MyGame.screens['lobby'] = (function(menu, network) {
   'use strict';
 
-  function initialize() {
-    network.initialize();
-  }
+  function initialize() {}
 
   function run() {}
 

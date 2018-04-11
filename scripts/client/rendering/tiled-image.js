@@ -29,7 +29,7 @@ MyGame.renderer.TiledImage = (function(graphics, assets) {
   //
   // ------------------------------------------------------------------
   that.render = function(image, viewport) {
-    var tileSizeWorldCoords =
+    let tileSizeWorldCoords =
         image.size.width * (image.tileSize / image.pixel.width),
       oneOverTileSizeWorld = 1 / tileSizeWorldCoords, // Combination of DRY and eliminating a bunch of divisions
       imageWorldXPos = viewport.left,
@@ -47,9 +47,6 @@ MyGame.renderer.TiledImage = (function(graphics, assets) {
       tileRenderYDist,
       tileRenderWorldWidth,
       tileRenderWorldHeight;
-
-    // console.log("One over tile size world", oneOverTileSizeWorld)
-    // console.log("imageWorldYPos", imageWorldYPos)
 
     while (worldYRemain > RENDER_POS_EPISILON) {
       tileLeft = Math.floor(imageWorldXPos * oneOverTileSizeWorld);
@@ -78,8 +75,8 @@ MyGame.renderer.TiledImage = (function(graphics, assets) {
         tileRenderYDist = tileRenderWorldHeight * oneOverTileSizeWorld;
       }
 
-      tileAssetName = `${image.assetKey}-${tileTop * image.tilesX + tileLeft}`;
-      tileAssetName = tileAssetName.replace('--', '-');
+      tileAssetName =
+        image.assetKey + '-' + (tileTop * image.tilesX + tileLeft);
 
       graphics.drawImage(
         assets[tileAssetName],

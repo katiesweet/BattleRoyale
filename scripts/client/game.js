@@ -326,15 +326,14 @@ MyGame.screens['gameplay'] = (function(
 
     //
     // Define the TiledImage model we'll be using for our background.
-    const backgroundKey = 'background';
     background = components.TiledImage({
       pixel: {
-        width: assets[backgroundKey].width,
-        height: assets[backgroundKey].height,
+        width: assets.background.width,
+        height: assets.background.height,
       },
       size: { width: graphics.world.width, height: graphics.world.height },
-      tileSize: assets[backgroundKey].tileSize,
-      assetKey: backgroundKey,
+      tileSize: assets.background.tileSize,
+      assetKey: 'background',
     });
 
     initalizeKeyboard();
