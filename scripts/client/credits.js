@@ -1,18 +1,12 @@
 MyGame.screens['credits'] = (function(menu) {
-	'use strict';
+  'use strict';
 
-	function initialize() {
-    document.getElementById('id-credits-back').addEventListener(
-			'click',
-			function() { menu.showScreen('main-menu'); });
-	}
+  function initialize() {}
 
-	function run() {
+  function run() {}
 
-	}
-
-	return {
-		initialize : initialize,
-		run : run
-	};
-}(MyGame.menu));
+  return {
+    initialize: initialize,
+    run: run,
+  };
+})(MyGame.menu);

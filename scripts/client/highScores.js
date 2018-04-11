@@ -1,13 +1,7 @@
 MyGame.screens['highscores'] = (function(menu) {
   'use strict';
 
-  function initialize() {
-    document
-      .getElementById('id-highscores-back')
-      .addEventListener('click', function() {
-        menu.showScreen('main-menu');
-      });
-  }
+  function initialize() {}
 
   function run() {
     axios

@@ -6,7 +6,7 @@
 	<title>Battle Royale</title>
 	<script src="/node_modules/socket.io-client/dist/socket.io.slim.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua|Roboto" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Jua" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="game.css">
 </head>
 
@@ -30,13 +30,13 @@
 		<div id="main-menu" class="screen">
 			<ul class="menu">
 				<li>
-					<button id="id-new-game">New&nbsp;Game</button>
+					<button data-route="lobby">New&nbsp;Game</button>
 				</li>
 				<li>
-					<button id="id-highscores">Highscores</button>
+					<button data-route="highscores">Highscores</button>
 				</li>
 				<li>
-					<button id="id-credits">About</button>
+					<button data-route="credits">About</button>
 				</li>
 				<li>
 					<button id="id-logout">Logout</button>
@@ -45,8 +45,8 @@
 		</div>
 		<div id="lobby" class="screen">
 			<div class="lobby-actions">
-				<button id="id-lobby-back">Back</button>
-				<button id="id-lobby-start-game">Start Game</button>
+				<button data-route="main-menu">Back</button>
+				<button data-route="gameplay">Start Game</button>
 			</div>
 			<div class="waiting-room">
 				<div class="user-list">
@@ -56,10 +56,6 @@
 				</div>
 				<div class="game-chat">
 					<div class="messages">
-						<div class="message chat-message">
-							<div class="username">user53</div>
-							<p>o</p>
-						</div>
 						<div class="message chat-message">
 							<div class="username">otheruser</div>
 							<p>no u r</p>
@@ -86,7 +82,7 @@
 
 					<ul class="options">
 						<li>
-							<button id="id-game-quit">Quit</button>
+							<button data-route="main-menu">Quit</button>
 						</li>
 					</ul>
 				</div>
@@ -130,7 +126,7 @@
 			<ol id="hs-list" />
 			<ul class="menu">
 				<li>
-					<button id="id-highscores-back">Back</button>
+					<button data-route="main-menu">Back</button>
 				</li>
 			</ul>
 		</div>
@@ -142,7 +138,7 @@
 			<p>Sarah</p>
 			<ul class="menu">
 				<li>
-					<button id="id-credits-back">Back</button>
+					<button data-route="main-menu">Back</button>
 				</li>
 			</ul>
 		</div>

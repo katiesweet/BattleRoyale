@@ -320,26 +320,21 @@ MyGame.screens['gameplay'] = (function(
   function initialize() {
     console.log('game initializing...');
 
-    document
-      .getElementById('id-game-quit')
-      .addEventListener('click', function() {
-        menu.showScreen('main-menu');
-      });
-
     //
     // Get the intial viewport settings prepared.
     graphics.viewport.set(0, 0, 0.25); // The buffer can't really be any larger than world.buffer, guess I could protect against that.
 
     //
     // Define the TiledImage model we'll be using for our background.
+    const backgroundKey = 'background';
     background = components.TiledImage({
       pixel: {
-        width: assets.background.width,
-        height: assets.background.height,
+        width: assets[backgroundKey].width,
+        height: assets[backgroundKey].height,
       },
       size: { width: graphics.world.width, height: graphics.world.height },
-      tileSize: assets.background.tileSize,
-      assetKey: 'background',
+      tileSize: assets[backgroundKey].tileSize,
+      assetKey: backgroundKey,
     });
 
     initalizeKeyboard();
