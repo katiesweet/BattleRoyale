@@ -413,6 +413,8 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
           type: NetworkIds.INPUT_FIRE,
         };
         socket.emit(NetworkIds.INPUT, message);
+        MyGame.assets['kaboom'].currentTime = 0;
+        MyGame.assets['kaboom'].play();
       },
       MyGame.input.KeyEvent.DOM_VK_SPACE,
       false
