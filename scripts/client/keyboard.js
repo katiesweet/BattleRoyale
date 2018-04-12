@@ -122,7 +122,6 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
 			// 'sprint': {'input': input.KeyEvent.DOM_VK_S, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
 		};
 
-		console.log('INPUT', input);
 
 		document.getElementById('id-keyboard-back').addEventListener(
 			'click',
