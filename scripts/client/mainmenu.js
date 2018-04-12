@@ -14,6 +14,10 @@ MyGame.screens['main-menu'] = (function(menu) {
         menu.showScreen('highscores');
       });
 
+		document.getElementById('id-keyboard-config').addEventListener(
+			'click',
+			function() {menu.showScreen('keyboard-config'); });
+
     document.getElementById('id-credits').addEventListener('click', function() {
       menu.showScreen('credits');
     });
