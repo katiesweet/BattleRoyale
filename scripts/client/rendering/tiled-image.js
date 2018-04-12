@@ -77,13 +77,20 @@ MyGame.renderer.TiledImage = (function(graphics, assets) {
 				tileRenderYDist = tileRenderWorldHeight * oneOverTileSizeWorld;
 			}
 
-            tileAssetName = image.assetKey + '-' + (tileTop * image.tilesX + tileLeft);
-			graphics.drawImage(
-				assets[tileAssetName],
-				tileRenderXStart * image.tileSize, tileRenderYStart * image.tileSize,
-				tileRenderXDist * image.tileSize, tileRenderYDist * image.tileSize,
-				renderPosX, renderPosY,
-				tileRenderWorldWidth, tileRenderWorldHeight);
+			// Definitions:
+			// tileTop : y grid coordinate
+			// tileLeft : x grid coordinate
+			// Image.tilesX : 15 (number of tiles per row)
+
+			if (tileTop >= 0 && tileTop < 15 && tileLeft >= 0 && tileLeft < 15){
+				tileAssetName = image.assetKey + '-' + (tileTop * image.tilesX + tileLeft);
+				graphics.drawImage(
+					assets[tileAssetName],
+					tileRenderXStart * image.tileSize, tileRenderYStart * image.tileSize,
+					tileRenderXDist * image.tileSize, tileRenderYDist * image.tileSize,
+					renderPosX, renderPosY,
+					tileRenderWorldWidth, tileRenderWorldHeight);
+			}
 
 			imageWorldXPos += tileRenderWorldWidth;
 			renderPosX += tileRenderWorldWidth;

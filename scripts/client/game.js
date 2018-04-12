@@ -19,6 +19,7 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
     playerSelf = {
       model: components.Player(),
       texture: MyGame.assets['player-self'],
+      spritesheet: MyGame.assets['player-self-spritesheet']
     },
     playerOthers = {},
     missiles = {},
@@ -323,7 +324,7 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
     renderer.TiledImage.render(background, graphics.viewport)
     renderer.MiniMap.render(playerSelf.model)
 
-    renderer.Player.render(playerSelf.model, playerSelf.texture);
+    renderer.Player.render(playerSelf.model, playerSelf.spritesheet);
     // graphics.drawImage(playerSelf.texture);
     for (let id in playerOthers) {
       let player = playerOthers[id];

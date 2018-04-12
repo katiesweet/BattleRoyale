@@ -12,7 +12,6 @@ MyGame.renderer.MiniMap = (function(graphics, assets) {
         context.beginPath();
         context.arc(model.position.x*10, model.position.y*10, 2, 0, 2*Math.PI);
         context.fill();
-        // context.drawCircle('rgb(255,0,0)', (model.position.x*10, model.position.y*10), 10)
     }
     return that;
 })(MyGame.graphics, MyGame.assets);

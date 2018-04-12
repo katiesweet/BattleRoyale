@@ -12,9 +12,7 @@ MyGame.graphics = (function() {
   var world = {	// The size of the world must match the world-size of the background image
     get left() { return 0; },
     get top() { return 0; },
-    // get width() { return 4.375; },
     get width() {return 15; },
-    // get height() { return 2.5; },
     get height() {return 15;},
     get bufferSize() { return 0.25; },
     get size() {return 600;}
@@ -137,7 +135,17 @@ MyGame.graphics = (function() {
       sWidth, sHeight,
 			Math.floor(dx * world.size + world.left), Math.floor(dy * world.size + world.top),
     	Math.ceil(dWidth * world.size), Math.ceil(dHeight * world.size));
-	}
+  }
+  
+  function drawSimpleImage(image, sx, sy, swidth, sheight) {
+    context.drawImage(
+      image,
+      sx, sy,
+      swidth, sheight,
+      0, 0,
+      128, 128
+    )
+  }
 
   //------------------------------------------------------------------
   //
@@ -179,8 +187,60 @@ MyGame.graphics = (function() {
 			radius * world.size,
 			0, 2 * Math.PI);
 		context.fill();
+  }
+  
+  	//------------------------------------------------------------------
+	//
+	// Draws a rectangle relative to the 'unit world'.
+	//
+	//------------------------------------------------------------------
+	function drawRectangle(style, left, top, width, height, useViewport) {
+		var adjustLeft = (useViewport === true) ? viewport.left : 0,
+			adjustTop = (useViewport === true) ? viewport.top : 0;
+
+		//
+		// 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
+		context.strokeStyle = style;
+		context.strokeRect(
+			0.5 + world.left + ((left - adjustLeft) * world.size),
+			0.5 + world.top + ((top - adjustTop) * world.size),
+			width * world.size,
+			height * world.size);
 	}
 
+  	//------------------------------------------------------------------
+	//
+	// Draws a filled rectangle relative to the 'unit world'.
+	//
+	//------------------------------------------------------------------
+	function drawFilledRectangle(style, left, top, width, height, useViewport) {
+		var adjustLeft = (useViewport === true) ? viewport.left : 0,
+			adjustTop = (useViewport === true) ? viewport.top : 0;
+
+		//
+		// 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
+		context.fillStyle = style;
+		context.fillRect(
+			0.5 + world.left + ((left - adjustLeft) * world.size),
+			0.5 + world.top + ((top - adjustTop) * world.size),
+			width * world.size,
+			height * world.size);
+  }
+
+  function fillText(color, font, text, left, top, maxWidth, useViewport) {
+		var adjustLeft = (useViewport === true) ? viewport.left : 0,
+			adjustTop = (useViewport === true) ? viewport.top : 0;
+
+    context.fillStyle = color;
+    context.font = font;
+    context.textAlign = 'center'
+    context.fillText(
+      text,
+      0.5 + world.left + ((left - adjustLeft) * world.size),
+      0.5 + world.top + ((top - adjustTop) * world.size),
+      maxWidth * world.size);
+  }
+  
   return {
     clear: clear,
     saveContext: saveContext,
@@ -189,7 +249,11 @@ MyGame.graphics = (function() {
     drawImage: drawImage,
     drawImageSpriteSheet: drawImageSpriteSheet,
     drawCircle: drawCircle,
+    drawRectangle: drawRectangle,
+    drawFilledRectangle: drawFilledRectangle,
+    fillText: fillText,
     world: world,
-    viewport: viewport
+    viewport: viewport,
+    drawSimpleImage: drawSimpleImage
   };
 })();

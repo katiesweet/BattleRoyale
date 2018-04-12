@@ -46,7 +46,11 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
-        scripts: ['menuSystem', 'mainmenu', 'credits', 'highScores', 'login'],
+        scripts: ['menuSystem'],
+        message: "Main menu loaded"
+      },
+      {
+        scripts: ['mainmenu', 'credits', 'highScores', 'login'],
         message: 'All menus loaded',
         onComplete: null,
       },
@@ -81,6 +85,10 @@ MyGame.loader = (function() {
       {
         key: 'mini-map',
         source: 'assets/miniMap.png'
+      },
+      {
+        key: 'player-self-spritesheet',
+        source: 'assets/cowboy.png',
       },
       {
         key: 'player-self',
