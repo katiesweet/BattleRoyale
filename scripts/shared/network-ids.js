@@ -60,14 +60,6 @@
       value: 'bullet-hit',
       writable: false,
     },
-    CHAT_CONNECT: {
-      value: 'chat-connect',
-      writable: false,
-    },
-    CHAT_DISCONNECT: {
-      value: 'chat-disconnect',
-      writable: false,
-    },
     CHAT_MESSAGE_CREATE: {
       value: 'chat-message-create',
       writable: false,

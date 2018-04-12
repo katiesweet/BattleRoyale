@@ -10,6 +10,8 @@ const Player = require('./player');
 const Bullet = require('./bullet');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
+const socketIo = require('socket.io');
+const socketIoJwt = require('socketio-jwt');
 
 const SIMULATION_UPDATE_RATE_MS = 50;
 const STATE_UPDATE_RATE_MS = 100;
@@ -255,104 +257,56 @@ function gameLoop(currentTime, elapsedTime) {
 //
 //------------------------------------------------------------------
 function initializeSocketIO(httpServer) {
-  let io = require('socket.io')(httpServer);
+  const io = socketIo(httpServer);
 
-  //------------------------------------------------------------------
-  //
-  // Notifies the already connected clients about the arrival of this
-  // new client.  Plus, tell the newly connected client about the
-  // other players already connected.
-  //
-  //------------------------------------------------------------------
-  function notifyConnect(socket, newPlayer) {
-    for (let clientId in activeClients) {
-      let client = activeClients[clientId];
-      if (newPlayer.clientId !== clientId) {
-        //
-        // Tell existing about the newly connected player
-        client.socket.emit(NetworkIds.CONNECT_OTHER, {
-          clientId: newPlayer.clientId,
-          direction: newPlayer.direction,
-          position: newPlayer.position,
-          rotateRate: newPlayer.rotateRate,
-          speed: newPlayer.speed,
-          size: newPlayer.size,
-        });
-
-        //
-        // Tell the new player about the already connected player
-        socket.emit(NetworkIds.CONNECT_OTHER, {
-          clientId: client.player.clientId,
-          direction: client.player.direction,
-          position: client.player.position,
-          rotateRate: client.player.rotateRate,
-          speed: client.player.speed,
-          size: client.player.size,
-        });
-      }
-    }
-  }
-
-  //------------------------------------------------------------------
-  //
-  // Notifies the already connected clients about the disconnect of
-  // another client.
-  //
-  //------------------------------------------------------------------
-  function notifyDisconnect(playerId) {
-    for (let clientId in activeClients) {
-      let client = activeClients[clientId];
-      if (playerId !== clientId) {
-        client.socket.emit(NetworkIds.DISCONNECT_OTHER, {
-          clientId: playerId,
-        });
-      }
-    }
-  }
+  io.use(
+    socketIoJwt.authorize({
+      secret: process.env.SECRET_KEY,
+      handshake: true,
+    })
+  );
 
   io.on('connection', function(socket) {
     console.log('Connection established: ', socket.id);
     //
     // Create an entry in our list of connected clients
-    let newPlayer = Player.create();
-    newPlayer.clientId = socket.id;
-    activeClients[socket.id] = {
-      socket: socket,
-      player: newPlayer,
-    };
+    const { username } = socket.decoded_token;
+    const newPlayer = Player.create(username, socket.id);
+    const otherPlayers = [];
+
+    for (let clientId in activeClients) {
+      const client = activeClients[clientId];
+
+      if (client.hasOwnProperty('player')) {
+        otherPlayers.push(client.player.toJSON());
+      }
+    }
+
+    socket.broadcast.emit(NetworkIds.CONNECT_OTHER, newPlayer.toJSON());
     socket.emit(NetworkIds.CONNECT_ACK, {
-      direction: newPlayer.direction,
-      position: newPlayer.position,
-      size: newPlayer.size,
-      rotateRate: newPlayer.rotateRate,
-      speed: newPlayer.speed,
+      player: newPlayer.toJSON(),
+      otherPlayers,
     });
 
     socket.on(NetworkIds.INPUT, data => {
-      inputQueue.enqueue({
-        clientId: socket.id,
-        message: data,
-      });
+      inputQueue.enqueue({ clientId: socket.id, message: data });
     });
 
     socket.on(NetworkIds.CHAT_MESSAGE_CREATE, data => {
       io.emit(NetworkIds.CHAT_MESSAGE_NEW, data);
     });
 
-    socket.on(NetworkIds.CHAT_CONNECT, data => {
-      io.emit(NetworkIds.CHAT_CONNECT, data);
-    });
-
-    socket.on(NetworkIds.CHAT_DISCONNECT, data => {
-      io.emit(NetworkIds.CHAT_DISCONNECT, data);
-    });
-
     socket.on('disconnect', function() {
       delete activeClients[socket.id];
-      notifyDisconnect(socket.id);
+      socket.broadcast.emit(NetworkIds.DISCONNECT_OTHER, {
+        clientId: socket.id,
+      });
     });
 
-    notifyConnect(socket, newPlayer);
+    activeClients[socket.id] = {
+      socket: socket,
+      player: newPlayer,
+    };
   });
 }
 

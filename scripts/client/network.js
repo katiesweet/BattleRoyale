@@ -1,32 +1,42 @@
 MyGame.network = (function() {
   'use strict';
 
-  const socket = io();
+  let socket;
   let queue = Queue.create();
   let history = Queue.create();
   let messageId = 0;
 
-  let networkEvents = [
-    NetworkIds.CONNECT_ACK,
-    NetworkIds.CONNECT_OTHER,
-    NetworkIds.DISCONNECT_OTHER,
-    NetworkIds.UPDATE_SELF,
-    NetworkIds.UPDATE_OTHER,
-    NetworkIds.BULLET_NEW,
-    NetworkIds.BULLET_HIT,
-  ];
+  function connect() {
+    const token = localStorage.getItem('token');
+    socket = io.connect('', { query: `token=${token}` });
 
-  networkEvents.forEach(event =>
-    listen(event, data => {
-      queue.enqueue({
-        type: event,
-        data: data,
-      });
-    })
-  );
+    const networkEvents = [
+      NetworkIds.CONNECT_ACK,
+      NetworkIds.CONNECT_OTHER,
+      NetworkIds.DISCONNECT_OTHER,
+      NetworkIds.UPDATE_SELF,
+      NetworkIds.UPDATE_OTHER,
+      NetworkIds.BULLET_NEW,
+      NetworkIds.BULLET_HIT,
+    ];
+
+    networkEvents.forEach(event =>
+      listen(event, data => {
+        queue.enqueue({
+          type: event,
+          data: data,
+        });
+      })
+    );
+  }
+
+  function disconnect() {
+    socket.close();
+    socket = null;
+  }
 
   function emit(...args) {
-    return socket.emit(...args);
+    socket.emit(...args);
   }
 
   function listen(networkId, callback) {
@@ -42,9 +52,11 @@ MyGame.network = (function() {
   }
 
   return {
+    history,
+    connect,
+    disconnect,
     emit,
     listen,
-    history,
     getQueue,
     resetQueue,
     enqueue: queue.enqueue,

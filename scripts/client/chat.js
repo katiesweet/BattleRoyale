@@ -1,37 +1,49 @@
 MyGame.chat = (function(network) {
   'use strict';
 
-  function connect() {
-    console.log('connect');
-    const username = localStorage.getItem('username');
-    network.emit(NetworkIds.CHAT_CONNECT, { username });
-  }
-
-  function disconnect() {
-    const username = localStorage.getItem('username');
-    network.emit(NetworkIds.CHAT_DISCONNECT, { username });
-  }
-
   function sendMessage(message) {
     const username = localStorage.getItem('username');
     network.emit(NetworkIds.CHAT_MESSAGE_CREATE, { username, message });
   }
 
   function initializeLobby() {
+    network.connect();
+
     const sendButton = document.getElementById('lobby-send-message');
+    const newMessage = document.getElementById('lobby-new-message');
 
     sendButton.addEventListener('click', function() {
       const message = document.getElementById('lobby-new-message');
+
+      if (message.value === '') {
+        return;
+      }
+
       sendMessage(message.value);
       message.value = '';
     });
 
-    network.listen(NetworkIds.CHAT_CONNECT, data => {
-      renderNewUser(data);
+    newMessage.addEventListener('keypress', function(e) {
+      if (e.which === 13) {
+        sendButton.click();
+        e.preventDefault();
+      }
     });
 
-    network.listen(NetworkIds.CHAT_DISCONNECT, data => {
-      removeUser(data);
+    network.listen(NetworkIds.CONNECT_ACK, ({ player, otherPlayers }) => {
+      console.log('player', player);
+      console.log('other', otherPlayers);
+      renderPlayerList([player, ...otherPlayers]);
+    });
+
+    network.listen(NetworkIds.CONNECT_OTHER, player => {
+      console.log('other connected', player);
+      addPlayer(player);
+    });
+
+    network.listen(NetworkIds.DISCONNECT_OTHER, player => {
+      console.log('other disconnected', player);
+      removePlayer(player);
     });
 
     network.listen(NetworkIds.CHAT_MESSAGE_NEW, data => {
@@ -45,33 +57,54 @@ MyGame.chat = (function(network) {
 
   function initializeGame() {
     const sendButton = document.getElementById('game-send-message');
+    const newMessage = document.getElementById('game-new-message');
 
     sendButton.addEventListener('click', function() {
       const message = document.getElementById('game-new-message');
+
+      if (message.value === '') {
+        return;
+      }
+
       sendMessage(message.value);
       message.value = '';
+    });
+
+    newMessage.addEventListener('keypress', function(e) {
+      if (e.which === 13) {
+        sendButton.click();
+        e.preventDefault();
+      }
     });
 
     network.listen(NetworkIds.CHAT_MESSAGE_NEW, renderChatMessage);
     network.listen(NetworkIds.GAME_MESSAGE_NEW, renderGameMessage);
   }
 
-  function renderNewUser(data) {
-    const userList = document.getElementById('lobby-user-list');
-    const user = document.createElement('div');
+  function addPlayer({ clientId, username }) {
+    const playerList = document.getElementById('lobby-player-list');
+    const player = document.createElement('div');
 
-    user.className = 'user';
-    user.id = `userlist-$${data.username}`;
-    user.innerHTML = data.username;
+    player.className = 'player';
+    player.id = `playerlist-$${clientId}`;
+    player.innerHTML = username;
 
-    userList.appendChild(user);
+    playerList.appendChild(player);
   }
 
-  function removeUser(data) {
-    const userList = document.getElementById('lobby-user-list');
-    const user = document.getElementById(`userlist-$${data.username}`);
+  function removePlayer({ clientId }) {
+    const playerList = document.getElementById('lobby-player-list');
+    const player = document.getElementById(`playerlist-$${clientId}`);
 
-    userList.removeChild(user);
+    playerList.removeChild(player);
+  }
+
+  function renderPlayerList(players) {
+    const playerList = document.getElementById('lobby-player-list');
+
+    playerList.innerHTML = '';
+
+    players.forEach(player => addPlayer(player));
   }
 
   function renderChatMessage(data, lobby = false) {
@@ -116,8 +149,6 @@ MyGame.chat = (function(network) {
   }
 
   return {
-    connect,
-    disconnect,
     sendMessage,
     initializeGame,
     initializeLobby,

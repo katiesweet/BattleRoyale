@@ -1,16 +1,21 @@
-MyGame.screens['lobby'] = (function(chat) {
+MyGame.screens['lobby'] = (function(menu, chat, network) {
   'use strict';
 
   function initialize() {
-    chat.initializeLobby();
+    document
+      .getElementById('lobby-back-btn')
+      .addEventListener('click', function() {
+        menu.showScreen('main-menu');
+        network.disconnect();
+      });
   }
 
   function run() {
-    chat.connect();
+    chat.initializeLobby();
   }
 
   return {
     initialize: initialize,
     run: run,
   };
-})(MyGame.chat);
+})(MyGame.menu, MyGame.chat, MyGame.network);

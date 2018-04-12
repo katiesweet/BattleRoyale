@@ -107,6 +107,35 @@ button:active {
   margin-top: 100px;
 }
 
+.normal-font {
+  font-size: 18px;
+}
+
+.centered {
+  text-align: center;
+}
+
+.normal-button {
+  font-size: 0.9em;
+  width: 8em;
+  height: 2em;
+  margin: 5px;
+  margin-right: 20px;
+}
+
+.back-button {
+  width: 212px;
+  height: 120px;
+  background: url('./assets/back_button.png') !important;
+  background-size: 100% 100% !important;
+  border: none;
+  opacity: 1;
+}
+
+.back-button:hover {
+  opacity: 0.95;
+}
+
 ul.menu {
   text-align: center;
   padding: 0;
@@ -123,13 +152,29 @@ ul.menu > li {
   text-align: center;
 }
 
+.screen > .center {
+  width: 60%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.screen > .center > p {
+  margin: 1.25rem;
+}
+
 #highscores > ol {
   text-align: center;
   padding: 0;
   margin: 0;
   list-style: none;
-  height: 470px;
+  height: 280px;
   overflow: scroll;
+}
+
+#highscores > ol > li {
+  padding: 0.5rem 0;
 }
 
 #game > div > p {
@@ -196,6 +241,7 @@ ul.menu > li {
 
 .game-container > .game-menu {
   width: calc((100vw - 100vh + 20px) / 2);
+  min-width: 100px;
   height: 100vh;
   background-color: saddlebrown;
   position: relative;
@@ -208,6 +254,7 @@ ul.menu > li {
 
 .game-container > .game-chat {
   width: calc((100vw - 100vh + 20px) / 2);
+  min-width: 100px;
   background-color: saddlebrown;
   height: 100vh;
 }
@@ -295,10 +342,21 @@ ul.menu > li {
   color: #1c1c1c;
 }
 
-.game-chat > .new-message > textarea {
+.game-chat > .new-message {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.game-chat > .new-message > .input {
   width: 65%;
-  position: absolute;
-  bottom: 10px;
+  margin-right: 0.5rem;
+}
+
+.game-chat > .new-message > .input > textarea {
+  height: 40px;
+  width: 100%;
   font-size: 16px;
   border-radius: 4px;
   line-height: 1.5;
@@ -308,16 +366,14 @@ ul.menu > li {
   background-color: #dddddd;
 }
 
-.game-chat > .new-message > textarea:focus {
+.game-chat > .new-message > .input > textarea:focus {
   background-color: white;
   outline: none;
 }
 
 .game-chat > .new-message > button {
-  position: absolute;
-  bottom: 10px;
-  right: 5px;
-  width: 30%;
+  height: 40px;
+  width: 35%;
   padding: 8px 0;
   font-size: 16px;
   border-radius: 4px;
@@ -341,7 +397,7 @@ ul.menu > li {
 
 .lobby-actions {
   margin: 50px auto 0;
-  width: 810px;
+  width: 800px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -353,7 +409,7 @@ ul.menu > li {
 
 .waiting-room {
   margin: 10px auto 0;
-  width: 810px;
+  width: 800px;
   background-color: saddlebrown;
   display: flex;
   flex-direction: row;
@@ -362,13 +418,13 @@ ul.menu > li {
   border-radius: 4px;
 }
 
-.waiting-room > .user-list {
+.waiting-room > .player-list {
   width: 200px;
   padding: 10px;
   border-right: 2px solid #2e2e2e;
 }
 
-.waiting-room > .user-list > h2 {
+.waiting-room > .player-list > h2 {
   color: #ececec;
   font-size: 20px;
   margin: 0 0 10px;
@@ -377,14 +433,20 @@ ul.menu > li {
   border-bottom: 2px solid #ececec;
 }
 
-.waiting-room > .user-list > .user {
+.waiting-room > .player-list > .players {
+  width: 100%;
+  height: calc(100% - 100px);
+  overflow: scroll;
+}
+
+.waiting-room > .player-list > .players > .player {
   color: #ececec;
   font-size: 16px;
   position: relative;
   padding: 0 0 10px 20px;
 }
 
-.waiting-room > .user-list > .user::before {
+.waiting-room > .player-list > .players > .player::before {
   content: '•';
   color: #38bb00;
   font-size: 32px;

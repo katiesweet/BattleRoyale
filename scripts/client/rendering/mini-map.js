@@ -8,14 +8,8 @@ MyGame.renderer.MiniMap = (function(graphics, assets) {
   resizeMap();
 
   function resizeMap() {
-    map.width = Math.min(
-      (window.innerWidth - window.innerHeight + 20) / 2 - 25,
-      window.innerHeight
-    );
-    map.height = Math.min(
-      (window.innerWidth - window.innerHeight + 20) / 2 - 25,
-      window.innerHeight
-    );
+    const size = (window.innerWidth - window.innerHeight + 20) / 2 - 25;
+    map.width = map.height = Math.max(80, size);
   }
 
   that.render = function(model) {

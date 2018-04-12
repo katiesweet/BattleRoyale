@@ -35,6 +35,9 @@
 					<button data-route="lobby">New&nbsp;Game</button>
 				</li>
 				<li>
+					<button data-route="keyboard-config">Configure&nbsp;Keyboard</button>
+				</li>
+				<li>
 					<button data-route="highscores">Highscores</button>
 				</li>
 				<li>
@@ -47,18 +50,21 @@
 		</div>
 		<div id="lobby" class="screen">
 			<div class="lobby-actions">
-				<button data-route="main-menu">Back</button>
+				<button id="lobby-back-btn">Back</button>
 				<button data-route="gameplay">Start Game</button>
 			</div>
 			<div class="waiting-room">
-				<div id="lobby-user-list" class="user-list">
+				<div class="player-list">
 					<h2>Players</h2>
+					<div id="lobby-player-list" class="players"></div>
 				</div>
 				<div class="game-chat">
 					<div id="lobby-message-list" class="messages"></div>
 
 					<div class="new-message">
-						<textarea id="lobby-new-message" rows="1"></textarea>
+						<div class="input">
+							<textarea id="lobby-new-message" rows="1"></textarea>
+						</div>
 						<button id="lobby-send-message" class="send-message-btn">Send</button>
 					</div>
 				</div>
@@ -73,7 +79,7 @@
 
 					<ul class="options">
 						<li>
-							<button data-route="main-menu">Quit</button>
+							<button id="game-quit-btn">Quit</button>
 						</li>
 					</ul>
 				</div>
@@ -84,30 +90,88 @@
 					<div id="game-message-list" class="messages"></div>
 
 					<div class="new-message">
-						<textarea id="game-new-message" rows="1"></textarea>
+						<div class="input">
+							<textarea id="game-new-message" rows="1"></textarea>
+						</div>
 						<button id="game-send-message" class="send-message-btn">Send</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div id="highscores" class="screen">
-			<h1>Highscores</h1>
-			<ol id="hs-list" />
+		<div id="keyboard-config" class="screen">
+			<div class="centered">
+				<label>Keyboard Configuration</label>
+				<p>Click on any action to edit the key it corresponds to.
+					<table class="config" align="center">
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="fire-config">Fire</button>
+							</td>
+							<td class="normal-font" id="fire"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="rotate-left-config">Rotate Left</button>
+							</td>
+							<td class="normal-font" id="rotate-left"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="rotate-right-config">Rotate Right</button>
+							</td>
+							<td class="normal-font" id="rotate-right"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="move-left-config">Move Left</button>
+							</td>
+							<td class="normal-font" id="move-left"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="move-right-config">Move Right</button>
+							</td>
+							<td class="normal-font" id="move-right"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="move-up-config">Move Up</button>
+							</td>
+							<td class="normal-font" id="move-up"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="move-down-config">Move Down</button>
+							</td>
+							<td class="normal-font" id="move-down"> {shortcut goes here} </td>
+						</tr>
+					</table>
+			</div>
 			<ul class="menu">
 				<li>
-					<button data-route="main-menu">Back</button>
+					<button class="back-button" data-route="main-menu"></button>
+				</li>
+			</ul>
+		</div>
+		<div id="highscores" class="screen">
+			<h1>High Scores</h1>
+			<ol id="hs-list"></ol>
+			<ul class="menu">
+				<li>
+					<button class="back-button" data-route="main-menu"></button>
 				</li>
 			</ul>
 		</div>
 		<div id="credits" class="screen">
-			<h1>About</h1>
-			<p>Developed by</p>
-			<p>Katie</p>
-			<p>Adam</p>
-			<p>Sarah</p>
+			<h1>Developed by</h1>
+			<div class="center">
+				<p>Katie</p>
+				<p>Adam</p>
+				<p>Sarah</p>
+			</div>
 			<ul class="menu">
 				<li>
-					<button data-route="main-menu">Back</button>
+					<button class="back-button" data-route="main-menu"></button>
 				</li>
 			</ul>
 		</div>

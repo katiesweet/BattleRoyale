@@ -4,6 +4,8 @@ const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+process.env.SECRET_KEY = 'super secret key';
+
 const game = require('./scripts/server/game');
 const routes = require('./scripts/server/routes');
 const db = require('./scripts/server/database');

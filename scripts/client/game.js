@@ -150,7 +150,7 @@ MyGame.screens['gameplay'] = (function(
 
       switch (message.type) {
         case NetworkIds.CONNECT_ACK:
-          connectPlayerSelf(message.data);
+          connectPlayerSelf(message.data.player);
           break;
         case NetworkIds.CONNECT_OTHER:
           connectPlayerOther(message.data);
@@ -247,68 +247,38 @@ MyGame.screens['gameplay'] = (function(
     requestAnimationFrame(gameLoop);
   }
 
-  // Register keyboard
-  function initalizeKeyboard() {
-    //
-    // Create the keyboard input handler and register the keyboard commands
-    myKeyboard.registerHandler(
+  MyGame.unregisterEvent = function(key, id) {
+    myKeyboard.unregisterHandler(key, id);
+  };
+
+  MyGame.registerEvent = function(networkId, keyboardInput, action) {
+    let repeat = true;
+    if (action == 'fire') {
+      repeat = false;
+    }
+    let id = myKeyboard.registerHandler(
       elapsedTime => {
         let message = {
           id: network.messageId++,
           elapsedTime: elapsedTime,
-          type: NetworkIds.INPUT_MOVE,
+          type: networkId,
         };
         network.emit(NetworkIds.INPUT, message);
         network.history.enqueue(message);
-        playerSelf.model.move(elapsedTime);
-      },
-      input.KeyEvent.DOM_VK_W,
-      true
-    );
 
-    myKeyboard.registerHandler(
-      elapsedTime => {
-        let message = {
-          id: network.messageId++,
-          elapsedTime: elapsedTime,
-          type: NetworkIds.INPUT_ROTATE_RIGHT,
-        };
-        network.emit(NetworkIds.INPUT, message);
-        network.history.enqueue(message);
-        playerSelf.model.rotateRight(elapsedTime);
+        if (action.indexOf('move') >= 0) {
+          playerSelf.model.move(elapsedTime);
+        } else if (action == 'rotate-right') {
+          playerSelf.model.rotateRight(elapsedTime);
+        } else if (action == 'rotate-left') {
+          playerSelf.model.rotateLeft(elapsedTime);
+        }
       },
-      input.KeyEvent.DOM_VK_D,
-      true
+      keyboardInput,
+      repeat
     );
-
-    myKeyboard.registerHandler(
-      elapsedTime => {
-        let message = {
-          id: network.messageId++,
-          elapsedTime: elapsedTime,
-          type: NetworkIds.INPUT_ROTATE_LEFT,
-        };
-        network.emit(NetworkIds.INPUT, message);
-        network.history.enqueue(message);
-        playerSelf.model.rotateLeft(elapsedTime);
-      },
-      input.KeyEvent.DOM_VK_A,
-      true
-    );
-
-    myKeyboard.registerHandler(
-      elapsedTime => {
-        let message = {
-          id: network.messageId++,
-          elapsedTime: elapsedTime,
-          type: NetworkIds.INPUT_FIRE,
-        };
-        network.emit(NetworkIds.INPUT, message);
-      },
-      input.KeyEvent.DOM_VK_SPACE,
-      false
-    );
-  }
+    return id;
+  };
 
   //------------------------------------------------------------------
   //
@@ -319,7 +289,12 @@ MyGame.screens['gameplay'] = (function(
   function initialize() {
     console.log('game initializing...');
 
-    chat.initializeGame();
+    document
+      .getElementById('game-quit-btn')
+      .addEventListener('click', function() {
+        menu.showScreen('main-menu');
+        network.disconnect();
+      });
 
     //
     // Get the intial viewport settings prepared.
@@ -336,11 +311,11 @@ MyGame.screens['gameplay'] = (function(
       tileSize: assets.background.tileSize,
       assetKey: 'background',
     });
-
-    initalizeKeyboard();
   }
 
   function run() {
+    chat.initializeGame();
+
     lastTimeStamp = performance.now();
     requestAnimationFrame(gameLoop);
   }

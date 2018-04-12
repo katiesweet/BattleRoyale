@@ -10,6 +10,8 @@ MyGame.screens['highscores'] = (function(menu) {
         const highscores = data;
         const hsList = document.getElementById('hs-list');
 
+        hsList.innerHTML = '';
+
         for (let i = 0; i < highscores.length; i++) {
           const listItem = document.createElement('li');
           const { username, highscore } = highscores[i];

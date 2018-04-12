@@ -62,7 +62,14 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
-        scripts: ['mainmenu', 'lobby', 'credits', 'highScores', 'login'],
+        scripts: [
+          'mainmenu',
+          'lobby',
+          'credits',
+          'highScores',
+          'login',
+          'keyboard',
+        ],
         message: 'All menus loaded',
         onComplete: null,
       },
