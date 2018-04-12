@@ -272,6 +272,9 @@ MyGame.screens['gameplay'] = (function(
           playerSelf.model.rotateRight(elapsedTime);
         } else if (action == 'rotate-left') {
           playerSelf.model.rotateLeft(elapsedTime);
+        } else if (action == 'fire') {
+          MyGame.assets['kaboom'].currentTime = 0;
+          MyGame.assets['kaboom'].play();
         }
       },
       keyboardInput,
