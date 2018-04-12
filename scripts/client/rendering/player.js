@@ -28,7 +28,7 @@ MyGame.renderer.Player = (function(graphics) {
     //                   true);
     graphics.drawImage(spritesheet,
                       model.walkingAnimationNumber * 128,
-                      currSprite_y,
+                      model.rotateAnimationNumber * 128,
                       128,
                       128,
                       model.position.x - model.size.width/2,
