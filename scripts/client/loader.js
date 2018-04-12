@@ -94,6 +94,14 @@ MyGame.loader = (function() {
         key: 'explosion',
         source: 'assets/explosion.png',
       },
+      {
+        key: 'kaboom', // for shooting a gun
+        source:'assets/rumble.mp3',
+      },
+      {
+        key: 'boom', // for when someone is hit/explosions
+        source:'assets/DeathFlash.mp3',
+      }
     ];
 	//------------------------------------------------------------------
 	//
