@@ -54,10 +54,10 @@ MyGame.components.PlayerRemote = function() {
   };
 
   that.updateGoal = function(spec) {
-    goal.updateWindow = data.updateWindow;
-    goal.position.x = data.position.x;
-    goal.position.y = data.position.y;
-    goal.direction = data.direction;
+    goal.updateWindow = spec.updateWindow;
+    goal.position.x = spec.position.x;
+    goal.position.y = spec.position.y;
+    goal.direction = spec.direction;
   };
 
   //------------------------------------------------------------------

@@ -60,5 +60,25 @@
       value: 'bullet-hit',
       writable: false,
     },
+    CHAT_CONNECT: {
+      value: 'chat-connect',
+      writable: false,
+    },
+    CHAT_DISCONNECT: {
+      value: 'chat-disconnect',
+      writable: false,
+    },
+    CHAT_MESSAGE_CREATE: {
+      value: 'chat-message-create',
+      writable: false,
+    },
+    CHAT_MESSAGE_NEW: {
+      value: 'chat-message-new',
+      writable: false,
+    },
+    GAME_MESSAGE_NEW: {
+      value: 'game-message-new',
+      writable: false,
+    },
   });
 })(typeof exports === 'undefined' ? (this['NetworkIds'] = {}) : exports);

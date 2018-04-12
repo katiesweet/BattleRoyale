@@ -10,7 +10,8 @@ MyGame.screens['gameplay'] = (function(
   input,
   components,
   assets,
-  network
+  network,
+  chat
 ) {
   'use strict';
 
@@ -24,9 +25,7 @@ MyGame.screens['gameplay'] = (function(
     playerOthers = {},
     bullets = {},
     explosions = {},
-    messageHistory = Queue.create(),
-    messageId = 1,
-    nextExplosionId = 1;
+    nextExplosionId = 0;
 
   //------------------------------------------------------------------
   //
@@ -66,23 +65,23 @@ MyGame.screens['gameplay'] = (function(
     //
     // Remove messages from the queue up through the last one identified
     // by the server as having been processed.
-    while (!messageHistory.empty) {
-      if (messageHistory.front.id === lastMessageId) {
-        messageHistory.dequeue();
+    while (!network.history.empty) {
+      if (network.history.front.id === lastMessageId) {
+        network.history.dequeue();
         break;
       }
-      messageHistory.dequeue();
+      network.history.dequeue();
     }
 
     //
     // Update the client simulation since this last server update, by
     // replaying the remaining inputs.
     let memory = Queue.create();
-    while (!messageHistory.empty) {
-      let message = messageHistory.dequeue();
+    while (!network.history.empty) {
+      let message = network.history.dequeue();
       memory.enqueue(message);
     }
-    messageHistory = memory;
+    network.history = memory;
   }
 
   //------------------------------------------------------------------
@@ -255,12 +254,12 @@ MyGame.screens['gameplay'] = (function(
     myKeyboard.registerHandler(
       elapsedTime => {
         let message = {
-          id: messageId++,
+          id: network.messageId++,
           elapsedTime: elapsedTime,
           type: NetworkIds.INPUT_MOVE,
         };
         network.emit(NetworkIds.INPUT, message);
-        messageHistory.enqueue(message);
+        network.history.enqueue(message);
         playerSelf.model.move(elapsedTime);
       },
       input.KeyEvent.DOM_VK_W,
@@ -270,12 +269,12 @@ MyGame.screens['gameplay'] = (function(
     myKeyboard.registerHandler(
       elapsedTime => {
         let message = {
-          id: messageId++,
+          id: network.messageId++,
           elapsedTime: elapsedTime,
           type: NetworkIds.INPUT_ROTATE_RIGHT,
         };
         network.emit(NetworkIds.INPUT, message);
-        messageHistory.enqueue(message);
+        network.history.enqueue(message);
         playerSelf.model.rotateRight(elapsedTime);
       },
       input.KeyEvent.DOM_VK_D,
@@ -285,12 +284,12 @@ MyGame.screens['gameplay'] = (function(
     myKeyboard.registerHandler(
       elapsedTime => {
         let message = {
-          id: messageId++,
+          id: network.messageId++,
           elapsedTime: elapsedTime,
           type: NetworkIds.INPUT_ROTATE_LEFT,
         };
         network.emit(NetworkIds.INPUT, message);
-        messageHistory.enqueue(message);
+        network.history.enqueue(message);
         playerSelf.model.rotateLeft(elapsedTime);
       },
       input.KeyEvent.DOM_VK_A,
@@ -300,7 +299,7 @@ MyGame.screens['gameplay'] = (function(
     myKeyboard.registerHandler(
       elapsedTime => {
         let message = {
-          id: messageId++,
+          id: network.messageId++,
           elapsedTime: elapsedTime,
           type: NetworkIds.INPUT_FIRE,
         };
@@ -319,6 +318,8 @@ MyGame.screens['gameplay'] = (function(
   //------------------------------------------------------------------
   function initialize() {
     console.log('game initializing...');
+
+    chat.initializeGame();
 
     //
     // Get the intial viewport settings prepared.
@@ -355,5 +356,6 @@ MyGame.screens['gameplay'] = (function(
   MyGame.input,
   MyGame.components,
   MyGame.assets,
-  MyGame.network
+  MyGame.network,
+  MyGame.chat
 );

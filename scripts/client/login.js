@@ -12,6 +12,7 @@ MyGame.screens['login'] = (function(menu) {
     axios
       .post('http://localhost:3000/login', { username, password })
       .then(({ status, data }) => {
+        localStorage.setItem('username', username);
         localStorage.setItem('token', data);
         menu.showScreen('main-menu');
       })
@@ -32,6 +33,7 @@ MyGame.screens['login'] = (function(menu) {
     axios
       .post('http://localhost:3000/register', { username, password })
       .then(({ status, data }) => {
+        localStorage.setItem('username', username);
         localStorage.setItem('token', data);
         menu.showScreen('main-menu');
       })

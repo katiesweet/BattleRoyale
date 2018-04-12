@@ -57,6 +57,11 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
+        scripts: ['chat'],
+        message: 'Chat loaded',
+        onComplete: null,
+      },
+      {
         scripts: ['mainmenu', 'lobby', 'credits', 'highScores', 'login'],
         message: 'All menus loaded',
         onComplete: null,

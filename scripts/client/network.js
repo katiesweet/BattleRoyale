@@ -3,7 +3,10 @@ MyGame.network = (function() {
 
   const socket = io();
   let queue = Queue.create();
-  let listeners = [
+  let history = Queue.create();
+  let messageId = 0;
+
+  let networkEvents = [
     NetworkIds.CONNECT_ACK,
     NetworkIds.CONNECT_OTHER,
     NetworkIds.DISCONNECT_OTHER,
@@ -13,17 +16,21 @@ MyGame.network = (function() {
     NetworkIds.BULLET_HIT,
   ];
 
-  listeners.forEach(id => {
-    socket.on(id, data => {
+  networkEvents.forEach(event =>
+    listen(event, data => {
       queue.enqueue({
-        type: id,
+        type: event,
         data: data,
       });
-    });
-  });
+    })
+  );
 
   function emit(...args) {
     return socket.emit(...args);
+  }
+
+  function listen(networkId, callback) {
+    socket.on(networkId, callback);
   }
 
   function getQueue() {
@@ -36,6 +43,8 @@ MyGame.network = (function() {
 
   return {
     emit,
+    listen,
+    history,
     getQueue,
     resetQueue,
     enqueue: queue.enqueue,

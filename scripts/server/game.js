@@ -335,6 +335,18 @@ function initializeSocketIO(httpServer) {
       });
     });
 
+    socket.on(NetworkIds.CHAT_MESSAGE_CREATE, data => {
+      io.emit(NetworkIds.CHAT_MESSAGE_NEW, data);
+    });
+
+    socket.on(NetworkIds.CHAT_CONNECT, data => {
+      io.emit(NetworkIds.CHAT_CONNECT, data);
+    });
+
+    socket.on(NetworkIds.CHAT_DISCONNECT, data => {
+      io.emit(NetworkIds.CHAT_DISCONNECT, data);
+    });
+
     socket.on('disconnect', function() {
       delete activeClients[socket.id];
       notifyDisconnect(socket.id);

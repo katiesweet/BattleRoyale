@@ -51,26 +51,15 @@
 				<button data-route="gameplay">Start Game</button>
 			</div>
 			<div class="waiting-room">
-				<div class="user-list">
+				<div id="lobby-user-list" class="user-list">
 					<h2>Players</h2>
-					<div class="user">user53</div>
-					<div class="user">otheruser</div>
 				</div>
 				<div class="game-chat">
-					<div class="messages">
-						<div class="message chat-message">
-							<div class="username">otheruser</div>
-							<p>no u r</p>
-						</div>
-						<div class="message chat-message">
-							<div class="username">user53</div>
-							<p>ur goin down</p>
-						</div>
-					</div>
+					<div id="lobby-message-list" class="messages"></div>
 
 					<div class="new-message">
-						<textarea id="new-message" rows="1"></textarea>
-						<button class="send-message-btn">Send</button>
+						<textarea id="lobby-new-message" rows="1"></textarea>
+						<button id="lobby-send-message" class="send-message-btn">Send</button>
 					</div>
 				</div>
 			</div>
@@ -92,33 +81,11 @@
 					<canvas id="canvas-main" style="background-color: rgb(0, 0, 0)"></canvas>
 				</div>
 				<div class="game-chat">
-					<div class="messages">
-						<div class="message chat-message">
-							<div class="username">user53</div>
-							<p>o</p>
-						</div>
+					<div id="game-message-list" class="messages"></div>
 
-						<div class="message game-message">
-							<p>
-								<span class="red">user53</span>
-								<i>was killed by</i>
-								<span class="red">otheruser</span>
-							</p>
-						</div>
-
-						<div class="message chat-message">
-							<div class="username">otheruser</div>
-							<p>no u r</p>
-						</div>
-
-						<div class="message chat-message">
-							<div class="username">user53</div>
-							<p>ur goin down</p>
-						</div>
-					</div>
 					<div class="new-message">
-						<textarea id="new-message" rows="1"></textarea>
-						<button class="send-message-btn">Send</button>
+						<textarea id="game-new-message" rows="1"></textarea>
+						<button id="game-send-message" class="send-message-btn">Send</button>
 					</div>
 				</div>
 			</div>

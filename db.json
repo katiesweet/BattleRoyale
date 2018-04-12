@@ -39,6 +39,16 @@
       "username": "asdfasdfsdf",
       "hashedPassword": "$2a$10$Kua2oGXlka2pf761lU3sOO/93/Qd.76YNs1bsd1r8K7tapgZSRSSi",
       "highscore": 0
+    },
+    {
+      "username": "SD",
+      "hashedPassword": "$2a$10$LRVHYLAKo4WByLyB8DZal.UjLXiKfMTadmAxc9NnJI2maFylgKu6y",
+      "highscore": 0
+    },
+    {
+      "username": "kjkj",
+      "hashedPassword": "$2a$10$LJ056VeC9TNMbEjy9uBPFe.kmERoRgj/qEUpvCq9VYhOveGtQF5HW",
+      "highscore": 0
     }
   ]
 }

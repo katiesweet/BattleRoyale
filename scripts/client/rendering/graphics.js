@@ -69,8 +69,8 @@ MyGame.graphics = (function() {
   };
 
   function resizeCanvas() {
-    canvas.width = window.innerHeight - 20;
-    canvas.height = window.innerHeight - 20;
+    canvas.width = window.innerHeight - 25;
+    canvas.height = window.innerHeight - 25;
   }
 
   //------------------------------------------------------------------

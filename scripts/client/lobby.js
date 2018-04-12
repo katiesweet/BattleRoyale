@@ -1,12 +1,16 @@
-MyGame.screens['lobby'] = (function(menu, network) {
+MyGame.screens['lobby'] = (function(chat) {
   'use strict';
 
-  function initialize() {}
+  function initialize() {
+    chat.initializeLobby();
+  }
 
-  function run() {}
+  function run() {
+    chat.connect();
+  }
 
   return {
     initialize: initialize,
     run: run,
   };
-})(MyGame.menu, MyGame.network);
+})(MyGame.chat);
