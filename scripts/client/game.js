@@ -388,69 +388,6 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
     return id;
   }
 
-  // Register keyboard
-  function initalizeKeyboard() {
-//
-    // Create the keyboard input handler and register the keyboard commands
-    myKeyboard.registerHandler(
-      elapsedTime => {
-        let message = {
-          id: messageId++,
-          elapsedTime: elapsedTime,
-          type: NetworkIds.INPUT_MOVE,
-        };
-        socket.emit(NetworkIds.INPUT, message);
-        messageHistory.enqueue(message);
-        playerSelf.model.move(elapsedTime);
-      },
-      MyGame.input.KeyEvent.DOM_VK_W,
-      true
-    );
-
-    myKeyboard.registerHandler(
-      elapsedTime => {
-        let message = {
-          id: messageId++,
-          elapsedTime: elapsedTime,
-          type: NetworkIds.INPUT_ROTATE_RIGHT,
-        };
-        socket.emit(NetworkIds.INPUT, message);
-        messageHistory.enqueue(message);
-        playerSelf.model.rotateRight(elapsedTime);
-      },
-      MyGame.input.KeyEvent.DOM_VK_D,
-      true
-    );
-
-    myKeyboard.registerHandler(
-      elapsedTime => {
-        let message = {
-          id: messageId++,
-          elapsedTime: elapsedTime,
-          type: NetworkIds.INPUT_ROTATE_LEFT,
-        };
-        socket.emit(NetworkIds.INPUT, message);
-        messageHistory.enqueue(message);
-        playerSelf.model.rotateLeft(elapsedTime);
-      },
-      MyGame.input.KeyEvent.DOM_VK_A,
-      true
-    );
-
-    myKeyboard.registerHandler(
-      elapsedTime => {
-        let message = {
-          id: messageId++,
-          elapsedTime: elapsedTime,
-          type: NetworkIds.INPUT_FIRE,
-        };
-        socket.emit(NetworkIds.INPUT, message);
-      },
-      MyGame.input.KeyEvent.DOM_VK_SPACE,
-      false
-    );
-  }
-
   //------------------------------------------------------------------
   //
   // Public function used to get the game initialized and then up
@@ -474,8 +411,6 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
 			tileSize: assets[backgroundKey].tileSize,
 			assetKey: backgroundKey
 		});
-
-    initalizeKeyboard();
 
   }
 
