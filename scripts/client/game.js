@@ -370,7 +370,7 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
         let message = {
           id: messageId++,
           elapsedTime: elapsedTime,
-          type: NetworkId,
+          type: networkId,
         };
         socket.emit(NetworkIds.INPUT, message);
         messageHistory.enqueue(message);
