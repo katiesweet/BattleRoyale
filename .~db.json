@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "username": "Adam",
+      "highscore": 10000
+    },
+    {
+      "username": "Adam again",
+      "highscore": 9999
+    },
+    {
+      "username": "Katie",
+      "highscore": 1
+    },
+    {
+      "username": "Sarah",
+      "highscore": 1
+    },
+    {
+      "username": "sarah",
+      "hashedPassword": "$2a$10$IGNyi4Q/anYvyddrVTX/UuEYGuRIh8Anb9KwSex1id.QjYTAZoaSe",
+      "highscore": 0
+    }
+  ]
+}
