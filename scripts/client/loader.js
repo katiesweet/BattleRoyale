@@ -4,7 +4,7 @@ MyGame = {
   renderer: {},
   utilities: {},
   assets: {},
-  screens: {},
+  screens: {}
 };
 
 //------------------------------------------------------------------
@@ -46,7 +46,7 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
-        scripts: ['menuSystem', 'mainmenu', 'credits', 'highScores', 'login'],
+        scripts: ['menuSystem', 'mainmenu', 'credits', 'highScores', 'login', 'keyboard'],
         message: 'All menus loaded',
         onComplete: null,
       },
@@ -131,7 +131,7 @@ MyGame.loader = (function() {
 			}
 		}
   }
-  
+
   //------------------------------------------------------------------
   //
   // Helper function used to load scripts in the order specified by the

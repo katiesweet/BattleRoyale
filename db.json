@@ -15,6 +15,11 @@
     {
       "username": "Sarah",
       "highscore": 1
+    },
+    {
+      "username": "sarah",
+      "hashedPassword": "$2a$10$pC98XulgKqSBFHbpqK/D7O8iGyKTcubp3c20kvDJTf4eqI7fkso9e",
+      "highscore": 0
     }
   ]
 }
