@@ -4,9 +4,7 @@ MyGame = {
   renderer: {},
   utilities: {},
   assets: {},
-  screens: {},
-  player: '',
-  socket: ''
+  screens: {}
 };
 
 //------------------------------------------------------------------
