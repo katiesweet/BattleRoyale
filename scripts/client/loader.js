@@ -4,7 +4,7 @@ MyGame = {
   renderer: {},
   utilities: {},
   assets: {},
-  screens: {},
+  screens: {}
 };
 
 //------------------------------------------------------------------
@@ -46,11 +46,15 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
+<<<<<<< HEAD
         scripts: ['menuSystem'],
         message: "Main menu loaded"
       },
       {
         scripts: ['mainmenu', 'credits', 'highScores', 'login'],
+=======
+        scripts: ['menuSystem', 'mainmenu', 'credits', 'highScores', 'login', 'keyboard'],
+>>>>>>> 247c6ea02650e3c7db45e972bffb9ba3e7f0eed1
         message: 'All menus loaded',
         onComplete: null,
       },
@@ -102,6 +106,14 @@ MyGame.loader = (function() {
         key: 'explosion',
         source: 'assets/explosion.png',
       },
+      {
+        key: 'kaboom', // for shooting a gun
+        source:'assets/rumble.mp3',
+      },
+      {
+        key: 'boom', // for when someone is hit/explosions
+        source:'assets/DeathFlash.mp3',
+      }
     ];
 	//------------------------------------------------------------------
 	//
@@ -139,7 +151,7 @@ MyGame.loader = (function() {
 			}
 		}
   }
-  
+
   //------------------------------------------------------------------
   //
   // Helper function used to load scripts in the order specified by the

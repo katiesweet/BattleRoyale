@@ -357,67 +357,39 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
     requestAnimationFrame(gameLoop);
   }
 
-  // Register keyboard
-  function initalizeKeyboard() {
-//
-    // Create the keyboard input handler and register the keyboard commands
-    myKeyboard.registerHandler(
+  MyGame.unregisterEvent = function(key, id) {
+    myKeyboard.unregisterHandler(key, id);
+  }
+
+  MyGame.registerEvent = function(networkId, keyboardInput, action) {
+    let repeat = true;
+    if (action == 'fire') {
+      repeat = false;
+    }
+    let id = myKeyboard.registerHandler(
       elapsedTime => {
         let message = {
           id: messageId++,
           elapsedTime: elapsedTime,
-          type: NetworkIds.INPUT_MOVE,
+          type: networkId,
         };
         socket.emit(NetworkIds.INPUT, message);
         messageHistory.enqueue(message);
-        playerSelf.model.move(elapsedTime);
+        if (action.indexOf('move') >= 0) {
+          playerSelf.model.move(elapsedTime);
+        } else if (action == 'rotate-right') {
+          playerSelf.model.rotateRight(elapsedTime);
+        } else if (action == 'rotate-left') {
+          playerSelf.model.rotateLeft(elapsedTime);
+        } else if (action == 'fire') {
+          MyGame.assets['kaboom'].currentTime = 0;
+          MyGame.assets['kaboom'].play();
+        }
       },
-      MyGame.input.KeyEvent.DOM_VK_W,
-      true
+      keyboardInput,
+      repeat
     );
-
-    myKeyboard.registerHandler(
-      elapsedTime => {
-        let message = {
-          id: messageId++,
-          elapsedTime: elapsedTime,
-          type: NetworkIds.INPUT_ROTATE_RIGHT,
-        };
-        socket.emit(NetworkIds.INPUT, message);
-        messageHistory.enqueue(message);
-        playerSelf.model.rotateRight(elapsedTime);
-      },
-      MyGame.input.KeyEvent.DOM_VK_D,
-      true
-    );
-
-    myKeyboard.registerHandler(
-      elapsedTime => {
-        let message = {
-          id: messageId++,
-          elapsedTime: elapsedTime,
-          type: NetworkIds.INPUT_ROTATE_LEFT,
-        };
-        socket.emit(NetworkIds.INPUT, message);
-        messageHistory.enqueue(message);
-        playerSelf.model.rotateLeft(elapsedTime);
-      },
-      MyGame.input.KeyEvent.DOM_VK_A,
-      true
-    );
-
-    myKeyboard.registerHandler(
-      elapsedTime => {
-        let message = {
-          id: messageId++,
-          elapsedTime: elapsedTime,
-          type: NetworkIds.INPUT_FIRE,
-        };
-        socket.emit(NetworkIds.INPUT, message);
-      },
-      MyGame.input.KeyEvent.DOM_VK_SPACE,
-      false
-    );
+    return id;
   }
 
   //------------------------------------------------------------------
@@ -443,8 +415,6 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
 			tileSize: assets[backgroundKey].tileSize,
 			assetKey: backgroundKey
 		});
-
-    initalizeKeyboard();
 
   }
 
