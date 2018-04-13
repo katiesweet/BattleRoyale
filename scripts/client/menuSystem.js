@@ -16,7 +16,7 @@ MyGame.menu = (function(screens) {
   function checkLoggedInUser() {
     axios({
       method: 'get',
-      url: 'http://localhost:3000/me',
+      url: '/me',
       headers: { authorization: localStorage.getItem('token') || null },
     })
       .then(({ status, data }) => {

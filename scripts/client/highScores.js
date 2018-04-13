@@ -5,7 +5,7 @@ MyGame.screens['highscores'] = (function(menu) {
 
   function run() {
     axios
-      .get('http://localhost:3000/highscores')
+      .get('/highscores')
       .then(({ status, data }) => {
         const highscores = data;
         const hsList = document.getElementById('hs-list');

@@ -31,18 +31,14 @@ MyGame.chat = (function(network) {
     });
 
     network.listen(NetworkIds.CONNECT_ACK, ({ player, otherPlayers }) => {
-      console.log('player', player);
-      console.log('other', otherPlayers);
       renderPlayerList([player, ...otherPlayers]);
     });
 
     network.listen(NetworkIds.CONNECT_OTHER, player => {
-      console.log('other connected', player);
       addPlayer(player);
     });
 
     network.listen(NetworkIds.DISCONNECT_OTHER, player => {
-      console.log('other disconnected', player);
       removePlayer(player);
     });
 

@@ -33,8 +33,12 @@ MyGame.screens['gameplay'] = (function(
   // the state of the newly connected player model.
   //
   //------------------------------------------------------------------
-  function connectPlayerSelf(data) {
-    playerSelf.model.initialize(data);
+  function connectPlayerSelf({ player, otherPlayers }) {
+    playerSelf.model.initialize(player);
+
+    for (let i = 0; i < otherPlayers.length; i++) {
+      connectPlayerOther(otherPlayers[i]);
+    }
   }
 
   //------------------------------------------------------------------
@@ -43,10 +47,10 @@ MyGame.screens['gameplay'] = (function(
   // the state of the newly connected player model.
   //
   //------------------------------------------------------------------
-  function connectPlayerOther(data) {
+  function connectPlayerOther(player) {
     let model = components.PlayerRemote();
-    model.initialize(data);
-    playerOthers[data.clientId] = {
+    model.initialize(player);
+    playerOthers[player.clientId] = {
       model: model,
       texture: assets['player-other'],
     };
@@ -57,8 +61,8 @@ MyGame.screens['gameplay'] = (function(
   // Handler for when another player disconnects from the game.
   //
   //------------------------------------------------------------------
-  function disconnectPlayerOther(data) {
-    delete playerOthers[data.clientId];
+  function disconnectPlayerOther(player) {
+    delete playerOthers[player.clientId];
   }
 
   function updateMessageHistory(lastMessageId) {
@@ -150,7 +154,7 @@ MyGame.screens['gameplay'] = (function(
 
       switch (message.type) {
         case NetworkIds.CONNECT_ACK:
-          connectPlayerSelf(message.data.player);
+          connectPlayerSelf(message.data);
           break;
         case NetworkIds.CONNECT_OTHER:
           connectPlayerOther(message.data);
