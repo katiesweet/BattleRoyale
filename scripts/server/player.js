@@ -26,13 +26,16 @@ function createPlayer() {
     height: 0.01,
     radius: 0.02,
   };
-  let direction = random.nextDouble() * 2 * Math.PI; // Angle in radians
+  // let direction = random.nextDouble() * 2 * Math.PI; // Angle in radians
+  let direction = random.nextRange(0, 7);
   let rotateRate = Math.PI / 1000; // radians per millisecond
+  let rotationSinceLastDiscreteMove = 0;
+
   let speed = 0.0002; // unit distance per millisecond
   let reportUpdate = false; // Indicates if this model was updated during the last update
 
   Object.defineProperty(that, 'direction', {
-    get: () => direction,
+    get: () => direction * Math.PI/4,
   });
 
   Object.defineProperty(that, 'position', {
@@ -83,7 +86,16 @@ function createPlayer() {
   //------------------------------------------------------------------
   that.rotateRight = function(elapsedTime) {
     reportUpdate = true;
-    direction += rotateRate * elapsedTime;
+    // direction += rotateRate * elapsedTime;
+    rotationSinceLastDiscreteMove += rotateRate * elapsedTime;
+    if (rotationSinceLastDiscreteMove > Math.PI/8) {
+      // rotate to next, but 
+      rotationSinceLastDiscreteMove = - Math.PI/8;
+      direction -= 1;
+      if (direction <= 0) {
+        direction = 7;
+      }
+    }
   };
 
   //------------------------------------------------------------------
@@ -94,7 +106,13 @@ function createPlayer() {
   //------------------------------------------------------------------
   that.rotateLeft = function(elapsedTime) {
     reportUpdate = true;
-    direction -= rotateRate * elapsedTime;
+    // direction -= rotateRate * elapsedTime;
+    rotationSinceLastDiscreteMove -= rotateRate * elapsedTime;
+    if (rotationSinceLastDiscreteMove < -Math.PI/8) {
+      // rotate to next, but 
+      rotationSinceLastDiscreteMove = Math.PI/8;
+      direction = (direction + 1) % 8;
+    }
   };
 
   //------------------------------------------------------------------

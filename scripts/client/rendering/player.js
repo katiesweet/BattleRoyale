@@ -17,8 +17,8 @@ MyGame.renderer.Player = (function(graphics) {
   // ------------------------------------------------------------------
 
   function renderCharacter(model, spritesheet) {
-    graphics.saveContext();
-    graphics.rotateCanvas(model.position, model.direction);
+    // graphics.saveContext();
+    // graphics.rotateCanvas(model.position, model.direction);
     // graphics.drawImage(
     //                   texture, 
     //                   model.position.x - model.size.width/2, 
@@ -37,7 +37,7 @@ MyGame.renderer.Player = (function(graphics) {
                       model.size.height,
                       true);
 
-    graphics.restoreContext();
+    // graphics.restoreContext();
   };
 
   function renderHealthBar(model) {

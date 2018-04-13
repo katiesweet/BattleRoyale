@@ -46,15 +46,11 @@ MyGame.loader = (function() {
         onComplete: null,
       },
       {
-<<<<<<< HEAD
         scripts: ['menuSystem'],
         message: "Main menu loaded"
       },
       {
         scripts: ['mainmenu', 'credits', 'highScores', 'login'],
-=======
-        scripts: ['menuSystem', 'mainmenu', 'credits', 'highScores', 'login', 'keyboard'],
->>>>>>> 247c6ea02650e3c7db45e972bffb9ba3e7f0eed1
         message: 'All menus loaded',
         onComplete: null,
       },
