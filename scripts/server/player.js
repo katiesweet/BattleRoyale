@@ -5,7 +5,7 @@
 // ------------------------------------------------------------------
 'use strict';
 
-let random = require('./random');
+const random = require('./random');
 
 //------------------------------------------------------------------
 //
@@ -13,12 +13,12 @@ let random = require('./random');
 // at some random location.
 //
 //------------------------------------------------------------------
-function createPlayer() {
-  let that = {};
+function createPlayer(username, clientId) {
+  let that = { username, clientId };
 
   let position = {
-    x: random.nextDouble()*15,
-    y: random.nextDouble()*15,
+    x: random.nextDouble() * 15,
+    y: random.nextDouble() * 15,
   };
 
   let size = {
@@ -30,6 +30,14 @@ function createPlayer() {
   let rotateRate = Math.PI / 1000; // radians per millisecond
   let speed = 0.0002; // unit distance per millisecond
   let reportUpdate = false; // Indicates if this model was updated during the last update
+
+  Object.defineProperty(that, 'username', {
+    get: () => username,
+  });
+
+  Object.defineProperty(that, 'clientId', {
+    get: () => clientId,
+  });
 
   Object.defineProperty(that, 'direction', {
     get: () => direction,
@@ -59,6 +67,18 @@ function createPlayer() {
   Object.defineProperty(that, 'radius', {
     get: () => size.radius,
   });
+
+  that.toJSON = function() {
+    return {
+      clientId,
+      username,
+      direction,
+      position,
+      size,
+      rotateRate,
+      speed,
+    };
+  };
 
   //------------------------------------------------------------------
   //
@@ -107,4 +127,4 @@ function createPlayer() {
   return that;
 }
 
-module.exports.create = () => createPlayer();
+module.exports.create = createPlayer;

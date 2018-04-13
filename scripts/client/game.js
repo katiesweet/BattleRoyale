@@ -3,80 +3,29 @@
 // This function provides the "game" code.
 //
 //------------------------------------------------------------------
-MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, assets) {
+MyGame.screens['gameplay'] = (function(
+  menu,
+  graphics,
+  renderer,
+  input,
+  components,
+  assets,
+  network,
+  chat
+) {
   'use strict';
 
   let lastTimeStamp = performance.now(),
     myKeyboard = input.Keyboard(),
-    // arena = {
-    //   model: components.Arena(),
-    //   texture: MyGame.assets['desert-floor'],
-    // },
-
-
-		background = null,
-
+    background = null,
     playerSelf = {
       model: components.Player(),
-      texture: MyGame.assets['player-self'],
+      texture: assets['player-self'],
     },
     playerOthers = {},
-    missiles = {},
+    bullets = {},
     explosions = {},
-    messageHistory = Queue.create(),
-    messageId = 1,
-    nextExplosionId = 1,
-    socket = io(),
-    networkQueue = Queue.create();
-
-  socket.on(NetworkIds.CONNECT_ACK, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.CONNECT_ACK,
-      data: data,
-    });
-  });
-
-  socket.on(NetworkIds.CONNECT_OTHER, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.CONNECT_OTHER,
-      data: data,
-    });
-  });
-
-  socket.on(NetworkIds.DISCONNECT_OTHER, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.DISCONNECT_OTHER,
-      data: data,
-    });
-  });
-
-  socket.on(NetworkIds.UPDATE_SELF, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.UPDATE_SELF,
-      data: data,
-    });
-  });
-
-  socket.on(NetworkIds.UPDATE_OTHER, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.UPDATE_OTHER,
-      data: data,
-    });
-  });
-
-  socket.on(NetworkIds.MISSILE_NEW, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.MISSILE_NEW,
-      data: data,
-    });
-  });
-
-  socket.on(NetworkIds.MISSILE_HIT, data => {
-    networkQueue.enqueue({
-      type: NetworkIds.MISSILE_HIT,
-      data: data,
-    });
-  });
+    nextExplosionId = 0;
 
   //------------------------------------------------------------------
   //
@@ -84,16 +33,12 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
   // the state of the newly connected player model.
   //
   //------------------------------------------------------------------
-  function connectPlayerSelf(data) {
-    playerSelf.model.position.x = data.position.x;
-    playerSelf.model.position.y = data.position.y;
+  function connectPlayerSelf({ player, otherPlayers }) {
+    playerSelf.model.initialize(player);
 
-    playerSelf.model.size.x = data.size.x;
-    playerSelf.model.size.y = data.size.y;
-
-    playerSelf.model.direction = data.direction;
-    playerSelf.model.speed = data.speed;
-    playerSelf.model.rotateRate = data.rotateRate;
+    for (let i = 0; i < otherPlayers.length; i++) {
+      connectPlayerOther(otherPlayers[i]);
+    }
   }
 
   //------------------------------------------------------------------
@@ -102,24 +47,12 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
   // the state of the newly connected player model.
   //
   //------------------------------------------------------------------
-  function connectPlayerOther(data) {
+  function connectPlayerOther(player) {
     let model = components.PlayerRemote();
-    model.state.position.x = data.position.x;
-    model.state.position.y = data.position.y;
-    model.state.direction = data.direction;
-    model.state.lastUpdate = performance.now();
-
-    model.goal.position.x = data.position.x;
-    model.goal.position.y = data.position.y;
-    model.goal.direction = data.direction;
-    model.goal.updateWindow = 0;
-
-    model.size.x = data.size.x;
-    model.size.y = data.size.y;
-
-    playerOthers[data.clientId] = {
+    model.initialize(player);
+    playerOthers[player.clientId] = {
       model: model,
-      texture: MyGame.assets['player-other'],
+      texture: assets['player-other'],
     };
   }
 
@@ -128,8 +61,31 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
   // Handler for when another player disconnects from the game.
   //
   //------------------------------------------------------------------
-  function disconnectPlayerOther(data) {
-    delete playerOthers[data.clientId];
+  function disconnectPlayerOther(player) {
+    delete playerOthers[player.clientId];
+  }
+
+  function updateMessageHistory(lastMessageId) {
+    //
+    // Remove messages from the queue up through the last one identified
+    // by the server as having been processed.
+    while (!network.history.empty) {
+      if (network.history.front.id === lastMessageId) {
+        network.history.dequeue();
+        break;
+      }
+      network.history.dequeue();
+    }
+
+    //
+    // Update the client simulation since this last server update, by
+    // replaying the remaining inputs.
+    let memory = Queue.create();
+    while (!network.history.empty) {
+      let message = network.history.dequeue();
+      memory.enqueue(message);
+    }
+    network.history = memory;
   }
 
   //------------------------------------------------------------------
@@ -138,30 +94,8 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
   //
   //------------------------------------------------------------------
   function updatePlayerSelf(data) {
-    playerSelf.model.position.x = data.position.x;
-    playerSelf.model.position.y = data.position.y;
-    playerSelf.model.direction = data.direction;
-
-    //
-    // Remove messages from the queue up through the last one identified
-    // by the server as having been processed.
-    let done = false;
-    while (!done && !messageHistory.empty) {
-      if (messageHistory.front.id === data.lastMessageId) {
-        done = true;
-      }
-      messageHistory.dequeue();
-    }
-
-    //
-    // Update the client simulation since this last server update, by
-    // replaying the remaining inputs.
-    let memory = Queue.create();
-    while (!messageHistory.empty) {
-      let message = messageHistory.dequeue();
-      memory.enqueue(message);
-    }
-    messageHistory = memory;
+    playerSelf.model.update(data);
+    updateMessageHistory(data.lastMessageId);
   }
 
   //------------------------------------------------------------------
@@ -171,70 +105,31 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
   //------------------------------------------------------------------
   function updatePlayerOther(data) {
     if (playerOthers.hasOwnProperty(data.clientId)) {
-      let model = playerOthers[data.clientId].model;
-      model.goal.updateWindow = data.updateWindow;
-
-      model.goal.position.x = data.position.x;
-      model.goal.position.y = data.position.y;
-      model.goal.direction = data.direction;
+      playerOthers[data.clientId].model.updateGoal(data);
     }
   }
 
   //------------------------------------------------------------------
   //
-  // Handler for receiving notice of a new missile in the environment.
+  // Handler for receiving notice of a new bullet in the environment.
   //
   //------------------------------------------------------------------
-  function missileNew(data) {
-    missiles[data.id] = components.Missile({
-      id: data.id,
-      radius: data.radius,
-      speed: data.speed,
-      direction: data.direction,
-      position: {
-        x: data.position.x,
-        y: data.position.y,
-      },
-      timeRemaining: data.timeRemaining,
-    });
+  function bulletNew(data) {
+    bullets[data.id] = components.Bullet(data);
   }
 
   //------------------------------------------------------------------
   //
-  // Handler for receiving notice that a missile has hit a player.
+  // Handler for receiving notice that a bullet has hit a player.
   //
   //------------------------------------------------------------------
-  function missileHit(data) {
-    explosions[nextExplosionId] = components.AnimatedSprite({
-      id: nextExplosionId++,
-      spriteSheet: MyGame.assets['explosion'],
-      spriteSize: { width: 0.07, height: 0.07 },
-      spriteCenter: data.position,
-      spriteCount: 16,
-      spriteTime: [
-        50,
-        50,
-        50,
-        50,
-        50,
-        50,
-        50,
-        50,
-        50,
-        50,
-        50,
-        50,
-        50,
-        50,
-        50,
-        50,
-      ],
-    });
+  function bulletHit(data) {
+    explosions[nextExplosionId] = components.Explosion(data, nextExplosionId++);
 
     //
     // When we receive a hit notification, go ahead and remove the
-    // associated missle from the client model.
-    delete missiles[data.missileId];
+    // associated bullet from the client model.
+    delete bullets[data.bulletId];
   }
 
   //------------------------------------------------------------------
@@ -251,10 +146,12 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
     //
     // Double buffering on the queue so we don't asynchronously receive messages
     // while processing.
-    let processMe = networkQueue;
-    networkQueue = networkQueue = Queue.create();
+    let processMe = network.getQueue();
+    network.resetQueue();
+
     while (!processMe.empty) {
       let message = processMe.dequeue();
+
       switch (message.type) {
         case NetworkIds.CONNECT_ACK:
           connectPlayerSelf(message.data);
@@ -271,11 +168,11 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
         case NetworkIds.UPDATE_OTHER:
           updatePlayerOther(message.data);
           break;
-        case NetworkIds.MISSILE_NEW:
-          missileNew(message.data);
+        case NetworkIds.BULLET_NEW:
+          bulletNew(message.data);
           break;
-        case NetworkIds.MISSILE_HIT:
-          missileHit(message.data);
+        case NetworkIds.BULLET_HIT:
+          bulletHit(message.data);
           break;
       }
     }
@@ -287,20 +184,19 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
   //
   //------------------------------------------------------------------
   function update(elapsedTime) {
-    playerSelf.model.update(elapsedTime);
     for (let id in playerOthers) {
       playerOthers[id].model.update(elapsedTime);
     }
 
-    let removeMissiles = [];
-    for (let missile in missiles) {
-      if (!missiles[missile].update(elapsedTime)) {
-        removeMissiles.push(missiles[missile]);
+    let removeBullets = [];
+    for (let bullet in bullets) {
+      if (!bullets[bullet].update(elapsedTime)) {
+        removeBullets.push(bullets[bullet]);
       }
     }
 
-    for (let missile = 0; missile < removeMissiles.length; missile++) {
-      delete missiles[removeMissiles[missile].id];
+    for (let bullet = 0; bullet < removeBullets.length; bullet++) {
+      delete bullets[removeBullets[bullet].id];
     }
 
     for (let id in explosions) {
@@ -309,7 +205,7 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
       }
     }
 
-    graphics.viewport.update(playerSelf.model)
+    graphics.viewport.update(playerSelf.model);
   }
 
   //------------------------------------------------------------------
@@ -320,24 +216,23 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
   function render() {
     graphics.clear();
 
-    renderer.TiledImage.render(background, graphics.viewport)
-    renderer.MiniMap.render(playerSelf.model)
+    renderer.TiledImage.render(background, graphics.viewport);
+    renderer.MiniMap.render(playerSelf.model);
 
     renderer.Player.render(playerSelf.model, playerSelf.texture);
-    // graphics.drawImage(playerSelf.texture);
+
     for (let id in playerOthers) {
       let player = playerOthers[id];
       renderer.PlayerRemote.render(player.model, player.texture);
     }
 
-    for (let missile in missiles) {
-      renderer.Missile.render(missiles[missile]);
+    for (let bullet in bullets) {
+      renderer.Bullet.render(bullets[bullet]);
     }
 
     for (let id in explosions) {
       renderer.AnimatedSprite.render(explosions[id]);
     }
-
   }
 
   //------------------------------------------------------------------
@@ -358,7 +253,7 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
 
   MyGame.unregisterEvent = function(key, id) {
     myKeyboard.unregisterHandler(key, id);
-  }
+  };
 
   MyGame.registerEvent = function(networkId, keyboardInput, action) {
     let repeat = true;
@@ -368,12 +263,13 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
     let id = myKeyboard.registerHandler(
       elapsedTime => {
         let message = {
-          id: messageId++,
+          id: network.messageId++,
           elapsedTime: elapsedTime,
           type: networkId,
         };
-        socket.emit(NetworkIds.INPUT, message);
-        messageHistory.enqueue(message);
+        network.emit(NetworkIds.INPUT, message);
+        network.history.enqueue(message);
+
         if (action.indexOf('move') >= 0) {
           playerSelf.model.move(elapsedTime);
         } else if (action == 'rotate-right') {
@@ -389,7 +285,7 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
       repeat
     );
     return id;
-  }
+  };
 
   //------------------------------------------------------------------
   //
@@ -400,31 +296,48 @@ MyGame.screens['gamePlay'] = (function(graphics, renderer, input, components, as
   function initialize() {
     console.log('game initializing...');
 
-		var backgroundKey = 'background';
+    document
+      .getElementById('game-quit-btn')
+      .addEventListener('click', function() {
+        menu.showScreen('main-menu');
+        network.disconnect();
+      });
 
-		//
+    //
     // Get the intial viewport settings prepared.
-		graphics.viewport.set(0, 0, 0.25); // The buffer can't really be any larger than world.buffer, guess I could protect against that.
+    graphics.viewport.set(0, 0, 0.25); // The buffer can't really be any larger than world.buffer, guess I could protect against that.
 
-		//
-		// Define the TiledImage model we'll be using for our background.
-		background = components.TiledImage({
-			pixel: { width: assets[backgroundKey].width, height: assets[backgroundKey].height },
-			size: { width: graphics.world.width, height: graphics.world.height },
-			tileSize: assets[backgroundKey].tileSize,
-			assetKey: backgroundKey
-		});
-
+    //
+    // Define the TiledImage model we'll be using for our background.
+    background = components.TiledImage({
+      pixel: {
+        width: assets.background.width,
+        height: assets.background.height,
+      },
+      size: { width: graphics.world.width, height: graphics.world.height },
+      tileSize: assets.background.tileSize,
+      assetKey: 'background',
+    });
   }
 
   function run() {
+    chat.initializeGame();
+
     lastTimeStamp = performance.now();
     requestAnimationFrame(gameLoop);
   }
-
 
   return {
     initialize: initialize,
     run: run,
   };
-})(MyGame.graphics, MyGame.renderer, MyGame.input, MyGame.components, MyGame.assets);
+})(
+  MyGame.menu,
+  MyGame.graphics,
+  MyGame.renderer,
+  MyGame.input,
+  MyGame.components,
+  MyGame.assets,
+  MyGame.network,
+  MyGame.chat
+);

@@ -52,12 +52,24 @@
       value: 'update-other',
       writable: false,
     },
-    MISSILE_NEW: {
-      value: 'missile-new',
+    BULLET_NEW: {
+      value: 'bullet-new',
       writable: false,
     },
-    MISSILE_HIT: {
-      value: 'missile-hit',
+    BULLET_HIT: {
+      value: 'bullet-hit',
+      writable: false,
+    },
+    CHAT_MESSAGE_CREATE: {
+      value: 'chat-message-create',
+      writable: false,
+    },
+    CHAT_MESSAGE_NEW: {
+      value: 'chat-message-new',
+      writable: false,
+    },
+    GAME_MESSAGE_NEW: {
+      value: 'game-message-new',
       writable: false,
     },
   });

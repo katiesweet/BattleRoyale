@@ -6,12 +6,17 @@
 	<title>Battle Royale</title>
 	<script src="/node_modules/socket.io-client/dist/socket.io.slim.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Jua" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="game.css">
+	<link href="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAaYPHAIWn/wANDAwAAEKFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgECAAAAAAAAAAAAAAAAAgAAAAIAAAAAAAAAAAAAAQICAQICAgAAAAAAAAAAAAECAgACAgIAAAAAAAAAAAABAQEBAQEBAAAAAAADAAAAAAAAAAAAAAAAAAMABAQEBAQEBAQEBAQEBAQDAAMDAwMEBAQEBAQDAwMEAwMDAAADBAQEBAQEAwADAwMAAAAAAAQEBAQEBAMAAAAAAAAAAAAEBAQEBAQDAAAAAAAAAAADBAQEBAQEAwAAAAAAAAAAAwMDAwMDAwMAAAAAAAAAAAAAAAAAAAAAAAAAAP//AAD+PwAA/B8AAPgPAADwBwAA8AcAAPAHAACAAAAAAAAAAAAAAAAwCAAA8A8AAPAPAADwDwAA8A8AAP//AAA="
+	 rel="icon" type="image/x-icon" />
 </head>
 
 <body>
 	<div id="game" class="background">
+		<div id="loading">
+			<h1>Loading...</h1>
+		</div>
 		<div id="login" class="screen">
 			<h1>Login</h1>
 			<div class="login-form">
@@ -27,80 +32,147 @@
 		<div id="main-menu" class="screen">
 			<ul class="menu">
 				<li>
-					<button id="id-new-game">New&nbsp;Game</button>
+					<button data-route="lobby">New&nbsp;Game</button>
 				</li>
 				<li>
-					<button id="id-keyboard-config">Configure&nbsp;Keyboard</button>
+					<button data-route="keyboard-config">Configure&nbsp;Keyboard</button>
 				</li>
 				<li>
-					<button id="id-highscores">Highscores</button>
+					<button data-route="highscores">Highscores</button>
 				</li>
 				<li>
-					<button id="id-credits">About</button>
+					<button data-route="credits">About</button>
 				</li>
 				<li>
 					<button id="id-logout">Logout</button>
 				</li>
 			</ul>
 		</div>
-		<div id="gamePlay" class="screen">
-			<canvas id="canvas-main" width="600" height="600" style="background-color: rgb(0, 0, 0)"></canvas>
-			<canvas id="mini-map" width="150" height="150" style="background-color: rgb(0, 0, 0)"></canvas>
+		<div id="lobby" class="screen">
+			<div class="lobby-actions">
+				<button id="lobby-back-btn">Back</button>
+				<button data-route="gameplay">Start Game</button>
+			</div>
+			<div class="waiting-room">
+				<div class="player-list">
+					<h2>Players</h2>
+					<div id="lobby-player-list" class="players"></div>
+				</div>
+				<div class="game-chat">
+					<div id="lobby-message-list" class="messages"></div>
+
+					<div class="new-message">
+						<div class="input">
+							<textarea id="lobby-new-message" rows="1"></textarea>
+						</div>
+						<button id="lobby-send-message" class="send-message-btn">Send</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="gameplay" class="screen">
+			<div class="game-container">
+				<div class="game-menu">
+					<div class="mini-map-window">
+						<canvas id="mini-map" style="background-color: rgb(0, 0, 0)"></canvas>
+					</div>
+
+					<ul class="options">
+						<li>
+							<button id="game-quit-btn">Quit</button>
+						</li>
+					</ul>
+				</div>
+				<div class="game-window">
+					<canvas id="canvas-main" style="background-color: rgb(0, 0, 0)"></canvas>
+				</div>
+				<div class="game-chat">
+					<div id="game-message-list" class="messages"></div>
+
+					<div class="new-message">
+						<div class="input">
+							<textarea id="game-new-message" rows="1"></textarea>
+						</div>
+						<button id="game-send-message" class="send-message-btn">Send</button>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div id="keyboard-config" class="screen">
 			<div class="centered">
 				<label>Keyboard Configuration</label>
 				<p>Click on any action to edit the key it corresponds to.
-				<table class="config" align="center">
-					<tr>
-						<td class="normal-font"><button class="normal-button" id="fire-config">Fire</button></td>
-						<td class="normal-font" id="fire"> {shortcut goes here} </td>
-					</tr>
-					<tr>
-						<td class="normal-font"><button class="normal-button" id="rotate-left-config">Rotate Left</button></td>
-						<td class="normal-font" id="rotate-left"> {shortcut goes here} </td>
-					</tr>
-					<tr>
-						<td class="normal-font"><button class="normal-button" id="rotate-right-config">Rotate Right</button></td>
-						<td class="normal-font" id="rotate-right"> {shortcut goes here} </td>
-					</tr>
-					<tr>
-						<td class="normal-font"><button class="normal-button" id="move-left-config">Move Left</button></td>
-						<td class="normal-font" id="move-left"> {shortcut goes here} </td>
-					</tr>
-					<tr>
-						<td class="normal-font"><button class="normal-button" id="move-right-config">Move Right</button></td>
-						<td class="normal-font" id="move-right"> {shortcut goes here} </td>
-					</tr>
-					<tr>
-						<td class="normal-font"><button class="normal-button" id="move-up-config">Move Up</button></td>
-						<td class="normal-font" id="move-up"> {shortcut goes here} </td>
-					</tr>
-					<tr>
-						<td class="normal-font"><button class="normal-button" id="move-down-config">Move Down</button></td>
-						<td class="normal-font" id="move-down"> {shortcut goes here} </td>
-					</tr>
-				</table>
+					<table class="config" align="center">
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="fire-config">Fire</button>
+							</td>
+							<td class="normal-font" id="fire"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="rotate-left-config">Rotate Left</button>
+							</td>
+							<td class="normal-font" id="rotate-left"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="rotate-right-config">Rotate Right</button>
+							</td>
+							<td class="normal-font" id="rotate-right"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="move-left-config">Move Left</button>
+							</td>
+							<td class="normal-font" id="move-left"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="move-right-config">Move Right</button>
+							</td>
+							<td class="normal-font" id="move-right"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="move-up-config">Move Up</button>
+							</td>
+							<td class="normal-font" id="move-up"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="move-down-config">Move Down</button>
+							</td>
+							<td class="normal-font" id="move-down"> {shortcut goes here} </td>
+						</tr>
+					</table>
 			</div>
 			<ul class="menu">
-				<input class="backbutton" type="image" src="assets/back_button.png" id="id-keyboard-back"/>
+				<li>
+					<button class="back-button" data-route="main-menu"></button>
+				</li>
 			</ul>
 		</div>
 		<div id="highscores" class="screen">
 			<h1>High Scores</h1>
-			<ol id="hs-list" />
+			<ol id="hs-list"></ol>
 			<ul class="menu">
-				<input class="backbutton" type="image" src="assets/back_button.png" id="id-highscores-back"/>
+				<li>
+					<button class="back-button" data-route="main-menu"></button>
+				</li>
 			</ul>
 		</div>
 		<div id="credits" class="screen">
-			<h1>About</h1>
-			<p>Developed by</p>
-			<p>Katie</p>
-			<p>Adam</p>
-			<p>Sarah</p>
+			<h1>Developed by</h1>
+			<div class="center">
+				<p>Katie</p>
+				<p>Adam</p>
+				<p>Sarah</p>
+			</div>
 			<ul class="menu">
-				<input class="backbutton" type="image" src="assets/back_button.png" id="id-credits-back"/>
+				<li>
+					<button class="back-button" data-route="main-menu"></button>
+				</li>
 			</ul>
 		</div>
 	</div>

@@ -47,6 +47,18 @@ MyGame.components.Player = function() {
     get: () => size,
   });
 
+  that.initialize = function(spec) {
+    position.x = spec.position.x;
+    position.y = spec.position.y;
+
+    size.x = spec.size.x;
+    size.y = spec.size.y;
+
+    direction = spec.direction;
+    speed = spec.speed;
+    rotateRate = spec.rotateRate;
+  };
+
   //------------------------------------------------------------------
   //
   // Public function that moves the player in the current direction.
@@ -78,7 +90,11 @@ MyGame.components.Player = function() {
     direction -= rotateRate * elapsedTime;
   };
 
-  that.update = function(elapsedTime) {};
+  that.update = function(spec) {
+    position.x = spec.position.x;
+    position.y = spec.position.y;
+    direction = spec.direction;
+  };
 
   return that;
 };

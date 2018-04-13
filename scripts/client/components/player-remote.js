@@ -38,6 +38,28 @@ MyGame.components.PlayerRemote = function() {
     get: () => size,
   });
 
+  that.initialize = function(spec) {
+    state.position.x = spec.position.x;
+    state.position.y = spec.position.y;
+    state.direction = spec.direction;
+    state.lastUpdate = performance.now();
+
+    goal.position.x = spec.position.x;
+    goal.position.y = spec.position.y;
+    goal.direction = spec.direction;
+    goal.updateWindow = 0;
+
+    size.x = spec.size.x;
+    size.y = spec.size.y;
+  };
+
+  that.updateGoal = function(spec) {
+    goal.updateWindow = spec.updateWindow;
+    goal.position.x = spec.position.x;
+    goal.position.y = spec.position.y;
+    goal.direction = spec.direction;
+  };
+
   //------------------------------------------------------------------
   //
   // Update of the remote player is a simple linear progression/interpolation

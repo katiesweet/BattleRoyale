@@ -2,23 +2,32 @@
   "users": [
     {
       "username": "Adam",
-      "highscore": 10000
-    },
-    {
-      "username": "Adam again",
-      "highscore": 9999
+      "highscore": 123,
+      "hashedPassword": "$2a$10$N3rMkXQvhIk5RZ2vEtlBQOra0PGYdDdl0U3sLQOhoc48dug6n9gny"
     },
     {
       "username": "Katie",
-      "highscore": 1
-    },
-    {
-      "username": "Sarah",
-      "highscore": 1
+      "highscore": 1000,
+      "hashedPassword": "$2a$10$N3rMkXQvhIk5RZ2vEtlBQOra0PGYdDdl0U3sLQOhoc48dug6n9gny"
     },
     {
       "username": "sarah",
       "hashedPassword": "$2a$10$pC98XulgKqSBFHbpqK/D7O8iGyKTcubp3c20kvDJTf4eqI7fkso9e",
+      "highscore": 500
+    },
+    {
+      "username": "1@1.com",
+      "hashedPassword": "$2a$10$BtxpqsFVl2ObSWmAYUzOjO1PlJYHgMmcTXJHecIsAQRWAWu3i2KfC",
+      "highscore": 0
+    },
+    {
+      "username": "asdf",
+      "hashedPassword": "$2a$10$wPDuHYPpp9rux0JrQIbCU.8IiM7iaeQqfRCFbH7bpim5.i8Iek/Bu",
+      "highscore": 0
+    },
+    {
+      "username": "test",
+      "hashedPassword": "$2a$10$pMCtAsVfGuNfmbjZB96x3enlOVGsmfLztLZ0Q2jmTT9yiF6TiYU7a",
       "highscore": 0
     }
   ]

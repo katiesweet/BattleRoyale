@@ -10,8 +10,9 @@ MyGame.screens['login'] = (function(menu) {
     notification.style.display = 'none';
 
     axios
-      .post('http://localhost:3000/login', { username, password })
+      .post('/login', { username, password })
       .then(({ status, data }) => {
+        localStorage.setItem('username', username);
         localStorage.setItem('token', data);
         menu.showScreen('main-menu');
       })
@@ -30,8 +31,9 @@ MyGame.screens['login'] = (function(menu) {
     notification.style.display = 'none';
 
     axios
-      .post('http://localhost:3000/register', { username, password })
+      .post('/register', { username, password })
       .then(({ status, data }) => {
+        localStorage.setItem('username', username);
         localStorage.setItem('token', data);
         menu.showScreen('main-menu');
       })
@@ -46,21 +48,7 @@ MyGame.screens['login'] = (function(menu) {
     document.getElementById('register-btn').addEventListener('click', register);
   }
 
-  function run() {
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/me',
-      headers: { authorization: localStorage.getItem('token') || null },
-    })
-      .then(({ status, data }) => {
-        if (data && data.username) {
-          menu.showScreen('main-menu');
-        }
-      })
-      .catch(err => {
-        console.log('Error fetching current user', err);
-      });
-  }
+  function run() {}
 
   return {
     initialize: initialize,

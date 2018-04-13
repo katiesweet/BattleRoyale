@@ -7,7 +7,7 @@ const router = Router();
 router.use(async (req, res, next) => {
   const token = req.headers.authorization;
 
-  if (token && token !== 'null') {
+  if (token && token !== '' && token !== 'null') {
     req.user = await db.getUserFromToken(token);
   }
 

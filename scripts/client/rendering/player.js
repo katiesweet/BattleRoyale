@@ -16,12 +16,13 @@ MyGame.renderer.Player = (function(graphics) {
     graphics.saveContext();
     graphics.rotateCanvas(model.position, model.direction);
     graphics.drawImage(
-                      texture, 
-                      model.position.x - model.size.width/2, 
-                      model.position.y - model.size.width/2, 
-                      model.size.width,
-                      model.size.height,
-                      true);
+      texture,
+      model.position.x - model.size.width / 2,
+      model.position.y - model.size.width / 2,
+      model.size.width,
+      model.size.height,
+      true
+    );
     graphics.restoreContext();
   };
 

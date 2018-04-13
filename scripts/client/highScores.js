@@ -1,20 +1,16 @@
 MyGame.screens['highscores'] = (function(menu) {
   'use strict';
 
-  function initialize() {
-    document
-      .getElementById('id-highscores-back')
-      .addEventListener('click', function() {
-        menu.showScreen('main-menu');
-      });
-  }
+  function initialize() {}
 
   function run() {
     axios
-      .get('http://localhost:3000/highscores')
+      .get('/highscores')
       .then(({ status, data }) => {
         const highscores = data;
         const hsList = document.getElementById('hs-list');
+
+        hsList.innerHTML = '';
 
         for (let i = 0; i < highscores.length; i++) {
           const listItem = document.createElement('li');

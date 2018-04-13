@@ -3,8 +3,6 @@ const jwt = require('jsonwebtoken');
 const low = require('lowdb');
 const FileAsync = require('lowdb/adapters/FileAsync');
 
-const SECRET_KEY = 'super secret key';
-
 const adapter = new FileAsync('db.json');
 let db;
 
@@ -15,24 +13,30 @@ async function initialize() {
     throw new Error('Lowdb failed to initialize.');
   }
 
+  const hashedPassword = await hashPassword('password');
+
   return db
     .defaults({
       users: [
         {
           username: 'Adam',
           highscore: 10000,
+          hashedPassword,
         },
         {
           username: 'Adam again',
           highscore: 9999,
+          hashedPassword,
         },
         {
           username: 'Katie',
           highscore: 1,
+          hashedPassword,
         },
         {
           username: 'Sarah',
           highscore: 1,
+          hashedPassword,
         },
       ],
     })
@@ -68,7 +72,7 @@ async function updateUser(username, updates) {
 }
 
 async function getUserFromToken(token) {
-  const { username } = jwt.verify(token, SECRET_KEY);
+  const { username } = jwt.verify(token, process.env.SECRET_KEY);
   return getUser(username);
 }
 
@@ -80,7 +84,7 @@ async function getUser(username) {
 }
 
 function getTokenForUser(username) {
-  return jwt.sign({ username }, SECRET_KEY);
+  return jwt.sign({ username }, process.env.SECRET_KEY);
 }
 
 async function loginUser(username, password) {
