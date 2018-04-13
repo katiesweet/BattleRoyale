@@ -55,7 +55,7 @@ function createMissile(spec) {
     let vectorY = Math.sin(spec.direction);
 
     spec.position.x += vectorX * elapsedTime * speed;
-    spec.position.y += vectorY * elapsedTime * speed;
+    spec.position.y -= vectorY * elapsedTime * speed;
 
     timeRemaining -= elapsedTime;
 

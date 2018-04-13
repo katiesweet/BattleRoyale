@@ -31,7 +31,7 @@ MyGame.components.Missile = function(spec) {
     let vectorY = Math.sin(spec.direction);
 
     spec.position.x += vectorX * elapsedTime * spec.speed;
-    spec.position.y += vectorY * elapsedTime * spec.speed;
+    spec.position.y -= vectorY * elapsedTime * spec.speed;
 
     spec.timeRemaining -= elapsedTime;
 

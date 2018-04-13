@@ -36,6 +36,7 @@ function createPlayer() {
 
   Object.defineProperty(that, 'direction', {
     get: () => direction * Math.PI/4,
+    // get: () => direction,
   });
 
   Object.defineProperty(that, 'position', {
@@ -71,11 +72,14 @@ function createPlayer() {
   //------------------------------------------------------------------
   that.move = function(elapsedTime) {
     reportUpdate = true;
-    let vectorX = Math.cos(direction);
-    let vectorY = Math.sin(direction);
+    // let vectorX = Math.cos(direction);
+    // let vectorY = Math.sin(direction);
+    let angle = direction * Math.PI/4;
+    let vectorX = Math.cos(angle);
+    let vectorY = Math.sin(angle);
 
     position.x += vectorX * elapsedTime * speed;
-    position.y += vectorY * elapsedTime * speed;
+    position.y -= vectorY * elapsedTime * speed;
   };
 
   //------------------------------------------------------------------
@@ -89,7 +93,6 @@ function createPlayer() {
     // direction += rotateRate * elapsedTime;
     rotationSinceLastDiscreteMove += rotateRate * elapsedTime;
     if (rotationSinceLastDiscreteMove > Math.PI/8) {
-      // rotate to next, but 
       rotationSinceLastDiscreteMove = - Math.PI/8;
       direction -= 1;
       if (direction <= 0) {
