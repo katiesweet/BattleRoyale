@@ -112,7 +112,7 @@ MyGame.loader = (function() {
       },
       {
         key: 'player-other',
-        source: 'assets/single_cowboy.png',
+        source: 'assets/cowboy_red.png',
       },
       {
         key: 'explosion',

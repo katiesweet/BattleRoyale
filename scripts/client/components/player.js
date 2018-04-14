@@ -19,11 +19,9 @@ MyGame.components.Player = function() {
   let rotationSinceLastDiscreteMove = 0;
   let speed = 0;
 
-  that.sprite = MyGame.components.CowboySprite(
-    {
+  that.sprite = MyGame.components.CowboySprite({
       walkingRate : 100
-    }
-  );
+  });
 
   Object.defineProperty(that, 'direction', {
     get: () => direction,
