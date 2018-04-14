@@ -58,6 +58,9 @@ MyGame.components.PlayerRemote = function() {
     goal.direction = spec.direction;
     goal.updateWindow = 0;
 
+    size.x = spec.size.x;
+    size.y = spec.size.y;
+
     that.sprite.updateRotationAnimation(state.direction);
     username = spec.username;
   };

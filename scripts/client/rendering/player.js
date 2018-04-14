@@ -21,7 +21,7 @@ MyGame.renderer.Player = (function(graphics) {
       128,
       128,
       model.position.x - model.size.width / 2,
-      model.position.y - model.size.width / 2,
+      model.position.y - model.size.height / 2,
       model.size.width,
       model.size.height,
       true

@@ -20,7 +20,7 @@ MyGame.renderer.PlayerRemote = (function(graphics) {
       128,
       128,
       model.state.position.x - model.size.width / 2,
-      model.state.position.y - model.size.width / 2,
+      model.state.position.y - model.size.height / 2,
       model.size.width,
       model.size.height,
       true
