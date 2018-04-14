@@ -51,11 +51,12 @@ function createBullet(spec) {
   //
   //------------------------------------------------------------------
   that.update = function(elapsedTime) {
-    let vectorX = Math.cos(spec.direction);
-    let vectorY = Math.sin(spec.direction);
+    let angle = spec.direction * Math.PI / 4;
+    let vectorX = Math.cos(angle);
+    let vectorY = Math.sin(angle);
 
     spec.position.x += vectorX * elapsedTime * speed;
-    spec.position.y += vectorY * elapsedTime * speed;
+    spec.position.y -= vectorY * elapsedTime * speed;
 
     timeRemaining -= elapsedTime;
 
