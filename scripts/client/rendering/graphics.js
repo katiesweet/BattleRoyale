@@ -226,6 +226,62 @@ MyGame.graphics = (function() {
     context.fill();
   }
 
+  //------------------------------------------------------------------
+	//
+	// Draws a rectangle relative to the 'unit world'.
+	//
+	//------------------------------------------------------------------
+	function drawRectangle(style, left, top, width, height, useViewport) {
+		var adjustLeft = (useViewport === true) ? viewport.left : 0,
+			adjustTop = (useViewport === true) ? viewport.top : 0;
+
+		// 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
+		context.strokeStyle = style;
+		context.strokeRect(
+			0.5 + world.left + ((left - adjustLeft) * world.size),
+			0.5 + world.top + ((top - adjustTop) * world.size),
+			width * world.size,
+			height * world.size);
+	}
+
+  //------------------------------------------------------------------
+	//
+	// Draws a filled rectangle relative to the 'unit world'.
+	//
+	//------------------------------------------------------------------
+	function drawFilledRectangle(style, left, top, width, height, useViewport) {
+		var adjustLeft = (useViewport === true) ? viewport.left : 0,
+			adjustTop = (useViewport === true) ? viewport.top : 0;
+
+		//
+		// 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
+		context.fillStyle = style;
+		context.fillRect(
+			0.5 + world.left + ((left - adjustLeft) * world.size),
+			0.5 + world.top + ((top - adjustTop) * world.size),
+			width * world.size,
+			height * world.size);
+  }
+
+  //------------------------------------------------------------------
+	//
+	// Draws text centered relative to the 'unit world'.
+	//
+	//------------------------------------------------------------------
+  function drawText(color, font, text, left, top, maxWidth, useViewport) {
+		var adjustLeft = (useViewport === true) ? viewport.left : 0,
+			adjustTop = (useViewport === true) ? viewport.top : 0;
+
+    context.fillStyle = color;
+    context.font = font;
+    context.textAlign = 'center'
+    context.fillText(
+      text,
+      0.5 + world.left + ((left - adjustLeft) * world.size),
+      0.5 + world.top + ((top - adjustTop) * world.size),
+      maxWidth * world.size);
+  }
+
   return {
     clear: clear,
     saveContext: saveContext,
@@ -236,5 +292,8 @@ MyGame.graphics = (function() {
     drawCircle: drawCircle,
     world: world,
     viewport: viewport,
+    drawRectangle: drawRectangle,
+    drawFilledRectangle: drawFilledRectangle,
+    drawText: drawText
   };
 })();

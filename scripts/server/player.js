@@ -31,6 +31,7 @@ function createPlayer(username, clientId) {
   let rotateRate = Math.PI / 750; // radians per millisecond
   let speed = 0.0002; // unit distance per millisecond
   let reportUpdate = false; // Indicates if this model was updated during the last update
+  let health = 1.0;
 
   Object.defineProperty(that, 'username', {
     get: () => username,
@@ -69,6 +70,10 @@ function createPlayer(username, clientId) {
     get: () => size.radius,
   });
 
+  Object.defineProperty(that, 'health', {
+    get: () => health,
+  });
+
   that.toJSON = function() {
     return {
       clientId,
@@ -78,6 +83,7 @@ function createPlayer(username, clientId) {
       size,
       rotateRate,
       speed,
+      health,
     };
   };
 
@@ -93,8 +99,6 @@ function createPlayer(username, clientId) {
     let angle = direction * Math.PI / 4;
     let vectorX = Math.cos(angle);
     let vectorY = Math.sin(angle);
-    // let vectorX = Math.cos(direction);
-    // let vectorY = Math.sin(direction);
 
     position.x += vectorX * elapsedTime * speed;
     position.y -= vectorY * elapsedTime * speed;

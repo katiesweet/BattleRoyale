@@ -6,6 +6,7 @@
 MyGame.components.PlayerRemote = function() {
   'use strict';
   let that = {};
+  let username = "";
   let size = {
     width: 0.075,
     height: 0.075,
@@ -42,6 +43,10 @@ MyGame.components.PlayerRemote = function() {
     get: () => size,
   });
 
+  Object.defineProperty(that, 'username', {
+    get: () => username,
+  });
+  
   that.initialize = function(spec) {
     state.position.x = spec.position.x;
     state.position.y = spec.position.y;
@@ -54,6 +59,7 @@ MyGame.components.PlayerRemote = function() {
     goal.updateWindow = 0;
 
     that.sprite.updateRotationAnimation(state.direction);
+    username = spec.username;
   };
 
   that.updateGoal = function(spec) {

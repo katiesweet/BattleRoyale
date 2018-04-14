@@ -18,6 +18,8 @@ MyGame.components.Player = function() {
   let rotateRate = 0;
   let rotationSinceLastDiscreteMove = 0;
   let speed = 0;
+  let username = "";
+  let health = 0;  
 
   that.sprite = MyGame.components.CowboySprite({
       walkingRate : 100
@@ -53,6 +55,14 @@ MyGame.components.Player = function() {
     get: () => size,
   });
 
+  Object.defineProperty(that, 'username', {
+    get: () => username,
+  });
+
+  Object.defineProperty(that, 'health', {
+    get: () => health,
+  });
+
   that.initialize = function(spec) {
     position.x = spec.position.x;
     position.y = spec.position.y;
@@ -64,6 +74,9 @@ MyGame.components.Player = function() {
     speed = spec.speed;
     rotateRate = spec.rotateRate;
     that.sprite.updateRotationAnimation(direction);
+
+    username = spec.username;
+    health = spec.health;
   };
 
   //------------------------------------------------------------------
@@ -75,8 +88,6 @@ MyGame.components.Player = function() {
     let angle = direction * Math.PI / 4;
     let vectorX = Math.cos(angle);
     let vectorY = Math.sin(angle);
-    // let vectorX = Math.cos(direction);
-    // let vectorY = Math.sin(direction);
 
     position.x += vectorX * elapsedTime * speed;
     position.y -= vectorY * elapsedTime * speed;
@@ -90,7 +101,6 @@ MyGame.components.Player = function() {
   //
   //------------------------------------------------------------------
   that.rotateRight = function(elapsedTime) {
-    // direction += rotateRate * elapsedTime;
     rotationSinceLastDiscreteMove += rotateRate * elapsedTime;
     if (rotationSinceLastDiscreteMove > Math.PI/8) {
       rotationSinceLastDiscreteMove = - Math.PI/8;
@@ -108,7 +118,6 @@ MyGame.components.Player = function() {
   //
   //------------------------------------------------------------------
   that.rotateLeft = function(elapsedTime) {
-    // direction -= rotateRate * elapsedTime;
     rotationSinceLastDiscreteMove -= rotateRate * elapsedTime;
     if (rotationSinceLastDiscreteMove < -1 * Math.PI/8) {
       rotationSinceLastDiscreteMove = Math.PI/8;
