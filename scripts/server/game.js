@@ -149,6 +149,8 @@ function update(elapsedTime, currentTime) {
             bulletId: activeBullets[bullet].id,
             position: activeClients[clientId].player.position,
           });
+
+          activeClients[clientId].player.hitByBullet(activeBullets[bullet]);
         }
       }
     }
@@ -158,7 +160,7 @@ function update(elapsedTime, currentTime) {
       hits.push({
         clientId: null,
         bulletId: activeBullets[bullet].id,
-        position: activeBullets[bullet].position
+        position: activeBullets[bullet].position,
       });
     }
 

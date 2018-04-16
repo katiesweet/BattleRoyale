@@ -85,6 +85,27 @@ MyGame.screens['gameplay'] = (function(
     let memory = Queue.create();
     while (!network.history.empty) {
       let message = network.history.dequeue();
+
+      switch (message.type) {
+        case 'move-up':
+          playerSelf.model.moveUp(input.message.elapsedTime, barriers);
+          break;
+        case 'move-left':
+          playerSelf.model.moveLeft(input.message.elapsedTime, barriers);
+          break;
+        case 'move-right':
+          playerSelf.model.moveRight(input.message.elapsedTime, barriers);
+          break;
+        case 'move-down':
+          playerSelf.model.moveDown(input.message.elapsedTime, barriers);
+          break;
+        case 'rotate-left':
+          playerSelf.model.rotateLeft();
+          break;
+        case 'rotate-right':
+          playerSelf.model.rotateRight();
+      }
+
       memory.enqueue(message);
     }
     network.history = memory;
@@ -259,7 +280,11 @@ MyGame.screens['gameplay'] = (function(
 
   MyGame.registerEvent = function(networkId, keyboardInput, action) {
     let repeat = true;
-    if (action == 'fire' || action == 'rotate-left' || action == 'rotate-right') {
+    if (
+      action == 'fire' ||
+      action == 'rotate-left' ||
+      action == 'rotate-right'
+    ) {
       repeat = false;
     }
     console.log(networkId);
@@ -282,7 +307,7 @@ MyGame.screens['gameplay'] = (function(
         } else if (action == 'move-right') {
           playerSelf.model.moveRight(elapsedTime);
         } else if (action == 'move-down') {
-          playerSelf.model.moveDown(elapsedTime)
+          playerSelf.model.moveDown(elapsedTime);
         } else if (action == 'rotate-right') {
           playerSelf.model.rotateRight();
         } else if (action == 'rotate-left') {
@@ -316,7 +341,13 @@ MyGame.screens['gameplay'] = (function(
 
     //
     // Get the intial viewport settings prepared.
-    graphics.viewport.set(0, 0, 0.25, graphics.world.width, graphics.world.height); // The buffer can't really be any larger than world.buffer, guess I could protect against that.
+    graphics.viewport.set(
+      0,
+      0,
+      0.25,
+      graphics.world.width,
+      graphics.world.height
+    ); // The buffer can't really be any larger than world.buffer, guess I could protect against that.
 
     //
     // Define the TiledImage model we'll be using for our background.
