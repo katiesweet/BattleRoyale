@@ -26,10 +26,12 @@ function createPlayer(username, clientId) {
     height: 0.01,
     radius: 0.02,
   };
-  let direction = random.nextDouble() * 2 * Math.PI; // Angle in radians
-  let rotateRate = Math.PI / 1000; // radians per millisecond
+  let direction = random.nextRange(0, 7); // * Math.PI/4
+  let rotationSinceLastDiscreteMove = 0;
+  let rotateRate = Math.PI / 750; // radians per millisecond
   let speed = 0.0002; // unit distance per millisecond
   let reportUpdate = false; // Indicates if this model was updated during the last update
+  let health = 1.0;
 
   Object.defineProperty(that, 'username', {
     get: () => username,
@@ -68,6 +70,10 @@ function createPlayer(username, clientId) {
     get: () => size.radius,
   });
 
+  Object.defineProperty(that, 'health', {
+    get: () => health,
+  });
+
   that.toJSON = function() {
     return {
       clientId,
@@ -77,6 +83,7 @@ function createPlayer(username, clientId) {
       size,
       rotateRate,
       speed,
+      health,
     };
   };
 
@@ -88,11 +95,13 @@ function createPlayer(username, clientId) {
   //------------------------------------------------------------------
   that.move = function(elapsedTime) {
     reportUpdate = true;
-    let vectorX = Math.cos(direction);
-    let vectorY = Math.sin(direction);
+
+    let angle = direction * Math.PI / 4;
+    let vectorX = Math.cos(angle);
+    let vectorY = Math.sin(angle);
 
     position.x += vectorX * elapsedTime * speed;
-    position.y += vectorY * elapsedTime * speed;
+    position.y -= vectorY * elapsedTime * speed;
   };
 
   //------------------------------------------------------------------
@@ -103,7 +112,15 @@ function createPlayer(username, clientId) {
   //------------------------------------------------------------------
   that.rotateRight = function(elapsedTime) {
     reportUpdate = true;
-    direction += rotateRate * elapsedTime;
+    // direction += rotateRate * elapsedTime;
+    rotationSinceLastDiscreteMove += rotateRate * elapsedTime;
+    if (rotationSinceLastDiscreteMove > Math.PI/8) {
+      rotationSinceLastDiscreteMove = - 1 * Math.PI/8;
+      direction -= 1;
+      if (direction <= 0) {
+        direction = 7;
+      }
+    }
   };
 
   //------------------------------------------------------------------
@@ -114,7 +131,12 @@ function createPlayer(username, clientId) {
   //------------------------------------------------------------------
   that.rotateLeft = function(elapsedTime) {
     reportUpdate = true;
-    direction -= rotateRate * elapsedTime;
+    // direction -= rotateRate * elapsedTime;
+    rotationSinceLastDiscreteMove -= rotateRate * elapsedTime;
+    if (rotationSinceLastDiscreteMove < -1 * Math.PI/8) {
+      rotationSinceLastDiscreteMove = Math.PI/8;
+      direction = (direction + 1) % 8;
+    }
   };
 
   //------------------------------------------------------------------

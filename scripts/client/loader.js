@@ -45,6 +45,7 @@ MyGame.loader = (function() {
           'components/bullet',
           'components/explosion',
           'components/animated-sprite',
+          'components/cowboy-sprite',
           'components/tiled-image',
           'components/viewport',
         ],
@@ -107,11 +108,11 @@ MyGame.loader = (function() {
       },
       {
         key: 'player-self',
-        source: 'assets/single_cowboy_blue.png',
+        source: 'assets/cowboy.png',
       },
       {
         key: 'player-other',
-        source: 'assets/single_cowboy.png',
+        source: 'assets/cowboy_red.png',
       },
       {
         key: 'explosion',

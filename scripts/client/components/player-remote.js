@@ -6,9 +6,10 @@
 MyGame.components.PlayerRemote = function() {
   'use strict';
   let that = {};
+  let username = "";
   let size = {
-    width: 0.05,
-    height: 0.05,
+    width: 0.075,
+    height: 0.075,
   };
   let state = {
     direction: 0,
@@ -26,6 +27,10 @@ MyGame.components.PlayerRemote = function() {
     updateWindow: 0, // Server reported time elapsed since last update
   };
 
+   that.sprite = MyGame.components.CowboySprite({
+    walkingRate: 100
+  });
+
   Object.defineProperty(that, 'state', {
     get: () => state,
   });
@@ -38,6 +43,10 @@ MyGame.components.PlayerRemote = function() {
     get: () => size,
   });
 
+  Object.defineProperty(that, 'username', {
+    get: () => username,
+  });
+  
   that.initialize = function(spec) {
     state.position.x = spec.position.x;
     state.position.y = spec.position.y;
@@ -51,13 +60,22 @@ MyGame.components.PlayerRemote = function() {
 
     size.x = spec.size.x;
     size.y = spec.size.y;
+
+    that.sprite.updateRotationAnimation(state.direction);
+    username = spec.username;
   };
 
   that.updateGoal = function(spec) {
     goal.updateWindow = spec.updateWindow;
+
+    if (spec.position.x != goal.position.x || spec.position.y != goal.position.y) {
+      that.sprite.updateWalkAnimation(spec.updateWindow);
+    }
+
     goal.position.x = spec.position.x;
     goal.position.y = spec.position.y;
     goal.direction = spec.direction;
+    that.sprite.updateRotationAnimation(spec.direction);
   };
 
   //------------------------------------------------------------------
@@ -74,7 +92,7 @@ MyGame.components.PlayerRemote = function() {
     if (updateFraction > 0) {
       //
       // Turn first, then move.
-      state.direction -= (state.direction - goal.direction) * updateFraction;
+      state.direction = goal.direction;
 
       state.position.x -= (state.position.x - goal.position.x) * updateFraction;
       state.position.y -= (state.position.y - goal.position.y) * updateFraction;

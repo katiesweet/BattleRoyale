@@ -16,12 +16,20 @@ MyGame.components.Player = function() {
   };
   let direction = 0;
   let rotateRate = 0;
+  let rotationSinceLastDiscreteMove = 0;
   let speed = 0;
+  let username = "";
+  let health = 0;  
+
+  that.sprite = MyGame.components.CowboySprite({
+      walkingRate : 100
+  });
 
   Object.defineProperty(that, 'direction', {
     get: () => direction,
     set: value => {
       direction = value;
+      that.sprite.updateRotationAnimation(direction);
     },
   });
 
@@ -47,6 +55,14 @@ MyGame.components.Player = function() {
     get: () => size,
   });
 
+  Object.defineProperty(that, 'username', {
+    get: () => username,
+  });
+
+  Object.defineProperty(that, 'health', {
+    get: () => health,
+  });
+
   that.initialize = function(spec) {
     position.x = spec.position.x;
     position.y = spec.position.y;
@@ -57,6 +73,10 @@ MyGame.components.Player = function() {
     direction = spec.direction;
     speed = spec.speed;
     rotateRate = spec.rotateRate;
+    that.sprite.updateRotationAnimation(direction);
+
+    username = spec.username;
+    health = spec.health;
   };
 
   //------------------------------------------------------------------
@@ -65,11 +85,14 @@ MyGame.components.Player = function() {
   //
   //------------------------------------------------------------------
   that.move = function(elapsedTime) {
-    let vectorX = Math.cos(direction);
-    let vectorY = Math.sin(direction);
+    let angle = direction * Math.PI / 4;
+    let vectorX = Math.cos(angle);
+    let vectorY = Math.sin(angle);
 
     position.x += vectorX * elapsedTime * speed;
-    position.y += vectorY * elapsedTime * speed;
+    position.y -= vectorY * elapsedTime * speed;
+
+    that.sprite.updateWalkAnimation(elapsedTime);
   };
 
   //------------------------------------------------------------------
@@ -78,7 +101,15 @@ MyGame.components.Player = function() {
   //
   //------------------------------------------------------------------
   that.rotateRight = function(elapsedTime) {
-    direction += rotateRate * elapsedTime;
+    rotationSinceLastDiscreteMove += rotateRate * elapsedTime;
+    if (rotationSinceLastDiscreteMove > Math.PI/8) {
+      rotationSinceLastDiscreteMove = - Math.PI/8;
+      direction -= 1;
+      if (direction <= 0) {
+        direction = 7;
+      }
+    }
+    that.sprite.updateRotationAnimation(direction);
   };
 
   //------------------------------------------------------------------
@@ -87,13 +118,19 @@ MyGame.components.Player = function() {
   //
   //------------------------------------------------------------------
   that.rotateLeft = function(elapsedTime) {
-    direction -= rotateRate * elapsedTime;
+    rotationSinceLastDiscreteMove -= rotateRate * elapsedTime;
+    if (rotationSinceLastDiscreteMove < -1 * Math.PI/8) {
+      rotationSinceLastDiscreteMove = Math.PI/8;
+      direction = (direction + 1) % 8;
+    }
+    that.sprite.updateRotationAnimation(direction);
   };
 
   that.update = function(spec) {
     position.x = spec.position.x;
     position.y = spec.position.y;
     direction = spec.direction;
+    that.sprite.updateRotationAnimation(direction);
   };
 
   return that;
