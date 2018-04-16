@@ -284,10 +284,8 @@ MyGame.screens['gameplay'] = (function(
         } else if (action == 'move-down') {
           playerSelf.model.moveDown(elapsedTime)
         } else if (action == 'rotate-right') {
-          // playerSelf.model.rotateRight(elapsedTime);
           playerSelf.model.rotateRight();
         } else if (action == 'rotate-left') {
-          // playerSelf.model.rotateLeft(elapsedTime);
           playerSelf.model.rotateLeft();
         } else if (action == 'fire') {
           MyGame.assets['kaboom'].currentTime = 0;

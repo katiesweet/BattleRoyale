@@ -77,11 +77,9 @@ function processInput(elapsedTime) {
         client.player.moveDown(input.message.elapsedTime, barriers);
         break;
       case NetworkIds.INPUT_ROTATE_LEFT:
-        // client.player.rotateLeft(input.message.elapsedTime);
         client.player.rotateLeft();
         break;
       case NetworkIds.INPUT_ROTATE_RIGHT:
-        // client.player.rotateRight(input.message.elapsedTime);
         client.player.rotateRight();
         break;
       case NetworkIds.INPUT_FIRE:
@@ -152,6 +150,16 @@ function update(elapsedTime, currentTime) {
         }
       }
     }
+    // Check if bullet hits barrier
+    if (barriers.circularObjectCollides(activeBullets[bullet])) {
+      hit = true;
+      hits.push({
+        clientId: null,
+        bulletId: activeBullets[bullet].id,
+        position: activeBullets[bullet].position
+      });
+    }
+
     if (!hit) {
       keepBullets.push(activeBullets[bullet]);
     }

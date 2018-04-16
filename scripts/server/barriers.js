@@ -69,6 +69,21 @@ function loadAndCreateBarriers() {
         return false;
     }
 
+    that.circularObjectCollides = function(object) {
+        // convert to rectagular object (not optimal, but good start)
+        let tlRectangularPosition = {
+            x : object.position.x - object.radius,
+            y : object.position.y - object.radius
+        }
+    
+        let brRectangluarPosition = {
+            x : object.position.x + object.radius,
+            y : object.position.y + object.radius
+        }
+    
+        return that.rectangularObjectCollides(tlRectangularPosition, brRectangluarPosition);
+    }
+
     return that;
 };
 
