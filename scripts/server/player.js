@@ -16,16 +16,8 @@ const random = require('./random');
 function createPlayer(username, clientId) {
   let that = { username, clientId };
 
-  let position = {
-    x: random.nextDouble() * 15,
-    y: random.nextDouble() * 15,
-  };
-
-  let size = {
-    width: 0.01,
-    height: 0.01,
-    radius: 0.02,
-  };
+  let position = { x: -1, y: -1 };
+  let size = { width: 0.01, height: 0.01, radius: 0.02 };
   let direction = random.nextRange(0, 7); // * Math.PI/4
   let rotationSinceLastDiscreteMove = 0;
   let rotateRate = Math.PI / 750; // radians per millisecond
@@ -87,6 +79,10 @@ function createPlayer(username, clientId) {
     };
   };
 
+  that.setStartingPosition = function(start) {
+    position = start;
+  };
+
   //------------------------------------------------------------------
   //
   // Moves the player forward based on how long it has been since the
@@ -114,8 +110,8 @@ function createPlayer(username, clientId) {
     reportUpdate = true;
     // direction += rotateRate * elapsedTime;
     rotationSinceLastDiscreteMove += rotateRate * elapsedTime;
-    if (rotationSinceLastDiscreteMove > Math.PI/8) {
-      rotationSinceLastDiscreteMove = - 1 * Math.PI/8;
+    if (rotationSinceLastDiscreteMove > Math.PI / 8) {
+      rotationSinceLastDiscreteMove = -1 * Math.PI / 8;
       direction -= 1;
       if (direction <= 0) {
         direction = 7;
@@ -133,18 +129,11 @@ function createPlayer(username, clientId) {
     reportUpdate = true;
     // direction -= rotateRate * elapsedTime;
     rotationSinceLastDiscreteMove -= rotateRate * elapsedTime;
-    if (rotationSinceLastDiscreteMove < -1 * Math.PI/8) {
-      rotationSinceLastDiscreteMove = Math.PI/8;
+    if (rotationSinceLastDiscreteMove < -1 * Math.PI / 8) {
+      rotationSinceLastDiscreteMove = Math.PI / 8;
       direction = (direction + 1) % 8;
     }
   };
-
-  //------------------------------------------------------------------
-  //
-  // Function used to update the player during the game loop.
-  //
-  //------------------------------------------------------------------
-  that.update = function(when) {};
 
   return that;
 }
