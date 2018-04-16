@@ -133,6 +133,8 @@ function createPlayer(username, clientId) {
   };
 
   that.moveLeft = function(elapsedTime, barriers) {
+    reportUpdate = true;
+
     let angleFacing = direction * Math.PI / 4;
     let leftAngle = angleFacing + Math.PI / 2;
     let vectorX = Math.cos(leftAngle);
@@ -149,6 +151,8 @@ function createPlayer(username, clientId) {
   };
 
   that.moveRight = function(elapsedTime, barriers) {
+    reportUpdate = true;
+
     let angleFacing = direction * Math.PI / 4;
     let leftAngle = angleFacing - Math.PI / 2;
     let vectorX = Math.cos(leftAngle);
@@ -165,6 +169,8 @@ function createPlayer(username, clientId) {
   };
 
   that.moveDown = function(elapsedTime, barriers) {
+    reportUpdate = true;
+
     let angleFacing = direction * Math.PI / 4;
     let leftAngle = angleFacing + Math.PI;
     let vectorX = Math.cos(leftAngle);
