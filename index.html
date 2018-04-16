@@ -51,7 +51,7 @@
 		<div id="lobby" class="screen">
 			<div class="lobby-actions">
 				<button id="lobby-back-btn">Back</button>
-				<button data-route="gameplay">Start Game</button>
+				<button data-route="pregame">Join Game</button>
 			</div>
 			<div class="waiting-room">
 				<div class="player-list">
@@ -70,11 +70,18 @@
 				</div>
 			</div>
 		</div>
+		<div id="pregame" class="screen">
+			<div class="pregame-container">
+				<h1>Select your starting location...</h1>
+				<canvas id="spawn-map"></canvas>
+				<button id="pregame-quit-btn">Quit</button>
+			</div>
+		</div>
 		<div id="gameplay" class="screen">
 			<div class="game-container">
 				<div class="game-menu">
 					<div class="mini-map-window">
-						<canvas id="mini-map" style="background-color: rgb(0, 0, 0)"></canvas>
+						<canvas id="mini-map"></canvas>
 					</div>
 
 					<ul class="options">
@@ -84,7 +91,7 @@
 					</ul>
 				</div>
 				<div class="game-window">
-					<canvas id="canvas-main" style="background-color: rgb(0, 0, 0)"></canvas>
+					<canvas id="canvas-main"></canvas>
 				</div>
 				<div class="game-chat">
 					<div id="game-message-list" class="messages"></div>

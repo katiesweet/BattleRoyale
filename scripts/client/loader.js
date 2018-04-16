@@ -66,6 +66,7 @@ MyGame.loader = (function() {
         scripts: [
           'mainmenu',
           'lobby',
+          'pregame',
           'credits',
           'highScores',
           'login',
@@ -87,6 +88,7 @@ MyGame.loader = (function() {
           'rendering/animated-sprite',
           'rendering/tiled-image',
           'rendering/mini-map',
+          'rendering/spawn-map',
         ],
         message: 'Renderers loaded',
         onComplete: null,
@@ -120,12 +122,12 @@ MyGame.loader = (function() {
       },
       {
         key: 'kaboom', // for shooting a gun
-        source:'assets/rumble.mp3',
+        source: 'assets/rumble.mp3',
       },
       {
         key: 'boom', // for when someone is hit/explosions
-        source:'assets/DeathFlash.mp3',
-      }
+        source: 'assets/DeathFlash.mp3',
+      },
     ];
   //------------------------------------------------------------------
   //

@@ -44,6 +44,10 @@
       value: 'disconnect-other',
       writable: false,
     },
+    SET_STARTING_POSITION: {
+      value: 'set-starting-position',
+      writable: false,
+    },
     UPDATE_SELF: {
       value: 'update-self',
       writable: false,

@@ -29,6 +29,16 @@
       "username": "test",
       "hashedPassword": "$2a$10$pMCtAsVfGuNfmbjZB96x3enlOVGsmfLztLZ0Q2jmTT9yiF6TiYU7a",
       "highscore": 0
+    },
+    {
+      "username": "adam",
+      "hashedPassword": "$2a$10$PqrO9.VSMiJglgn3qRGepue.1yaWgsR9cVqFa9bPuRPkaMotVaJ56",
+      "highscore": 0
+    },
+    {
+      "username": "23",
+      "hashedPassword": "$2a$10$2l36dQsCNI7mfuDoK0PiiOUPOYzCyX99SYAWqgqZb138nsL.5jjF6",
+      "highscore": 0
     }
   ]
 }

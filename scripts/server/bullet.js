@@ -45,6 +45,17 @@ function createBullet(spec) {
     get: () => timeRemaining,
   });
 
+  that.toJSON = function() {
+    return {
+      id: that.id,
+      direction: that.direction,
+      position: that.position,
+      radius: that.radius,
+      speed: that.speed,
+      timeRemaining: that.timeRemaining,
+    };
+  };
+
   //------------------------------------------------------------------
   //
   // Function used to update the bullet during the game loop.

@@ -30,7 +30,7 @@ let nextBulletId = 1;
 //
 //------------------------------------------------------------------
 function createBullet(clientId, playerModel) {
-  let bullet = Bullet.create({
+  const bullet = Bullet.create({
     id: nextBulletId++,
     clientId: clientId,
     position: {
@@ -54,12 +54,12 @@ function processInput(elapsedTime) {
   //
   // Double buffering on the queue so we don't asynchronously receive inputs
   // while processing.
-  let processMe = inputQueue;
+  const processMe = inputQueue;
   inputQueue = Queue.create();
 
   while (!processMe.empty) {
-    let input = processMe.dequeue();
-    let client = activeClients[input.clientId];
+    const input = processMe.dequeue();
+    const client = activeClients[input.clientId];
     client.lastMessageId = input.message.id;
     switch (input.message.type) {
       case NetworkIds.INPUT_MOVE:
@@ -85,11 +85,11 @@ function processInput(elapsedTime) {
 //
 //------------------------------------------------------------------
 function collided(obj1, obj2) {
-  let distance = Math.sqrt(
+  const distance = Math.sqrt(
     Math.pow(obj1.position.x - obj2.position.x, 2) +
       Math.pow(obj1.position.y - obj2.position.y, 2)
   );
-  let radii = obj1.radius + obj2.radius;
+  const radii = obj1.radius + obj2.radius;
 
   return distance <= radii;
 }
@@ -101,7 +101,9 @@ function collided(obj1, obj2) {
 //------------------------------------------------------------------
 function update(elapsedTime, currentTime) {
   for (let clientId in activeClients) {
-    activeClients[clientId].player.update(currentTime);
+    if (activeClients[clientId].player.update) {
+      activeClients[clientId].player.update(currentTime);
+    }
   }
 
   for (let bullet = 0; bullet < newBullets.length; bullet++) {
@@ -163,18 +165,8 @@ function updateClients(elapsedTime) {
   // Build the bullet messages one time, then reuse inside the loop
   let bulletMessages = [];
   for (let item = 0; item < newBullets.length; item++) {
-    let bullet = newBullets[item];
-    bulletMessages.push({
-      id: bullet.id,
-      direction: bullet.direction,
-      position: {
-        x: bullet.position.x,
-        y: bullet.position.y,
-      },
-      radius: bullet.radius,
-      speed: bullet.speed,
-      timeRemaining: bullet.timeRemaining,
-    });
+    const bullet = newBullets[item];
+    bulletMessages.push(bullet.toJSON());
   }
 
   //
@@ -185,25 +177,18 @@ function updateClients(elapsedTime) {
   newBullets.length = 0;
 
   for (let clientId in activeClients) {
-    let client = activeClients[clientId];
-    let update = {
+    const client = activeClients[clientId];
+    const update = {
       clientId: clientId,
       lastMessageId: client.lastMessageId,
       direction: client.player.direction,
       position: client.player.position,
       updateWindow: lastUpdate,
     };
+
     if (client.player.reportUpdate) {
       client.socket.emit(NetworkIds.UPDATE_SELF, update);
-
-      //
-      // Notify all other connected clients about every
-      // other connected client status...but only if they are updated.
-      for (let otherId in activeClients) {
-        if (otherId !== clientId) {
-          activeClients[otherId].socket.emit(NetworkIds.UPDATE_OTHER, update);
-        }
-      }
+      client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
     }
 
     //
@@ -286,6 +271,24 @@ function initializeSocketIO(httpServer) {
     socket.emit(NetworkIds.CONNECT_ACK, {
       player: newPlayer.toJSON(),
       otherPlayers,
+    });
+
+    socket.on(NetworkIds.SET_STARTING_POSITION, ({ position }) => {
+      const client = activeClients[socket.id];
+
+      client.socket.emit(NetworkIds.SET_STARTING_POSITION, { position });
+      client.player.setStartingPosition(position);
+
+      const update = {
+        clientId: socket.id,
+        lastMessageId: client.lastMessageId,
+        direction: client.player.direction,
+        position: client.player.position,
+        updateWindow: lastUpdate,
+      };
+
+      client.socket.emit(NetworkIds.UPDATE_SELF, update);
+      client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
     });
 
     socket.on(NetworkIds.INPUT, data => {
