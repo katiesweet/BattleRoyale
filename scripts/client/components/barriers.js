@@ -31,13 +31,13 @@ MyGame.components.Barriers = function(barriers) {
     }
 
     that.rectangularObjectCollides = function(tl, br) {
-        // Get x,y tile coordinates
-        let objectX = Math.floor(tl.x + (tl.x - br.x) / 2);
-        let objectY = Math.floor(tl.y + (br.y - tl.y) / 2);
-        let mapKey = 'map_' + (objectY * numTilesPerRow + objectX);
-
         // Check wall collision
         if (collidesWithWall(tl, br)) return true;
+
+        // Get x,y tile coordinates
+        let objectX = Math.floor(tl.x + (br.x - tl.x) / 2);
+        let objectY = Math.floor(tl.y + (br.y - tl.y) / 2);
+        let mapKey = 'map_' + (objectY * numTilesPerRow + objectX);
 
         // Get object coordinate within tile
         let objectCoordWithinTile = {

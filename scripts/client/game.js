@@ -316,7 +316,7 @@ MyGame.screens['gameplay'] = (function(
 
     //
     // Get the intial viewport settings prepared.
-    graphics.viewport.set(0, 0, 0.25); // The buffer can't really be any larger than world.buffer, guess I could protect against that.
+    graphics.viewport.set(0, 0, 0.25, graphics.world.width, graphics.world.height); // The buffer can't really be any larger than world.buffer, guess I could protect against that.
 
     //
     // Define the TiledImage model we'll be using for our background.

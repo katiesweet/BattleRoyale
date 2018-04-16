@@ -9,10 +9,10 @@ function loadAndCreateBarriers() {
     let barriers = JSON.parse(fs.readFileSync('assets/map_objects.json', 'utf8'));
 
     function collidesWithWall(tlWorldCoord, brWorldCoord) {
-        if (tlWorldCoord.x < 0) return true;
-        if (tlWorldCoord.y < 0) return true;
-        if (brWorldCoord.x > 15) return true;
-        if (brWorldCoord.y > 15) return true;
+        if (tlWorldCoord.x <= 0) return true;
+        if (tlWorldCoord.y <= 0) return true;
+        if (brWorldCoord.x >= 15) return true;
+        if (brWorldCoord.y >= 15) return true;
         
         return false;
     }
@@ -28,13 +28,13 @@ function loadAndCreateBarriers() {
     }
 
     that.rectangularObjectCollides = function(tl, br) {
-        // Get x,y tile coordinates
-        let objectX = Math.floor(tl.x + (tl.x - br.x) / 2);
-        let objectY = Math.floor(tl.y + (br.y - tl.y) / 2);
-        let mapKey = 'map_' + (objectY * numTilesPerRow + objectX);
-
         // Check wall collision
         if (collidesWithWall(tl, br)) return true;
+
+        // Get x,y tile coordinates
+        let objectX = Math.floor(tl.x + (br.x - tl.x) / 2);
+        let objectY = Math.floor(tl.y + (br.y - tl.y) / 2);
+        let mapKey = 'map_' + (objectY * numTilesPerRow + objectX);
 
         // Get object coordinate within tile
         let objectCoordWithinTile = {

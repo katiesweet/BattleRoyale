@@ -28,6 +28,7 @@ MyGame.renderer.TiledImage = (function(graphics, assets) {
   // have to come back to this at some point and simplify the logic.
   //
   // ------------------------------------------------------------------
+
   that.render = function(image, viewport) {
     let tileSizeWorldCoords =
         image.size.width * (image.tileSize / image.pixel.width),
