@@ -113,7 +113,7 @@ function createPlayer(username, clientId) {
   // last move took place.
   //
   //------------------------------------------------------------------
-  that.move = function(elapsedTime, barriers) {
+  that.moveUp = function(elapsedTime, barriers) {
     reportUpdate = true;
 
     let angle = direction * Math.PI / 4;
@@ -132,6 +132,57 @@ function createPlayer(username, clientId) {
       position = proposedPosition;
     }
   };
+
+  that.moveLeft = function(elapsedTime, barriers) {
+    let angleFacing = direction * Math.PI / 4;
+    let leftAngle = angleFacing + Math.PI / 2;
+    let vectorX = Math.cos(leftAngle);
+    let vectorY = Math.sin(leftAngle);
+
+    let proposedPosition = {
+      x : position.x + vectorX * elapsedTime * speed,
+      y : position.y - vectorY * elapsedTime * speed
+    }
+
+    if (!checkIfCausesCollision(proposedPosition, barriers)) {
+      position = proposedPosition;
+    }
+
+  }
+
+  that.moveRight = function(elapsedTime, barriers) {
+    let angleFacing = direction * Math.PI / 4;
+    let leftAngle = angleFacing - Math.PI / 2;
+    let vectorX = Math.cos(leftAngle);
+    let vectorY = Math.sin(leftAngle);
+
+    let proposedPosition = {
+      x : position.x + vectorX * elapsedTime * speed,
+      y : position.y - vectorY * elapsedTime * speed
+    }
+
+    if (!checkIfCausesCollision(proposedPosition, barriers)) {
+      position = proposedPosition;
+    }
+
+  }
+
+  that.moveDown = function(elapsedTime, barriers) {
+    let angleFacing = direction * Math.PI / 4;
+    let leftAngle = angleFacing + Math.PI;
+    let vectorX = Math.cos(leftAngle);
+    let vectorY = Math.sin(leftAngle);
+
+    let proposedPosition = {
+      x : position.x + vectorX * elapsedTime * speed,
+      y : position.y - vectorY * elapsedTime * speed
+    }
+
+    if (!checkIfCausesCollision(proposedPosition, barriers)) {
+      position = proposedPosition;
+    }
+
+  }
 
   //------------------------------------------------------------------
   //

@@ -262,6 +262,7 @@ MyGame.screens['gameplay'] = (function(
     if (action == 'fire') {
       repeat = false;
     }
+    console.log(networkId);
     let id = myKeyboard.registerHandler(
       elapsedTime => {
         let message = {
@@ -272,8 +273,16 @@ MyGame.screens['gameplay'] = (function(
         network.emit(NetworkIds.INPUT, message);
         network.history.enqueue(message);
 
-        if (action.indexOf('move') >= 0) {
-          playerSelf.model.move(elapsedTime);
+        // if (action.indexOf('move') >= 0) {
+        //   playerSelf.model.move(elapsedTime);
+        if (action == 'move-up') {
+          playerSelf.model.moveUp(elapsedTime);
+        } else if (action == 'move-left') {
+          playerSelf.model.moveLeft(elapsedTime);
+        } else if (action == 'move-right') {
+          playerSelf.model.moveRight(elapsedTime);
+        } else if (action == 'move-down') {
+          playerSelf.model.moveDown(elapsedTime)
         } else if (action == 'rotate-right') {
           playerSelf.model.rotateRight(elapsedTime);
         } else if (action == 'rotate-left') {

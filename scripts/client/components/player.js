@@ -89,7 +89,7 @@ MyGame.components.Player = function(barriers) {
   // Public function that moves the player in the current direction.
   //
   //------------------------------------------------------------------
-  that.move = function(elapsedTime) {
+  that.moveUp = function(elapsedTime) {
     let angle = direction * Math.PI / 4;
     let vectorX = Math.cos(angle);
     let vectorY = Math.sin(angle);
@@ -107,6 +107,60 @@ MyGame.components.Player = function(barriers) {
       that.sprite.updateWalkAnimation(elapsedTime);
     }
   };
+
+  that.moveLeft = function(elapsedTime) {
+    let angleFacing = direction * Math.PI / 4;
+    let leftAngle = angleFacing + Math.PI / 2;
+    let vectorX = Math.cos(leftAngle);
+    let vectorY = Math.sin(leftAngle);
+
+    let proposedPosition = {
+      x : position.x + vectorX * elapsedTime * speed,
+      y : position.y - vectorY * elapsedTime * speed
+    }
+
+    if (!checkIfCausesCollision(proposedPosition)) {
+      position = proposedPosition;
+      that.sprite.updateWalkAnimation(elapsedTime);
+    }
+
+  }
+
+  that.moveRight = function(elapsedTime) {
+    let angleFacing = direction * Math.PI / 4;
+    let leftAngle = angleFacing - Math.PI / 2;
+    let vectorX = Math.cos(leftAngle);
+    let vectorY = Math.sin(leftAngle);
+
+    let proposedPosition = {
+      x : position.x + vectorX * elapsedTime * speed,
+      y : position.y - vectorY * elapsedTime * speed
+    }
+
+    if (!checkIfCausesCollision(proposedPosition)) {
+      position = proposedPosition;
+      that.sprite.updateWalkAnimation(elapsedTime);
+    }
+
+  }
+
+  that.moveDown = function(elapsedTime) {
+    let angleFacing = direction * Math.PI / 4;
+    let leftAngle = angleFacing + Math.PI;
+    let vectorX = Math.cos(leftAngle);
+    let vectorY = Math.sin(leftAngle);
+
+    let proposedPosition = {
+      x : position.x + vectorX * elapsedTime * speed,
+      y : position.y - vectorY * elapsedTime * speed
+    }
+
+    if (!checkIfCausesCollision(proposedPosition)) {
+      position = proposedPosition;
+      that.sprite.updateWalkAnimation(elapsedTime);
+    }
+
+  }
 
   //------------------------------------------------------------------
   //
