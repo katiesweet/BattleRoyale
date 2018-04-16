@@ -77,10 +77,12 @@ function processInput(elapsedTime) {
         client.player.moveDown(input.message.elapsedTime, barriers);
         break;
       case NetworkIds.INPUT_ROTATE_LEFT:
-        client.player.rotateLeft(input.message.elapsedTime);
+        // client.player.rotateLeft(input.message.elapsedTime);
+        client.player.rotateLeft();
         break;
       case NetworkIds.INPUT_ROTATE_RIGHT:
-        client.player.rotateRight(input.message.elapsedTime);
+        // client.player.rotateRight(input.message.elapsedTime);
+        client.player.rotateRight();
         break;
       case NetworkIds.INPUT_FIRE:
         createBullet(input.clientId, client.player);

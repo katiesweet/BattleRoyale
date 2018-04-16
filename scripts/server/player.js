@@ -27,7 +27,6 @@ function createPlayer(username, clientId) {
     radius: 0.04,
   };
   let direction = random.nextRange(0, 7); // * Math.PI/4
-  let rotationSinceLastDiscreteMove = 0;
   let rotateRate = Math.PI / 750; // radians per millisecond
   let speed = 0.0002; // unit distance per millisecond
   let reportUpdate = false; // Indicates if this model was updated during the last update
@@ -190,18 +189,14 @@ function createPlayer(username, clientId) {
   // last rotate took place.
   //
   //------------------------------------------------------------------
-  that.rotateRight = function(elapsedTime) {
+
+  that.rotateRight = function() {
     reportUpdate = true;
-    // direction += rotateRate * elapsedTime;
-    rotationSinceLastDiscreteMove += rotateRate * elapsedTime;
-    if (rotationSinceLastDiscreteMove > Math.PI/8) {
-      rotationSinceLastDiscreteMove = - 1 * Math.PI/8;
-      direction -= 1;
-      if (direction <= 0) {
-        direction = 7;
-      }
+    direction -=1;
+    if (direction <= 0) {
+      direction = 7;
     }
-  };
+  }
 
   //------------------------------------------------------------------
   //
@@ -209,16 +204,10 @@ function createPlayer(username, clientId) {
   // last rotate took place.
   //
   //------------------------------------------------------------------
-  that.rotateLeft = function(elapsedTime) {
+  that.rotateLeft = function() {
     reportUpdate = true;
-    // direction -= rotateRate * elapsedTime;
-    rotationSinceLastDiscreteMove -= rotateRate * elapsedTime;
-    if (rotationSinceLastDiscreteMove < -1 * Math.PI/8) {
-      rotationSinceLastDiscreteMove = Math.PI/8;
-      direction = (direction + 1) % 8;
-    }
-  };
-
+    direction = (direction + 1) % 8;
+  }
   //------------------------------------------------------------------
   //
   // Function used to update the player during the game loop.

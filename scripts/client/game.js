@@ -259,7 +259,7 @@ MyGame.screens['gameplay'] = (function(
 
   MyGame.registerEvent = function(networkId, keyboardInput, action) {
     let repeat = true;
-    if (action == 'fire') {
+    if (action == 'fire' || action == 'rotate-left' || action == 'rotate-right') {
       repeat = false;
     }
     console.log(networkId);
@@ -284,9 +284,11 @@ MyGame.screens['gameplay'] = (function(
         } else if (action == 'move-down') {
           playerSelf.model.moveDown(elapsedTime)
         } else if (action == 'rotate-right') {
-          playerSelf.model.rotateRight(elapsedTime);
+          // playerSelf.model.rotateRight(elapsedTime);
+          playerSelf.model.rotateRight();
         } else if (action == 'rotate-left') {
-          playerSelf.model.rotateLeft(elapsedTime);
+          // playerSelf.model.rotateLeft(elapsedTime);
+          playerSelf.model.rotateLeft();
         } else if (action == 'fire') {
           MyGame.assets['kaboom'].currentTime = 0;
           MyGame.assets['kaboom'].play();

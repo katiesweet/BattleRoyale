@@ -17,7 +17,6 @@ MyGame.components.Player = function(barriers) {
   };
   let direction = 0;
   let rotateRate = 0;
-  let rotationSinceLastDiscreteMove = 0;
   let speed = 0;
   let username = "";
   let health = 0;  
@@ -185,31 +184,23 @@ MyGame.components.Player = function(barriers) {
   // Public function that rotates the player right.
   //
   //------------------------------------------------------------------
-  that.rotateRight = function(elapsedTime) {
-    rotationSinceLastDiscreteMove += rotateRate * elapsedTime;
-    if (rotationSinceLastDiscreteMove > Math.PI/8) {
-      rotationSinceLastDiscreteMove = - Math.PI/8;
-      direction -= 1;
-      if (direction <= 0) {
-        direction = 7;
-      }
+  that.rotateRight = function() {
+    direction -= 1;
+    if (direction <= 0) {
+      direction = 7;
     }
     that.sprite.updateRotationAnimation(direction);
-  };
+  }
 
   //------------------------------------------------------------------
   //
   // Public function that rotates the player left.
   //
   //------------------------------------------------------------------
-  that.rotateLeft = function(elapsedTime) {
-    rotationSinceLastDiscreteMove -= rotateRate * elapsedTime;
-    if (rotationSinceLastDiscreteMove < -1 * Math.PI/8) {
-      rotationSinceLastDiscreteMove = Math.PI/8;
-      direction = (direction + 1) % 8;
-    }
+  that.rotateLeft = function() {
+    direction = (direction + 1) % 8;
     that.sprite.updateRotationAnimation(direction);
-  };
+  }
 
   that.update = function(spec) {
     position.x = spec.position.x;
