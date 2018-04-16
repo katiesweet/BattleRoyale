@@ -150,7 +150,7 @@ function update(elapsedTime, currentTime) {
             position: activeClients[clientId].player.position,
           });
 
-          activeClients[clientId].player.hitByBullet(activeBullets[bullet]);
+          // activeClients[clientId].player.hitByBullet(activeBullets[bullet]);
         }
       }
     }
