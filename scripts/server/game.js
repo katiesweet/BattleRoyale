@@ -65,16 +65,16 @@ function processInput(elapsedTime) {
     client.lastMessageId = input.message.id;
     switch (input.message.type) {
       case NetworkIds.INPUT_MOVE_UP:
-        client.player.moveUp(input.message.elapsedTime, barriers);
+        client.player.moveUp(input.message.elapsedTime, barriers, activeClients);
         break;
       case NetworkIds.INPUT_MOVE_LEFT:
-        client.player.moveLeft(input.message.elapsedTime, barriers);
+        client.player.moveLeft(input.message.elapsedTime, barriers, activeClients);
         break;
       case NetworkIds.INPUT_MOVE_RIGHT:
-        client.player.moveRight(input.message.elapsedTime, barriers);
+        client.player.moveRight(input.message.elapsedTime, barriers, activeClients);
         break;
       case NetworkIds.INPUT_MOVE_DOWN:
-        client.player.moveDown(input.message.elapsedTime, barriers);
+        client.player.moveDown(input.message.elapsedTime, barriers, activeClients);
         break;
       case NetworkIds.INPUT_ROTATE_LEFT:
         client.player.rotateLeft();
