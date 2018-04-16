@@ -10,7 +10,9 @@ MyGame.components.Viewport = function(spec) {
 		get top() { return spec.top; },
 		get width() { return 1; },	// Width and height are always going to be 1
 		get height() { return 1; },
-		get buffer() { return spec.buffer; } // This can't really be any larger than world.buffer, guess I could protect against that.
+		get buffer() { return spec.buffer; }, // This can't really be any larger than world.buffer, guess I could protect against that.
+		get worldWidth() { return spec.worldWidth; },
+		get worldHeight() { return spec.worldHeight; }
 	};
 
 	Object.defineProperty(that, 'right', {
@@ -42,19 +44,19 @@ MyGame.components.Viewport = function(spec) {
 			diffBottom = that.bottom - model.position.y,
 			diffTop = Math.abs(spec.top - model.position.y);
 
-		if (diffRight < spec.buffer) {
+		if (diffRight < spec.buffer && (spec.worldWidth - model.position.x) >= spec.buffer ) {
 			spec.left += (spec.buffer - diffRight);
 		}
 
-		if (diffLeft < spec.buffer) {
+		if (diffLeft < spec.buffer && model.position.x >= spec.buffer) {
 			spec.left -= (spec.buffer - diffLeft);
 		}
 
-		if (diffBottom < spec.buffer) {
+		if (diffBottom < spec.buffer && (spec.worldHeight - model.position.y) >= spec.buffer) {
 			spec.top += (spec.buffer - diffBottom);
 		}
 
-		if (diffTop < spec.buffer) {
+		if (diffTop < spec.buffer && model.position.y >= spec.buffer) {
 			spec.top -= (spec.buffer - diffTop);
 		}
 	};
@@ -64,10 +66,12 @@ MyGame.components.Viewport = function(spec) {
 	// Use to specify new properties for the viewport.
 	//
 	// ------------------------------------------------------------------
-	that.set = function(left, top, buffer) {
+	that.set = function(left, top, buffer, worldWidth, worldHeight) {
 		spec.left = left;
 		spec.top = top;
 		spec.buffer = buffer;
+		spec.worldWidth = worldWidth;
+		spec.worldHeight = worldHeight;
 	};
 
 	return that;
