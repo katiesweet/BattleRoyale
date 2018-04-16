@@ -11,15 +11,17 @@ MyGame.screens['gameplay'] = (function(
   components,
   assets,
   network,
-  chat
+  chat,
+  barrierJson
 ) {
   'use strict';
 
   let lastTimeStamp = performance.now(),
     myKeyboard = input.Keyboard(),
     background = null,
+    barriers = components.Barriers(barrierJson),
     playerSelf = {
-      model: components.Player(),
+      model: components.Player(barriers),
       texture: assets['player-self'],
     },
     playerOthers = {},
@@ -257,9 +259,10 @@ MyGame.screens['gameplay'] = (function(
 
   MyGame.registerEvent = function(networkId, keyboardInput, action) {
     let repeat = true;
-    if (action == 'fire') {
+    if (action == 'fire' || action == 'rotate-left' || action == 'rotate-right') {
       repeat = false;
     }
+    console.log(networkId);
     let id = myKeyboard.registerHandler(
       elapsedTime => {
         let message = {
@@ -270,12 +273,20 @@ MyGame.screens['gameplay'] = (function(
         network.emit(NetworkIds.INPUT, message);
         network.history.enqueue(message);
 
-        if (action.indexOf('move') >= 0) {
-          playerSelf.model.move(elapsedTime);
+        // if (action.indexOf('move') >= 0) {
+        //   playerSelf.model.move(elapsedTime);
+        if (action == 'move-up') {
+          playerSelf.model.moveUp(elapsedTime);
+        } else if (action == 'move-left') {
+          playerSelf.model.moveLeft(elapsedTime);
+        } else if (action == 'move-right') {
+          playerSelf.model.moveRight(elapsedTime);
+        } else if (action == 'move-down') {
+          playerSelf.model.moveDown(elapsedTime)
         } else if (action == 'rotate-right') {
-          playerSelf.model.rotateRight(elapsedTime);
+          playerSelf.model.rotateRight();
         } else if (action == 'rotate-left') {
-          playerSelf.model.rotateLeft(elapsedTime);
+          playerSelf.model.rotateLeft();
         } else if (action == 'fire') {
           MyGame.assets['kaboom'].currentTime = 0;
           MyGame.assets['kaboom'].play();
@@ -305,7 +316,7 @@ MyGame.screens['gameplay'] = (function(
 
     //
     // Get the intial viewport settings prepared.
-    graphics.viewport.set(0, 0, 0.25); // The buffer can't really be any larger than world.buffer, guess I could protect against that.
+    graphics.viewport.set(0, 0, 0.25, graphics.world.width, graphics.world.height); // The buffer can't really be any larger than world.buffer, guess I could protect against that.
 
     //
     // Define the TiledImage model we'll be using for our background.
@@ -339,5 +350,6 @@ MyGame.screens['gameplay'] = (function(
   MyGame.components,
   MyGame.assets,
   MyGame.network,
-  MyGame.chat
+  MyGame.chat,
+  MyGame.barrierJson
 );

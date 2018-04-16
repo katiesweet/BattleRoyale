@@ -8,6 +8,7 @@
 const present = require('present');
 const Player = require('./player');
 const Bullet = require('./bullet');
+const Barriers = require('./barriers');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
 const socketIo = require('socket.io');
@@ -23,6 +24,7 @@ let activeBullets = [];
 let hits = [];
 let inputQueue = Queue.create();
 let nextBulletId = 1;
+let barriers = Barriers.create();
 
 //------------------------------------------------------------------
 //
@@ -62,14 +64,23 @@ function processInput(elapsedTime) {
     const client = activeClients[input.clientId];
     client.lastMessageId = input.message.id;
     switch (input.message.type) {
-      case NetworkIds.INPUT_MOVE:
-        client.player.move(input.message.elapsedTime);
+      case NetworkIds.INPUT_MOVE_UP:
+        client.player.moveUp(input.message.elapsedTime, barriers);
+        break;
+      case NetworkIds.INPUT_MOVE_LEFT:
+        client.player.moveLeft(input.message.elapsedTime, barriers);
+        break;
+      case NetworkIds.INPUT_MOVE_RIGHT:
+        client.player.moveRight(input.message.elapsedTime, barriers);
+        break;
+      case NetworkIds.INPUT_MOVE_DOWN:
+        client.player.moveDown(input.message.elapsedTime, barriers);
         break;
       case NetworkIds.INPUT_ROTATE_LEFT:
-        client.player.rotateLeft(input.message.elapsedTime);
+        client.player.rotateLeft();
         break;
       case NetworkIds.INPUT_ROTATE_RIGHT:
-        client.player.rotateRight(input.message.elapsedTime);
+        client.player.rotateRight();
         break;
       case NetworkIds.INPUT_FIRE:
         createBullet(input.clientId, client.player);
@@ -100,6 +111,7 @@ function collided(obj1, obj2) {
 //
 //------------------------------------------------------------------
 function update(elapsedTime, currentTime) {
+  // Update clients
   for (let clientId in activeClients) {
     if (activeClients[clientId].player.update) {
       activeClients[clientId].player.update(currentTime);
@@ -140,6 +152,16 @@ function update(elapsedTime, currentTime) {
         }
       }
     }
+    // Check if bullet hits barrier
+    if (barriers.circularObjectCollides(activeBullets[bullet])) {
+      hit = true;
+      hits.push({
+        clientId: null,
+        bulletId: activeBullets[bullet].id,
+        position: activeBullets[bullet].position
+      });
+    }
+
     if (!hit) {
       keepBullets.push(activeBullets[bullet]);
     }

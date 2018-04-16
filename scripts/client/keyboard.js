@@ -129,22 +129,22 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
       },
       'move-up': {
         input: input.KeyEvent.DOM_VK_UP,
-        network: NetworkIds.INPUT_MOVE,
+        network: NetworkIds.INPUT_MOVE_UP,
         id: 0,
       },
       'move-down': {
         input: input.KeyEvent.DOM_VK_DOWN,
-        network: NetworkIds.INPUT_MOVE,
+        network: NetworkIds.INPUT_MOVE_DOWN,
         id: 0,
       },
       'move-right': {
         input: input.KeyEvent.DOM_VK_RIGHT,
-        network: NetworkIds.INPUT_MOVE,
+        network: NetworkIds.INPUT_MOVE_RIGHT,
         id: 0,
       },
       'move-left': {
         input: input.KeyEvent.DOM_VK_LEFT,
-        network: NetworkIds.INPUT_MOVE,
+        network: NetworkIds.INPUT_MOVE_LEFT,
         id: 0,
       },
       // 'sprint': {'input': input.KeyEvent.DOM_VK_S, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
