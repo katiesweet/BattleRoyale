@@ -8,6 +8,7 @@
 const present = require('present');
 const Player = require('./player');
 const Bullet = require('./bullet');
+const Barriers = require('./barriers');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
 const socketIo = require('socket.io');
@@ -23,6 +24,7 @@ let activeBullets = [];
 let hits = [];
 let inputQueue = Queue.create();
 let nextBulletId = 1;
+let barriers = Barriers.create();
 
 //------------------------------------------------------------------
 //
@@ -63,7 +65,7 @@ function processInput(elapsedTime) {
     client.lastMessageId = input.message.id;
     switch (input.message.type) {
       case NetworkIds.INPUT_MOVE:
-        client.player.move(input.message.elapsedTime);
+        client.player.move(input.message.elapsedTime, barriers);
         break;
       case NetworkIds.INPUT_ROTATE_LEFT:
         client.player.rotateLeft(input.message.elapsedTime);
@@ -100,6 +102,7 @@ function collided(obj1, obj2) {
 //
 //------------------------------------------------------------------
 function update(elapsedTime, currentTime) {
+  // Update clients
   for (let clientId in activeClients) {
     activeClients[clientId].player.update(currentTime);
   }

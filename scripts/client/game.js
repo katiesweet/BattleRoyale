@@ -11,15 +11,17 @@ MyGame.screens['gameplay'] = (function(
   components,
   assets,
   network,
-  chat
+  chat,
+  barrierJson
 ) {
   'use strict';
 
   let lastTimeStamp = performance.now(),
     myKeyboard = input.Keyboard(),
     background = null,
+    barriers = components.Barriers(barrierJson),
     playerSelf = {
-      model: components.Player(),
+      model: components.Player(barriers),
       texture: assets['player-self'],
     },
     playerOthers = {},
@@ -339,5 +341,6 @@ MyGame.screens['gameplay'] = (function(
   MyGame.components,
   MyGame.assets,
   MyGame.network,
-  MyGame.chat
+  MyGame.chat,
+  MyGame.barrierJson
 );

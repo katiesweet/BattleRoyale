@@ -5,6 +5,7 @@ MyGame = {
   utilities: {},
   assets: {},
   screens: {},
+  barrierJson: {}
 };
 
 //------------------------------------------------------------------
@@ -48,6 +49,7 @@ MyGame.loader = (function() {
           'components/cowboy-sprite',
           'components/tiled-image',
           'components/viewport',
+          'components/barriers'
         ],
         message: 'Player models loaded',
         onComplete: null,
@@ -289,6 +291,26 @@ MyGame.loader = (function() {
 
   //------------------------------------------------------------------
   //
+  // This function is used to asynchronously load map_object json file
+  //
+  //------------------------------------------------------------------
+  function loadMapObjects(fileName, onSuccess) {
+    let rawFile = new XMLHttpRequest();
+    rawFile.overrideMimeType('application/json');
+    rawFile.onreadystatechange = function() {
+      if (rawFile.readyState == 4 && rawFile.status == 200) {
+        onSuccess(JSON.parse(rawFile.responseText));
+      }
+      // else {
+      //   onError('Error opening file: ' + fileName);
+      // }
+    }
+    rawFile.open('GET', fileName, true);
+    rawFile.send(null);
+  }
+
+  //------------------------------------------------------------------
+  //
   // Called when all the scripts are loaded, it kicks off the demo app.
   //
   //------------------------------------------------------------------
@@ -317,6 +339,14 @@ MyGame.loader = (function() {
     15360,
     15360,
     1024
+  );
+
+  loadMapObjects(
+    'assets/map_objects.json', 
+    function(barriers) {
+      MyGame.barrierJson = barriers;
+      console.log("Loaded barriers")
+    }
   );
 
   loadAssets(

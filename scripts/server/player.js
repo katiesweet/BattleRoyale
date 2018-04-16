@@ -22,9 +22,9 @@ function createPlayer(username, clientId) {
   };
 
   let size = {
-    width: 0.01,
-    height: 0.01,
-    radius: 0.02,
+    width: 0.075,
+    height: 0.075,
+    radius: 0.04,
   };
   let direction = random.nextRange(0, 7); // * Math.PI/4
   let rotationSinceLastDiscreteMove = 0;
@@ -47,6 +47,7 @@ function createPlayer(username, clientId) {
 
   Object.defineProperty(that, 'position', {
     get: () => position,
+    set: value => (position = value),
   });
 
   Object.defineProperty(that, 'size', {
@@ -89,19 +90,47 @@ function createPlayer(username, clientId) {
 
   //------------------------------------------------------------------
   //
+  // Function that checks if a move results in a collision
+  //
+  //------------------------------------------------------------------
+  function checkIfCausesCollision(proposedPosition, barriers) {
+    // suppose we have MyGame.Barriers == barriers
+    let tl = {
+      x : proposedPosition.x - size.radius /2,
+      y : proposedPosition.y - size.radius /2
+    }
+
+    let br = {
+      x : proposedPosition.x + size.radius / 2,
+      y : proposedPosition.y + size.radius / 2
+    }
+    return barriers.rectangularObjectCollides(tl, br);
+  }
+
+  //------------------------------------------------------------------
+  //
   // Moves the player forward based on how long it has been since the
   // last move took place.
   //
   //------------------------------------------------------------------
-  that.move = function(elapsedTime) {
+  that.move = function(elapsedTime, barriers) {
     reportUpdate = true;
 
     let angle = direction * Math.PI / 4;
     let vectorX = Math.cos(angle);
     let vectorY = Math.sin(angle);
 
-    position.x += vectorX * elapsedTime * speed;
-    position.y -= vectorY * elapsedTime * speed;
+    let proposedPosition = {
+      x : position.x + vectorX * elapsedTime * speed,
+      y : position.y - vectorY * elapsedTime * speed
+    }
+
+    // position.x += vectorX * elapsedTime * speed;
+    // position.y -= vectorY * elapsedTime * speed;
+
+    if (!checkIfCausesCollision(proposedPosition, barriers)) {
+      position = proposedPosition;
+    }
   };
 
   //------------------------------------------------------------------

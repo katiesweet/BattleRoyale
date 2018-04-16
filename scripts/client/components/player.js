@@ -3,7 +3,7 @@
 // Model for each player in the game.
 //
 //------------------------------------------------------------------
-MyGame.components.Player = function() {
+MyGame.components.Player = function(barriers) {
   'use strict';
   let that = {};
   let position = {
@@ -13,6 +13,7 @@ MyGame.components.Player = function() {
   let size = {
     width: 0.075,
     height: 0.075,
+    radius: 0.04
   };
   let direction = 0;
   let rotateRate = 0;
@@ -49,6 +50,9 @@ MyGame.components.Player = function() {
 
   Object.defineProperty(that, 'position', {
     get: () => position,
+    set: value => {
+      position = value;
+    }
   });
 
   Object.defineProperty(that, 'size', {
@@ -67,8 +71,9 @@ MyGame.components.Player = function() {
     position.x = spec.position.x;
     position.y = spec.position.y;
 
-    size.x = spec.size.x;
-    size.y = spec.size.y;
+    size.width = spec.size.width;
+    size.height = spec.size.height;
+    size.radius = spec.size.radius;
 
     direction = spec.direction;
     speed = spec.speed;
@@ -89,11 +94,37 @@ MyGame.components.Player = function() {
     let vectorX = Math.cos(angle);
     let vectorY = Math.sin(angle);
 
-    position.x += vectorX * elapsedTime * speed;
-    position.y -= vectorY * elapsedTime * speed;
+    let proposedPosition = {
+      x : position.x + vectorX * elapsedTime * speed,
+      y : position.y - vectorY * elapsedTime * speed
+    }
 
-    that.sprite.updateWalkAnimation(elapsedTime);
+    // position.x += vectorX * elapsedTime * speed;
+    // position.y -= vectorY * elapsedTime * speed;
+
+    if (!checkIfCausesCollision(proposedPosition)) {
+      position = proposedPosition;
+      that.sprite.updateWalkAnimation(elapsedTime);
+    }
   };
+
+  //------------------------------------------------------------------
+  //
+  // Function that checks if a move results in a collision
+  //
+  //------------------------------------------------------------------
+  function checkIfCausesCollision(proposedPosition) {
+    let tl = {
+      x : proposedPosition.x - size.radius /2,
+      y : proposedPosition.y - size.radius /2
+    }
+
+    let br = {
+      x : proposedPosition.x + size.radius / 2,
+      y : proposedPosition.y + size.radius / 2
+    }
+    return barriers.rectangularObjectCollides(tl, br);
+  }
 
   //------------------------------------------------------------------
   //
