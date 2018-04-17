@@ -263,6 +263,30 @@ MyGame.graphics = (function() {
 			height * world.size);
   }
 
+
+  //------------------------------------------------------------------
+	//
+	// Draws shield relative to the 'unit world'.
+	//
+	//------------------------------------------------------------------
+  function drawShield(shield) {
+    // var adjustLeft = (useViewport === true) ? viewport.left : 0,
+    //   adjustTop = (useViewport === true) ? viewport.top : 0;
+    // render shield here
+    context.fillStyle = 'black';
+    context.beginPath();
+    context.arc(
+      shield.x * world.size,
+      shield.y / 15 * world.size,
+      shield.radius / 15 * world.size,
+      0,
+      2 * Math.PI,
+      false,
+    );
+    context.rect(15 * world.size, 0, -15 * world.size, 15 * world.size);
+    context.fill();
+  }
+
   //------------------------------------------------------------------
 	//
 	// Draws text centered relative to the 'unit world'.
@@ -294,6 +318,7 @@ MyGame.graphics = (function() {
     viewport: viewport,
     drawRectangle: drawRectangle,
     drawFilledRectangle: drawFilledRectangle,
-    drawText: drawText
+    drawText: drawText,
+    drawShield: drawShield,
   };
 })();

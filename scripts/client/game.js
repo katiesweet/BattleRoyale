@@ -250,6 +250,8 @@ MyGame.screens['gameplay'] = (function(
     renderer.TiledImage.render(background, graphics.viewport);
     renderer.MiniMap.render(playerSelf.model, shield);
 
+    graphics.drawShield(shield);
+
     renderer.Player.render(playerSelf.model, playerSelf.texture);
 
     for (let id in playerOthers) {
