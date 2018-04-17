@@ -346,7 +346,7 @@ MyGame.screens['gameplay'] = (function(
     graphics.viewport.set(
       0,
       0,
-      0.3,
+      0.4,
       graphics.world.width,
       graphics.world.height
     ); // The buffer can't really be any larger than world.buffer, guess I could protect against that.

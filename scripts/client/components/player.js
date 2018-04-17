@@ -23,7 +23,7 @@ MyGame.components.Player = function(barriers) {
 
   let fieldOfView = {
     angle: 2, // * Math.PI/4
-    radius: 0.3
+    radius: 0.4
   }
 
   that.sprite = MyGame.components.CowboySprite({
