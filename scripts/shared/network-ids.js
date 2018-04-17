@@ -88,5 +88,9 @@
       value: 'game-message-new',
       writable: false,
     },
+    SHIELD_INFO: {
+      value: 'shield-info',
+      writable: false,
+    }
   });
 })(typeof exports === 'undefined' ? (this['NetworkIds'] = {}) : exports);

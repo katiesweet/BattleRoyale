@@ -344,7 +344,7 @@ MyGame.loader = (function() {
   );
 
   loadMapObjects(
-    'assets/map_objects.json', 
+    'assets/map_objects.json',
     function(barriers) {
       MyGame.barrierJson = barriers;
       console.log("Loaded barriers")

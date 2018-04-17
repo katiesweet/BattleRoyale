@@ -18,6 +18,7 @@ MyGame.network = (function() {
       NetworkIds.UPDATE_OTHER,
       NetworkIds.BULLET_NEW,
       NetworkIds.BULLET_HIT,
+      NetworkIds.SHIELD_INFO,
     ];
 
     networkEvents.forEach(event =>

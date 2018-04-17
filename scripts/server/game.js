@@ -9,6 +9,7 @@ const present = require('present');
 const Player = require('./player');
 const Bullet = require('./bullet');
 const Barriers = require('./barriers');
+const Shield = require('./shield');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
 const socketIo = require('socket.io');
@@ -25,6 +26,7 @@ let hits = [];
 let inputQueue = Queue.create();
 let nextBulletId = 1;
 let barriers = Barriers.create();
+let shield = Shield.create();
 
 //------------------------------------------------------------------
 //
@@ -226,6 +228,10 @@ function updateClients(elapsedTime) {
     for (let hit = 0; hit < hits.length; hit++) {
       client.socket.emit(NetworkIds.BULLET_HIT, hits[hit]);
     }
+
+    // update client on shield status
+    client.socket.emit(NetworkIds.SHIELD_INFO,
+      {radius: shield.radius, x: shield.originX, y: shield.originY});
   }
 
   for (let clientId in activeClients) {

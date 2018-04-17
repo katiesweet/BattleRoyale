@@ -27,7 +27,8 @@ MyGame.screens['gameplay'] = (function(
     playerOthers = {},
     bullets = {},
     explosions = {},
-    nextExplosionId = 0;
+    nextExplosionId = 0,
+    shield = {};
 
   //------------------------------------------------------------------
   //
@@ -155,6 +156,10 @@ MyGame.screens['gameplay'] = (function(
     delete bullets[data.bulletId];
   }
 
+  function updateShield(data) {
+    shield = data;
+  }
+
   //------------------------------------------------------------------
   //
   // Process the registered input handlers here.
@@ -196,6 +201,9 @@ MyGame.screens['gameplay'] = (function(
           break;
         case NetworkIds.BULLET_HIT:
           bulletHit(message.data);
+          break;
+        case NetworkIds.SHIELD_INFO:
+          updateShield(message.data);
           break;
       }
     }
@@ -240,7 +248,7 @@ MyGame.screens['gameplay'] = (function(
     graphics.clear();
 
     renderer.TiledImage.render(background, graphics.viewport);
-    renderer.MiniMap.render(playerSelf.model);
+    renderer.MiniMap.render(playerSelf.model, shield);
 
     renderer.Player.render(playerSelf.model, playerSelf.texture);
 

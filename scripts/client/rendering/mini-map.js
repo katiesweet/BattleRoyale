@@ -12,9 +12,22 @@ MyGame.renderer.MiniMap = (function(graphics, assets) {
     map.width = map.height = Math.max(80, size);
   }
 
-  that.render = function(model) {
+  that.render = function(model, shield) {
     context.clear();
     context.drawImage(assets['mini-map'], 0, 0, map.width, map.height);
+
+    // render shield here
+
+    context.beginPath();
+    context.arc(
+     shield.x,
+     shield.y,
+     shield.radius,
+     0,
+     2 * Math.PI, // optional counter-clockwise parameter here
+   );
+    context.fillStyle = 'black';
+    context.fill();
 
     context.beginPath();
     context.arc(
