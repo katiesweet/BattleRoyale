@@ -171,6 +171,8 @@ function update(elapsedTime, currentTime) {
     }
   }
   activeBullets = keepBullets;
+
+  shield.update(elapsedTime);
 }
 
 //------------------------------------------------------------------

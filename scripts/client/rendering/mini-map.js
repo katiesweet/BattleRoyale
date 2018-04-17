@@ -20,9 +20,9 @@ MyGame.renderer.MiniMap = (function(graphics, assets) {
 
     context.beginPath();
     context.arc(
-     shield.x,
-     shield.y,
-     shield.radius,
+     shield.x / 15 * map.height,
+     shield.y / 15 * map.height,
+     shield.radius / 15 * map.height,
      0,
      2 * Math.PI, // optional counter-clockwise parameter here
    );
