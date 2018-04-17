@@ -21,6 +21,11 @@ MyGame.components.Player = function(barriers) {
   let username = "";
   let health = 0;  
 
+  let fieldOfView = {
+    angle: 2, // * Math.PI/4
+    radius: 0.3
+  }
+
   that.sprite = MyGame.components.CowboySprite({
       walkingRate : 100
   });
@@ -65,6 +70,33 @@ MyGame.components.Player = function(barriers) {
   Object.defineProperty(that, 'health', {
     get: () => health,
   });
+
+  Object.defineProperty(that, 'fieldOfView', {
+    get: () => getFieldOfView(),
+  });
+
+  function getFieldOfView() {
+    let firstAngle = (direction + fieldOfView.angle / 2) * Math.PI/4;
+    let p2 = {
+      x: position.x + Math.cos(firstAngle) * fieldOfView.radius,
+      y: position.y - Math.sin(firstAngle) * fieldOfView.radius
+    };
+
+    let secondAngle = (direction - fieldOfView.angle / 2) * Math.PI/4;
+    let p3 = {
+      x: position.x + Math.cos(secondAngle) * fieldOfView.radius,
+      y: position.y - Math.sin(secondAngle) * fieldOfView.radius
+    };
+
+    return {
+      p1 : position,
+      p2 : p2,
+      p3 : p3,
+      radius : fieldOfView.radius,
+      startAngle : -1 * firstAngle,
+      endAngle : -1 * secondAngle
+    }
+  }
 
   that.initialize = function(spec) {
     position.x = spec.position.x;
@@ -204,7 +236,7 @@ MyGame.components.Player = function(barriers) {
   //------------------------------------------------------------------
   that.rotateRight = function() {
     direction -= 1;
-    if (direction <= 0) {
+    if (direction < 0) {
       direction = 7;
     }
     that.sprite.updateRotationAnimation(direction);

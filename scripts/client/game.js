@@ -244,10 +244,12 @@ MyGame.screens['gameplay'] = (function(
 
     renderer.Player.render(playerSelf.model, playerSelf.texture);
 
+    graphics.createFieldOfViewClippingRegion(playerSelf.model.fieldOfView);
     for (let id in playerOthers) {
       let player = playerOthers[id];
       renderer.PlayerRemote.render(player.model, player.texture);
     }
+    graphics.removeFieldOfViewClippingRegion();
 
     for (let bullet in bullets) {
       renderer.Bullet.render(bullets[bullet]);
@@ -344,7 +346,7 @@ MyGame.screens['gameplay'] = (function(
     graphics.viewport.set(
       0,
       0,
-      0.25,
+      0.3,
       graphics.world.width,
       graphics.world.height
     ); // The buffer can't really be any larger than world.buffer, guess I could protect against that.
