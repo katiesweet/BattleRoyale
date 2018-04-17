@@ -250,7 +250,7 @@ function collide(proposedPosition, otherObject) {
   that.rotateRight = function() {
     reportUpdate = true;
     direction -= 1;
-    if (direction <= 0) {
+    if (direction < 0) {
       direction = 7;
     }
   };
