@@ -89,17 +89,21 @@ MyGame.components.Player = function(barriers) {
   //
   //------------------------------------------------------------------
   that.moveUp = function(elapsedTime) {
-    let angle = direction * Math.PI / 4;
-    let vectorX = Math.cos(angle);
-    let vectorY = Math.sin(angle);
+    // let angle = direction * Math.PI / 4;
+    // let vectorX = Math.cos(angle);
+    // let vectorY = Math.sin(angle);
 
-    let proposedPosition = {
-      x : position.x + vectorX * elapsedTime * speed,
-      y : position.y - vectorY * elapsedTime * speed
-    }
+    // let proposedPosition = {
+    //   x : position.x + vectorX * elapsedTime * speed,
+    //   y : position.y - vectorY * elapsedTime * speed
+    // }
 
     // position.x += vectorX * elapsedTime * speed;
     // position.y -= vectorY * elapsedTime * speed;
+    let proposedPosition = {
+      x: position.x,
+      y: position.y - elapsedTime * speed,
+    }
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
@@ -108,14 +112,19 @@ MyGame.components.Player = function(barriers) {
   };
 
   that.moveLeft = function(elapsedTime) {
-    let angleFacing = direction * Math.PI / 4;
-    let leftAngle = angleFacing + Math.PI / 2;
-    let vectorX = Math.cos(leftAngle);
-    let vectorY = Math.sin(leftAngle);
+    // let angleFacing = direction * Math.PI / 4;
+    // let leftAngle = angleFacing + Math.PI / 2;
+    // let vectorX = Math.cos(leftAngle);
+    // let vectorY = Math.sin(leftAngle);
+
+    // let proposedPosition = {
+    //   x : position.x + vectorX * elapsedTime * speed,
+    //   y : position.y - vectorY * elapsedTime * speed
+    // }
 
     let proposedPosition = {
-      x : position.x + vectorX * elapsedTime * speed,
-      y : position.y - vectorY * elapsedTime * speed
+      x: position.x - elapsedTime * speed,
+      y: position.y,
     }
 
     if (!checkIfCausesCollision(proposedPosition)) {
@@ -126,14 +135,19 @@ MyGame.components.Player = function(barriers) {
   }
 
   that.moveRight = function(elapsedTime) {
-    let angleFacing = direction * Math.PI / 4;
-    let leftAngle = angleFacing - Math.PI / 2;
-    let vectorX = Math.cos(leftAngle);
-    let vectorY = Math.sin(leftAngle);
+    // let angleFacing = direction * Math.PI / 4;
+    // let leftAngle = angleFacing - Math.PI / 2;
+    // let vectorX = Math.cos(leftAngle);
+    // let vectorY = Math.sin(leftAngle);
+
+    // let proposedPosition = {
+    //   x : position.x + vectorX * elapsedTime * speed,
+    //   y : position.y - vectorY * elapsedTime * speed
+    // }
 
     let proposedPosition = {
-      x : position.x + vectorX * elapsedTime * speed,
-      y : position.y - vectorY * elapsedTime * speed
+      x: position.x + elapsedTime * speed,
+      y: position.y,
     }
 
     if (!checkIfCausesCollision(proposedPosition)) {
@@ -144,14 +158,18 @@ MyGame.components.Player = function(barriers) {
   }
 
   that.moveDown = function(elapsedTime) {
-    let angleFacing = direction * Math.PI / 4;
-    let leftAngle = angleFacing + Math.PI;
-    let vectorX = Math.cos(leftAngle);
-    let vectorY = Math.sin(leftAngle);
+    // let angleFacing = direction * Math.PI / 4;
+    // let leftAngle = angleFacing + Math.PI;
+    // let vectorX = Math.cos(leftAngle);
+    // let vectorY = Math.sin(leftAngle);
 
+    // let proposedPosition = {
+    //   x : position.x + vectorX * elapsedTime * speed,
+    //   y : position.y - vectorY * elapsedTime * speed
+    // }
     let proposedPosition = {
-      x : position.x + vectorX * elapsedTime * speed,
-      y : position.y - vectorY * elapsedTime * speed
+      x: position.x,
+      y: position.y + elapsedTime * speed,
     }
 
     if (!checkIfCausesCollision(proposedPosition)) {
