@@ -75,6 +75,10 @@ MyGame.renderer.Player = (function(graphics) {
           true);
       }
 
+  function renderFieldOfView(model) {
+    graphics.drawFieldOfView(model.fieldOfView, true);
+  }
+
   // ------------------------------------------------------------------
   //
   // Renders a Player model.
@@ -84,6 +88,7 @@ MyGame.renderer.Player = (function(graphics) {
     renderCharacter(model, texture);
     renderUsername(model);
     renderHealthBar(model);
+    renderFieldOfView(model);
   };
 
   return that;
