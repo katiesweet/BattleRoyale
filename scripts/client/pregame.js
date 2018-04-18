@@ -1,13 +1,56 @@
-MyGame.screens['pregame'] = (function(menu, renderer, network) {
+MyGame.screens['pregame'] = (function(menu, renderer, network, barrierJson, components) {
   'use strict';
 
+  let barriers = components.Barriers(barrierJson);
+  let opponentPositions = [];
+  let playerRadius = 0.04;
+
   function updateMap(event) {
-    renderer.SpawnMap.render(event);
+    const mousePosition = renderer.SpawnMap.getWorldCoords(event);
+    const isValid = validPosition(mousePosition);
+    renderer.SpawnMap.render(event, isValid);
+  }
+
+  function validPosition(center) {
+    // Check barrier collision
+    let tl = {
+      x: center.x - playerRadius / 2,
+      y: center.y - playerRadius / 2
+    }
+    let br = {
+      x: center.x + playerRadius / 2,
+      y: center.y + playerRadius / 2
+    }
+    if (barriers.rectangularObjectCollides(tl, br)) {
+      return false;
+    }
+
+    // Check opponent collision
+    for (let i=0; i<opponentPositions.length; ++i) {
+      const dist = Math.sqrt(
+        Math.pow(center.x - opponentPositions[i].x, 2) +
+        Math.pow(center.y - opponentPositions[i].y, 2)
+      );
+      if (dist <= playerRadius) {
+        // collided
+        return false;
+      }
+    }
+
+    // No collisions -> valid
+    return true;
+  }
+
+  function setOpponentPosition(opponentPosition) {
+    opponentPositions.push(opponentPosition);
+    renderer.SpawnMap.addOpponent(opponentPosition);
   }
 
   function setLocation(event) {
     const position = renderer.SpawnMap.getWorldCoords(event);
-    network.emit(NetworkIds.SET_STARTING_POSITION, { position });
+    if (validPosition(position)){
+      network.emit(NetworkIds.SET_STARTING_POSITION, { position });
+    }
   }
 
   function joinGame() {
@@ -36,7 +79,10 @@ MyGame.screens['pregame'] = (function(menu, renderer, network) {
   }
 
   function run() {
+    MyGame.renderer.SpawnMap.reset();
+
     network.listen(NetworkIds.SET_STARTING_POSITION, joinGame);
+    network.listen(NetworkIds.OPPONENT_STARTING_POSITION, setOpponentPosition);
 
     document
       .getElementById('spawn-map')
@@ -49,4 +95,4 @@ MyGame.screens['pregame'] = (function(menu, renderer, network) {
     initialize: initialize,
     run: run,
   };
-})(MyGame.menu, MyGame.renderer, MyGame.network);
+})(MyGame.menu, MyGame.renderer, MyGame.network, MyGame.barrierJson, MyGame.components);
