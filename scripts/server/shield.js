@@ -46,6 +46,8 @@ function createShield(spec) {
 
   that.update = function(elapsedTime) {
     radius -= radius * rate;
+    // TODO double check this calculation
+    
     // let angle = spec.direction * Math.PI / 4;
     // let vectorX = Math.cos(angle);
     // let vectorY = Math.sin(angle);

@@ -273,10 +273,14 @@ MyGame.graphics = (function() {
     // var adjustLeft = (useViewport === true) ? viewport.left : 0,
     //   adjustTop = (useViewport === true) ? viewport.top : 0;
     // render shield here
+
+    // TODO find how many pixels the entire map is...?
+
+     console.log(world.size);
     context.fillStyle = 'black';
     context.beginPath();
     context.arc(
-      shield.x * world.size,
+      shield.x / 15 * world.size,
       shield.y / 15 * world.size,
       shield.radius / 15 * world.size,
       0,
