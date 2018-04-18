@@ -273,22 +273,19 @@ MyGame.graphics = (function() {
     // var adjustLeft = (useViewport === true) ? viewport.left : 0,
     //   adjustTop = (useViewport === true) ? viewport.top : 0;
     // render shield here
-
-    // TODO find how many pixels the entire map is...?
-
-     console.log(world.size);
-    context.fillStyle = 'black';
-    context.beginPath();
-    context.arc(
-      shield.x / 15 * world.size,
-      shield.y / 15 * world.size,
-      shield.radius / 15 * world.size,
-      0,
-      2 * Math.PI,
-      false,
-    );
-    context.rect(15 * world.size, 0, -15 * world.size, 15 * world.size);
-    context.fill();
+    //
+    // context.fillStyle = 'black';
+    // context.beginPath();
+    // context.arc(
+    //   shield.x * 15 * 1024 * 8,
+    //   shield.y * 15 * 1024 * 8,
+    //   shield.radius * 15 * 1024 * 8,
+    //   0,
+    //   2 * Math.PI,
+    //   // false,
+    // );
+    // // context.rect(15 * 1024, 0, -15 * 1024, 15 * 1024);
+    // context.fill();
   }
 
   //------------------------------------------------------------------

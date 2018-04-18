@@ -297,7 +297,6 @@ MyGame.screens['gameplay'] = (function(
     ) {
       repeat = false;
     }
-    console.log(networkId);
     let id = myKeyboard.registerHandler(
       elapsedTime => {
         let message = {
