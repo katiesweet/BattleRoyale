@@ -13,16 +13,16 @@ MyGame.components.Player = function(barriers) {
   let size = {
     width: 0.075,
     height: 0.075,
-    radius: 0.04
+    radius: 0.04,
   };
   let direction = 0;
   let rotateRate = 0;
   let speed = 0;
-  let username = "";
-  let health = 0;  
+  let username = '';
+  let health = 0;
 
   that.sprite = MyGame.components.CowboySprite({
-      walkingRate : 100
+    walkingRate: 100,
   });
 
   Object.defineProperty(that, 'direction', {
@@ -51,7 +51,7 @@ MyGame.components.Player = function(barriers) {
     get: () => position,
     set: value => {
       position = value;
-    }
+    },
   });
 
   Object.defineProperty(that, 'size', {
@@ -94,9 +94,9 @@ MyGame.components.Player = function(barriers) {
     let vectorY = Math.sin(angle);
 
     let proposedPosition = {
-      x : position.x + vectorX * elapsedTime * speed,
-      y : position.y - vectorY * elapsedTime * speed
-    }
+      x: position.x + vectorX * elapsedTime * speed,
+      y: position.y - vectorY * elapsedTime * speed,
+    };
 
     // position.x += vectorX * elapsedTime * speed;
     // position.y -= vectorY * elapsedTime * speed;
@@ -114,16 +114,15 @@ MyGame.components.Player = function(barriers) {
     let vectorY = Math.sin(leftAngle);
 
     let proposedPosition = {
-      x : position.x + vectorX * elapsedTime * speed,
-      y : position.y - vectorY * elapsedTime * speed
-    }
+      x: position.x + vectorX * elapsedTime * speed,
+      y: position.y - vectorY * elapsedTime * speed,
+    };
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
       that.sprite.updateWalkAnimation(elapsedTime);
     }
-
-  }
+  };
 
   that.moveRight = function(elapsedTime) {
     let angleFacing = direction * Math.PI / 4;
@@ -132,16 +131,15 @@ MyGame.components.Player = function(barriers) {
     let vectorY = Math.sin(leftAngle);
 
     let proposedPosition = {
-      x : position.x + vectorX * elapsedTime * speed,
-      y : position.y - vectorY * elapsedTime * speed
-    }
+      x: position.x + vectorX * elapsedTime * speed,
+      y: position.y - vectorY * elapsedTime * speed,
+    };
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
       that.sprite.updateWalkAnimation(elapsedTime);
     }
-
-  }
+  };
 
   that.moveDown = function(elapsedTime) {
     let angleFacing = direction * Math.PI / 4;
@@ -150,16 +148,15 @@ MyGame.components.Player = function(barriers) {
     let vectorY = Math.sin(leftAngle);
 
     let proposedPosition = {
-      x : position.x + vectorX * elapsedTime * speed,
-      y : position.y - vectorY * elapsedTime * speed
-    }
+      x: position.x + vectorX * elapsedTime * speed,
+      y: position.y - vectorY * elapsedTime * speed,
+    };
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
       that.sprite.updateWalkAnimation(elapsedTime);
     }
-
-  }
+  };
 
   //------------------------------------------------------------------
   //
@@ -168,14 +165,14 @@ MyGame.components.Player = function(barriers) {
   //------------------------------------------------------------------
   function checkIfCausesCollision(proposedPosition) {
     let tl = {
-      x : proposedPosition.x - size.radius /2,
-      y : proposedPosition.y - size.radius /2
-    }
+      x: proposedPosition.x - size.radius / 2,
+      y: proposedPosition.y - size.radius / 2,
+    };
 
     let br = {
-      x : proposedPosition.x + size.radius / 2,
-      y : proposedPosition.y + size.radius / 2
-    }
+      x: proposedPosition.x + size.radius / 2,
+      y: proposedPosition.y + size.radius / 2,
+    };
     return barriers.rectangularObjectCollides(tl, br);
   }
 
@@ -190,7 +187,7 @@ MyGame.components.Player = function(barriers) {
       direction = 7;
     }
     that.sprite.updateRotationAnimation(direction);
-  }
+  };
 
   //------------------------------------------------------------------
   //
@@ -200,12 +197,16 @@ MyGame.components.Player = function(barriers) {
   that.rotateLeft = function() {
     direction = (direction + 1) % 8;
     that.sprite.updateRotationAnimation(direction);
-  }
+  };
 
   that.update = function(spec) {
     position.x = spec.position.x;
     position.y = spec.position.y;
     direction = spec.direction;
+    health = spec.health;
+
+    console.log('spec.health', spec.health);
+
     that.sprite.updateRotationAnimation(direction);
   };
 

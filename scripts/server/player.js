@@ -87,6 +87,10 @@ function createPlayer(username, clientId) {
     position = start;
   };
 
+  that.hitByBullet = function(bullet) {
+    health = Math.max(health - bullet.damage, 0);
+  };
+
   //------------------------------------------------------------------
   //
   // Function that checks if a move results in a collision
