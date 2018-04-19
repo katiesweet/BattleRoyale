@@ -237,7 +237,7 @@ MyGame.screens['gameplay'] = (function(
     graphics.clear();
 
     renderer.TiledImage.render(background, graphics.viewport);
-    renderer.MiniMap.render(playerSelf);
+    renderer.MiniMap.render(playerSelf, explosions);
 
     renderer.Player.render(playerSelf, playerSelfTexture, skeletonTexture);
 
