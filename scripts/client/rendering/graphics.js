@@ -314,16 +314,8 @@ MyGame.graphics = (function() {
 	//
 	//------------------------------------------------------------------
   function drawShield(shield, player) {
-    // var adjustLeft = (useViewport === true) ? viewport.left : 0,
-    //   adjustTop = (useViewport === true) ? viewport.top : 0;
-    // render shield here
-    //
-    // console.log(player.position);
-    // context.fillStyle = 'black';
     context.fillStyle = "rgba(0, 0, 0, 0.5)";
-
     context.beginPath();
-
     context.arc(
       ((shield.x * 15 * 1024) - (player.position.x * 15 * 1024)),
       ((shield.y * 15 * 1024) - (player.position.y * 15 * 1024)),
@@ -333,7 +325,6 @@ MyGame.graphics = (function() {
       false,
     );
     context.rect(15 * 1024, 0, -15 * 1024, 15 * 1024);
-
     context.fill();
   }
 

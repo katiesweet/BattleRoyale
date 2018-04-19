@@ -28,6 +28,7 @@ let nextBulletId = 1;
 let barriers = Barriers.create();
 let shield = Shield.create();
 let io;
+let gameStarted = false;
 
 //------------------------------------------------------------------
 //
@@ -103,6 +104,9 @@ function processInput(elapsedTime) {
         break;
       case NetworkIds.INPUT_FIRE:
         createBullet(input.clientId, client.player);
+        break;
+      case NetworkIds.START_GAME:
+        gameStarted = true;
         break;
     }
   }
@@ -204,17 +208,16 @@ function update(elapsedTime, currentTime) {
 
   for (let clientId in activeClients) {
     const player = activeClients[clientId].player;
-    if (shield.collides(player)) {
+    if (shield.collides(player.position, gameStarted)) {
       //dead
-      io.emit(NetworkIds.GAME_MESSAGE_NEW, {
-        firstUser:
-          activeClients[activeBullets[bullet].clientId].player.username,
-        event: ' ran into the shield ',
-      });
+      // io.emit(NetworkIds.GAME_MESSAGE_NEW, {
+      //   firstUser:
+      //     activeClients[clientId].player.username,
+      //   event: ' ran into the shield ',
+      // });
     }
   }
-
-  shield.update(elapsedTime);
+  shield.update(elapsedTime, gameStarted);
 }
 
 //------------------------------------------------------------------
@@ -370,6 +373,10 @@ function initializeSocketIO(httpServer) {
     });
 
     socket.on(NetworkIds.INPUT, data => {
+      inputQueue.enqueue({ clientId: socket.id, message: data });
+    });
+
+    socket.on(NetworkIds.START_GAME, data => {
       inputQueue.enqueue({ clientId: socket.id, message: data });
     });
 

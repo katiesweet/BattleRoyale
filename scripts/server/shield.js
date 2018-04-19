@@ -23,15 +23,20 @@ function createShield(spec) {
     get: () => radius,
   });
 
-  that.update = function(elapsedTime) {
-    radius = radius - (rate * elapsedTime);
+  that.update = function(elapsedTime, gameStarted) {
+    if (gameStarted) {
+      radius = radius - (rate * elapsedTime);
+    }
   };
 
-  that.collides = function(position) {
-    let xForm = Math.pow(Math.abs(position.x - originX), 2);
-    let yForm = Math.pow(Math.abs(position.y - originY), 2);
-    if (Math.sqrt(xForm + yForm) <= radius) {
-      return true;
+  that.collides = function(position, gameStarted) {
+    if (gameStarted) {
+      let xForm = Math.pow(Math.abs((position.x) - (originX)), 2);
+      let yForm = Math.pow(Math.abs((position.y) - (originY)), 2);
+      if (Math.sqrt(xForm + yForm) >= (radius)) {
+        console.log('COLLISION!!!!!!');
+        return true;
+      }
     }
     return false;
   }

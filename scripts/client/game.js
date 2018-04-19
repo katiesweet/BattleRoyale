@@ -384,6 +384,7 @@ MyGame.screens['gameplay'] = (function(
   function run() {
     chat.initializeGame();
 
+    network.emit(NetworkIds.START_GAME, {type: 'start-game'});
     lastTimeStamp = performance.now();
     requestAnimationFrame(gameLoop);
   }
