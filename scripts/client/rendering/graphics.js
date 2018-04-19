@@ -269,23 +269,26 @@ MyGame.graphics = (function() {
 	// Draws shield relative to the 'unit world'.
 	//
 	//------------------------------------------------------------------
-  function drawShield(shield) {
+  function drawShield(shield, player) {
     // var adjustLeft = (useViewport === true) ? viewport.left : 0,
     //   adjustTop = (useViewport === true) ? viewport.top : 0;
     // render shield here
     //
+    // console.log(player.position);
     // context.fillStyle = 'black';
-    // context.beginPath();
-    // context.arc(
-    //   shield.x * 15 * 1024 * 8,
-    //   shield.y * 15 * 1024 * 8,
-    //   shield.radius * 15 * 1024 * 8,
-    //   0,
-    //   2 * Math.PI,
-    //   // false,
-    // );
-    // // context.rect(15 * 1024, 0, -15 * 1024, 15 * 1024);
-    // context.fill();
+    context.beginPath();
+    context.arc(
+      ((shield.x * 15 * 1024) - (player.position.x * 15 * 1024)),
+      ((shield.y * 15 * 1024) - (player.position.y * 15 * 1024)),
+      shield.radius * 15 * 1024,
+      0,
+      2 * Math.PI,
+      // false,
+    );
+    // context.rect(15 * 1024, 0, -15 * 1024, 15 * 1024);
+    context.fillStyle = 'black';
+    
+    context.fill();
   }
 
   //------------------------------------------------------------------

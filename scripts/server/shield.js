@@ -41,6 +41,7 @@ function createShield(spec) {
 
   that.update = function(elapsedTime) {
     radius -= radius * rate;
+    // radius -= radius * (rate / elapsedTime);
   };
 
   that.collides = function(position) {

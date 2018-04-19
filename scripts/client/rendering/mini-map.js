@@ -27,7 +27,7 @@ MyGame.renderer.MiniMap = (function(graphics, assets) {
       2 * Math.PI,
       false,
     );
-    context.rect(15*map.height, 0, -15*map.height, 15*map.height);
+    context.rect(15 * map.height, 0, -15 * map.height, 15 * map.height);
     context.fill();
 
     // render player dot here
