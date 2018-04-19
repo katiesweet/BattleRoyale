@@ -40,6 +40,7 @@ function createShield(spec) {
   // };
 
   that.update = function(elapsedTime) {
+    // console.log(radius*rate, radius*rate*elapsedTime);
     radius -= radius * rate;
     // radius -= radius * (rate / elapsedTime);
   };

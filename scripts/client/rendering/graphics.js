@@ -306,6 +306,7 @@ MyGame.graphics = (function() {
 
   function removeFieldOfViewClippingRegion() {
     context.restore();
+  }
 
   //------------------------------------------------------------------
 	//
@@ -366,12 +367,9 @@ MyGame.graphics = (function() {
     drawRectangle: drawRectangle,
     drawFilledRectangle: drawFilledRectangle,
     drawText: drawText,
-<<<<<<< HEAD
     drawShield: drawShield,
-=======
     drawFieldOfView: drawFieldOfView,
     createFieldOfViewClippingRegion: createFieldOfViewClippingRegion,
-    removeFieldOfViewClippingRegion: removeFieldOfViewClippingRegion
->>>>>>> 4663d913047ccb11abfcfa14e4c8cc65cdad466a
+    removeFieldOfViewClippingRegion: removeFieldOfViewClippingRegion,
   };
 })();

@@ -27,7 +27,6 @@ MyGame.screens['gameplay'] = (function(
     playerOtherTexture = assets['player-other'],
     skeletonTexture = assets['skeleton'],
     background = null,
-    nextExplosionId = 0;
     nextExplosionId = 0,
     shield = {};
 
