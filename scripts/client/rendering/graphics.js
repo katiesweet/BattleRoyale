@@ -263,6 +263,51 @@ MyGame.graphics = (function() {
 			height * world.size);
   }
 
+  function createFieldOfViewPath(fieldOfView, useViewport) {
+    var adjustLeft = (useViewport === true) ? viewport.left : 0,
+    adjustTop = (useViewport === true) ? viewport.top : 0;
+
+    context.moveTo(
+      0.5 + world.left + ((fieldOfView.p1.x - adjustLeft) * world.size),
+      0.5 + world.top + ((fieldOfView.p1.y - adjustTop) * world.size)
+    );
+    context.lineTo(
+      0.5 + world.left + ((fieldOfView.p2.x - adjustLeft) * world.size),
+      0.5 + world.top + ((fieldOfView.p2.y - adjustTop) * world.size)
+    );
+    context.arc(
+      0.5 + world.left + ((fieldOfView.p1.x - adjustLeft) * world.size),
+      0.5 + world.top + ((fieldOfView.p1.y - adjustTop) * world.size),
+      fieldOfView.radius * world.size,
+      fieldOfView.startAngle,
+      fieldOfView.endAngle,
+      false
+    );
+    context.closePath();
+  }
+
+
+  function drawFieldOfView(fieldOfView, useViewport) {
+    context.beginPath();
+    context.rect(0, 0, canvas.width, canvas.height);
+
+    createFieldOfViewPath(fieldOfView, useViewport);
+    
+    context.fillStyle = 'rgba(0,0,0,0.1)';
+    context.fill('evenodd');
+  }
+
+  function createFieldOfViewClippingRegion(fieldOfView) {
+    context.save();
+    context.beginPath();
+    createFieldOfViewPath(fieldOfView, true);
+    context.clip();
+  }
+
+  function removeFieldOfViewClippingRegion() {
+    context.restore();
+  }
+
   //------------------------------------------------------------------
 	//
 	// Draws text centered relative to the 'unit world'.
@@ -294,6 +339,9 @@ MyGame.graphics = (function() {
     viewport: viewport,
     drawRectangle: drawRectangle,
     drawFilledRectangle: drawFilledRectangle,
-    drawText: drawText
+    drawText: drawText,
+    drawFieldOfView: drawFieldOfView,
+    createFieldOfViewClippingRegion: createFieldOfViewClippingRegion,
+    removeFieldOfViewClippingRegion: removeFieldOfViewClippingRegion
   };
 })();

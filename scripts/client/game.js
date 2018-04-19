@@ -18,15 +18,15 @@ MyGame.screens['gameplay'] = (function(
 
   let lastTimeStamp = performance.now(),
     myKeyboard = input.Keyboard(),
-    background = null,
     barriers = components.Barriers(barrierJson),
-    playerSelf = {
-      model: components.Player(barriers),
-      texture: assets['player-self'],
-    },
+    playerSelf = components.Player(barriers),
     playerOthers = {},
     bullets = {},
     explosions = {},
+    playerSelfTexture = assets['player-self'],
+    playerOtherTexture = assets['player-other'],
+    skeletonTexture = assets['skeleton'],
+    background = null,
     nextExplosionId = 0;
 
   //------------------------------------------------------------------
@@ -36,7 +36,7 @@ MyGame.screens['gameplay'] = (function(
   //
   //------------------------------------------------------------------
   function connectPlayerSelf({ player, otherPlayers }) {
-    playerSelf.model.initialize(player);
+    playerSelf.initialize(player);
 
     for (let i = 0; i < otherPlayers.length; i++) {
       connectPlayerOther(otherPlayers[i]);
@@ -49,13 +49,10 @@ MyGame.screens['gameplay'] = (function(
   // the state of the newly connected player model.
   //
   //------------------------------------------------------------------
-  function connectPlayerOther(player) {
-    let model = components.PlayerRemote();
-    model.initialize(player);
-    playerOthers[player.clientId] = {
-      model: model,
-      texture: assets['player-other'],
-    };
+  function connectPlayerOther(data) {
+    let player = components.PlayerRemote();
+    player.initialize(data);
+    playerOthers[data.clientId] = player;
   }
 
   //------------------------------------------------------------------
@@ -88,22 +85,22 @@ MyGame.screens['gameplay'] = (function(
 
       switch (message.type) {
         case 'move-up':
-          playerSelf.model.moveUp(input.message.elapsedTime, barriers);
+          playerSelf.moveUp(input.message.elapsedTime, barriers);
           break;
         case 'move-left':
-          playerSelf.model.moveLeft(input.message.elapsedTime, barriers);
+          playerSelf.moveLeft(input.message.elapsedTime, barriers);
           break;
         case 'move-right':
-          playerSelf.model.moveRight(input.message.elapsedTime, barriers);
+          playerSelf.moveRight(input.message.elapsedTime, barriers);
           break;
         case 'move-down':
-          playerSelf.model.moveDown(input.message.elapsedTime, barriers);
+          playerSelf.moveDown(input.message.elapsedTime, barriers);
           break;
         case 'rotate-left':
-          playerSelf.model.rotateLeft();
+          playerSelf.rotateLeft();
           break;
         case 'rotate-right':
-          playerSelf.model.rotateRight();
+          playerSelf.rotateRight();
       }
 
       memory.enqueue(message);
@@ -117,7 +114,7 @@ MyGame.screens['gameplay'] = (function(
   //
   //------------------------------------------------------------------
   function updatePlayerSelf(data) {
-    playerSelf.model.update(data);
+    playerSelf.update(data);
     updateMessageHistory(data.lastMessageId);
   }
 
@@ -128,7 +125,7 @@ MyGame.screens['gameplay'] = (function(
   //------------------------------------------------------------------
   function updatePlayerOther(data) {
     if (playerOthers.hasOwnProperty(data.clientId)) {
-      playerOthers[data.clientId].model.updateGoal(data);
+      playerOthers[data.clientId].updateGoal(data);
     }
   }
 
@@ -208,7 +205,7 @@ MyGame.screens['gameplay'] = (function(
   //------------------------------------------------------------------
   function update(elapsedTime) {
     for (let id in playerOthers) {
-      playerOthers[id].model.update(elapsedTime);
+      playerOthers[id].update(elapsedTime);
     }
 
     let removeBullets = [];
@@ -228,7 +225,7 @@ MyGame.screens['gameplay'] = (function(
       }
     }
 
-    graphics.viewport.update(playerSelf.model);
+    graphics.viewport.update(playerSelf);
   }
 
   //------------------------------------------------------------------
@@ -240,14 +237,22 @@ MyGame.screens['gameplay'] = (function(
     graphics.clear();
 
     renderer.TiledImage.render(background, graphics.viewport);
-    renderer.MiniMap.render(playerSelf.model);
+    renderer.MiniMap.render(playerSelf);
 
-    renderer.Player.render(playerSelf.model, playerSelf.texture);
+    renderer.Player.render(playerSelf, playerSelfTexture, skeletonTexture);
+
+    if (playerSelf.health > 0) {
+      graphics.createFieldOfViewClippingRegion(playerSelf.fieldOfView);
+    }
 
     for (let id in playerOthers) {
-      let player = playerOthers[id];
-      renderer.PlayerRemote.render(player.model, player.texture);
+      renderer.PlayerRemote.render(
+        playerOthers[id],
+        playerOtherTexture,
+        skeletonTexture
+      );
     }
+    graphics.removeFieldOfViewClippingRegion();
 
     for (let bullet in bullets) {
       renderer.Bullet.render(bullets[bullet]);
@@ -287,9 +292,13 @@ MyGame.screens['gameplay'] = (function(
     ) {
       repeat = false;
     }
-    console.log(networkId);
+
     let id = myKeyboard.registerHandler(
       elapsedTime => {
+        if (playerSelf.health <= 0) {
+          return;
+        }
+
         let message = {
           id: network.messageId++,
           elapsedTime: elapsedTime,
@@ -299,19 +308,19 @@ MyGame.screens['gameplay'] = (function(
         network.history.enqueue(message);
 
         // if (action.indexOf('move') >= 0) {
-        //   playerSelf.model.move(elapsedTime);
+        //   playerSelf.move(elapsedTime);
         if (action == 'move-up') {
-          playerSelf.model.moveUp(elapsedTime);
+          playerSelf.moveUp(elapsedTime);
         } else if (action == 'move-left') {
-          playerSelf.model.moveLeft(elapsedTime);
+          playerSelf.moveLeft(elapsedTime);
         } else if (action == 'move-right') {
-          playerSelf.model.moveRight(elapsedTime);
+          playerSelf.moveRight(elapsedTime);
         } else if (action == 'move-down') {
-          playerSelf.model.moveDown(elapsedTime);
+          playerSelf.moveDown(elapsedTime);
         } else if (action == 'rotate-right') {
-          playerSelf.model.rotateRight();
+          playerSelf.rotateRight();
         } else if (action == 'rotate-left') {
-          playerSelf.model.rotateLeft();
+          playerSelf.rotateLeft();
         } else if (action == 'fire') {
           MyGame.assets['kaboom'].currentTime = 0;
           MyGame.assets['kaboom'].play();
@@ -344,7 +353,7 @@ MyGame.screens['gameplay'] = (function(
     graphics.viewport.set(
       0,
       0,
-      0.25,
+      0.4,
       graphics.world.width,
       graphics.world.height
     ); // The buffer can't really be any larger than world.buffer, guess I could protect against that.

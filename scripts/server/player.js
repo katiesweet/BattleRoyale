@@ -89,15 +89,32 @@ function createPlayer(username, clientId) {
 
   that.hitByBullet = function(bullet) {
     health = Math.max(health - bullet.damage, 0);
+    reportUpdate = true;
   };
+
+  //------------------------------------------------------------------
+  //
+  // Utility function to perform a hit test between two objects.  The
+  // objects must have a position: { x: , y: } property and radius property.
+  //
+  //------------------------------------------------------------------
+  function collide(proposedPosition, otherObject) {
+    const distance = Math.sqrt(
+      Math.pow(proposedPosition.x - otherObject.position.x, 2) +
+        Math.pow(proposedPosition.y - otherObject.position.y, 2)
+    );
+    const radii = size.radius / 2 + otherObject.size.radius / 2;
+
+    return distance <= radii;
+  }
 
   //------------------------------------------------------------------
   //
   // Function that checks if a move results in a collision
   //
   //------------------------------------------------------------------
-  function checkIfCausesCollision(proposedPosition, barriers) {
-    // suppose we have MyGame.Barriers == barriers
+  function checkIfCausesCollision(proposedPosition, barriers, activeClients) {
+    // Check barrier collisions
     let tl = {
       x: proposedPosition.x - size.radius / 2,
       y: proposedPosition.y - size.radius / 2,
@@ -107,7 +124,23 @@ function createPlayer(username, clientId) {
       x: proposedPosition.x + size.radius / 2,
       y: proposedPosition.y + size.radius / 2,
     };
-    return barriers.rectangularObjectCollides(tl, br);
+
+    //
+    if (barriers.rectangularObjectCollides(tl, br)) {
+      return true;
+    }
+
+    // Check other client collisions
+    for (let opponentClientId in activeClients) {
+      if (that.clientId == opponentClientId) {
+        continue;
+      }
+      if (collide(proposedPosition, activeClients[opponentClientId].player)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   //------------------------------------------------------------------
@@ -116,76 +149,96 @@ function createPlayer(username, clientId) {
   // last move took place.
   //
   //------------------------------------------------------------------
-  that.moveUp = function(elapsedTime, barriers) {
+  that.moveUp = function(elapsedTime, barriers, activeClients) {
     reportUpdate = true;
 
-    let angle = direction * Math.PI / 4;
-    let vectorX = Math.cos(angle);
-    let vectorY = Math.sin(angle);
+    // let angle = direction * Math.PI / 4;
+    // let vectorX = Math.cos(angle);
+    // let vectorY = Math.sin(angle);
+
+    // let proposedPosition = {
+    //   x: position.x + vectorX * elapsedTime * speed,
+    //   y: position.y - vectorY * elapsedTime * speed,
+    // };
 
     let proposedPosition = {
-      x: position.x + vectorX * elapsedTime * speed,
-      y: position.y - vectorY * elapsedTime * speed,
+      x: position.x,
+      y: position.y - elapsedTime * speed,
     };
 
     // position.x += vectorX * elapsedTime * speed;
     // position.y -= vectorY * elapsedTime * speed;
 
-    if (!checkIfCausesCollision(proposedPosition, barriers)) {
+    if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
       position = proposedPosition;
     }
   };
 
-  that.moveLeft = function(elapsedTime, barriers) {
+  that.moveLeft = function(elapsedTime, barriers, activeClients) {
     reportUpdate = true;
 
-    let angleFacing = direction * Math.PI / 4;
-    let leftAngle = angleFacing + Math.PI / 2;
-    let vectorX = Math.cos(leftAngle);
-    let vectorY = Math.sin(leftAngle);
+    // let angleFacing = direction * Math.PI / 4;
+    // let leftAngle = angleFacing + Math.PI / 2;
+    // let vectorX = Math.cos(leftAngle);
+    // let vectorY = Math.sin(leftAngle);
+
+    // let proposedPosition = {
+    //   x: position.x + vectorX * elapsedTime * speed,
+    //   y: position.y - vectorY * elapsedTime * speed,
+    // };
 
     let proposedPosition = {
-      x: position.x + vectorX * elapsedTime * speed,
-      y: position.y - vectorY * elapsedTime * speed,
+      x: position.x - elapsedTime * speed,
+      y: position.y,
     };
 
-    if (!checkIfCausesCollision(proposedPosition, barriers)) {
+    if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
       position = proposedPosition;
     }
   };
 
-  that.moveRight = function(elapsedTime, barriers) {
+  that.moveRight = function(elapsedTime, barriers, activeClients) {
     reportUpdate = true;
 
-    let angleFacing = direction * Math.PI / 4;
-    let leftAngle = angleFacing - Math.PI / 2;
-    let vectorX = Math.cos(leftAngle);
-    let vectorY = Math.sin(leftAngle);
+    // let angleFacing = direction * Math.PI / 4;
+    // let leftAngle = angleFacing - Math.PI / 2;
+    // let vectorX = Math.cos(leftAngle);
+    // let vectorY = Math.sin(leftAngle);
+
+    // let proposedPosition = {
+    //   x: position.x + vectorX * elapsedTime * speed,
+    //   y: position.y - vectorY * elapsedTime * speed,
+    // };
 
     let proposedPosition = {
-      x: position.x + vectorX * elapsedTime * speed,
-      y: position.y - vectorY * elapsedTime * speed,
+      x: position.x + elapsedTime * speed,
+      y: position.y,
     };
 
-    if (!checkIfCausesCollision(proposedPosition, barriers)) {
+    if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
       position = proposedPosition;
     }
   };
 
-  that.moveDown = function(elapsedTime, barriers) {
+  that.moveDown = function(elapsedTime, barriers, activeClients) {
     reportUpdate = true;
 
-    let angleFacing = direction * Math.PI / 4;
-    let leftAngle = angleFacing + Math.PI;
-    let vectorX = Math.cos(leftAngle);
-    let vectorY = Math.sin(leftAngle);
+    // let angleFacing = direction * Math.PI / 4;
+    // let leftAngle = angleFacing + Math.PI;
+    // let vectorX = Math.cos(leftAngle);
+    // let vectorY = Math.sin(leftAngle);
+
+    // let proposedPosition = {
+    //   x: position.x + vectorX * elapsedTime * speed,
+    //   y: position.y - vectorY * elapsedTime * speed,
+    // };
 
     let proposedPosition = {
-      x: position.x + vectorX * elapsedTime * speed,
-      y: position.y - vectorY * elapsedTime * speed,
+      x: position.x,
+      y: position.y + elapsedTime * speed,
     };
 
-    if (!checkIfCausesCollision(proposedPosition, barriers)) {
+    if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
       position = proposedPosition;
     }
   };
@@ -200,7 +253,7 @@ function createPlayer(username, clientId) {
   that.rotateRight = function() {
     reportUpdate = true;
     direction -= 1;
-    if (direction <= 0) {
+    if (direction < 0) {
       direction = 7;
     }
   };

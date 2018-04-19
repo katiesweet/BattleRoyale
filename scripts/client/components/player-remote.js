@@ -17,6 +17,7 @@ MyGame.components.PlayerRemote = function() {
       x: 0,
       y: 0,
     },
+    health: 0,
   };
   let goal = {
     direction: 0,
@@ -24,6 +25,7 @@ MyGame.components.PlayerRemote = function() {
       x: 0,
       y: 0,
     },
+    health: 0,
     updateWindow: 0, // Server reported time elapsed since last update
   };
 
@@ -47,15 +49,21 @@ MyGame.components.PlayerRemote = function() {
     get: () => username,
   });
 
+  Object.defineProperty(that, 'health', {
+    get: () => health,
+  });
+
   that.initialize = function(spec) {
     state.position.x = spec.position.x;
     state.position.y = spec.position.y;
     state.direction = spec.direction;
+    state.health = spec.health;
     state.lastUpdate = performance.now();
 
     goal.position.x = spec.position.x;
     goal.position.y = spec.position.y;
     goal.direction = spec.direction;
+    goal.health = spec.health;
     goal.updateWindow = 0;
 
     size.x = spec.size.x;
