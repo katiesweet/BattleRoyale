@@ -1,8 +1,6 @@
 'use strict';
 
 // TODO
-// render for viewport
-// collision detection
 // particles
 
 const random = require('./random');
@@ -28,25 +26,17 @@ function createShield(spec) {
     get: () => radius,
   });
 
-  // that.toJSON = function() {
-  //   return {
-  //     id: that.id,
-  //     direction: that.direction,
-  //     position: that.position,
-  //     radius: that.radius,
-  //     speed: that.speed,
-  //     timeRemaining: that.timeRemaining,
-  //   };
-  // };
-
   that.update = function(elapsedTime) {
-    // console.log(radius*rate, radius*rate*elapsedTime);
-    radius -= radius * rate;
-    // radius -= radius * (rate / elapsedTime);
+    radius = radius - (rate * elapsedTime);
   };
 
   that.collides = function(position) {
-
+    let xForm = Math.square(Math.abs(position.x - originX));
+    let yForm = Math.square(Math.abs(position.y - originY));
+    if (Math.sqrt(xForm + yForm) <= r) {
+      return true;
+    }
+    return false;
   }
 
   return that;
