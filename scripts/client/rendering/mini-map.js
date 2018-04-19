@@ -12,13 +12,13 @@ MyGame.renderer.MiniMap = (function(graphics, assets) {
     map.width = map.height = Math.max(80, size);
   }
 
-  that.render = function(model) {
+  that.render = function(model, explosions) {
     context.clear();
     context.drawImage(assets['mini-map'], 0, 0, map.width, map.height);
 
     context.beginPath();
     context.arc(
-      model.position.x / 15 * map.height,
+      model.position.x / 15 * map.width,
       model.position.y / 15 * map.height,
       2,
       0,
@@ -26,6 +26,21 @@ MyGame.renderer.MiniMap = (function(graphics, assets) {
     );
     context.fillStyle = 'red';
     context.fill();
+
+    for (let id in explosions) {
+      context.beginPath();
+      context.arc(
+        explosions[id].center.x / 15 * map.width,
+        explosions[id].center.y / 15 * map.height,
+        2,
+        0,
+        2 * Math.PI
+      );
+      context.fillStyle = 'orange';
+      context.strokeStyle = 'black';
+      context.fill();
+      context.stroke();
+    }
   };
 
   return that;
