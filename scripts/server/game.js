@@ -114,6 +114,7 @@ function processInput(elapsedTime) {
   for (let i=0; i<playerIdsToUpdate.length; ++i) {
     activeClients[playerIdsToUpdate[i]].player.processInputs();
   }
+  playerIdsToUpdate.length = 0;
 }
 
 //------------------------------------------------------------------
