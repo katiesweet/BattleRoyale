@@ -5,7 +5,7 @@ MyGame = {
   utilities: {},
   assets: {},
   screens: {},
-  barrierJson: {}
+  barrierJson: {},
 };
 
 //------------------------------------------------------------------
@@ -49,7 +49,7 @@ MyGame.loader = (function() {
           'components/cowboy-sprite',
           'components/tiled-image',
           'components/viewport',
-          'components/barriers'
+          'components/barriers',
         ],
         message: 'Player models loaded',
         onComplete: null,
@@ -117,6 +117,10 @@ MyGame.loader = (function() {
       {
         key: 'player-other',
         source: 'assets/cowboy_red.png',
+      },
+      {
+        key: 'skeleton',
+        source: 'assets/skeleton.png',
       },
       {
         key: 'explosion',
@@ -306,7 +310,7 @@ MyGame.loader = (function() {
       // else {
       //   onError('Error opening file: ' + fileName);
       // }
-    }
+    };
     rawFile.open('GET', fileName, true);
     rawFile.send(null);
   }
@@ -343,13 +347,10 @@ MyGame.loader = (function() {
     1024
   );
 
-  loadMapObjects(
-    'assets/map_objects.json', 
-    function(barriers) {
-      MyGame.barrierJson = barriers;
-      console.log("Loaded barriers")
-    }
-  );
+  loadMapObjects('assets/map_objects.json', function(barriers) {
+    MyGame.barrierJson = barriers;
+    console.log('Loaded barriers');
+  });
 
   loadAssets(
     assetOrder,

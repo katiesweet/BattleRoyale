@@ -25,6 +25,7 @@ let hits = [];
 let inputQueue = Queue.create();
 let nextBulletId = 1;
 let barriers = Barriers.create();
+let io;
 
 //------------------------------------------------------------------
 //
@@ -65,16 +66,32 @@ function processInput(elapsedTime) {
     client.lastMessageId = input.message.id;
     switch (input.message.type) {
       case NetworkIds.INPUT_MOVE_UP:
-        client.player.moveUp(input.message.elapsedTime, barriers, activeClients);
+        client.player.moveUp(
+          input.message.elapsedTime,
+          barriers,
+          activeClients
+        );
         break;
       case NetworkIds.INPUT_MOVE_LEFT:
-        client.player.moveLeft(input.message.elapsedTime, barriers, activeClients);
+        client.player.moveLeft(
+          input.message.elapsedTime,
+          barriers,
+          activeClients
+        );
         break;
       case NetworkIds.INPUT_MOVE_RIGHT:
-        client.player.moveRight(input.message.elapsedTime, barriers, activeClients);
+        client.player.moveRight(
+          input.message.elapsedTime,
+          barriers,
+          activeClients
+        );
         break;
       case NetworkIds.INPUT_MOVE_DOWN:
-        client.player.moveDown(input.message.elapsedTime, barriers, activeClients);
+        client.player.moveDown(
+          input.message.elapsedTime,
+          barriers,
+          activeClients
+        );
         break;
       case NetworkIds.INPUT_ROTATE_LEFT:
         client.player.rotateLeft();
@@ -142,15 +159,28 @@ function update(elapsedTime, currentTime) {
       //
       // Don't allow a bullet to hit the player it was fired from.
       if (clientId !== activeBullets[bullet].clientId) {
-        if (collided(activeBullets[bullet], activeClients[clientId].player)) {
+        const player = activeClients[clientId].player;
+
+        if (collided(activeBullets[bullet], player)) {
           hit = true;
           hits.push({
             clientId: clientId,
             bulletId: activeBullets[bullet].id,
-            position: activeClients[clientId].player.position,
+            position: player.position,
           });
 
-          // activeClients[clientId].player.hitByBullet(activeBullets[bullet]);
+          if (player.health > 0) {
+            player.hitByBullet(activeBullets[bullet]);
+
+            if (player.health <= 0) {
+              io.emit(NetworkIds.GAME_MESSAGE_NEW, {
+                firstUser:
+                  activeClients[activeBullets[bullet].clientId].player.username,
+                event: ' totally obliterated ',
+                secondUser: player.username,
+              });
+            }
+          }
         }
       }
     }
@@ -202,11 +232,13 @@ function updateClients(elapsedTime) {
 
   for (let clientId in activeClients) {
     const client = activeClients[clientId];
+
     const update = {
       clientId: clientId,
       lastMessageId: client.lastMessageId,
       direction: client.player.direction,
       position: client.player.position,
+      health: client.player.health,
       updateWindow: lastUpdate,
     };
 
@@ -266,7 +298,7 @@ function gameLoop(currentTime, elapsedTime) {
 //
 //------------------------------------------------------------------
 function initializeSocketIO(httpServer) {
-  const io = socketIo(httpServer);
+  io = socketIo(httpServer);
 
   io.use(
     socketIoJwt.authorize({
@@ -308,6 +340,7 @@ function initializeSocketIO(httpServer) {
         lastMessageId: client.lastMessageId,
         direction: client.player.direction,
         position: client.player.position,
+        health: client.player.health,
         updateWindow: lastUpdate,
       };
 
@@ -346,16 +379,6 @@ function initializeSocketIO(httpServer) {
 function initialize(httpServer) {
   initializeSocketIO(httpServer);
   gameLoop(present(), 0);
-}
-
-//------------------------------------------------------------------
-//
-// Public function that allows the game simulation and processing to
-// be terminated.
-//
-//------------------------------------------------------------------
-function terminate() {
-  this.quit = true;
 }
 
 module.exports.initialize = initialize;

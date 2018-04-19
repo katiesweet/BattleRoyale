@@ -134,7 +134,7 @@ MyGame.chat = (function(network) {
     message.className = 'message game-message';
     firstUser.className = secondUser.className = 'red';
     firstUser.innerHTML = data.firstUser;
-    secondUser.innterHTML = data.secondUser;
+    secondUser.innerHTML = data.secondUser;
     event.innerHTML = data.event;
 
     text.appendChild(firstUser);
