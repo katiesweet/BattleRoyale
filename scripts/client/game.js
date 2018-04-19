@@ -245,9 +245,9 @@ MyGame.screens['gameplay'] = (function(
     graphics.clear();
 
     renderer.TiledImage.render(background, graphics.viewport);
-    renderer.MiniMap.render(playerSelf.model, shield);
+    renderer.MiniMap.render(playerSelf, shield);
 
-    graphics.drawShield(shield, playerSelf.model);
+    graphics.drawShield(shield, playerSelf);
 
     renderer.Player.render(playerSelf, playerSelfTexture, skeletonTexture);
 
