@@ -27,6 +27,10 @@ function createPlayer(username, clientId) {
   let speed = 0.0002; // unit distance per millisecond
   let reportUpdate = false; // Indicates if this model was updated during the last update
   let health = 1.0;
+  let numBullets = 0; // Number of bullets character can shoot
+  let weaponStrength = 1; // Standard bullet strength is 1
+  let healthPacks = 0; // Number of health packs character has
+  let armourLevel = 1; // Standard amount of damage caused by being hit is 1
 
   Object.defineProperty(that, 'username', {
     get: () => username,
@@ -70,6 +74,26 @@ function createPlayer(username, clientId) {
     get: () => health,
   });
 
+  Object.defineProperty(that, 'numBullets', {
+    get: () => numBullets,
+    set: value => {
+      numBullets = value;
+      reportUpdate = true;
+    },
+  });
+
+  Object.defineProperty(that, 'weaponStrength', {
+    get: () => weaponStrength,
+  });
+
+  Object.defineProperty(that, 'healthPacks', {
+    get: () => healthPacks,
+  });
+
+  Object.defineProperty(that, 'armourLevel', {
+    get: () => armourLevel,
+  });
+
   that.toJSON = function() {
     return {
       clientId,
@@ -80,6 +104,10 @@ function createPlayer(username, clientId) {
       rotateRate,
       speed,
       health,
+      numBullets,
+      weaponStrength,
+      healthPacks,
+      armourLevel
     };
   };
 
@@ -88,7 +116,7 @@ function createPlayer(username, clientId) {
   };
 
   that.hitByBullet = function(bullet) {
-    health -= bullet.damage;
+    health -= (bullet.damage / armourLevel);
     reportUpdate = true;
   };
 
@@ -149,7 +177,7 @@ function createPlayer(username, clientId) {
   // last move took place.
   //
   //------------------------------------------------------------------
-  that.moveUp = function(elapsedTime, barriers, activeClients) {
+  that.moveUp = function(elapsedTime, barriers, activeClients, powerups) {
     reportUpdate = true;
 
     // let angle = direction * Math.PI / 4;
@@ -172,9 +200,10 @@ function createPlayer(username, clientId) {
     if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
       position = proposedPosition;
     }
+    checkForPowerups(powerups);
   };
 
-  that.moveLeft = function(elapsedTime, barriers, activeClients) {
+  that.moveLeft = function(elapsedTime, barriers, activeClients, powerups) {
     reportUpdate = true;
 
     // let angleFacing = direction * Math.PI / 4;
@@ -195,9 +224,10 @@ function createPlayer(username, clientId) {
     if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
       position = proposedPosition;
     }
+    checkForPowerups(powerups);
   };
 
-  that.moveRight = function(elapsedTime, barriers, activeClients) {
+  that.moveRight = function(elapsedTime, barriers, activeClients, powerups) {
     reportUpdate = true;
 
     // let angleFacing = direction * Math.PI / 4;
@@ -218,9 +248,11 @@ function createPlayer(username, clientId) {
     if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
       position = proposedPosition;
     }
+
+    checkForPowerups(powerups);
   };
 
-  that.moveDown = function(elapsedTime, barriers, activeClients) {
+  that.moveDown = function(elapsedTime, barriers, activeClients, powerups) {
     reportUpdate = true;
 
     // let angleFacing = direction * Math.PI / 4;
@@ -241,6 +273,8 @@ function createPlayer(username, clientId) {
     if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
       position = proposedPosition;
     }
+
+    checkForPowerups(powerups);
   };
 
   //------------------------------------------------------------------
@@ -268,6 +302,30 @@ function createPlayer(username, clientId) {
     reportUpdate = true;
     direction = (direction + 1) % 8;
   };
+
+  function checkForPowerups(powerups) {
+    const acquiredPowerups = powerups.getSurroundingPowerups(position, size.radius);
+
+    for (let i=0; i<acquiredPowerups.length; ++i) {
+      if (acquiredPowerups[i].type == 'weapon' && weaponStrength <= 1) {
+        // Walked over a weapon powerup, and don't already have one
+        weaponStrength = 2;
+        powerups.removePowerup(acquiredPowerups[i].id);
+      }
+      else if (acquiredPowerups[i].type == 'bullet') {
+        numBullets += 20;
+        powerups.removePowerup(acquiredPowerups[i].id);
+      }
+      else if (acquiredPowerups[i].type == 'health') {
+        healthPacks += 1;
+        powerups.removePowerup(acquiredPowerups[i].id);
+      }
+      else if (acquiredPowerups[i].type == 'armour' && armourLevel <= 1) {
+        armourLevel = 2;
+        powerups.removePowerup(acquiredPowerups[i].id);
+      }
+    }
+  }
 
   return that;
 }

@@ -178,7 +178,6 @@ MyGame.screens['gameplay'] = (function(
 
     while (!processMe.empty) {
       let message = processMe.dequeue();
-      console.log(message.type, message.data);
 
       switch (message.type) {
         case NetworkIds.CONNECT_ACK:
@@ -335,8 +334,13 @@ MyGame.screens['gameplay'] = (function(
         } else if (action == 'rotate-left') {
           playerSelf.rotateLeft();
         } else if (action == 'fire') {
-          MyGame.assets['kaboom'].currentTime = 0;
-          MyGame.assets['kaboom'].play();
+          if (playerSelf.numBullets > 0) {
+            MyGame.assets['kaboom'].currentTime = 0;
+            MyGame.assets['kaboom'].play();
+          } else {
+            MyGame.assets['gun-click'].currentTime = 0;
+            MyGame.assets['gun-click'].play();
+          }
         }
       },
       keyboardInput,

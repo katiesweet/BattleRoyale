@@ -40,18 +40,21 @@ let io;
 //
 //------------------------------------------------------------------
 function createBullet(clientId, playerModel) {
-  const bullet = Bullet.create({
-    id: nextBulletId++,
-    clientId: clientId,
-    position: {
-      x: playerModel.position.x,
-      y: playerModel.position.y,
-    },
-    direction: playerModel.direction,
-    speed: playerModel.speed,
-  });
-
-  newBullets.push(bullet);
+  if (playerModel.numBullets > 0) {
+    const bullet = Bullet.create({
+      id: nextBulletId++,
+      clientId: clientId,
+      position: {
+        x: playerModel.position.x,
+        y: playerModel.position.y,
+      },
+      direction: playerModel.direction,
+      speed: playerModel.speed,
+      weaponStrength: playerModel.weaponStrength
+    });
+    playerModel.numBullets = (playerModel.numBullets - 1);
+    newBullets.push(bullet);
+  }
 }
 
 //------------------------------------------------------------------
@@ -76,28 +79,32 @@ function processInput(elapsedTime) {
         client.player.moveUp(
           input.message.elapsedTime,
           barriers,
-          activeClients
+          activeClients,
+          powerups
         );
         break;
       case NetworkIds.INPUT_MOVE_LEFT:
         client.player.moveLeft(
           input.message.elapsedTime,
           barriers,
-          activeClients
+          activeClients,
+          powerups
         );
         break;
       case NetworkIds.INPUT_MOVE_RIGHT:
         client.player.moveRight(
           input.message.elapsedTime,
           barriers,
-          activeClients
+          activeClients,
+          powerups
         );
         break;
       case NetworkIds.INPUT_MOVE_DOWN:
         client.player.moveDown(
           input.message.elapsedTime,
           barriers,
-          activeClients
+          activeClients,
+          powerups
         );
         break;
       case NetworkIds.INPUT_ROTATE_LEFT:
@@ -246,7 +253,12 @@ function updateClients(elapsedTime) {
       direction: client.player.direction,
       position: client.player.position,
       health: client.player.health,
+      numBullets: client.player.numBullets,
+      weaponStrength: client.player.weaponStrength,
+      healthPacks: client.player.healthPacks,
+      armourLevel: client.player.armourLevel,
       updateWindow: lastUpdate,
+
     };
 
     if (client.player.reportUpdate) {

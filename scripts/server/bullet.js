@@ -47,7 +47,7 @@ function createBullet(spec) {
   });
 
   Object.defineProperty(that, 'damage', {
-    get: () => damage,
+    get: () => damage * spec.weaponStrength,
   });
 
   that.toJSON = function() {

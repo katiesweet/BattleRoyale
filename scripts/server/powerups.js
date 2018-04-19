@@ -85,6 +85,16 @@ function createPowerups(spec) {
         return powerupsInRegion;
     }
 
+    that.removePowerup = function(id) {
+        let keptPowerups = []
+        for (let i=0; i<powerups.length; ++i) {
+            if (powerups[i].id != id) {
+                keptPowerups.push(powerups[i]);
+            }
+        }
+        powerups = keptPowerups;
+    }
+
     return that;
 }
 
