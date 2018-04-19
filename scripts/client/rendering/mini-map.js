@@ -17,7 +17,7 @@ MyGame.renderer.MiniMap = (function(graphics, assets) {
     context.drawImage(assets['mini-map'], 0, 0, map.width, map.height);
 
     // render shield here
-    context.fillStyle = 'black';
+    context.fillStyle = "rgba(0, 0, 0, 0.5)";
     context.beginPath();
     context.arc(
       shield.x / 15 * map.height,

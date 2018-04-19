@@ -320,17 +320,19 @@ MyGame.graphics = (function() {
     //
     // console.log(player.position);
     // context.fillStyle = 'black';
+    context.fillStyle = "rgba(0, 0, 0, 0.5)";
+
     context.beginPath();
+
     context.arc(
       ((shield.x * 15 * 1024) - (player.position.x * 15 * 1024)),
       ((shield.y * 15 * 1024) - (player.position.y * 15 * 1024)),
       shield.radius * 15 * 1024,
       0,
       2 * Math.PI,
-      // false,
+      false,
     );
-    // context.rect(15 * 1024, 0, -15 * 1024, 15 * 1024);
-    context.fillStyle = 'black';
+    context.rect(15 * 1024, 0, -15 * 1024, 15 * 1024);
 
     context.fill();
   }

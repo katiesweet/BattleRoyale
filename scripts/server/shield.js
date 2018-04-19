@@ -1,8 +1,5 @@
 'use strict';
 
-// TODO
-// particles
-
 const random = require('./random');
 
 function createShield(spec) {
@@ -31,9 +28,9 @@ function createShield(spec) {
   };
 
   that.collides = function(position) {
-    let xForm = Math.square(Math.abs(position.x - originX));
-    let yForm = Math.square(Math.abs(position.y - originY));
-    if (Math.sqrt(xForm + yForm) <= r) {
+    let xForm = Math.pow(Math.abs(position.x - originX), 2);
+    let yForm = Math.pow(Math.abs(position.y - originY), 2);
+    if (Math.sqrt(xForm + yForm) <= radius) {
       return true;
     }
     return false;

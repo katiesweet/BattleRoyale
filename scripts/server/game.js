@@ -202,6 +202,18 @@ function update(elapsedTime, currentTime) {
   }
   activeBullets = keepBullets;
 
+  for (let clientId in activeClients) {
+    const player = activeClients[clientId].player;
+    if (shield.collides(player)) {
+      //dead
+      io.emit(NetworkIds.GAME_MESSAGE_NEW, {
+        firstUser:
+          activeClients[activeBullets[bullet].clientId].player.username,
+        event: ' ran into the shield ',
+      });
+    }
+  }
+
   shield.update(elapsedTime);
 }
 
