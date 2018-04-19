@@ -128,18 +128,23 @@ MyGame.chat = (function(network) {
     const message = document.createElement('div');
     const text = document.createElement('p');
     const firstUser = document.createElement('span');
-    const secondUser = document.createElement('span');
     const event = document.createElement('i');
 
     message.className = 'message game-message';
-    firstUser.className = secondUser.className = 'red';
+    firstUser.className = 'red';
     firstUser.innerHTML = data.firstUser;
-    secondUser.innerHTML = data.secondUser;
     event.innerHTML = data.event;
 
     text.appendChild(firstUser);
     text.appendChild(event);
-    text.appendChild(secondUser);
+
+    if (data.secondUser) {
+      const secondUser = document.createElement('span');
+      secondUser.className = 'red';
+      secondUser.innerHTML = data.secondUser;
+      text.appendChild(secondUser);
+    }
+
     message.appendChild(text);
     messageList.appendChild(message);
   }

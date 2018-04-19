@@ -92,6 +92,11 @@ function createPlayer(username, clientId) {
     reportUpdate = true;
   };
 
+  that.dieByShield = function() {
+    health = 0;
+    reportUpdate = true;
+  };
+
   //------------------------------------------------------------------
   //
   // Utility function to perform a hit test between two objects.  The

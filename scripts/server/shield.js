@@ -8,8 +8,8 @@ function createShield(spec) {
   let originX = Math.round(random.nextDouble() * 15);
   let originY = Math.round(random.nextDouble() * 15);
 
-  let radius =  Math.max(originX - 0, 15 - originX, originY  - 0, 15 - originY);
-  let rate = radius/600000; // 600000 is 10 minutes in milliseconds
+  let radius = Math.max(originX - 0, 15 - originX, originY - 0, 15 - originY);
+  let rate = radius / 600000; // 600000 is 10 minutes in milliseconds
 
   Object.defineProperty(that, 'originX', {
     get: () => originX,
@@ -25,21 +25,20 @@ function createShield(spec) {
 
   that.update = function(elapsedTime, gameStarted) {
     if (gameStarted) {
-      radius = radius - (rate * elapsedTime);
+      radius = radius - rate * elapsedTime;
     }
   };
 
   that.collides = function(position, gameStarted) {
     if (gameStarted) {
-      let xForm = Math.pow(Math.abs((position.x) - (originX)), 2);
-      let yForm = Math.pow(Math.abs((position.y) - (originY)), 2);
-      if (Math.sqrt(xForm + yForm) >= (radius)) {
-        console.log('COLLISION!!!!!!');
+      let xForm = Math.pow(Math.abs(position.x - originX), 2);
+      let yForm = Math.pow(Math.abs(position.y - originY), 2);
+      if (Math.sqrt(xForm + yForm) >= radius) {
         return true;
       }
     }
     return false;
-  }
+  };
 
   return that;
 }

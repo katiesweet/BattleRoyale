@@ -136,8 +136,19 @@ function collided(obj1, obj2) {
 function update(elapsedTime, currentTime) {
   // Update clients
   for (let clientId in activeClients) {
-    if (activeClients[clientId].player.update) {
-      activeClients[clientId].player.update(currentTime);
+    const player = activeClients[clientId].player;
+
+    if (player.health > 0 && player.update) {
+      player.update(currentTime);
+    }
+
+    if (player.health > 0 && shield.collides(player.position, gameStarted)) {
+      player.dieByShield();
+
+      io.emit(NetworkIds.GAME_MESSAGE_NEW, {
+        firstUser: player.username,
+        event: ' was vaporized by the shield',
+      });
     }
   }
 
@@ -206,17 +217,6 @@ function update(elapsedTime, currentTime) {
   }
   activeBullets = keepBullets;
 
-  for (let clientId in activeClients) {
-    const player = activeClients[clientId].player;
-    if (shield.collides(player.position, gameStarted)) {
-      //dead
-      // io.emit(NetworkIds.GAME_MESSAGE_NEW, {
-      //   firstUser:
-      //     activeClients[clientId].player.username,
-      //   event: ' ran into the shield ',
-      // });
-    }
-  }
   shield.update(elapsedTime, gameStarted);
 }
 
@@ -279,8 +279,11 @@ function updateClients(elapsedTime) {
     }
 
     // update client on shield status
-    client.socket.emit(NetworkIds.SHIELD_INFO,
-      {radius: shield.radius, x: shield.originX, y: shield.originY});
+    client.socket.emit(NetworkIds.SHIELD_INFO, {
+      radius: shield.radius,
+      x: shield.originX,
+      y: shield.originY,
+    });
   }
 
   for (let clientId in activeClients) {
@@ -369,7 +372,10 @@ function initializeSocketIO(httpServer) {
 
       client.socket.emit(NetworkIds.UPDATE_SELF, update);
       client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
-      client.socket.broadcast.emit(NetworkIds.OPPONENT_STARTING_POSITION, position);
+      client.socket.broadcast.emit(
+        NetworkIds.OPPONENT_STARTING_POSITION,
+        position
+      );
     });
 
     socket.on(NetworkIds.INPUT, data => {
