@@ -26,6 +26,8 @@ MyGame.components.Player = function(barriers) {
     radius: 0.4,
   };
 
+  let currentInputs = [];
+
   that.sprite = MyGame.components.CowboySprite({
     walkingRate: 100,
   });
@@ -114,6 +116,31 @@ MyGame.components.Player = function(barriers) {
     username = spec.username;
     health = spec.health;
   };
+
+  that.addMoveInput = function(action, elapsedTime) {
+    currentInputs.push({
+      moveType: action,
+      elapsedTime: elapsedTime,
+    });
+  }
+
+  that.processInputs = function() {
+    for (let i=0; i<currentInputs.length; ++i) {
+      if (currentInputs[i].moveType == 'move-left') {
+        that.moveLeft(currentInputs[i].elapsedTime);
+      }
+      else if (currentInputs[i].moveType == 'move-right') {
+        that.moveRight(currentInputs[i].elapsedTime);
+      }
+      else if (currentInputs[i].moveType == 'move-up') {
+        that.moveUp(currentInputs[i].elapsedTime);
+      }
+      else if (currentInputs[i].moveType == 'move-down') {
+        that.moveDown(currentInputs[i].elapsedTime);
+      }
+    }
+    currentInputs.length = 0;
+  }
 
   //------------------------------------------------------------------
   //

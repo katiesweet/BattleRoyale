@@ -59,35 +59,41 @@ function processInput(elapsedTime) {
   // while processing.
   const processMe = inputQueue;
   inputQueue = Queue.create();
+  let playerIdsToUpdate = [];
 
   while (!processMe.empty) {
     const input = processMe.dequeue();
     const client = activeClients[input.clientId];
+    playerIdsToUpdate.push(input.clientId);
     client.lastMessageId = input.message.id;
     switch (input.message.type) {
       case NetworkIds.INPUT_MOVE_UP:
-        client.player.moveUp(
+        client.player.addMoveInput(
+          'move-up',
           input.message.elapsedTime,
           barriers,
           activeClients
         );
         break;
       case NetworkIds.INPUT_MOVE_LEFT:
-        client.player.moveLeft(
+        client.player.addMoveInput(
+          'move-left',
           input.message.elapsedTime,
           barriers,
           activeClients
         );
         break;
       case NetworkIds.INPUT_MOVE_RIGHT:
-        client.player.moveRight(
+        client.player.addMoveInput(
+          'move-right',
           input.message.elapsedTime,
           barriers,
           activeClients
         );
         break;
       case NetworkIds.INPUT_MOVE_DOWN:
-        client.player.moveDown(
+        client.player.addMoveInput(
+          'move-down',
           input.message.elapsedTime,
           barriers,
           activeClients
@@ -103,6 +109,10 @@ function processInput(elapsedTime) {
         createBullet(input.clientId, client.player);
         break;
     }
+  }
+
+  for (let i=0; i<playerIdsToUpdate.length; ++i) {
+    activeClients[playerIdsToUpdate[i]].player.processInputs();
   }
 }
 

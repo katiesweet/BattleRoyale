@@ -162,6 +162,7 @@ MyGame.screens['gameplay'] = (function(
     // Start with the keyboard updates so those messages can get in transit
     // while the local updating of received network messages are processed.
     myKeyboard.update(elapsedTime);
+    playerSelf.processInputs();
 
     //
     // Double buffering on the queue so we don't asynchronously receive messages
@@ -307,16 +308,17 @@ MyGame.screens['gameplay'] = (function(
         network.emit(NetworkIds.INPUT, message);
         network.history.enqueue(message);
 
-        // if (action.indexOf('move') >= 0) {
-        //   playerSelf.move(elapsedTime);
-        if (action == 'move-up') {
-          playerSelf.moveUp(elapsedTime);
-        } else if (action == 'move-left') {
-          playerSelf.moveLeft(elapsedTime);
-        } else if (action == 'move-right') {
-          playerSelf.moveRight(elapsedTime);
-        } else if (action == 'move-down') {
-          playerSelf.moveDown(elapsedTime);
+        if (action.indexOf('move') >= 0) {
+          playerSelf.addMoveInput(action, elapsedTime);
+          // playerSelf.move(elapsedTime);
+        // if (action == 'move-up') {
+        //   playerSelf.moveUp(elapsedTime);
+        // } else if (action == 'move-left') {
+        //   playerSelf.moveLeft(elapsedTime);
+        // } else if (action == 'move-right') {
+        //   playerSelf.moveRight(elapsedTime);
+        // } else if (action == 'move-down') {
+        //   playerSelf.moveDown(elapsedTime);
         } else if (action == 'rotate-right') {
           playerSelf.rotateRight();
         } else if (action == 'rotate-left') {
