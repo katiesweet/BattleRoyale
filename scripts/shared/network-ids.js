@@ -76,6 +76,10 @@
       value: 'bullet-hit',
       writable: false,
     },
+    UPDATE_POWERUP: {
+      value: 'powerups',
+      writable: false,
+    },
     CHAT_MESSAGE_CREATE: {
       value: 'chat-message-create',
       writable: false,

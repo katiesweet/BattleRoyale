@@ -27,6 +27,13 @@ MyGame.screens['gameplay'] = (function(
     playerOtherTexture = assets['player-other'],
     skeletonTexture = assets['skeleton'],
     background = null,
+    currentPowerups = [],
+    powerupTextures = {
+      weapon : assets['weapon-powerup'],
+      bullet : assets['bullet-powerup'],
+      health : assets['health-powerup'],
+      armour : assets['armour-powerup']
+    },
     nextExplosionId = 0;
 
   //------------------------------------------------------------------
@@ -171,6 +178,7 @@ MyGame.screens['gameplay'] = (function(
 
     while (!processMe.empty) {
       let message = processMe.dequeue();
+      console.log(message.type, message.data);
 
       switch (message.type) {
         case NetworkIds.CONNECT_ACK:
@@ -193,6 +201,9 @@ MyGame.screens['gameplay'] = (function(
           break;
         case NetworkIds.BULLET_HIT:
           bulletHit(message.data);
+          break;
+        case NetworkIds.UPDATE_POWERUP:
+          currentPowerups = message.data;
           break;
       }
     }
@@ -240,6 +251,8 @@ MyGame.screens['gameplay'] = (function(
     renderer.MiniMap.render(playerSelf);
 
     renderer.Player.render(playerSelf, playerSelfTexture, skeletonTexture);
+
+    renderer.Powerups.render(currentPowerups, powerupTextures);
 
     if (playerSelf.health > 0) {
       graphics.createFieldOfViewClippingRegion(playerSelf.fieldOfView);

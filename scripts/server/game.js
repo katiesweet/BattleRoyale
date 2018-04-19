@@ -9,6 +9,7 @@ const present = require('present');
 const Player = require('./player');
 const Bullet = require('./bullet');
 const Barriers = require('./barriers');
+const Powerups = require('./powerups');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
 const socketIo = require('socket.io');
@@ -25,6 +26,12 @@ let hits = [];
 let inputQueue = Queue.create();
 let nextBulletId = 1;
 let barriers = Barriers.create();
+let powerups = Powerups.create({
+  weaponUpgrades : 100,
+  bullets : 100,
+  health : 100,
+  armour: 100
+});
 let io;
 
 //------------------------------------------------------------------
@@ -245,6 +252,10 @@ function updateClients(elapsedTime) {
     if (client.player.reportUpdate) {
       client.socket.emit(NetworkIds.UPDATE_SELF, update);
       client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
+
+      // Since we moved, report all powerups in region
+      const powerupsInRegion = powerups.getSurroundingPowerups(client.player.position, 1);
+      client.socket.emit(NetworkIds.UPDATE_POWERUP, powerupsInRegion);
     }
 
     //
