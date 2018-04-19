@@ -57,6 +57,7 @@ function createBullet(spec) {
       position: that.position,
       radius: that.radius,
       speed: that.speed,
+      damage: that.damage,
       timeRemaining: that.timeRemaining,
     };
   };

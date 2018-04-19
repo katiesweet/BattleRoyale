@@ -22,7 +22,7 @@ MyGame.components.Player = function(barriers) {
   let health = 0;
 
   let fieldOfView = {
-    angle: 2, // * Math.PI/4
+    angle: 2.25, // * Math.PI/4
     radius: 0.4,
   };
 
@@ -244,7 +244,6 @@ MyGame.components.Player = function(barriers) {
       x: proposedPosition.x + size.radius / 2,
       y: proposedPosition.y + size.radius / 2,
     };
-
     return barriers.rectangularObjectCollides(tl, br);
   }
 

@@ -112,11 +112,12 @@ function createPlayer(username, clientId) {
   };
 
   that.setStartingPosition = function(start) {
+    reportUpdate = true;
     position = start;
   };
 
   that.hitByBullet = function(bullet) {
-    health -= (bullet.damage / armourLevel);
+    health = Math.max((health - bullet.damage) / armourLevel, 0);
     reportUpdate = true;
   };
 
