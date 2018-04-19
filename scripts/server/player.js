@@ -327,6 +327,14 @@ function createPlayer(username, clientId) {
     }
   }
 
+  that.useHealth = function() {
+    if (healthPacks > 0) {
+      reportUpdate = true;
+      healthPacks -=1;
+      health = 1;
+    }
+  }
+
   return that;
 }
 

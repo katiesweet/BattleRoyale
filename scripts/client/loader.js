@@ -136,6 +136,10 @@ MyGame.loader = (function() {
         source: 'assets/click.mp3',
       },
       {
+        key: 'gulp',
+        source: 'assets/gulp.mp3',
+      },
+      {
         key: 'boom', // for when someone is hit/explosions
         source: 'assets/DeathFlash.mp3',
       },

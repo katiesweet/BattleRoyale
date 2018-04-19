@@ -147,6 +147,11 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
         network: NetworkIds.INPUT_MOVE_LEFT,
         id: 0,
       },
+      'use-health': {
+        input: input.KeyEvent.DOM_VK_H,
+        network: NetworkIds.USE_HEALTH,
+        id: 0,
+      }
       // 'sprint': {'input': input.KeyEvent.DOM_VK_S, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
     };
 
@@ -184,6 +189,11 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
       .getElementById('move-left-config')
       .addEventListener('click', function() {
         edit('move-left');
+      });
+    document
+      .getElementById('use-health-config')
+      .addEventListener('click', function() {
+        edit('use-health');
       });
 
     window.addEventListener('keydown', keyDown);

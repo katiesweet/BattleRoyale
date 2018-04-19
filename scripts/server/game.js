@@ -27,10 +27,10 @@ let inputQueue = Queue.create();
 let nextBulletId = 1;
 let barriers = Barriers.create();
 let powerups = Powerups.create({
-  weaponUpgrades : 100,
+  weaponUpgrades : 25,
   bullets : 100,
-  health : 100,
-  armour: 100
+  health : 25,
+  armour: 25
 });
 let io;
 
@@ -49,7 +49,7 @@ function createBullet(clientId, playerModel) {
         y: playerModel.position.y,
       },
       direction: playerModel.direction,
-      speed: playerModel.speed,
+      speed: playerModel.speed * playerModel.weaponStrength,
       weaponStrength: playerModel.weaponStrength
     });
     playerModel.numBullets = (playerModel.numBullets - 1);
@@ -115,6 +115,9 @@ function processInput(elapsedTime) {
         break;
       case NetworkIds.INPUT_FIRE:
         createBullet(input.clientId, client.player);
+        break;
+      case NetworkIds.USE_HEALTH:
+        client.player.useHealth();
         break;
     }
   }

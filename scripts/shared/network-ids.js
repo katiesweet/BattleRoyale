@@ -96,5 +96,9 @@
       value: 'opponent-start-position',
       writable: false,
     },
+    USE_HEALTH: {
+      value: 'use-health',
+      writable: false,
+    }
   });
 })(typeof exports === 'undefined' ? (this['NetworkIds'] = {}) : exports);

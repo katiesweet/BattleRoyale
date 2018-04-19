@@ -251,8 +251,6 @@ MyGame.screens['gameplay'] = (function(
 
     renderer.Player.render(playerSelf, playerSelfTexture, skeletonTexture);
 
-    renderer.Powerups.render(currentPowerups, powerupTextures);
-
     if (playerSelf.health > 0) {
       graphics.createFieldOfViewClippingRegion(playerSelf.fieldOfView);
     }
@@ -264,6 +262,9 @@ MyGame.screens['gameplay'] = (function(
         skeletonTexture
       );
     }
+
+    renderer.Powerups.render(currentPowerups, powerupTextures);
+
     graphics.removeFieldOfViewClippingRegion();
 
     for (let bullet in bullets) {
@@ -300,7 +301,8 @@ MyGame.screens['gameplay'] = (function(
     if (
       action == 'fire' ||
       action == 'rotate-left' ||
-      action == 'rotate-right'
+      action == 'rotate-right' ||
+      action == 'use-health'
     ) {
       repeat = false;
     }
@@ -340,6 +342,11 @@ MyGame.screens['gameplay'] = (function(
           } else {
             MyGame.assets['gun-click'].currentTime = 0;
             MyGame.assets['gun-click'].play();
+          }
+        } else if (action == 'use-health') {
+          if (playerSelf.healthPacks > 0) {
+            MyGame.assets['gulp'].currentTime = 0;
+            MyGame.assets['gulp'].play();
           }
         }
       },
