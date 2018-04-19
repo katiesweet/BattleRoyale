@@ -313,6 +313,7 @@ function initializeSocketIO(httpServer) {
 
       client.socket.emit(NetworkIds.UPDATE_SELF, update);
       client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
+      client.socket.broadcast.emit(NetworkIds.OPPONENT_STARTING_POSITION, position);
     });
 
     socket.on(NetworkIds.INPUT, data => {

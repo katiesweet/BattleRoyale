@@ -1,8 +1,10 @@
-MyGame.renderer.SpawnMap = (function(graphics, assets) {
+MyGame.renderer.SpawnMap = (function(graphics, assets, components) {
   'use strict';
   let that = {};
   let map = document.getElementById('spawn-map');
   let context = map.getContext('2d');
+
+  let opponentLocations = []
 
   window.addEventListener('resize', resizeMap);
   resizeMap();
@@ -20,15 +22,35 @@ MyGame.renderer.SpawnMap = (function(graphics, assets) {
     };
   }
 
-  function render(event) {
+  function renderOpponents() {
+    context.beginPath();
+    context.fillStyle = 'yellow';
+    for (let i=0; i<opponentLocations.length; ++i) {
+      const relativeCoordLoc = {
+        x : opponentLocations[i].x * map.width / 15,
+        y : opponentLocations[i].y * map.height / 15
+      }
+      context.arc(relativeCoordLoc.x, relativeCoordLoc.y, 2, 0, 2*Math.PI);
+    }
+    context.fill();
+  }
+
+  that.addOpponent = function(position) {
+    opponentLocations.push(position);
+    renderOpponents();
+  }
+
+  function render(event, isValid) {
     context.clear();
     context.drawImage(assets['mini-map'], 0, 0, map.width, map.height);
+
+    renderOpponents();
 
     const mousePosition = getMousePosition(event);
 
     context.beginPath();
     context.arc(mousePosition.x, mousePosition.y, 2, 0, 2 * Math.PI);
-    context.fillStyle = 'red';
+    context.fillStyle = (isValid ? 'lime' : 'red');
     context.fill();
   }
 
@@ -40,7 +62,11 @@ MyGame.renderer.SpawnMap = (function(graphics, assets) {
     };
   };
 
+  that.reset = function() {
+    opponentLocations = [];
+  }
+
   that.render = render;
 
   return that;
-})(MyGame.graphics, MyGame.assets);
+})(MyGame.graphics, MyGame.assets, MyGame.components);
