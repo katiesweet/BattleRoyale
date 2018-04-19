@@ -16,6 +16,7 @@ function createBullet(spec) {
   let radius = 0.0025;
   let speed = spec.speed + 0.0002; // unit distance per millisecond
   let timeRemaining = 1500; // milliseconds
+  let damage = 0.25;
 
   Object.defineProperty(that, 'clientId', {
     get: () => spec.clientId,
@@ -43,6 +44,10 @@ function createBullet(spec) {
 
   Object.defineProperty(that, 'timeRemaining', {
     get: () => timeRemaining,
+  });
+
+  Object.defineProperty(that, 'damage', {
+    get: () => damage,
   });
 
   that.toJSON = function() {

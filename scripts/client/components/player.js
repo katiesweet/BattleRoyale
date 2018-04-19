@@ -13,16 +13,21 @@ MyGame.components.Player = function(barriers) {
   let size = {
     width: 0.075,
     height: 0.075,
-    radius: 0.04
+    radius: 0.04,
   };
   let direction = 0;
   let rotateRate = 0;
   let speed = 0;
-  let username = "";
-  let health = 0;  
+  let username = '';
+  let health = 0;
+
+  let fieldOfView = {
+    angle: 2, // * Math.PI/4
+    radius: 0.4,
+  };
 
   that.sprite = MyGame.components.CowboySprite({
-      walkingRate : 100
+    walkingRate: 100,
   });
 
   Object.defineProperty(that, 'direction', {
@@ -51,7 +56,7 @@ MyGame.components.Player = function(barriers) {
     get: () => position,
     set: value => {
       position = value;
-    }
+    },
   });
 
   Object.defineProperty(that, 'size', {
@@ -65,6 +70,33 @@ MyGame.components.Player = function(barriers) {
   Object.defineProperty(that, 'health', {
     get: () => health,
   });
+
+  Object.defineProperty(that, 'fieldOfView', {
+    get: () => getFieldOfView(),
+  });
+
+  function getFieldOfView() {
+    let firstAngle = (direction + fieldOfView.angle / 2) * Math.PI / 4;
+    let p2 = {
+      x: position.x + Math.cos(firstAngle) * fieldOfView.radius,
+      y: position.y - Math.sin(firstAngle) * fieldOfView.radius,
+    };
+
+    let secondAngle = (direction - fieldOfView.angle / 2) * Math.PI / 4;
+    let p3 = {
+      x: position.x + Math.cos(secondAngle) * fieldOfView.radius,
+      y: position.y - Math.sin(secondAngle) * fieldOfView.radius,
+    };
+
+    return {
+      p1: position,
+      p2: p2,
+      p3: p3,
+      radius: fieldOfView.radius,
+      startAngle: -1 * firstAngle,
+      endAngle: -1 * secondAngle,
+    };
+  }
 
   that.initialize = function(spec) {
     position.x = spec.position.x;
@@ -103,7 +135,7 @@ MyGame.components.Player = function(barriers) {
     let proposedPosition = {
       x: position.x,
       y: position.y - elapsedTime * speed,
-    }
+    };
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
@@ -125,14 +157,13 @@ MyGame.components.Player = function(barriers) {
     let proposedPosition = {
       x: position.x - elapsedTime * speed,
       y: position.y,
-    }
+    };
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
       that.sprite.updateWalkAnimation(elapsedTime);
     }
-
-  }
+  };
 
   that.moveRight = function(elapsedTime) {
     // let angleFacing = direction * Math.PI / 4;
@@ -148,14 +179,13 @@ MyGame.components.Player = function(barriers) {
     let proposedPosition = {
       x: position.x + elapsedTime * speed,
       y: position.y,
-    }
+    };
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
       that.sprite.updateWalkAnimation(elapsedTime);
     }
-
-  }
+  };
 
   that.moveDown = function(elapsedTime) {
     // let angleFacing = direction * Math.PI / 4;
@@ -170,14 +200,13 @@ MyGame.components.Player = function(barriers) {
     let proposedPosition = {
       x: position.x,
       y: position.y + elapsedTime * speed,
-    }
+    };
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
       that.sprite.updateWalkAnimation(elapsedTime);
     }
-
-  }
+  };
 
   //------------------------------------------------------------------
   //
@@ -186,14 +215,15 @@ MyGame.components.Player = function(barriers) {
   //------------------------------------------------------------------
   function checkIfCausesCollision(proposedPosition) {
     let tl = {
-      x : proposedPosition.x - size.radius /2,
-      y : proposedPosition.y - size.radius /2
-    }
+      x: proposedPosition.x - size.radius / 2,
+      y: proposedPosition.y - size.radius / 2,
+    };
 
     let br = {
-      x : proposedPosition.x + size.radius / 2,
-      y : proposedPosition.y + size.radius / 2
-    }
+      x: proposedPosition.x + size.radius / 2,
+      y: proposedPosition.y + size.radius / 2,
+    };
+
     return barriers.rectangularObjectCollides(tl, br);
   }
 
@@ -204,11 +234,11 @@ MyGame.components.Player = function(barriers) {
   //------------------------------------------------------------------
   that.rotateRight = function() {
     direction -= 1;
-    if (direction <= 0) {
+    if (direction < 0) {
       direction = 7;
     }
     that.sprite.updateRotationAnimation(direction);
-  }
+  };
 
   //------------------------------------------------------------------
   //
@@ -218,12 +248,13 @@ MyGame.components.Player = function(barriers) {
   that.rotateLeft = function() {
     direction = (direction + 1) % 8;
     that.sprite.updateRotationAnimation(direction);
-  }
+  };
 
   that.update = function(spec) {
     position.x = spec.position.x;
     position.y = spec.position.y;
     direction = spec.direction;
+    health = spec.health;
     that.sprite.updateRotationAnimation(direction);
   };
 

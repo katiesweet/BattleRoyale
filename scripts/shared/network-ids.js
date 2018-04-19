@@ -88,6 +88,10 @@
       value: 'game-message-new',
       writable: false,
     },
+    OPPONENT_STARTING_POSITION: {
+      value: 'opponent-start-position',
+      writable: false,
+    },
     SHIELD_INFO: {
       value: 'shield-info',
       writable: false,

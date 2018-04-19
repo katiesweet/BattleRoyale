@@ -87,21 +87,26 @@ function createPlayer(username, clientId) {
     position = start;
   };
 
-  //------------------------------------------------------------------
-//
-// Utility function to perform a hit test between two objects.  The
-// objects must have a position: { x: , y: } property and radius property.
-//
-//------------------------------------------------------------------
-function collide(proposedPosition, otherObject) {
-  const distance = Math.sqrt(
-    Math.pow(proposedPosition.x - otherObject.position.x, 2) +
-      Math.pow(proposedPosition.y - otherObject.position.y, 2)
-  );
-  const radii = size.radius / 2 + otherObject.size.radius / 2;
+  that.hitByBullet = function(bullet) {
+    health -= bullet.damage;
+    reportUpdate = true;
+  };
 
-  return distance <= radii;
-}
+  //------------------------------------------------------------------
+  //
+  // Utility function to perform a hit test between two objects.  The
+  // objects must have a position: { x: , y: } property and radius property.
+  //
+  //------------------------------------------------------------------
+  function collide(proposedPosition, otherObject) {
+    const distance = Math.sqrt(
+      Math.pow(proposedPosition.x - otherObject.position.x, 2) +
+        Math.pow(proposedPosition.y - otherObject.position.y, 2)
+    );
+    const radii = size.radius / 2 + otherObject.size.radius / 2;
+
+    return distance <= radii;
+  }
 
   //------------------------------------------------------------------
   //
@@ -123,8 +128,7 @@ function collide(proposedPosition, otherObject) {
     //
     if (barriers.rectangularObjectCollides(tl, br)) {
       return true;
-    };
-
+    }
 
     // Check other client collisions
     for (let opponentClientId in activeClients) {
@@ -137,7 +141,6 @@ function collide(proposedPosition, otherObject) {
     }
 
     return false;
-
   }
 
   //------------------------------------------------------------------
@@ -159,9 +162,9 @@ function collide(proposedPosition, otherObject) {
     // };
 
     let proposedPosition = {
-        x: position.x,
-        y: position.y - elapsedTime * speed,
-    }
+      x: position.x,
+      y: position.y - elapsedTime * speed,
+    };
 
     // position.x += vectorX * elapsedTime * speed;
     // position.y -= vectorY * elapsedTime * speed;
@@ -187,7 +190,7 @@ function collide(proposedPosition, otherObject) {
     let proposedPosition = {
       x: position.x - elapsedTime * speed,
       y: position.y,
-    }
+    };
 
     if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
       position = proposedPosition;
@@ -210,7 +213,7 @@ function collide(proposedPosition, otherObject) {
     let proposedPosition = {
       x: position.x + elapsedTime * speed,
       y: position.y,
-    }
+    };
 
     if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
       position = proposedPosition;
@@ -233,7 +236,7 @@ function collide(proposedPosition, otherObject) {
     let proposedPosition = {
       x: position.x,
       y: position.y + elapsedTime * speed,
-    }
+    };
 
     if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
       position = proposedPosition;
@@ -250,7 +253,7 @@ function collide(proposedPosition, otherObject) {
   that.rotateRight = function() {
     reportUpdate = true;
     direction -= 1;
-    if (direction <= 0) {
+    if (direction < 0) {
       direction = 7;
     }
   };
