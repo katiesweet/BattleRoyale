@@ -27,6 +27,13 @@ MyGame.screens['gameplay'] = (function(
     playerOtherTexture = assets['player-other'],
     skeletonTexture = assets['skeleton'],
     background = null,
+    currentPowerups = [],
+    powerupTextures = {
+      weapon : assets['weapon-powerup'],
+      bullet : assets['bullet-powerup'],
+      health : assets['health-powerup'],
+      armour : assets['armour-powerup']
+    },
     nextExplosionId = 0,
     activePlayerCount = 0,
     shield = {};
@@ -199,6 +206,9 @@ MyGame.screens['gameplay'] = (function(
         case NetworkIds.BULLET_HIT:
           bulletHit(message.data);
           break;
+        case NetworkIds.UPDATE_POWERUP:
+          currentPowerups = message.data;
+          break;
         case NetworkIds.SHIELD_INFO:
           updateShield(message.data);
           break;
@@ -268,6 +278,9 @@ MyGame.screens['gameplay'] = (function(
         skeletonTexture
       );
     }
+
+    renderer.Powerups.render(currentPowerups, powerupTextures);
+
     graphics.removeFieldOfViewClippingRegion();
 
     for (let bullet in bullets) {
@@ -307,7 +320,8 @@ MyGame.screens['gameplay'] = (function(
     if (
       action == 'fire' ||
       action == 'rotate-left' ||
-      action == 'rotate-right'
+      action == 'rotate-right' ||
+      action == 'use-health'
     ) {
       repeat = false;
     }
@@ -341,8 +355,18 @@ MyGame.screens['gameplay'] = (function(
         } else if (action == 'rotate-left') {
           playerSelf.rotateLeft();
         } else if (action == 'fire') {
-          MyGame.assets['kaboom'].currentTime = 0;
-          MyGame.assets['kaboom'].play();
+          if (playerSelf.numBullets > 0) {
+            MyGame.assets['kaboom'].currentTime = 0;
+            MyGame.assets['kaboom'].play();
+          } else {
+            MyGame.assets['gun-click'].currentTime = 0;
+            MyGame.assets['gun-click'].play();
+          }
+        } else if (action == 'use-health') {
+          if (playerSelf.healthPacks > 0) {
+            MyGame.assets['gulp'].currentTime = 0;
+            MyGame.assets['gulp'].play();
+          }
         }
       },
       keyboardInput,

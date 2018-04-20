@@ -9,6 +9,7 @@ const present = require('present');
 const Player = require('./player');
 const Bullet = require('./bullet');
 const Barriers = require('./barriers');
+const Powerups = require('./powerups');
 const Shield = require('./shield');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
@@ -26,6 +27,12 @@ let hits = [];
 let inputQueue = Queue.create();
 let nextBulletId = 1;
 let barriers = Barriers.create();
+let powerups = Powerups.create({
+  weaponUpgrades : 25,
+  bullets : 100,
+  health : 25,
+  armour: 25
+});
 let shield = Shield.create();
 let io;
 let gameStarted = false;
@@ -36,18 +43,21 @@ let gameStarted = false;
 //
 //------------------------------------------------------------------
 function createBullet(clientId, playerModel) {
-  const bullet = Bullet.create({
-    id: nextBulletId++,
-    clientId: clientId,
-    position: {
-      x: playerModel.position.x,
-      y: playerModel.position.y,
-    },
-    direction: playerModel.direction,
-    speed: playerModel.speed,
-  });
-
-  newBullets.push(bullet);
+  if (playerModel.numBullets > 0) {
+    const bullet = Bullet.create({
+      id: nextBulletId++,
+      clientId: clientId,
+      position: {
+        x: playerModel.position.x,
+        y: playerModel.position.y,
+      },
+      direction: playerModel.direction,
+      speed: playerModel.speed * playerModel.weaponStrength,
+      weaponStrength: playerModel.weaponStrength
+    });
+    playerModel.numBullets = (playerModel.numBullets - 1);
+    newBullets.push(bullet);
+  }
 }
 
 //------------------------------------------------------------------
@@ -72,28 +82,32 @@ function processInput(elapsedTime) {
         client.player.moveUp(
           input.message.elapsedTime,
           barriers,
-          activeClients
+          activeClients,
+          powerups
         );
         break;
       case NetworkIds.INPUT_MOVE_LEFT:
         client.player.moveLeft(
           input.message.elapsedTime,
           barriers,
-          activeClients
+          activeClients,
+          powerups
         );
         break;
       case NetworkIds.INPUT_MOVE_RIGHT:
         client.player.moveRight(
           input.message.elapsedTime,
           barriers,
-          activeClients
+          activeClients,
+          powerups
         );
         break;
       case NetworkIds.INPUT_MOVE_DOWN:
         client.player.moveDown(
           input.message.elapsedTime,
           barriers,
-          activeClients
+          activeClients,
+          powerups
         );
         break;
       case NetworkIds.INPUT_ROTATE_LEFT:
@@ -104,6 +118,9 @@ function processInput(elapsedTime) {
         break;
       case NetworkIds.INPUT_FIRE:
         createBullet(input.clientId, client.player);
+        break;
+      case NetworkIds.USE_HEALTH:
+        client.player.useHealth();
         break;
       case NetworkIds.START_GAME:
         gameStarted = true;
@@ -259,12 +276,21 @@ function updateClients(elapsedTime) {
       direction: client.player.direction,
       position: client.player.position,
       health: client.player.health,
+      numBullets: client.player.numBullets,
+      weaponStrength: client.player.weaponStrength,
+      healthPacks: client.player.healthPacks,
+      armourLevel: client.player.armourLevel,
       updateWindow: lastUpdate,
+
     };
 
     if (client.player.reportUpdate) {
       client.socket.emit(NetworkIds.UPDATE_SELF, update);
       client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
+
+      // Since we moved, report all powerups in region
+      const powerupsInRegion = powerups.getSurroundingPowerups(client.player.position, 1);
+      client.socket.emit(NetworkIds.UPDATE_POWERUP, powerupsInRegion);
     }
 
     //

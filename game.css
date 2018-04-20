@@ -169,6 +169,8 @@ ul.menu > li {
   margin: 1.25rem;
 }
 
+
+
 #highscores > ol {
   text-align: center;
   padding: 0;
@@ -262,6 +264,28 @@ ul.menu > li {
   min-width: 100px;
   background-color: saddlebrown;
   height: 100vh;
+}
+
+.game-menu > .inventory {
+  /* padding: 10px; */
+  width: 100%;
+  padding: 10px;
+  color: whitesmoke;
+  -webkit-text-stroke: 2px #2e2e2e;
+  -moz-text-stroke: 2px #2e2e2e;
+}
+
+.game-menu > .inventory > label {
+  text-align: center;
+  font-size: 40px;
+}
+
+.game-menu > .inventory > .inventory-item > label {
+  font-size: 28px;
+}
+
+.game-menu > .inventory > .inventory-item > var {
+  font-size: 28px;
 }
 
 .game-menu > .options {

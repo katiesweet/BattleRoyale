@@ -83,9 +83,29 @@
 					<div class="mini-map-window">
 						<canvas id="mini-map"></canvas>
 					</div>
-					Game Stats
-					<div id="playerCount"></div>
-
+					<div class="inventory">
+						<label>Stats:</label>
+						<div id="playerCount"></div>
+					</div>
+					<div class="inventory">
+						<label>Inventory:</label>
+						<div class="inventory-item">
+							<label for="gun-type">Gun: </label>
+							<var id="gun-type">Standard Pistol</var>
+						</div>
+						<div class="inventory-item">
+							<label for="num-bullets">Bullets: </label>
+							<var id="num-bullets">0</var>
+						</div>
+						<div class="inventory-item">
+							<label for="armour-type">Armour: </label>
+							<var id="armour-type">None</var>
+						</div>
+						<div class="inventory-item">
+							<label for="num-health">Health Packets: </label>
+							<var id="num-health">0</var>
+						</div>
+					</div>
 					<ul class="options">
 						<li>
 							<button id="game-quit-btn">Quit</button>
@@ -153,6 +173,12 @@
 								<button class="normal-button" id="move-down-config">Move Down</button>
 							</td>
 							<td class="normal-font" id="move-down"> {shortcut goes here} </td>
+						</tr>
+						<tr>
+							<td class="normal-font">
+								<button class="normal-button" id="use-health-config">Use Health</button>
+							</td>
+							<td class="normal-font" id="use-health"> {shortcut goes here} </td>
 						</tr>
 					</table>
 			</div>
