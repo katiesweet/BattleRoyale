@@ -36,7 +36,7 @@ function createPowerups(spec) {
                 x: random.nextDouble() * 15,
                 y: random.nextDouble() * 15,
             },
-            radius: 0.015
+            radius: 0.04
         });
     }
 
