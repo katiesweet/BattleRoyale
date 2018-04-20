@@ -115,6 +115,10 @@
     END_OF_GAME: {
       value: 'game-over',
       writable: false,
-    }
+    },
+    SPRINT: {
+      value: 'sprint',
+      writable: false,
+    },
   });
 })(typeof exports === 'undefined' ? (this['NetworkIds'] = {}) : exports);

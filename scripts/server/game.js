@@ -110,6 +110,9 @@ function processInput(elapsedTime) {
           powerups
         );
         break;
+      case NetworkIds.SPRINT:
+        client.player.sprint();
+        break;
       case NetworkIds.INPUT_ROTATE_LEFT:
         client.player.rotateLeft();
         break;
@@ -154,6 +157,8 @@ function update(elapsedTime, currentTime) {
   // Update clients
   for (let clientId in activeClients) {
     const player = activeClients[clientId].player;
+
+    player.updateSprint(elapsedTime);
 
     if (player.health > 0 && player.update) {
       player.update(currentTime);
@@ -281,7 +286,7 @@ function updateClients(elapsedTime) {
       healthPacks: client.player.healthPacks,
       armourLevel: client.player.armourLevel,
       updateWindow: lastUpdate,
-
+      sprintLevel: client.player.sprintLevel,
     };
 
     if (client.player.reportUpdate) {
