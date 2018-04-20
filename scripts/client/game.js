@@ -37,6 +37,7 @@ MyGame.screens['gameplay'] = (function(
     shield = {},
     nextExplosionId = 0,
     activePlayerCount = 0,
+    score = 0,
     timeBeforeStart = 0,
     isCountingDown = false;
 
@@ -234,7 +235,8 @@ MyGame.screens['gameplay'] = (function(
         case NetworkIds.END_OF_GAME:
           network.emit(NetworkIds.DISCONNECT_GAME);
           menu.showScreen('main-menu');
-          //whatever is supposed to happen at the end of the game...I wasn't sure
+        case NetworkIds.SCORE_UPDATE:
+          score = message.data;
           break;
       }
     }
@@ -317,6 +319,9 @@ MyGame.screens['gameplay'] = (function(
 
     const playerCount = document.getElementById('playerCount');
     playerCount.innerHTML = `<p class="statsParagraph">Active Players: ${activePlayerCount}</p>`;
+
+    const playerScore = document.getElementById('playerScore');
+    playerScore.innerHTML = `<p class="statsParagraph">Score: ${score}</p>`;
 
     if (timeBeforeStart > 0) {
       const countdown = document.getElementById('countdown-timer');

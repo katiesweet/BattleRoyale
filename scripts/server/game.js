@@ -234,14 +234,16 @@ function update(elapsedTime, currentTime) {
 
           if (player.health > 0) {
             player.hitByBullet(activeBullets[bullet]);
-
             if (player.health <= 0) {
+              inGameClients[activeBullets[bullet].clientId].player.increaseScore(100);
               io.emit(NetworkIds.GAME_MESSAGE_NEW, {
                 firstUser:
                   inGameClients[activeBullets[bullet].clientId].player.username,
                 event: ' totally obliterated ',
                 secondUser: player.username,
               });
+            } else {
+              inGameClients[activeBullets[bullet].clientId].player.increaseScore(50);
             }
           }
         }
@@ -353,6 +355,7 @@ function updateClients(elapsedTime) {
 
   if (alivePlayers.length === 1) {
     alivePlayers[0].socket.emit(NetworkIds.WINNER);
+    alivePlayers[0].player.increaseScore(300);
   }
 
   for (let clientId in inGameClients) {
@@ -365,6 +368,7 @@ function updateClients(elapsedTime) {
       gameStarted = false;
       client.socket.emit(NetworkIds.END_OF_GAME, activeCount);
     }
+    client.socket.emit(NetworkIds.SCORE_UPDATE, client.player.score);
   }
 
   //
