@@ -8,7 +8,7 @@ function createShield(spec) {
   let originX = Math.round(random.nextDouble() * 15);
   let originY = Math.round(random.nextDouble() * 15);
 
-  let radius = Math.max(originX - 0, 15 - originX, originY - 0, 15 - originY);
+  let radius = Math.max(originX - 0, 15 - originX, originY - 0, 15 - originY) + 4;
   let rate = radius / 600000; // 600000 is 10 minutes in milliseconds
 
   Object.defineProperty(that, 'originX', {
