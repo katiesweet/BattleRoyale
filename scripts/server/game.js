@@ -266,6 +266,7 @@ function updateClients(elapsedTime) {
   }
   newBullets.length = 0;
 
+  let activeCount = 0;
   for (let clientId in activeClients) {
     const client = activeClients[clientId];
 
@@ -310,10 +311,20 @@ function updateClients(elapsedTime) {
       x: shield.originX,
       y: shield.originY,
     });
+
+    if (activeClients[clientId].player.health > 0) {
+      activeCount += 1 ;
+    }
   }
 
   for (let clientId in activeClients) {
     activeClients[clientId].player.reportUpdate = false;
+    //update client on players remaining
+    const client = activeClients[clientId];
+    client.socket.emit(NetworkIds.PLAYER_COUNT, activeCount);
+    if (activeCount <= 1) {
+      client.socket.emit(NetworkIds.END_OF_GAME, activeCount);
+    }
   }
 
   //

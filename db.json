@@ -39,6 +39,11 @@
       "username": "23",
       "hashedPassword": "$2a$10$2l36dQsCNI7mfuDoK0PiiOUPOYzCyX99SYAWqgqZb138nsL.5jjF6",
       "highscore": 0
+    },
+    {
+      "username": "andy",
+      "hashedPassword": "$2a$10$r5I4/I8T8RWQph6Rngjf7eV.tWlHazAqGWtCM3NXXO/kyLNd.IV4i",
+      "highscore": 0
     }
   ]
 }
