@@ -79,6 +79,7 @@ function processInput(elapsedTime) {
 
   while (!processMe.empty) {
     const input = processMe.dequeue();
+
     if (inGameClients.hasOwnProperty(input.clientId)) {
       const client = inGameClients[input.clientId];
       client.lastMessageId = input.message.id;
@@ -123,6 +124,9 @@ function processInput(elapsedTime) {
           break;
         case NetworkIds.INPUT_FIRE:
           createBullet(input.clientId, client.player);
+          break;
+        case NetworkIds.SPRINT:
+          client.player.sprint();
           break;
         case NetworkIds.USE_HEALTH:
           client.player.useHealth();
@@ -177,6 +181,8 @@ function update(elapsedTime, currentTime) {
   // Update clients
   for (let clientId in inGameClients) {
     const player = inGameClients[clientId].player;
+
+    player.updateSprint(elapsedTime);
 
     if (player.health > 0 && player.update) {
       player.update(currentTime);
@@ -305,6 +311,7 @@ function updateClients(elapsedTime) {
       healthPacks: client.player.healthPacks,
       armourLevel: client.player.armourLevel,
       updateWindow: lastUpdate,
+      sprintLevel: client.player.sprintLevel,
     };
 
     if (client.player.reportUpdate) {

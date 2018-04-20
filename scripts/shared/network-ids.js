@@ -144,5 +144,9 @@
       value: 'winner',
       writable: false,
     },
+    SPRINT: {
+      value: 'sprint',
+      writable: false,
+    },
   });
 })(typeof exports === 'undefined' ? (this['NetworkIds'] = {}) : exports);

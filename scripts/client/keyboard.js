@@ -151,7 +151,12 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
         input: input.KeyEvent.DOM_VK_H,
         network: NetworkIds.USE_HEALTH,
         id: 0,
-      }
+      },
+      'sprint' : {
+        input: input.KeyEvent.DOM_VK_SHIFT,
+        network: NetworkIds.SPRINT,
+        id: 0,
+      },
       // 'sprint': {'input': input.KeyEvent.DOM_VK_S, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
     };
 
@@ -194,6 +199,11 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
       .getElementById('use-health-config')
       .addEventListener('click', function() {
         edit('use-health');
+      });
+    document
+      .getElementById('sprint-config')
+      .addEventListener('click', function() {
+        edit('sprint');
       });
 
     window.addEventListener('keydown', keyDown);

@@ -31,6 +31,10 @@ MyGame.components.Player = function(barriers) {
   let healthPacks = 0;
   let armourLevel = 1;
 
+  let sprintPressed = false;
+  let sprintMultiplier = 1;
+  let sprintLevel = 0;
+
   that.sprite = MyGame.components.CowboySprite({
     walkingRate: 100,
   });
@@ -96,6 +100,10 @@ MyGame.components.Player = function(barriers) {
     get: () => armourLevel,
   });
 
+  Object.defineProperty(that, 'sprintLevel', {
+    get: () => sprintLevel,
+  });
+
   function getFieldOfView() {
     let firstAngle = (direction + fieldOfView.angle / 2) * Math.PI / 4;
     let p2 = {
@@ -155,12 +163,14 @@ MyGame.components.Player = function(barriers) {
     // position.y -= vectorY * elapsedTime * speed;
     let proposedPosition = {
       x: position.x,
-      y: position.y - elapsedTime * speed,
+      y: position.y - elapsedTime * speed * sprintMultiplier,
     };
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
-      that.sprite.updateWalkAnimation(elapsedTime);
+      for (let i = 0; i < sprintMultiplier; ++i) {
+        that.sprite.updateWalkAnimation(elapsedTime);
+      }
     }
   };
 
@@ -176,13 +186,15 @@ MyGame.components.Player = function(barriers) {
     // }
 
     let proposedPosition = {
-      x: position.x - elapsedTime * speed,
+      x: position.x - elapsedTime * speed * sprintMultiplier,
       y: position.y,
     };
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
-      that.sprite.updateWalkAnimation(elapsedTime);
+      for (let i = 0; i < sprintMultiplier; ++i) {
+        that.sprite.updateWalkAnimation(elapsedTime);
+      }
     }
   };
 
@@ -198,13 +210,15 @@ MyGame.components.Player = function(barriers) {
     // }
 
     let proposedPosition = {
-      x: position.x + elapsedTime * speed,
+      x: position.x + elapsedTime * speed * sprintMultiplier,
       y: position.y,
     };
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
-      that.sprite.updateWalkAnimation(elapsedTime);
+      for (let i = 0; i < sprintMultiplier; ++i) {
+        that.sprite.updateWalkAnimation(elapsedTime);
+      }
     }
   };
 
@@ -220,13 +234,30 @@ MyGame.components.Player = function(barriers) {
     // }
     let proposedPosition = {
       x: position.x,
-      y: position.y + elapsedTime * speed,
+      y: position.y + elapsedTime * speed * sprintMultiplier,
     };
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
-      that.sprite.updateWalkAnimation(elapsedTime);
+      for (let i = 0; i < sprintMultiplier; ++i) {
+        that.sprite.updateWalkAnimation(elapsedTime);
+      }
     }
+  };
+
+  that.sprint = function() {
+    sprintPressed = true;
+  };
+
+  that.updateSprint = function(elapsedTime) {
+    if (sprintPressed) {
+      sprintLevel = Math.max(sprintLevel - elapsedTime / 1750, 0);
+      sprintMultiplier = sprintLevel > 0 ? 2.25 : 1;
+    } else {
+      sprintLevel = Math.min(sprintLevel + elapsedTime / 7500, 1);
+      sprintMultiplier = 1;
+    }
+    sprintPressed = false;
   };
 
   //------------------------------------------------------------------
@@ -280,6 +311,7 @@ MyGame.components.Player = function(barriers) {
     weaponStrength = spec.weaponStrength;
     healthPacks = spec.healthPacks;
     armourLevel = spec.armourLevel;
+    sprintLevel = spec.sprintLevel;
   };
 
   return that;

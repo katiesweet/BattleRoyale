@@ -119,6 +119,10 @@ MyGame.screens['gameplay'] = (function(
           break;
         case 'rotate-right':
           playerSelf.rotateRight();
+          break;
+        case 'sprint':
+          playerSelf.sprint();
+          break;
       }
 
       memory.enqueue(message);
@@ -246,6 +250,8 @@ MyGame.screens['gameplay'] = (function(
       timeBeforeStart -= elapsedTime;
     }
 
+    playerSelf.updateSprint(elapsedTime);
+
     for (let id in playerOthers) {
       playerOthers[id].update(elapsedTime);
     }
@@ -346,13 +352,17 @@ MyGame.screens['gameplay'] = (function(
 
   MyGame.registerEvent = function(networkId, keyboardInput, action) {
     let repeat = true;
+    if (action == 'use-health') {
+      repeat = false;
+    }
+
+    let rate = 0;
     if (
       action == 'fire' ||
       action == 'rotate-left' ||
-      action == 'rotate-right' ||
-      action == 'use-health'
+      action == 'rotate-right'
     ) {
-      repeat = false;
+      rate = 200;
     }
 
     let id = myKeyboard.registerHandler(
@@ -396,10 +406,13 @@ MyGame.screens['gameplay'] = (function(
             MyGame.assets['gulp'].currentTime = 0;
             MyGame.assets['gulp'].play();
           }
+        } else if (action == 'sprint') {
+          playerSelf.sprint(elapsedTime);
         }
       },
       keyboardInput,
-      repeat
+      repeat,
+      rate
     );
     return id;
   };

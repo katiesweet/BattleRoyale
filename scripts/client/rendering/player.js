@@ -6,7 +6,8 @@
 MyGame.renderer.Player = (function(graphics, assets) {
   'use strict';
   let that = {},
-    healthBarHeight = 0.01;
+    healthBarHeight = 0.01,
+    sprintBarHeight = 0.01;
 
   // ------------------------------------------------------------------
   //
@@ -100,6 +101,40 @@ MyGame.renderer.Player = (function(graphics, assets) {
     );
   }
 
+  function renderSprintBar(model) {
+    graphics.drawRectangle(
+      'rgba(0, 0, 0, 1)',
+      model.position.x - model.size.width / 2,
+      model.position.y - (model.size.height / 2 + healthBarHeight * 2 + sprintBarHeight * 1.5),
+      model.size.width,
+      sprintBarHeight,
+      true
+    );
+
+    //
+    // Fill the whole thing with dark blue
+    graphics.drawFilledRectangle(
+      'rgba(173,216,230, 1)',
+      model.position.x - model.size.width / 2,
+      model.position.y - (model.size.height / 2 + healthBarHeight * 2 + sprintBarHeight * 1.5),
+      model.size.width,
+      sprintBarHeight,
+      true
+    );
+
+    //
+    // Cover up with the lighter blue portion
+    graphics.drawFilledRectangle(
+      'rgba(0,0,255, 1)',
+      model.position.x - model.size.width / 2,
+      model.position.y - (model.size.height / 2 + healthBarHeight * 2 + sprintBarHeight * 1.5),
+      model.size.width * model.sprintLevel,
+      sprintBarHeight,
+      true
+    );
+  }
+
+
   function renderFieldOfView(model) {
     graphics.drawFieldOfView(model.fieldOfView, true);
   }
@@ -132,6 +167,7 @@ MyGame.renderer.Player = (function(graphics, assets) {
       renderHealthBar(model);
       renderFieldOfView(model);
       renderInventory(model);
+      renderSprintBar(model);
     }
   };
 
