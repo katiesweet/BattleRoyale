@@ -205,6 +205,9 @@ MyGame.screens['gameplay'] = (function(
         case NetworkIds.PLAYER_COUNT:
           activePlayerCount = message.data;
           break;
+        case NetworkIds.END_OF_GAME:
+          //whatever is supposed to happen at the end of the game...I wasn't sure
+          break;
       }
     }
   }

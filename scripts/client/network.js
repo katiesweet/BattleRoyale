@@ -20,6 +20,7 @@ MyGame.network = (function() {
       NetworkIds.BULLET_HIT,
       NetworkIds.SHIELD_INFO,
       NetworkIds.PLAYER_COUNT,
+      NetworkIds.END_OF_GAME,
     ];
 
     networkEvents.forEach(event =>

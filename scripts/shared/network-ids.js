@@ -103,6 +103,10 @@
     PLAYER_COUNT: {
       value: 'player-count',
       writable: false,
+    },
+    END_OF_GAME: {
+      value: 'game-over',
+      writable: false,
     }
   });
 })(typeof exports === 'undefined' ? (this['NetworkIds'] = {}) : exports);

@@ -296,6 +296,9 @@ function updateClients(elapsedTime) {
     //update client on players remaining
     const client = activeClients[clientId];
     client.socket.emit(NetworkIds.PLAYER_COUNT, activeCount);
+    if (activeCount <= 1) {
+      client.socket.emit(NetworkIds.END_OF_GAME, activeCount);
+    }
   }
 
   //
