@@ -167,8 +167,8 @@ MyGame.components.Player = function(barriers) {
     };
 
     if (!checkIfCausesCollision(proposedPosition)) {
-      position = proposedPosition;      
-      for (let i=0; i<sprintMultiplier; ++i) {
+      position = proposedPosition;
+      for (let i = 0; i < sprintMultiplier; ++i) {
         that.sprite.updateWalkAnimation(elapsedTime);
       }
     }
@@ -192,9 +192,9 @@ MyGame.components.Player = function(barriers) {
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
-      for (let i=0; i<sprintMultiplier; ++i) {
+      for (let i = 0; i < sprintMultiplier; ++i) {
         that.sprite.updateWalkAnimation(elapsedTime);
-      }    
+      }
     }
   };
 
@@ -216,7 +216,7 @@ MyGame.components.Player = function(barriers) {
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
-      for (let i=0; i<sprintMultiplier; ++i) {
+      for (let i = 0; i < sprintMultiplier; ++i) {
         that.sprite.updateWalkAnimation(elapsedTime);
       }
     }
@@ -239,7 +239,7 @@ MyGame.components.Player = function(barriers) {
 
     if (!checkIfCausesCollision(proposedPosition)) {
       position = proposedPosition;
-      for (let i=0; i<sprintMultiplier; ++i) {
+      for (let i = 0; i < sprintMultiplier; ++i) {
         that.sprite.updateWalkAnimation(elapsedTime);
       }
     }
@@ -247,19 +247,18 @@ MyGame.components.Player = function(barriers) {
 
   that.sprint = function() {
     sprintPressed = true;
-  }
+  };
 
   that.updateSprint = function(elapsedTime) {
     if (sprintPressed) {
-      sprintLevel = Math.max(sprintLevel - elapsedTime/1000, 0);
-      sprintMultiplier = (sprintLevel > 0) ? 3 : 1;
-    }
-    else {
-      sprintLevel = Math.min(sprintLevel + elapsedTime/10000, 1);
+      sprintLevel = Math.max(sprintLevel - elapsedTime / 1750, 0);
+      sprintMultiplier = sprintLevel > 0 ? 2.25 : 1;
+    } else {
+      sprintLevel = Math.min(sprintLevel + elapsedTime / 7500, 1);
       sprintMultiplier = 1;
     }
     sprintPressed = false;
-  }
+  };
 
   //------------------------------------------------------------------
   //
@@ -303,7 +302,6 @@ MyGame.components.Player = function(barriers) {
   };
 
   that.update = function(spec) {
-    console.log("Setting sprint level: ", spec.sprintLevel);
     position.x = spec.position.x;
     position.y = spec.position.y;
     direction = spec.direction;

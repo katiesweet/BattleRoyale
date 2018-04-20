@@ -116,7 +116,7 @@ function createPlayer(username, clientId) {
       weaponStrength,
       healthPacks,
       armourLevel,
-      sprintLevel
+      sprintLevel,
     };
   };
 
@@ -295,19 +295,18 @@ function createPlayer(username, clientId) {
 
   that.sprint = function() {
     sprintPressed = true;
-  }
+  };
 
   that.updateSprint = function(elapsedTime) {
     if (sprintPressed) {
-      sprintLevel = Math.max(sprintLevel - elapsedTime/1000, 0);
-      sprintMultiplier = (sprintLevel > 0) ? 3 : 1;
-    }
-    else {
-      sprintLevel = Math.min(sprintLevel + elapsedTime/10000, 1);
+      sprintLevel = Math.max(sprintLevel - elapsedTime / 1750, 0);
+      sprintMultiplier = sprintLevel > 0 ? 2.25 : 1;
+    } else {
+      sprintLevel = Math.min(sprintLevel + elapsedTime / 7500, 1);
       sprintMultiplier = 1;
     }
     sprintPressed = false;
-  }
+  };
 
   //------------------------------------------------------------------
   //
@@ -336,23 +335,23 @@ function createPlayer(username, clientId) {
   };
 
   function checkForPowerups(powerups) {
-    const acquiredPowerups = powerups.getSurroundingPowerups(position, size.radius);
+    const acquiredPowerups = powerups.getSurroundingPowerups(
+      position,
+      size.radius
+    );
 
-    for (let i=0; i<acquiredPowerups.length; ++i) {
+    for (let i = 0; i < acquiredPowerups.length; ++i) {
       if (acquiredPowerups[i].type == 'weapon' && weaponStrength <= 1) {
         // Walked over a weapon powerup, and don't already have one
         weaponStrength = 2;
         powerups.removePowerup(acquiredPowerups[i].id);
-      }
-      else if (acquiredPowerups[i].type == 'bullet') {
+      } else if (acquiredPowerups[i].type == 'bullet') {
         numBullets += 20;
         powerups.removePowerup(acquiredPowerups[i].id);
-      }
-      else if (acquiredPowerups[i].type == 'health') {
+      } else if (acquiredPowerups[i].type == 'health') {
         healthPacks += 1;
         powerups.removePowerup(acquiredPowerups[i].id);
-      }
-      else if (acquiredPowerups[i].type == 'armour' && armourLevel <= 1) {
+      } else if (acquiredPowerups[i].type == 'armour' && armourLevel <= 1) {
         armourLevel = 2;
         powerups.removePowerup(acquiredPowerups[i].id);
       }
@@ -362,10 +361,10 @@ function createPlayer(username, clientId) {
   that.useHealth = function() {
     if (healthPacks > 0) {
       reportUpdate = true;
-      healthPacks -=1;
+      healthPacks -= 1;
       health = 1;
     }
-  }
+  };
 
   return that;
 }
