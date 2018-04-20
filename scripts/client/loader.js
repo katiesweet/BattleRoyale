@@ -367,9 +367,12 @@ MyGame.loader = (function() {
     assetOrder,
     'assets/tiles/map_',
     'background',
-    15360,
-    15360,
-    1024
+    // 15360,
+    // 15360,
+    // 1024
+    7680,
+    7680,
+    512
   );
 
   loadMapObjects('assets/map_objects.json', function(barriers) {
