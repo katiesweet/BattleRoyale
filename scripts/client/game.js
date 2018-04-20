@@ -94,16 +94,20 @@ MyGame.screens['gameplay'] = (function(
 
       switch (message.type) {
         case 'move-up':
-          playerSelf.moveUp(input.message.elapsedTime, barriers);
+          // playerSelf.moveUp(input.message.elapsedTime, barriers);
+          playerSelf.addMoveInput('move-up', input.message.elapsedTime);
           break;
         case 'move-left':
-          playerSelf.moveLeft(input.message.elapsedTime, barriers);
+          // playerSelf.moveLeft(input.message.elapsedTime, barriers);
+          playerSelf.addMoveInput('move-left', input.message.elapsedTime);
           break;
         case 'move-right':
-          playerSelf.moveRight(input.message.elapsedTime, barriers);
+          // playerSelf.moveRight(input.message.elapsedTime, barriers);
+          playerSelf.addMoveInput('move-right', input.message.elapsedTime);
           break;
         case 'move-down':
-          playerSelf.moveDown(input.message.elapsedTime, barriers);
+          // playerSelf.moveDown(input.message.elapsedTime, barriers);
+          playerSelf.addMoveInput('move-down', input.message.elapsedTime);
           break;
         case 'rotate-left':
           playerSelf.rotateLeft();
@@ -117,6 +121,7 @@ MyGame.screens['gameplay'] = (function(
       }
 
       memory.enqueue(message);
+      playerSelf.processInputs();
     }
     network.history = memory;
   }
@@ -179,6 +184,8 @@ MyGame.screens['gameplay'] = (function(
     // Start with the keyboard updates so those messages can get in transit
     // while the local updating of received network messages are processed.
     myKeyboard.update(elapsedTime);
+    playerSelf.processInputs();
+
     //
     // Double buffering on the queue so we don't asynchronously receive messages
     // while processing.
@@ -352,16 +359,17 @@ MyGame.screens['gameplay'] = (function(
         network.emit(NetworkIds.INPUT, message);
         network.history.enqueue(message);
 
-        // if (action.indexOf('move') >= 0) {
-        //   playerSelf.move(elapsedTime);
-        if (action == 'move-up') {
-          playerSelf.moveUp(elapsedTime);
-        } else if (action == 'move-left') {
-          playerSelf.moveLeft(elapsedTime);
-        } else if (action == 'move-right') {
-          playerSelf.moveRight(elapsedTime);
-        } else if (action == 'move-down') {
-          playerSelf.moveDown(elapsedTime);
+        if (action.indexOf('move') >= 0) {
+          playerSelf.addMoveInput(action, elapsedTime);
+          // playerSelf.move(elapsedTime);
+        // if (action == 'move-up') {
+        //   playerSelf.moveUp(elapsedTime);
+        // } else if (action == 'move-left') {
+        //   playerSelf.moveLeft(elapsedTime);
+        // } else if (action == 'move-right') {
+        //   playerSelf.moveRight(elapsedTime);
+        // } else if (action == 'move-down') {
+        //   playerSelf.moveDown(elapsedTime);
         } else if (action == 'rotate-right') {
           playerSelf.rotateRight();
         } else if (action == 'rotate-left') {

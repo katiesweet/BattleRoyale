@@ -6,6 +6,7 @@
 'use strict';
 
 const random = require('./random');
+let currentInputs = [];
 
 //------------------------------------------------------------------
 //
@@ -186,6 +187,36 @@ function createPlayer(username, clientId) {
 
     return false;
   }
+
+  that.addMoveInput = function(action, elapsedTime, barriers, activeClients, powerups) {
+    currentInputs.push({
+      moveType: action,
+      elapsedTime: elapsedTime,
+      barriers: barriers,
+      activeClients: activeClients,
+      powerups: powerups
+    });
+  }
+
+  that.processInputs = function() {
+    for (let i=0; i<currentInputs.length; ++i) {
+      const input = currentInputs[i];
+      if (input.moveType == 'move-left') {
+        that.moveLeft(input.elapsedTime, input.barriers, input.activeClients, input.powerups);
+      }
+      else if (input.moveType == 'move-right') {
+        that.moveRight(input.elapsedTime, input.barriers, input.activeClients, input.powerups);
+      }
+      else if (input.moveType == 'move-up') {
+        that.moveUp(input.elapsedTime, input.barriers, input.activeClients, input.powerups);
+      }
+      else if (input.moveType == 'move-down') {
+        that.moveDown(input.elapsedTime, input.barriers, input.activeClients, input.powerups);
+      }
+    }
+    currentInputs.length = 0;
+  }
+
 
   //------------------------------------------------------------------
   //
