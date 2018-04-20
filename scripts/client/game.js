@@ -27,7 +27,15 @@ MyGame.screens['gameplay'] = (function(
     playerOtherTexture = assets['player-other'],
     skeletonTexture = assets['skeleton'],
     background = null,
-    nextExplosionId = 0;
+    currentPowerups = [],
+    powerupTextures = {
+      weapon : assets['weapon-powerup'],
+      bullet : assets['bullet-powerup'],
+      health : assets['health-powerup'],
+      armour : assets['armour-powerup']
+    },
+    nextExplosionId = 0,
+    shield = {};
 
   //------------------------------------------------------------------
   //
@@ -85,16 +93,20 @@ MyGame.screens['gameplay'] = (function(
 
       switch (message.type) {
         case 'move-up':
-          playerSelf.moveUp(input.message.elapsedTime, barriers);
+          // playerSelf.moveUp(input.message.elapsedTime, barriers);
+          playerSelf.addMoveInput('move-up', input.message.elapsedTime);
           break;
         case 'move-left':
-          playerSelf.moveLeft(input.message.elapsedTime, barriers);
+          // playerSelf.moveLeft(input.message.elapsedTime, barriers);
+          playerSelf.addMoveInput('move-left', input.message.elapsedTime);
           break;
         case 'move-right':
-          playerSelf.moveRight(input.message.elapsedTime, barriers);
+          // playerSelf.moveRight(input.message.elapsedTime, barriers);
+          playerSelf.addMoveInput('move-right', input.message.elapsedTime);
           break;
         case 'move-down':
-          playerSelf.moveDown(input.message.elapsedTime, barriers);
+          // playerSelf.moveDown(input.message.elapsedTime, barriers);
+          playerSelf.addMoveInput('move-down', input.message.elapsedTime);
           break;
         case 'rotate-left':
           playerSelf.rotateLeft();
@@ -104,6 +116,7 @@ MyGame.screens['gameplay'] = (function(
       }
 
       memory.enqueue(message);
+      playerSelf.processInputs();
     }
     network.history = memory;
   }
@@ -152,6 +165,10 @@ MyGame.screens['gameplay'] = (function(
     delete bullets[data.bulletId];
   }
 
+  function updateShield(data) {
+    shield = data;
+  }
+
   //------------------------------------------------------------------
   //
   // Process the registered input handlers here.
@@ -194,6 +211,12 @@ MyGame.screens['gameplay'] = (function(
           break;
         case NetworkIds.BULLET_HIT:
           bulletHit(message.data);
+          break;
+        case NetworkIds.UPDATE_POWERUP:
+          currentPowerups = message.data;
+          break;
+        case NetworkIds.SHIELD_INFO:
+          updateShield(message.data);
           break;
       }
     }
@@ -238,7 +261,9 @@ MyGame.screens['gameplay'] = (function(
     graphics.clear();
 
     renderer.TiledImage.render(background, graphics.viewport);
-    renderer.MiniMap.render(playerSelf);
+    renderer.MiniMap.render(playerSelf, explosions, shield);
+
+    graphics.drawShield(shield, playerSelf);
 
     renderer.Player.render(playerSelf, playerSelfTexture, skeletonTexture);
 
@@ -253,6 +278,9 @@ MyGame.screens['gameplay'] = (function(
         skeletonTexture
       );
     }
+
+    renderer.Powerups.render(currentPowerups, powerupTextures);
+
     graphics.removeFieldOfViewClippingRegion();
 
     for (let bullet in bullets) {
@@ -289,7 +317,8 @@ MyGame.screens['gameplay'] = (function(
     if (
       action == 'fire' ||
       action == 'rotate-left' ||
-      action == 'rotate-right'
+      action == 'rotate-right' ||
+      action == 'use-health'
     ) {
       repeat = false;
     }
@@ -324,8 +353,18 @@ MyGame.screens['gameplay'] = (function(
         } else if (action == 'rotate-left') {
           playerSelf.rotateLeft();
         } else if (action == 'fire') {
-          MyGame.assets['kaboom'].currentTime = 0;
-          MyGame.assets['kaboom'].play();
+          if (playerSelf.numBullets > 0) {
+            MyGame.assets['kaboom'].currentTime = 0;
+            MyGame.assets['kaboom'].play();
+          } else {
+            MyGame.assets['gun-click'].currentTime = 0;
+            MyGame.assets['gun-click'].play();
+          }
+        } else if (action == 'use-health') {
+          if (playerSelf.healthPacks > 0) {
+            MyGame.assets['gulp'].currentTime = 0;
+            MyGame.assets['gulp'].play();
+          }
         }
       },
       keyboardInput,
@@ -376,6 +415,7 @@ MyGame.screens['gameplay'] = (function(
   function run() {
     chat.initializeGame();
 
+    network.emit(NetworkIds.START_GAME, {type: 'start-game'});
     lastTimeStamp = performance.now();
     requestAnimationFrame(gameLoop);
   }

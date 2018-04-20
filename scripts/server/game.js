@@ -9,6 +9,8 @@ const present = require('present');
 const Player = require('./player');
 const Bullet = require('./bullet');
 const Barriers = require('./barriers');
+const Powerups = require('./powerups');
+const Shield = require('./shield');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
 const socketIo = require('socket.io');
@@ -25,7 +27,15 @@ let hits = [];
 let inputQueue = Queue.create();
 let nextBulletId = 1;
 let barriers = Barriers.create();
+let powerups = Powerups.create({
+  weaponUpgrades : 25,
+  bullets : 100,
+  health : 25,
+  armour: 25
+});
+let shield = Shield.create();
 let io;
+let gameStarted = false;
 
 //------------------------------------------------------------------
 //
@@ -33,18 +43,21 @@ let io;
 //
 //------------------------------------------------------------------
 function createBullet(clientId, playerModel) {
-  const bullet = Bullet.create({
-    id: nextBulletId++,
-    clientId: clientId,
-    position: {
-      x: playerModel.position.x,
-      y: playerModel.position.y,
-    },
-    direction: playerModel.direction,
-    speed: playerModel.speed,
-  });
-
-  newBullets.push(bullet);
+  if (playerModel.numBullets > 0) {
+    const bullet = Bullet.create({
+      id: nextBulletId++,
+      clientId: clientId,
+      position: {
+        x: playerModel.position.x,
+        y: playerModel.position.y,
+      },
+      direction: playerModel.direction,
+      speed: playerModel.speed * playerModel.weaponStrength,
+      weaponStrength: playerModel.weaponStrength
+    });
+    playerModel.numBullets = (playerModel.numBullets - 1);
+    newBullets.push(bullet);
+  }
 }
 
 //------------------------------------------------------------------
@@ -64,7 +77,9 @@ function processInput(elapsedTime) {
   while (!processMe.empty) {
     const input = processMe.dequeue();
     const client = activeClients[input.clientId];
-    playerIdsToUpdate.push(input.clientId);
+    if (playerIdsToUpdate.indexOf(input.clientId) === -1) {
+      playerIdsToUpdate.push(input.clientId);
+    }
     client.lastMessageId = input.message.id;
     switch (input.message.type) {
       case NetworkIds.INPUT_MOVE_UP:
@@ -72,7 +87,8 @@ function processInput(elapsedTime) {
           'move-up',
           input.message.elapsedTime,
           barriers,
-          activeClients
+          activeClients,
+          powerups
         );
         break;
       case NetworkIds.INPUT_MOVE_LEFT:
@@ -80,7 +96,8 @@ function processInput(elapsedTime) {
           'move-left',
           input.message.elapsedTime,
           barriers,
-          activeClients
+          activeClients,
+          powerups
         );
         break;
       case NetworkIds.INPUT_MOVE_RIGHT:
@@ -88,7 +105,8 @@ function processInput(elapsedTime) {
           'move-right',
           input.message.elapsedTime,
           barriers,
-          activeClients
+          activeClients,
+          powerups
         );
         break;
       case NetworkIds.INPUT_MOVE_DOWN:
@@ -96,7 +114,8 @@ function processInput(elapsedTime) {
           'move-down',
           input.message.elapsedTime,
           barriers,
-          activeClients
+          activeClients,
+          powerups
         );
         break;
       case NetworkIds.INPUT_ROTATE_LEFT:
@@ -107,6 +126,12 @@ function processInput(elapsedTime) {
         break;
       case NetworkIds.INPUT_FIRE:
         createBullet(input.clientId, client.player);
+        break;
+      case NetworkIds.USE_HEALTH:
+        client.player.useHealth();
+        break;
+      case NetworkIds.START_GAME:
+        gameStarted = true;
         break;
     }
   }
@@ -141,8 +166,19 @@ function collided(obj1, obj2) {
 function update(elapsedTime, currentTime) {
   // Update clients
   for (let clientId in activeClients) {
-    if (activeClients[clientId].player.update) {
-      activeClients[clientId].player.update(currentTime);
+    const player = activeClients[clientId].player;
+
+    if (player.health > 0 && player.update) {
+      player.update(currentTime);
+    }
+
+    if (player.health > 0 && shield.collides(player.position, gameStarted)) {
+      player.dieByShield();
+
+      io.emit(NetworkIds.GAME_MESSAGE_NEW, {
+        firstUser: player.username,
+        event: ' was vaporized by the shield',
+      });
     }
   }
 
@@ -210,6 +246,8 @@ function update(elapsedTime, currentTime) {
     }
   }
   activeBullets = keepBullets;
+
+  shield.update(elapsedTime, gameStarted);
 }
 
 //------------------------------------------------------------------
@@ -250,12 +288,21 @@ function updateClients(elapsedTime) {
       direction: client.player.direction,
       position: client.player.position,
       health: client.player.health,
+      numBullets: client.player.numBullets,
+      weaponStrength: client.player.weaponStrength,
+      healthPacks: client.player.healthPacks,
+      armourLevel: client.player.armourLevel,
       updateWindow: lastUpdate,
+
     };
 
     if (client.player.reportUpdate) {
       client.socket.emit(NetworkIds.UPDATE_SELF, update);
       client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
+
+      // Since we moved, report all powerups in region
+      const powerupsInRegion = powerups.getSurroundingPowerups(client.player.position, 1);
+      client.socket.emit(NetworkIds.UPDATE_POWERUP, powerupsInRegion);
     }
 
     //
@@ -269,6 +316,13 @@ function updateClients(elapsedTime) {
     for (let hit = 0; hit < hits.length; hit++) {
       client.socket.emit(NetworkIds.BULLET_HIT, hits[hit]);
     }
+
+    // update client on shield status
+    client.socket.emit(NetworkIds.SHIELD_INFO, {
+      radius: shield.radius,
+      x: shield.originX,
+      y: shield.originY,
+    });
   }
 
   for (let clientId in activeClients) {
@@ -357,10 +411,17 @@ function initializeSocketIO(httpServer) {
 
       client.socket.emit(NetworkIds.UPDATE_SELF, update);
       client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
-      client.socket.broadcast.emit(NetworkIds.OPPONENT_STARTING_POSITION, position);
+      client.socket.broadcast.emit(
+        NetworkIds.OPPONENT_STARTING_POSITION,
+        position
+      );
     });
 
     socket.on(NetworkIds.INPUT, data => {
+      inputQueue.enqueue({ clientId: socket.id, message: data });
+    });
+
+    socket.on(NetworkIds.START_GAME, data => {
       inputQueue.enqueue({ clientId: socket.id, message: data });
     });
 

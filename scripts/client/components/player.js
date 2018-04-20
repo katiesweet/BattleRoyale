@@ -22,11 +22,15 @@ MyGame.components.Player = function(barriers) {
   let health = 0;
 
   let fieldOfView = {
-    angle: 2, // * Math.PI/4
+    angle: 2.25, // * Math.PI/4
     radius: 0.4,
   };
 
   let currentInputs = [];
+  let numBullets = 0;
+  let weaponStrength = 1;
+  let healthPacks = 0;
+  let armourLevel = 1;
 
   that.sprite = MyGame.components.CowboySprite({
     walkingRate: 100,
@@ -75,6 +79,22 @@ MyGame.components.Player = function(barriers) {
 
   Object.defineProperty(that, 'fieldOfView', {
     get: () => getFieldOfView(),
+  });
+
+  Object.defineProperty(that, 'numBullets', {
+    get: () => numBullets,
+  });
+
+  Object.defineProperty(that, 'weaponStrength', {
+    get: () => weaponStrength,
+  });
+
+  Object.defineProperty(that, 'healthPacks', {
+    get: () => healthPacks,
+  });
+
+  Object.defineProperty(that, 'armourLevel', {
+    get: () => armourLevel,
   });
 
   function getFieldOfView() {
@@ -250,7 +270,6 @@ MyGame.components.Player = function(barriers) {
       x: proposedPosition.x + size.radius / 2,
       y: proposedPosition.y + size.radius / 2,
     };
-
     return barriers.rectangularObjectCollides(tl, br);
   }
 
@@ -283,6 +302,10 @@ MyGame.components.Player = function(barriers) {
     direction = spec.direction;
     health = spec.health;
     that.sprite.updateRotationAnimation(direction);
+    numBullets = spec.numBullets;
+    weaponStrength = spec.weaponStrength;
+    healthPacks = spec.healthPacks;
+    armourLevel = spec.armourLevel;
   };
 
   return that;
