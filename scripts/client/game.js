@@ -462,6 +462,17 @@ MyGame.screens['gameplay'] = (function(
     network.initializeGameEvents();
 
     lastTimeStamp = performance.now();
+    playerSelf = components.Player(barriers);
+    playerOthers = {};
+    bullets = {};
+    explosions = {};
+    currentPowerups = [];
+    shield = {};
+    nextExplosionId = 0;
+    activePlayerCount = 0;
+    timeBeforeStart = 0;
+    isCountingDown = false;
+
     requestAnimationFrame(gameLoop);
   }
 
