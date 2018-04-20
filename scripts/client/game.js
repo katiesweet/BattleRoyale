@@ -318,12 +318,18 @@ MyGame.screens['gameplay'] = (function(
   MyGame.registerEvent = function(networkId, keyboardInput, action) {
     let repeat = true;
     if (
-      action == 'fire' ||
-      action == 'rotate-left' ||
-      action == 'rotate-right' ||
       action == 'use-health'
     ) {
       repeat = false;
+    }
+
+    let rate = 0;
+    if (
+      action == 'fire' ||
+      action == 'rotate-left' ||
+      action == 'rotate-right' 
+    ) {
+      rate = 200;
     }
 
     let id = myKeyboard.registerHandler(
@@ -370,7 +376,8 @@ MyGame.screens['gameplay'] = (function(
         }
       },
       keyboardInput,
-      repeat
+      repeat,
+      rate
     );
     return id;
   };
