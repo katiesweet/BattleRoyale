@@ -91,6 +91,7 @@ MyGame.loader = (function() {
           'rendering/tiled-image',
           'rendering/mini-map',
           'rendering/spawn-map',
+          'rendering/powerups'
         ],
         message: 'Renderers loaded',
         onComplete: null,
@@ -131,9 +132,33 @@ MyGame.loader = (function() {
         source: 'assets/rumble.mp3',
       },
       {
+        key: 'gun-click',
+        source: 'assets/click.mp3',
+      },
+      {
+        key: 'gulp',
+        source: 'assets/gulp.mp3',
+      },
+      {
         key: 'boom', // for when someone is hit/explosions
         source: 'assets/DeathFlash.mp3',
       },
+      {
+        key: 'weapon-powerup',
+        source: 'assets/gun1_powerup.png'
+      },
+      {
+        key: 'bullet-powerup',
+        source: 'assets/bullet_powerup.png'
+      },
+      {
+        key: 'health-powerup',
+        source: 'assets/beer_powerup.png'
+      },
+      {
+        key: 'armour-powerup',
+        source: 'assets/vest_powerup.png'
+      }
     ];
   //------------------------------------------------------------------
   //

@@ -104,6 +104,21 @@ MyGame.renderer.Player = (function(graphics, assets) {
     graphics.drawFieldOfView(model.fieldOfView, true);
   }
 
+  function renderInventory(model) {
+    let weaponType = document.getElementById('gun-type');
+    weaponType.innerHTML = (model.weaponStrength > 1) ? 'Upgraded Pistol' : 'Standard Pistol';
+
+    let numBullets = document.getElementById('num-bullets');
+    numBullets.innerHTML = model.numBullets;
+
+    let armourType = document.getElementById('armour-type');
+    armourType.innerHTML = (model.armourLevel > 1) ? 'Vest' : 'None';
+
+    let numHealth = document.getElementById('num-health');
+    numHealth.innerHTML = model.healthPacks;
+
+  }
+
   // ------------------------------------------------------------------
   //
   // Renders a Player model.
@@ -116,6 +131,7 @@ MyGame.renderer.Player = (function(graphics, assets) {
     if (model.health > 0) {
       renderHealthBar(model);
       renderFieldOfView(model);
+      renderInventory(model);
     }
   };
 

@@ -76,6 +76,10 @@
       value: 'bullet-hit',
       writable: false,
     },
+    UPDATE_POWERUP: {
+      value: 'powerups',
+      writable: false,
+    },
     CHAT_MESSAGE_CREATE: {
       value: 'chat-message-create',
       writable: false,
@@ -90,6 +94,10 @@
     },
     OPPONENT_STARTING_POSITION: {
       value: 'opponent-start-position',
+      writable: false,
+    },
+    USE_HEALTH: {
+      value: 'use-health',
       writable: false,
     },
     SHIELD_INFO: {
