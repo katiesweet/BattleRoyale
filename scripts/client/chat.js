@@ -1,14 +1,17 @@
 MyGame.chat = (function(network) {
   'use strict';
 
-  function sendMessage(message) {
+  function sendMessage(message, lobby = false) {
     const username = localStorage.getItem('username');
-    network.emit(NetworkIds.CHAT_MESSAGE_CREATE, { username, message });
+
+    if (lobby) {
+      network.emit(NetworkIds.LOBBY_MESSAGE_CREATE, { username, message });
+    } else {
+      network.emit(NetworkIds.CHAT_MESSAGE_CREATE, { username, message });
+    }
   }
 
   function initializeLobby() {
-    network.connect();
-
     const sendButton = document.getElementById('lobby-send-message');
     const newMessage = document.getElementById('lobby-new-message');
 
@@ -19,7 +22,7 @@ MyGame.chat = (function(network) {
         return;
       }
 
-      sendMessage(message.value);
+      sendMessage(message.value, true);
       message.value = '';
     });
 
@@ -30,25 +33,12 @@ MyGame.chat = (function(network) {
       }
     });
 
-    network.listen(NetworkIds.CONNECT_ACK, ({ player, otherPlayers }) => {
-      renderPlayerList([player, ...otherPlayers]);
-    });
+    network.listen(NetworkIds.JOIN_LOBBY, renderPlayerList);
+    network.listen(NetworkIds.JOIN_LOBBY_OTHER, addPlayer);
+    network.listen(NetworkIds.DISCONNECT_LOBBY_OTHER, removePlayer);
+    network.listen(NetworkIds.LOBBY_MESSAGE_NEW, renderLobbyMessage);
 
-    network.listen(NetworkIds.CONNECT_OTHER, player => {
-      addPlayer(player);
-    });
-
-    network.listen(NetworkIds.DISCONNECT_OTHER, player => {
-      removePlayer(player);
-    });
-
-    network.listen(NetworkIds.CHAT_MESSAGE_NEW, data => {
-      renderChatMessage(data, true);
-    });
-
-    network.listen(NetworkIds.GAME_MESSAGE_NEW, data => {
-      renderGameMessage(data, true);
-    });
+    network.emit(NetworkIds.JOIN_LOBBY);
   }
 
   function initializeGame() {
@@ -73,6 +63,11 @@ MyGame.chat = (function(network) {
       }
     });
 
+    network.unlisten(NetworkIds.JOIN_LOBBY, renderPlayerList);
+    network.unlisten(NetworkIds.JOIN_LOBBY_OTHER, addPlayer);
+    network.unlisten(NetworkIds.DISCONNECT_LOBBY_OTHER, removePlayer);
+    network.unlisten(NetworkIds.LOBBY_MESSAGE_NEW, renderLobbyMessage);
+
     network.listen(NetworkIds.CHAT_MESSAGE_NEW, renderChatMessage);
     network.listen(NetworkIds.GAME_MESSAGE_NEW, renderGameMessage);
   }
@@ -86,6 +81,15 @@ MyGame.chat = (function(network) {
     player.innerHTML = username;
 
     playerList.appendChild(player);
+
+    if (playerList.childElementCount >= 2) {
+      const startBtn = document.getElementById('start-game-btn');
+
+      startBtn.classList.remove('disabled');
+      startBtn.addEventListener('click', () =>
+        network.emit(NetworkIds.INITIATE_GAME_START)
+      );
+    }
   }
 
   function removePlayer({ clientId }) {
@@ -95,12 +99,17 @@ MyGame.chat = (function(network) {
     playerList.removeChild(player);
   }
 
-  function renderPlayerList(players) {
+  function renderPlayerList({ player, otherPlayers }) {
+    const players = [player, ...otherPlayers];
     const playerList = document.getElementById('lobby-player-list');
 
     playerList.innerHTML = '';
 
     players.forEach(player => addPlayer(player));
+  }
+
+  function renderLobbyMessage(data) {
+    return renderChatMessage(data, true);
   }
 
   function renderChatMessage(data, lobby = false) {
@@ -150,7 +159,6 @@ MyGame.chat = (function(network) {
   }
 
   return {
-    sendMessage,
     initializeGame,
     initializeLobby,
     renderChatMessage,

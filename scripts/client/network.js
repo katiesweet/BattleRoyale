@@ -6,32 +6,43 @@ MyGame.network = (function() {
   let history = Queue.create();
   let messageId = 0;
 
+  const inGameEvents = [
+    NetworkIds.SET_STARTING_POSITION,
+    NetworkIds.OPPONENT_STARTING_POSITION,
+    NetworkIds.DISCONNECT_OTHER,
+    NetworkIds.UPDATE_SELF,
+    NetworkIds.UPDATE_OTHER,
+    NetworkIds.BULLET_NEW,
+    NetworkIds.BULLET_HIT,
+    NetworkIds.UPDATE_POWERUP,
+    NetworkIds.SHIELD_INFO,
+    NetworkIds.PLAYER_COUNT,
+    NetworkIds.END_OF_GAME,
+    NetworkIds.WINNER,
+  ];
+
+  function unlistenGameEvents() {
+    inGameEvents.forEach(event => unlisten(event, enqueueEvent(event)));
+  }
+
+  function initializeGameEvents() {
+    inGameEvents.forEach(event => listen(event, enqueueEvent(event)));
+  }
+
+  function enqueueEvent(event) {
+    return function(data) {
+      queue.enqueue({ type: event, data });
+    };
+  }
+
   function connect() {
     const token = localStorage.getItem('token');
+
+    if (socket) {
+      socket.disconnect();
+    }
+
     socket = io.connect('', { query: `token=${token}` });
-
-    const networkEvents = [
-      NetworkIds.CONNECT_ACK,
-      NetworkIds.CONNECT_OTHER,
-      NetworkIds.DISCONNECT_OTHER,
-      NetworkIds.UPDATE_SELF,
-      NetworkIds.UPDATE_OTHER,
-      NetworkIds.BULLET_NEW,
-      NetworkIds.BULLET_HIT,
-      NetworkIds.UPDATE_POWERUP,
-      NetworkIds.SHIELD_INFO,
-      NetworkIds.PLAYER_COUNT,
-      NetworkIds.END_OF_GAME,
-    ];
-
-    networkEvents.forEach(event =>
-      listen(event, data => {
-        queue.enqueue({
-          type: event,
-          data: data,
-        });
-      })
-    );
   }
 
   function disconnect() {
@@ -41,6 +52,10 @@ MyGame.network = (function() {
 
   function emit(...args) {
     socket.emit(...args);
+  }
+
+  function unlisten(networkId, callback) {
+    socket.removeListener(networkId, callback);
   }
 
   function listen(networkId, callback) {
@@ -60,7 +75,10 @@ MyGame.network = (function() {
     connect,
     disconnect,
     emit,
+    unlisten,
     listen,
+    unlistenGameEvents,
+    initializeGameEvents,
     getQueue,
     resetQueue,
     enqueue: queue.enqueue,

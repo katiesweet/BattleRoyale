@@ -51,7 +51,7 @@
 		<div id="lobby" class="screen">
 			<div class="lobby-actions">
 				<button id="lobby-back-btn">Back</button>
-				<button data-route="pregame">Join Game</button>
+				<button id="start-game-btn" class="disabled">Start Game</button>
 			</div>
 			<div class="waiting-room">
 				<div class="player-list">
@@ -73,6 +73,7 @@
 		<div id="pregame" class="screen">
 			<div class="pregame-container">
 				<h1>Select your starting location...</h1>
+				<h1 id="pregame-countdown" class="countdown-timer"></h1>
 				<canvas id="spawn-map"></canvas>
 				<button id="pregame-quit-btn">Quit</button>
 			</div>
@@ -113,6 +114,7 @@
 					</ul>
 				</div>
 				<div class="game-window">
+					<h1 id="countdown-timer" class="countdown-timer"></h1>
 					<canvas id="canvas-main"></canvas>
 				</div>
 				<div class="game-chat">

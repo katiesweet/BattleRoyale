@@ -23,20 +23,27 @@ MyGame.screens['gameplay'] = (function(
     playerOthers = {},
     bullets = {},
     explosions = {},
+    currentPowerups = [],
+    background = null,
     playerSelfTexture = assets['player-self'],
     playerOtherTexture = assets['player-other'],
     skeletonTexture = assets['skeleton'],
-    background = null,
-    currentPowerups = [],
     powerupTextures = {
-      weapon : assets['weapon-powerup'],
-      bullet : assets['bullet-powerup'],
-      health : assets['health-powerup'],
-      armour : assets['armour-powerup']
+      weapon: assets['weapon-powerup'],
+      bullet: assets['bullet-powerup'],
+      health: assets['health-powerup'],
+      armour: assets['armour-powerup'],
     },
+    shield = {},
     nextExplosionId = 0,
     activePlayerCount = 0,
-    shield = {};
+    timeBeforeStart = 0,
+    isCountingDown = false;
+
+  function showCountdown(time) {
+    isCountingDown = true;
+    timeBeforeStart = time;
+  }
 
   //------------------------------------------------------------------
   //
@@ -44,12 +51,14 @@ MyGame.screens['gameplay'] = (function(
   // the state of the newly connected player model.
   //
   //------------------------------------------------------------------
-  function connectPlayerSelf({ player, otherPlayers }) {
+  function connectPlayerSelf({ player, otherPlayers, timeBeforeStart }) {
     playerSelf.initialize(player);
 
     for (let i = 0; i < otherPlayers.length; i++) {
       connectPlayerOther(otherPlayers[i]);
     }
+
+    showCountdown(timeBeforeStart);
   }
 
   //------------------------------------------------------------------
@@ -189,10 +198,10 @@ MyGame.screens['gameplay'] = (function(
       let message = processMe.dequeue();
 
       switch (message.type) {
-        case NetworkIds.CONNECT_ACK:
+        case NetworkIds.SET_STARTING_POSITION:
           connectPlayerSelf(message.data);
           break;
-        case NetworkIds.CONNECT_OTHER:
+        case NetworkIds.OPPONENT_STARTING_POSITION:
           connectPlayerOther(message.data);
           break;
         case NetworkIds.DISCONNECT_OTHER:
@@ -219,7 +228,12 @@ MyGame.screens['gameplay'] = (function(
         case NetworkIds.PLAYER_COUNT:
           activePlayerCount = message.data;
           break;
+        case NetworkIds.WINNER:
+          window.alert('You are the champion!');
+          break;
         case NetworkIds.END_OF_GAME:
+          network.emit(NetworkIds.DISCONNECT_GAME);
+          menu.showScreen('main-menu');
           //whatever is supposed to happen at the end of the game...I wasn't sure
           break;
       }
@@ -232,6 +246,10 @@ MyGame.screens['gameplay'] = (function(
   //
   //------------------------------------------------------------------
   function update(elapsedTime) {
+    if (timeBeforeStart > 0) {
+      timeBeforeStart -= elapsedTime;
+    }
+
     playerSelf.updateSprint(elapsedTime);
 
     for (let id in playerOthers) {
@@ -297,8 +315,17 @@ MyGame.screens['gameplay'] = (function(
       renderer.AnimatedSprite.render(explosions[id]);
     }
 
-    let countDiv = document.getElementById('playerCount');
-    countDiv.innerHTML = '<p class="statsParagraph">Active Players: ' + activePlayerCount.toString() + '</p>';
+    const playerCount = document.getElementById('playerCount');
+    playerCount.innerHTML = `<p class="statsParagraph">Active Players: ${activePlayerCount}</p>`;
+
+    if (timeBeforeStart > 0) {
+      const countdown = document.getElementById('countdown-timer');
+      countdown.innerHTML = Math.floor(timeBeforeStart / 1000);
+    } else if (isCountingDown) {
+      const countdown = document.getElementById('countdown-timer');
+      countdown.innerHTML = '';
+      isCountingDown = false;
+    }
   }
 
   //------------------------------------------------------------------
@@ -310,7 +337,9 @@ MyGame.screens['gameplay'] = (function(
     let elapsedTime = time - lastTimeStamp;
     lastTimeStamp = time;
 
-    processInput(elapsedTime);
+    if (timeBeforeStart <= 0) {
+      processInput(elapsedTime);
+    }
     update(elapsedTime);
     render();
 
@@ -323,9 +352,7 @@ MyGame.screens['gameplay'] = (function(
 
   MyGame.registerEvent = function(networkId, keyboardInput, action) {
     let repeat = true;
-    if (
-      action == 'use-health'
-    ) {
+    if (action == 'use-health') {
       repeat = false;
     }
 
@@ -333,7 +360,7 @@ MyGame.screens['gameplay'] = (function(
     if (
       action == 'fire' ||
       action == 'rotate-left' ||
-      action == 'rotate-right' 
+      action == 'rotate-right'
     ) {
       rate = 200;
     }
@@ -402,8 +429,9 @@ MyGame.screens['gameplay'] = (function(
     document
       .getElementById('game-quit-btn')
       .addEventListener('click', function() {
+        network.emit(NetworkIds.DISCONNECT_GAME);
+        network.unlistenGameEvents();
         menu.showScreen('main-menu');
-        network.disconnect();
       });
 
     //
@@ -431,8 +459,8 @@ MyGame.screens['gameplay'] = (function(
 
   function run() {
     chat.initializeGame();
+    network.initializeGameEvents();
 
-    network.emit(NetworkIds.START_GAME, {type: 'start-game'});
     lastTimeStamp = performance.now();
     requestAnimationFrame(gameLoop);
   }

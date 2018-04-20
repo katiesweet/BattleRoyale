@@ -44,12 +44,24 @@
       value: 'fire',
       writable: false,
     },
-    CONNECT_ACK: {
-      value: 'connect-ack',
+    JOIN_LOBBY: {
+      value: 'join-lobby',
       writable: false,
     },
-    CONNECT_OTHER: {
-      value: 'connect-other',
+    JOIN_LOBBY_OTHER: {
+      value: 'join-lobby-other',
+      writable: false,
+    },
+    DICONNECT_LOBBY: {
+      value: 'disconnect-lobby',
+      writable: false,
+    },
+    DISCONNECT_LOBBY_OTHER: {
+      value: 'disconnect-lobby-other',
+      writable: false,
+    },
+    DISCONNECT_GAME: {
+      value: 'disconnect-game',
       writable: false,
     },
     DISCONNECT_OTHER: {
@@ -80,6 +92,14 @@
       value: 'powerups',
       writable: false,
     },
+    LOBBY_MESSAGE_CREATE: {
+      value: 'lobby-message-create',
+      writable: false,
+    },
+    LOBBY_MESSAGE_NEW: {
+      value: 'lobby-message-new',
+      writable: false,
+    },
     CHAT_MESSAGE_CREATE: {
       value: 'chat-message-create',
       writable: false,
@@ -104,8 +124,12 @@
       value: 'shield-info',
       writable: false,
     },
-    START_GAME: {
-      value: 'start-game',
+    INITIATE_GAME_START: {
+      value: 'initiate-game-start',
+      writable: false,
+    },
+    AUTO_JOIN_GAME: {
+      value: 'auto-join-game',
       writable: false,
     },
     PLAYER_COUNT: {
@@ -114,6 +138,10 @@
     },
     END_OF_GAME: {
       value: 'game-over',
+      writable: false,
+    },
+    WINNER: {
+      value: 'winner',
       writable: false,
     },
     SPRINT: {

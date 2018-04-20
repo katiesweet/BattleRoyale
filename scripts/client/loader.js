@@ -91,7 +91,7 @@ MyGame.loader = (function() {
           'rendering/tiled-image',
           'rendering/mini-map',
           'rendering/spawn-map',
-          'rendering/powerups'
+          'rendering/powerups',
         ],
         message: 'Renderers loaded',
         onComplete: null,
@@ -145,20 +145,20 @@ MyGame.loader = (function() {
       },
       {
         key: 'weapon-powerup',
-        source: 'assets/gun1_powerup.png'
+        source: 'assets/gun1_powerup.png',
       },
       {
         key: 'bullet-powerup',
-        source: 'assets/bullets_powerup.png'
+        source: 'assets/bullets_powerup.png',
       },
       {
         key: 'health-powerup',
-        source: 'assets/beer_powerup.png'
+        source: 'assets/beer_powerup.png',
       },
       {
         key: 'armour-powerup',
-        source: 'assets/vest_powerup.png'
-      }
+        source: 'assets/vest_powerup.png',
+      },
     ];
   //------------------------------------------------------------------
   //

@@ -2,27 +2,14 @@ MyGame.screens['login'] = (function(menu) {
   'use strict';
 
   function login() {
-    const username = document.getElementById('username-input').value;
-    const password = document.getElementById('password-input').value;
-    const notification = document.getElementById('error-notification');
-
-    notification.innerHTML = '';
-    notification.style.display = 'none';
-
-    axios
-      .post('/login', { username, password })
-      .then(({ status, data }) => {
-        localStorage.setItem('username', username);
-        localStorage.setItem('token', data);
-        menu.showScreen('main-menu');
-      })
-      .catch(({ response }) => {
-        notification.innerHTML = response.data;
-        notification.style.display = 'block';
-      });
+    authenticate('/login');
   }
 
   function register() {
+    authenticate('/register');
+  }
+
+  function authenticate(endpoint) {
     const username = document.getElementById('username-input').value;
     const password = document.getElementById('password-input').value;
     const notification = document.getElementById('error-notification');
@@ -31,7 +18,7 @@ MyGame.screens['login'] = (function(menu) {
     notification.style.display = 'none';
 
     axios
-      .post('/register', { username, password })
+      .post(endpoint, { username, password })
       .then(({ status, data }) => {
         localStorage.setItem('username', username);
         localStorage.setItem('token', data);
