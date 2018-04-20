@@ -473,11 +473,16 @@ function joinGame(socket, position) {
 
   const update = {
     clientId: socket.id,
+    updateWindow: lastUpdate,
     lastMessageId: client.lastMessageId,
     direction: client.player.direction,
     position: client.player.position,
     health: client.player.health,
-    updateWindow: lastUpdate,
+    numBullets: client.player.numBullets,
+    weaponStrength: client.player.weaponStrength,
+    healthPacks: client.player.healthPacks,
+    armourLevel: client.player.armourLevel,
+    sprintLevel: client.player.sprintLevel,
   };
 
   client.socket.emit(NetworkIds.UPDATE_SELF, update);
@@ -505,6 +510,16 @@ function removeGameClient(socket) {
 
 function startGame() {
   if (!gameStarted) {
+    newBullets = [];
+    activeBullets = [];
+    hits = [];
+    powerups = Powerups.create({
+      weaponUpgrades: 25,
+      bullets: 200,
+      health: 25,
+      armour: 50,
+    });
+    shield = Shield.create();
     countdownStarted = true;
     timeBeforeStart = 15000; // 15 sec
     io.emit(NetworkIds.INITIATE_GAME_START);

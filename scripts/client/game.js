@@ -317,8 +317,11 @@ MyGame.screens['gameplay'] = (function(
       renderer.AnimatedSprite.render(explosions[id]);
     }
 
-    const playerCount = document.getElementById('playerCount');
-    playerCount.innerHTML = `<p class="statsParagraph">Active Players: ${activePlayerCount}</p>`;
+    const playerCount = document.getElementById('player-count');
+
+    if (playerCount.innerHTML !== activePlayerCount) {
+      playerCount.innerHTML = activePlayerCount;
+    }
 
     const playerScore = document.getElementById('playerScore');
     playerScore.innerHTML = `<p class="statsParagraph">Score: ${score}</p>`;
@@ -467,6 +470,17 @@ MyGame.screens['gameplay'] = (function(
     network.initializeGameEvents();
 
     lastTimeStamp = performance.now();
+    playerSelf = components.Player(barriers);
+    playerOthers = {};
+    bullets = {};
+    explosions = {};
+    currentPowerups = [];
+    shield = {};
+    nextExplosionId = 0;
+    activePlayerCount = 0;
+    timeBeforeStart = 0;
+    isCountingDown = false;
+
     requestAnimationFrame(gameLoop);
   }
 

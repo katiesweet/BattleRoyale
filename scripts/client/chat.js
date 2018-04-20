@@ -14,6 +14,9 @@ MyGame.chat = (function(network) {
   function initializeLobby() {
     const sendButton = document.getElementById('lobby-send-message');
     const newMessage = document.getElementById('lobby-new-message');
+    const messageList = document.getElementById('lobby-message-list');
+
+    messageList.innerHTML = '';
 
     sendButton.addEventListener('click', function() {
       const message = document.getElementById('lobby-new-message');
@@ -44,6 +47,9 @@ MyGame.chat = (function(network) {
   function initializeGame() {
     const sendButton = document.getElementById('game-send-message');
     const newMessage = document.getElementById('game-new-message');
+    const messageList = document.getElementById('game-message-list');
+
+    messageList.innerHTML = '';
 
     sendButton.addEventListener('click', function() {
       const message = document.getElementById('game-new-message');
@@ -97,6 +103,15 @@ MyGame.chat = (function(network) {
     const player = document.getElementById(`playerlist-$${clientId}`);
 
     playerList.removeChild(player);
+
+    if (playerList.childElementCount < 2) {
+      const startBtn = document.getElementById('start-game-btn');
+
+      startBtn.classList.add('disabled');
+      startBtn.removeEventListener('click', () =>
+        network.emit(NetworkIds.INITIATE_GAME_START)
+      );
+    }
   }
 
   function renderPlayerList({ player, otherPlayers }) {
