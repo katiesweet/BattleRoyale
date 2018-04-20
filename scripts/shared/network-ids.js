@@ -124,8 +124,12 @@
       value: 'shield-info',
       writable: false,
     },
-    START_GAME: {
-      value: 'start-game',
+    INITIATE_GAME_START: {
+      value: 'initiate-game-start',
+      writable: false,
+    },
+    AUTO_JOIN_GAME: {
+      value: 'auto-join-game',
       writable: false,
     },
     PLAYER_COUNT: {

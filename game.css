@@ -40,6 +40,12 @@ button:active {
   background: #20847d;
 }
 
+button.disabled {
+  cursor: not-allowed;
+  background: #025650;
+  color: #ababab;
+}
+
 .statsParagraph {
   font-size: 24px;
 }
@@ -169,8 +175,6 @@ ul.menu > li {
   margin: 1.25rem;
 }
 
-
-
 #highscores > ol {
   text-align: center;
   padding: 0;
@@ -244,6 +248,20 @@ ul.menu > li {
 .game-container > .game-window {
   background-color: saddlebrown;
   padding: 10px 0;
+  position: relative;
+}
+
+.countdown-timer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 220px;
+  color: whitesmoke;
+  -webkit-text-stroke: 2px #2e2e2e;
+  -moz-text-stroke: 2px #2e2e2e;
+  z-index: 1000;
+  margin: 0;
 }
 
 .game-container > .game-menu {
@@ -494,6 +512,7 @@ ul.menu > li {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 .pregame-container > h1 {

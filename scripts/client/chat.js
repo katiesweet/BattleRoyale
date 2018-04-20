@@ -81,10 +81,18 @@ MyGame.chat = (function(network) {
     player.innerHTML = username;
 
     playerList.appendChild(player);
+
+    if (playerList.childElementCount >= 2) {
+      const startBtn = document.getElementById('start-game-btn');
+
+      startBtn.classList.remove('disabled');
+      startBtn.addEventListener('click', () =>
+        network.emit(NetworkIds.INITIATE_GAME_START)
+      );
+    }
   }
 
   function removePlayer({ clientId }) {
-    console.log('remove', clientId);
     const playerList = document.getElementById('lobby-player-list');
     const player = document.getElementById(`playerlist-$${clientId}`);
 

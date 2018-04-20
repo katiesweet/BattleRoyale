@@ -23,20 +23,27 @@ MyGame.screens['gameplay'] = (function(
     playerOthers = {},
     bullets = {},
     explosions = {},
+    currentPowerups = [],
+    background = null,
     playerSelfTexture = assets['player-self'],
     playerOtherTexture = assets['player-other'],
     skeletonTexture = assets['skeleton'],
-    background = null,
-    currentPowerups = [],
     powerupTextures = {
       weapon: assets['weapon-powerup'],
       bullet: assets['bullet-powerup'],
       health: assets['health-powerup'],
       armour: assets['armour-powerup'],
     },
+    shield = {},
     nextExplosionId = 0,
     activePlayerCount = 0,
-    shield = {};
+    timeBeforeStart = 0,
+    isCountingDown = false;
+
+  function showCountdown(time) {
+    isCountingDown = true;
+    timeBeforeStart = time;
+  }
 
   //------------------------------------------------------------------
   //
@@ -44,14 +51,14 @@ MyGame.screens['gameplay'] = (function(
   // the state of the newly connected player model.
   //
   //------------------------------------------------------------------
-  function connectPlayerSelf({ player, otherPlayers }) {
-    console.log('player', player);
-
+  function connectPlayerSelf({ player, otherPlayers, timeBeforeStart }) {
     playerSelf.initialize(player);
 
     for (let i = 0; i < otherPlayers.length; i++) {
       connectPlayerOther(otherPlayers[i]);
     }
+
+    showCountdown(timeBeforeStart);
   }
 
   //------------------------------------------------------------------
@@ -230,6 +237,10 @@ MyGame.screens['gameplay'] = (function(
   //
   //------------------------------------------------------------------
   function update(elapsedTime) {
+    if (timeBeforeStart > 0) {
+      timeBeforeStart -= elapsedTime;
+    }
+
     for (let id in playerOthers) {
       playerOthers[id].update(elapsedTime);
     }
@@ -293,11 +304,17 @@ MyGame.screens['gameplay'] = (function(
       renderer.AnimatedSprite.render(explosions[id]);
     }
 
-    let countDiv = document.getElementById('playerCount');
-    countDiv.innerHTML =
-      '<p class="statsParagraph">Active Players: ' +
-      activePlayerCount.toString() +
-      '</p>';
+    const playerCount = document.getElementById('playerCount');
+    playerCount.innerHTML = `<p class="statsParagraph">Active Players: ${activePlayerCount}</p>`;
+
+    if (timeBeforeStart > 0) {
+      const countdown = document.getElementById('countdown-timer');
+      countdown.innerHTML = Math.floor(timeBeforeStart / 1000);
+    } else if (isCountingDown) {
+      const countdown = document.getElementById('countdown-timer');
+      countdown.innerHTML = '';
+      isCountingDown = false;
+    }
   }
 
   //------------------------------------------------------------------
@@ -309,7 +326,9 @@ MyGame.screens['gameplay'] = (function(
     let elapsedTime = time - lastTimeStamp;
     lastTimeStamp = time;
 
-    processInput(elapsedTime);
+    if (timeBeforeStart <= 0) {
+      processInput(elapsedTime);
+    }
     update(elapsedTime);
     render();
 
@@ -421,9 +440,8 @@ MyGame.screens['gameplay'] = (function(
 
   function run() {
     chat.initializeGame();
-
     network.initializeGameEvents();
-    network.emit(NetworkIds.START_GAME, { type: 'start-game' });
+
     lastTimeStamp = performance.now();
     requestAnimationFrame(gameLoop);
   }

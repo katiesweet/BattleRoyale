@@ -12,6 +12,10 @@ MyGame.screens['lobby'] = (function(menu, chat, network) {
 
   function run() {
     chat.initializeLobby();
+
+    network.listen(NetworkIds.INITIATE_GAME_START, () => {
+      menu.showScreen('pregame');
+    });
   }
 
   return {

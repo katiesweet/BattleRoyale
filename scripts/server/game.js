@@ -22,7 +22,8 @@ const STATE_UPDATE_RATE_MS = 100;
 let lastUpdate = 0;
 let quit = false;
 let gameStarted = false;
-let connectedClients = {};
+let shouldRandomizePositions = false;
+let timeBeforeStart = 0;
 let inLobbyClients = {};
 let inGameClients = {};
 let newBullets = [];
@@ -126,9 +127,6 @@ function processInput(elapsedTime) {
         case NetworkIds.USE_HEALTH:
           client.player.useHealth();
           break;
-        case NetworkIds.START_GAME:
-          gameStarted = true;
-          break;
       }
     }
   }
@@ -150,12 +148,31 @@ function collided(obj1, obj2) {
   return distance <= radii;
 }
 
+function randomPosition() {
+  return {
+    x: Math.random() * 15,
+    y: Math.random() * 15,
+  };
+}
+
 //------------------------------------------------------------------
 //
 // Update the simulation of the game.
 //
 //------------------------------------------------------------------
 function update(elapsedTime, currentTime) {
+  if (timeBeforeStart > 0) {
+    timeBeforeStart = Math.max(timeBeforeStart - elapsedTime, 0);
+  } else if (shouldRandomizePositions) {
+    for (let id in inLobbyClients) {
+      let position = randomPosition();
+      inLobbyClients[id].socket.emit(NetworkIds.AUTO_JOIN_GAME);
+      joinGame(inLobbyClients[id].socket, position);
+    }
+
+    shouldRandomizePositions = false;
+  }
+
   // Update clients
   for (let clientId in inGameClients) {
     const player = inGameClients[clientId].player;
@@ -349,7 +366,9 @@ function updateClients(elapsedTime) {
 //
 //------------------------------------------------------------------
 function gameLoop(currentTime, elapsedTime) {
-  processInput(elapsedTime);
+  if (timeBeforeStart <= 0) {
+    processInput(elapsedTime);
+  }
   update(elapsedTime, currentTime, io);
   updateClients(elapsedTime);
 
@@ -405,6 +424,10 @@ function joinGame(socket, position) {
   const client = inLobbyClients[socket.id];
   const otherPlayers = [];
 
+  if (!client) {
+    return;
+  }
+
   for (let clientId in inGameClients) {
     const otherClient = inGameClients[clientId];
 
@@ -413,10 +436,15 @@ function joinGame(socket, position) {
     }
   }
 
+  client.socket.broadcast.emit(NetworkIds.DISCONNECT_LOBBY_OTHER, {
+    clientId: socket.id,
+  });
+
   client.player.setStartingPosition(position);
   client.socket.emit(NetworkIds.SET_STARTING_POSITION, {
     player: client.player.toJSON(),
     otherPlayers,
+    timeBeforeStart,
   });
   client.socket.broadcast.emit(
     NetworkIds.OPPONENT_STARTING_POSITION,
@@ -434,10 +462,6 @@ function joinGame(socket, position) {
 
   client.socket.emit(NetworkIds.UPDATE_SELF, update);
   client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
-
-  client.socket.broadcast.emit(NetworkIds.DISCONNECT_LOBBY_OTHER, {
-    clientId: socket.id,
-  });
 
   inGameClients[socket.id] = inLobbyClients[socket.id];
   delete inLobbyClients[socket.id];
@@ -459,6 +483,13 @@ function removeGameClient(socket) {
   });
 }
 
+function startGame() {
+  gameStarted = true;
+  shouldRandomizePositions = true;
+  timeBeforeStart = 15000; // 15 sec
+  io.emit(NetworkIds.INITIATE_GAME_START);
+}
+
 //------------------------------------------------------------------
 //
 // Get the socket.io server up and running so it can begin
@@ -470,22 +501,21 @@ function initializeGameNetwork() {
     console.log('Connection established: ', socket.id);
 
     socket.on(NetworkIds.JOIN_LOBBY, () => joinLobby(socket));
+    socket.on(NetworkIds.LOBBY_MESSAGE_CREATE, data =>
+      io.emit(NetworkIds.LOBBY_MESSAGE_NEW, data)
+    );
+    socket.on(NetworkIds.DISCONNECT_LOBBY, () => removeLobbyClient(socket));
+
+    socket.on(NetworkIds.INITIATE_GAME_START, startGame);
     socket.on(NetworkIds.SET_STARTING_POSITION, position =>
       joinGame(socket, position)
     );
     socket.on(NetworkIds.INPUT, data =>
       inputQueue.enqueue({ clientId: socket.id, message: data })
     );
-    socket.on(NetworkIds.START_GAME, data =>
-      inputQueue.enqueue({ clientId: socket.id, message: data })
-    );
-    socket.on(NetworkIds.LOBBY_MESSAGE_CREATE, data =>
-      io.emit(NetworkIds.LOBBY_MESSAGE_NEW, data)
-    );
     socket.on(NetworkIds.CHAT_MESSAGE_CREATE, data =>
       io.emit(NetworkIds.CHAT_MESSAGE_NEW, data)
     );
-    socket.on(NetworkIds.DISCONNECT_LOBBY, () => removeLobbyClient(socket));
 
     socket.on('disconnect', function() {
       if (inLobbyClients.hasOwnProperty(socket.id)) {

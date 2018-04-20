@@ -10,6 +10,9 @@ MyGame.screens['pregame'] = (function(
   let barriers = components.Barriers(barrierJson);
   let opponentPositions = [];
   let playerRadius = 0.04;
+  let prevRemaining = 0;
+  let timeRemaining = 0;
+  let lastTime;
 
   function updateMap(event) {
     const mousePosition = renderer.SpawnMap.getWorldCoords(event);
@@ -82,16 +85,44 @@ MyGame.screens['pregame'] = (function(
       });
   }
 
+  function updateCountdown(time) {
+    const elapsedTime = time - lastTime;
+    const countdown = document.getElementById('pregame-countdown');
+
+    timeRemaining -= elapsedTime;
+    lastTime = time;
+
+    const text = Math.floor(timeRemaining / 1000);
+
+    if (text !== countdown.innerHTML) {
+      countdown.innerHTML = text;
+    }
+
+    if (timeRemaining > 0) {
+      requestAnimationFrame(updateCountdown);
+    } else {
+      document.getElementById('pregame-countdown').innerHTML = '';
+    }
+  }
+
   function run() {
     MyGame.renderer.SpawnMap.reset();
 
     network.listen(NetworkIds.OPPONENT_STARTING_POSITION, setOpponentPosition);
+    network.listen(NetworkIds.AUTO_JOIN_GAME, () => {
+      stopListening();
+      menu.showScreen('gameplay');
+    });
 
     document
       .getElementById('spawn-map')
       .addEventListener('mousemove', updateMap);
 
     document.getElementById('spawn-map').addEventListener('click', setLocation);
+
+    lastTime = performance.now();
+    timeRemaining = 15000;
+    requestAnimationFrame(updateCountdown);
   }
 
   return {
