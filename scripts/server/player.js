@@ -114,10 +114,16 @@ function createPlayer(username, clientId) {
   that.setStartingPosition = function(start) {
     reportUpdate = true;
     position = start;
+    health = 1.0;
   };
 
   that.hitByBullet = function(bullet) {
     health = Math.max((health - bullet.damage) / armourLevel, 0);
+    reportUpdate = true;
+  };
+
+  that.dieByShield = function() {
+    health = 0;
     reportUpdate = true;
   };
 
