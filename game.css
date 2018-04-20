@@ -40,6 +40,10 @@ button:active {
   background: #20847d;
 }
 
+.statsParagraph {
+  font-size: 24px;
+}
+
 .background {
   width: 100vw;
   height: 100vh;

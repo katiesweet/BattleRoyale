@@ -28,6 +28,7 @@ MyGame.screens['gameplay'] = (function(
     skeletonTexture = assets['skeleton'],
     background = null,
     nextExplosionId = 0,
+    activePlayerCount = 0,
     shield = {};
 
   //------------------------------------------------------------------
@@ -167,7 +168,6 @@ MyGame.screens['gameplay'] = (function(
     // Start with the keyboard updates so those messages can get in transit
     // while the local updating of received network messages are processed.
     myKeyboard.update(elapsedTime);
-
     //
     // Double buffering on the queue so we don't asynchronously receive messages
     // while processing.
@@ -201,6 +201,9 @@ MyGame.screens['gameplay'] = (function(
           break;
         case NetworkIds.SHIELD_INFO:
           updateShield(message.data);
+          break;
+        case NetworkIds.PLAYER_COUNT:
+          activePlayerCount = message.data;
           break;
       }
     }
@@ -271,6 +274,9 @@ MyGame.screens['gameplay'] = (function(
     for (let id in explosions) {
       renderer.AnimatedSprite.render(explosions[id]);
     }
+
+    let countDiv = document.getElementById('playerCount');
+    countDiv.innerHTML = '<p class="statsParagraph">Active Players: ' + activePlayerCount.toString() + '</p>';
   }
 
   //------------------------------------------------------------------

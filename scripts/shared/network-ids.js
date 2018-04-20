@@ -99,6 +99,10 @@
     START_GAME: {
       value: 'start-game',
       writable: false,
+    },
+    PLAYER_COUNT: {
+      value: 'player-count',
+      writable: false,
     }
   });
 })(typeof exports === 'undefined' ? (this['NetworkIds'] = {}) : exports);
