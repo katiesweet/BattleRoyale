@@ -227,57 +227,59 @@ MyGame.graphics = (function() {
   }
 
   //------------------------------------------------------------------
-	//
-	// Draws a rectangle relative to the 'unit world'.
-	//
-	//------------------------------------------------------------------
-	function drawRectangle(style, left, top, width, height, useViewport) {
-		var adjustLeft = (useViewport === true) ? viewport.left : 0,
-			adjustTop = (useViewport === true) ? viewport.top : 0;
+  //
+  // Draws a rectangle relative to the 'unit world'.
+  //
+  //------------------------------------------------------------------
+  function drawRectangle(style, left, top, width, height, useViewport) {
+    var adjustLeft = useViewport === true ? viewport.left : 0,
+      adjustTop = useViewport === true ? viewport.top : 0;
 
-		// 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
-		context.strokeStyle = style;
-		context.strokeRect(
-			0.5 + world.left + ((left - adjustLeft) * world.size),
-			0.5 + world.top + ((top - adjustTop) * world.size),
-			width * world.size,
-			height * world.size);
-	}
+    // 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
+    context.strokeStyle = style;
+    context.strokeRect(
+      0.5 + world.left + (left - adjustLeft) * world.size,
+      0.5 + world.top + (top - adjustTop) * world.size,
+      width * world.size,
+      height * world.size
+    );
+  }
 
   //------------------------------------------------------------------
-	//
-	// Draws a filled rectangle relative to the 'unit world'.
-	//
-	//------------------------------------------------------------------
-	function drawFilledRectangle(style, left, top, width, height, useViewport) {
-		var adjustLeft = (useViewport === true) ? viewport.left : 0,
-			adjustTop = (useViewport === true) ? viewport.top : 0;
+  //
+  // Draws a filled rectangle relative to the 'unit world'.
+  //
+  //------------------------------------------------------------------
+  function drawFilledRectangle(style, left, top, width, height, useViewport) {
+    var adjustLeft = useViewport === true ? viewport.left : 0,
+      adjustTop = useViewport === true ? viewport.top : 0;
 
-		//
-		// 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
-		context.fillStyle = style;
-		context.fillRect(
-			0.5 + world.left + ((left - adjustLeft) * world.size),
-			0.5 + world.top + ((top - adjustTop) * world.size),
-			width * world.size,
-			height * world.size);
+    //
+    // 0.5, 0.5 is to ensure an actual 1 pixel line is drawn.
+    context.fillStyle = style;
+    context.fillRect(
+      0.5 + world.left + (left - adjustLeft) * world.size,
+      0.5 + world.top + (top - adjustTop) * world.size,
+      width * world.size,
+      height * world.size
+    );
   }
 
   function createFieldOfViewPath(fieldOfView, useViewport) {
-    var adjustLeft = (useViewport === true) ? viewport.left : 0,
-    adjustTop = (useViewport === true) ? viewport.top : 0;
+    var adjustLeft = useViewport === true ? viewport.left : 0,
+      adjustTop = useViewport === true ? viewport.top : 0;
 
     context.moveTo(
-      0.5 + world.left + ((fieldOfView.p1.x - adjustLeft) * world.size),
-      0.5 + world.top + ((fieldOfView.p1.y - adjustTop) * world.size)
+      0.5 + world.left + (fieldOfView.p1.x - adjustLeft) * world.size,
+      0.5 + world.top + (fieldOfView.p1.y - adjustTop) * world.size
     );
     context.lineTo(
-      0.5 + world.left + ((fieldOfView.p2.x - adjustLeft) * world.size),
-      0.5 + world.top + ((fieldOfView.p2.y - adjustTop) * world.size)
+      0.5 + world.left + (fieldOfView.p2.x - adjustLeft) * world.size,
+      0.5 + world.top + (fieldOfView.p2.y - adjustTop) * world.size
     );
     context.arc(
-      0.5 + world.left + ((fieldOfView.p1.x - adjustLeft) * world.size),
-      0.5 + world.top + ((fieldOfView.p1.y - adjustTop) * world.size),
+      0.5 + world.left + (fieldOfView.p1.x - adjustLeft) * world.size,
+      0.5 + world.top + (fieldOfView.p1.y - adjustTop) * world.size,
       fieldOfView.radius * world.size,
       fieldOfView.startAngle,
       fieldOfView.endAngle,
@@ -286,14 +288,13 @@ MyGame.graphics = (function() {
     context.closePath();
   }
 
-
   function drawFieldOfView(fieldOfView, useViewport) {
     context.beginPath();
     context.rect(0, 0, canvas.width, canvas.height);
 
     createFieldOfViewPath(fieldOfView, useViewport);
 
-    context.fillStyle = 'rgba(0,0,0,0.1)';
+    context.fillStyle = 'rgba(0,0,0,0.2)';
     context.fill('evenodd');
   }
 
@@ -328,23 +329,24 @@ MyGame.graphics = (function() {
     context.fill();
   }
 
-  //------------------------------------------------------------------
-	//
-	// Draws text centered relative to the 'unit world'.
-	//
 	//------------------------------------------------------------------
+  //
+  // Draws text centered relative to the 'unit world'.
+  //
+  //------------------------------------------------------------------
   function drawText(color, font, text, left, top, maxWidth, useViewport) {
-		var adjustLeft = (useViewport === true) ? viewport.left : 0,
-			adjustTop = (useViewport === true) ? viewport.top : 0;
+    var adjustLeft = useViewport === true ? viewport.left : 0,
+      adjustTop = useViewport === true ? viewport.top : 0;
 
     context.fillStyle = color;
     context.font = font;
-    context.textAlign = 'center'
+    context.textAlign = 'center';
     context.fillText(
       text,
-      0.5 + world.left + ((left - adjustLeft) * world.size),
-      0.5 + world.top + ((top - adjustTop) * world.size),
-      maxWidth * world.size);
+      0.5 + world.left + (left - adjustLeft) * world.size,
+      0.5 + world.top + (top - adjustTop) * world.size,
+      maxWidth * world.size
+    );
   }
 
   return {

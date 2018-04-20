@@ -89,7 +89,7 @@ function createPlayer(username, clientId) {
   };
 
   that.hitByBullet = function(bullet) {
-    health -= bullet.damage;
+    health = Math.max(health - bullet.damage, 0);
     reportUpdate = true;
   };
 

@@ -245,7 +245,7 @@ MyGame.screens['gameplay'] = (function(
     graphics.clear();
 
     renderer.TiledImage.render(background, graphics.viewport);
-    renderer.MiniMap.render(playerSelf, shield);
+    renderer.MiniMap.render(playerSelf, explosions, shield);
 
     graphics.drawShield(shield, playerSelf);
 
