@@ -149,7 +149,7 @@ MyGame.loader = (function() {
       },
       {
         key: 'bullet-powerup',
-        source: 'assets/bullet_powerup.png',
+        source: 'assets/bullets_powerup.png',
       },
       {
         key: 'health-powerup',
