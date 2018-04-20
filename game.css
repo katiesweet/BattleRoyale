@@ -46,10 +46,6 @@ button.disabled {
   color: #ababab;
 }
 
-.statsParagraph {
-  font-size: 24px;
-}
-
 .background {
   width: 100vw;
   height: 100vh;
@@ -285,9 +281,8 @@ ul.menu > li {
 }
 
 .game-menu > .inventory {
-  /* padding: 10px; */
   width: 100%;
-  padding: 10px;
+  padding: 10px 10px 0;
   color: whitesmoke;
   -webkit-text-stroke: 2px #2e2e2e;
   -moz-text-stroke: 2px #2e2e2e;
@@ -295,15 +290,15 @@ ul.menu > li {
 
 .game-menu > .inventory > label {
   text-align: center;
-  font-size: 40px;
+  font-size: calc(0.01em + 5vh);
 }
 
 .game-menu > .inventory > .inventory-item > label {
-  font-size: 28px;
+  font-size: calc(0.01em + 4vh);
 }
 
 .game-menu > .inventory > .inventory-item > var {
-  font-size: 28px;
+  font-size: calc(0.01em + 4vh);
 }
 
 .game-menu > .options {

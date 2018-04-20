@@ -315,8 +315,11 @@ MyGame.screens['gameplay'] = (function(
       renderer.AnimatedSprite.render(explosions[id]);
     }
 
-    const playerCount = document.getElementById('playerCount');
-    playerCount.innerHTML = `<p class="statsParagraph">Active Players: ${activePlayerCount}</p>`;
+    const playerCount = document.getElementById('player-count');
+
+    if (playerCount.innerHTML !== activePlayerCount) {
+      playerCount.innerHTML = activePlayerCount;
+    }
 
     if (timeBeforeStart > 0) {
       const countdown = document.getElementById('countdown-timer');
