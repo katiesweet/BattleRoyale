@@ -35,6 +35,7 @@ MyGame.screens['gameplay'] = (function(
       armour : assets['armour-powerup']
     },
     nextExplosionId = 0,
+    activePlayerCount = 0,
     shield = {};
 
   //------------------------------------------------------------------
@@ -218,6 +219,12 @@ MyGame.screens['gameplay'] = (function(
         case NetworkIds.SHIELD_INFO:
           updateShield(message.data);
           break;
+        case NetworkIds.PLAYER_COUNT:
+          activePlayerCount = message.data;
+          break;
+        case NetworkIds.END_OF_GAME:
+          //whatever is supposed to happen at the end of the game...I wasn't sure
+          break;
       }
     }
   }
@@ -290,6 +297,9 @@ MyGame.screens['gameplay'] = (function(
     for (let id in explosions) {
       renderer.AnimatedSprite.render(explosions[id]);
     }
+
+    let countDiv = document.getElementById('playerCount');
+    countDiv.innerHTML = '<p class="statsParagraph">Active Players: ' + activePlayerCount.toString() + '</p>';
   }
 
   //------------------------------------------------------------------
