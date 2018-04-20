@@ -32,6 +32,10 @@ function createPlayer(username, clientId) {
   let healthPacks = 0; // Number of health packs character has
   let armourLevel = 1; // Standard amount of damage caused by being hit is 1
 
+  let sprintLevel = 1; // How much sprint time you have left (in seconds)
+  let sprintMultiplier = 1;
+  let sprintPressed = false;
+
   Object.defineProperty(that, 'username', {
     get: () => username,
   });
@@ -94,6 +98,10 @@ function createPlayer(username, clientId) {
     get: () => armourLevel,
   });
 
+  Object.defineProperty(that, 'sprintLevel', {
+    get: () => sprintLevel,
+  });
+
   that.toJSON = function() {
     return {
       clientId,
@@ -107,7 +115,8 @@ function createPlayer(username, clientId) {
       numBullets,
       weaponStrength,
       healthPacks,
-      armourLevel
+      armourLevel,
+      sprintLevel
     };
   };
 
@@ -198,7 +207,7 @@ function createPlayer(username, clientId) {
 
     let proposedPosition = {
       x: position.x,
-      y: position.y - elapsedTime * speed,
+      y: position.y - elapsedTime * speed * sprintMultiplier,
     };
 
     // position.x += vectorX * elapsedTime * speed;
@@ -224,7 +233,7 @@ function createPlayer(username, clientId) {
     // };
 
     let proposedPosition = {
-      x: position.x - elapsedTime * speed,
+      x: position.x - elapsedTime * speed * sprintMultiplier,
       y: position.y,
     };
 
@@ -248,7 +257,7 @@ function createPlayer(username, clientId) {
     // };
 
     let proposedPosition = {
-      x: position.x + elapsedTime * speed,
+      x: position.x + elapsedTime * speed * sprintMultiplier,
       y: position.y,
     };
 
@@ -274,7 +283,7 @@ function createPlayer(username, clientId) {
 
     let proposedPosition = {
       x: position.x,
-      y: position.y + elapsedTime * speed,
+      y: position.y + elapsedTime * speed * sprintMultiplier,
     };
 
     if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
@@ -283,6 +292,22 @@ function createPlayer(username, clientId) {
 
     checkForPowerups(powerups);
   };
+
+  that.sprint = function() {
+    sprintPressed = true;
+  }
+
+  that.updateSprint = function(elapsedTime) {
+    if (sprintPressed) {
+      sprintLevel = Math.max(sprintLevel - elapsedTime/1000, 0);
+      sprintMultiplier = (sprintLevel > 0) ? 3 : 1;
+    }
+    else {
+      sprintLevel = Math.min(sprintLevel + elapsedTime/10000, 1);
+      sprintMultiplier = 1;
+    }
+    sprintPressed = false;
+  }
 
   //------------------------------------------------------------------
   //

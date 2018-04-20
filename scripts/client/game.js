@@ -110,6 +110,10 @@ MyGame.screens['gameplay'] = (function(
           break;
         case 'rotate-right':
           playerSelf.rotateRight();
+          break;
+        case 'sprint':
+          playerSelf.sprint();
+          break;
       }
 
       memory.enqueue(message);
@@ -228,6 +232,8 @@ MyGame.screens['gameplay'] = (function(
   //
   //------------------------------------------------------------------
   function update(elapsedTime) {
+    playerSelf.updateSprint(elapsedTime);
+
     for (let id in playerOthers) {
       playerOthers[id].update(elapsedTime);
     }
@@ -367,6 +373,8 @@ MyGame.screens['gameplay'] = (function(
             MyGame.assets['gulp'].currentTime = 0;
             MyGame.assets['gulp'].play();
           }
+        } else if (action == 'sprint') {
+          playerSelf.sprint(elapsedTime);
         }
       },
       keyboardInput,
