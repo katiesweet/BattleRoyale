@@ -27,7 +27,8 @@ MyGame.screens['gameplay'] = (function(
     playerOtherTexture = assets['player-other'],
     skeletonTexture = assets['skeleton'],
     background = null,
-    nextExplosionId = 0;
+    nextExplosionId = 0,
+    shield = {};
 
   //------------------------------------------------------------------
   //
@@ -152,6 +153,10 @@ MyGame.screens['gameplay'] = (function(
     delete bullets[data.bulletId];
   }
 
+  function updateShield(data) {
+    shield = data;
+  }
+
   //------------------------------------------------------------------
   //
   // Process the registered input handlers here.
@@ -193,6 +198,9 @@ MyGame.screens['gameplay'] = (function(
           break;
         case NetworkIds.BULLET_HIT:
           bulletHit(message.data);
+          break;
+        case NetworkIds.SHIELD_INFO:
+          updateShield(message.data);
           break;
       }
     }
@@ -237,7 +245,9 @@ MyGame.screens['gameplay'] = (function(
     graphics.clear();
 
     renderer.TiledImage.render(background, graphics.viewport);
-    renderer.MiniMap.render(playerSelf, explosions);
+    renderer.MiniMap.render(playerSelf, explosions, shield);
+
+    graphics.drawShield(shield, playerSelf);
 
     renderer.Player.render(playerSelf, playerSelfTexture, skeletonTexture);
 
@@ -374,6 +384,7 @@ MyGame.screens['gameplay'] = (function(
   function run() {
     chat.initializeGame();
 
+    network.emit(NetworkIds.START_GAME, {type: 'start-game'});
     lastTimeStamp = performance.now();
     requestAnimationFrame(gameLoop);
   }

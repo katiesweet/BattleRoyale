@@ -92,5 +92,13 @@
       value: 'opponent-start-position',
       writable: false,
     },
+    SHIELD_INFO: {
+      value: 'shield-info',
+      writable: false,
+    },
+    START_GAME: {
+      value: 'start-game',
+      writable: false,
+    }
   });
 })(typeof exports === 'undefined' ? (this['NetworkIds'] = {}) : exports);

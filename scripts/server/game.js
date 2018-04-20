@@ -9,6 +9,7 @@ const present = require('present');
 const Player = require('./player');
 const Bullet = require('./bullet');
 const Barriers = require('./barriers');
+const Shield = require('./shield');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
 const socketIo = require('socket.io');
@@ -25,7 +26,9 @@ let hits = [];
 let inputQueue = Queue.create();
 let nextBulletId = 1;
 let barriers = Barriers.create();
+let shield = Shield.create();
 let io;
+let gameStarted = false;
 
 //------------------------------------------------------------------
 //
@@ -102,6 +105,9 @@ function processInput(elapsedTime) {
       case NetworkIds.INPUT_FIRE:
         createBullet(input.clientId, client.player);
         break;
+      case NetworkIds.START_GAME:
+        gameStarted = true;
+        break;
     }
   }
 }
@@ -130,8 +136,19 @@ function collided(obj1, obj2) {
 function update(elapsedTime, currentTime) {
   // Update clients
   for (let clientId in activeClients) {
-    if (activeClients[clientId].player.update) {
-      activeClients[clientId].player.update(currentTime);
+    const player = activeClients[clientId].player;
+
+    if (player.health > 0 && player.update) {
+      player.update(currentTime);
+    }
+
+    if (player.health > 0 && shield.collides(player.position, gameStarted)) {
+      player.dieByShield();
+
+      io.emit(NetworkIds.GAME_MESSAGE_NEW, {
+        firstUser: player.username,
+        event: ' was vaporized by the shield',
+      });
     }
   }
 
@@ -199,6 +216,8 @@ function update(elapsedTime, currentTime) {
     }
   }
   activeBullets = keepBullets;
+
+  shield.update(elapsedTime, gameStarted);
 }
 
 //------------------------------------------------------------------
@@ -258,6 +277,13 @@ function updateClients(elapsedTime) {
     for (let hit = 0; hit < hits.length; hit++) {
       client.socket.emit(NetworkIds.BULLET_HIT, hits[hit]);
     }
+
+    // update client on shield status
+    client.socket.emit(NetworkIds.SHIELD_INFO, {
+      radius: shield.radius,
+      x: shield.originX,
+      y: shield.originY,
+    });
   }
 
   for (let clientId in activeClients) {
@@ -353,6 +379,10 @@ function initializeSocketIO(httpServer) {
     });
 
     socket.on(NetworkIds.INPUT, data => {
+      inputQueue.enqueue({ clientId: socket.id, message: data });
+    });
+
+    socket.on(NetworkIds.START_GAME, data => {
       inputQueue.enqueue({ clientId: socket.id, message: data });
     });
 
