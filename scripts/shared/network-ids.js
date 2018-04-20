@@ -60,8 +60,8 @@
       value: 'disconnect-lobby-other',
       writable: false,
     },
-    DISCONNECT_SELF: {
-      value: 'disconnect-self',
+    DISCONNECT_GAME: {
+      value: 'disconnect-game',
       writable: false,
     },
     DISCONNECT_OTHER: {
@@ -138,6 +138,10 @@
     },
     END_OF_GAME: {
       value: 'game-over',
+      writable: false,
+    },
+    WINNER: {
+      value: 'winner',
       writable: false,
     },
   });

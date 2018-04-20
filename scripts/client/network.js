@@ -18,6 +18,7 @@ MyGame.network = (function() {
     NetworkIds.SHIELD_INFO,
     NetworkIds.PLAYER_COUNT,
     NetworkIds.END_OF_GAME,
+    NetworkIds.WINNER,
   ];
 
   function unlistenGameEvents() {

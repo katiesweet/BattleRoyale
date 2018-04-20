@@ -21,8 +21,8 @@ const SIMULATION_UPDATE_RATE_MS = 50;
 const STATE_UPDATE_RATE_MS = 100;
 let lastUpdate = 0;
 let quit = false;
+let countdownStarted = false;
 let gameStarted = false;
-let shouldRandomizePositions = false;
 let timeBeforeStart = 0;
 let inLobbyClients = {};
 let inGameClients = {};
@@ -163,14 +163,15 @@ function randomPosition() {
 function update(elapsedTime, currentTime) {
   if (timeBeforeStart > 0) {
     timeBeforeStart = Math.max(timeBeforeStart - elapsedTime, 0);
-  } else if (shouldRandomizePositions) {
+  } else if (countdownStarted && !gameStarted) {
+    gameStarted = true;
+    countdownStarted = false;
+
     for (let id in inLobbyClients) {
       let position = randomPosition();
       inLobbyClients[id].socket.emit(NetworkIds.AUTO_JOIN_GAME);
       joinGame(inLobbyClients[id].socket, position);
     }
-
-    shouldRandomizePositions = false;
   }
 
   // Update clients
@@ -269,7 +270,7 @@ function updateClients(elapsedTime) {
   // For demonstration purposes, network updates run at a slower rate than
   // the game simulation.
   lastUpdate += elapsedTime;
-  if (lastUpdate < STATE_UPDATE_RATE_MS) {
+  if (!gameStarted || lastUpdate < STATE_UPDATE_RATE_MS) {
     return;
   }
 
@@ -289,6 +290,7 @@ function updateClients(elapsedTime) {
   newBullets.length = 0;
 
   let activeCount = 0;
+  const alivePlayers = [];
   for (let clientId in inGameClients) {
     const client = inGameClients[clientId];
 
@@ -338,7 +340,12 @@ function updateClients(elapsedTime) {
 
     if (inGameClients[clientId].player.health > 0) {
       activeCount += 1;
+      alivePlayers.push(inGameClients[clientId]);
     }
+  }
+
+  if (alivePlayers.length === 1) {
+    alivePlayers[0].socket.emit(NetworkIds.WINNER);
   }
 
   for (let clientId in inGameClients) {
@@ -346,7 +353,9 @@ function updateClients(elapsedTime) {
     //update client on players remaining
     const client = inGameClients[clientId];
     client.socket.emit(NetworkIds.PLAYER_COUNT, activeCount);
+
     if (activeCount <= 1) {
+      gameStarted = false;
       client.socket.emit(NetworkIds.END_OF_GAME, activeCount);
     }
   }
@@ -484,10 +493,11 @@ function removeGameClient(socket) {
 }
 
 function startGame() {
-  gameStarted = true;
-  shouldRandomizePositions = true;
-  timeBeforeStart = 15000; // 15 sec
-  io.emit(NetworkIds.INITIATE_GAME_START);
+  if (!gameStarted) {
+    countdownStarted = true;
+    timeBeforeStart = 15000; // 15 sec
+    io.emit(NetworkIds.INITIATE_GAME_START);
+  }
 }
 
 //------------------------------------------------------------------
@@ -507,6 +517,7 @@ function initializeGameNetwork() {
     socket.on(NetworkIds.DISCONNECT_LOBBY, () => removeLobbyClient(socket));
 
     socket.on(NetworkIds.INITIATE_GAME_START, startGame);
+    socket.on(NetworkIds.DISCONNECT_GAME, () => removeGameClient(socket));
     socket.on(NetworkIds.SET_STARTING_POSITION, position =>
       joinGame(socket, position)
     );

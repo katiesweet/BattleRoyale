@@ -79,8 +79,8 @@ MyGame.screens['pregame'] = (function(
     document
       .getElementById('pregame-quit-btn')
       .addEventListener('click', function() {
+        network.emit(NetworkIds.DISCONNECT_GAME);
         menu.showScreen('main-menu');
-        network.disconnect();
         stopListening();
       });
   }

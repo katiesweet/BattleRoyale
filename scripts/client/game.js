@@ -224,7 +224,12 @@ MyGame.screens['gameplay'] = (function(
         case NetworkIds.PLAYER_COUNT:
           activePlayerCount = message.data;
           break;
+        case NetworkIds.WINNER:
+          window.alert('You are the champion!');
+          break;
         case NetworkIds.END_OF_GAME:
+          network.emit(NetworkIds.DISCONNECT_GAME);
+          menu.showScreen('main-menu');
           //whatever is supposed to happen at the end of the game...I wasn't sure
           break;
       }
@@ -411,8 +416,9 @@ MyGame.screens['gameplay'] = (function(
     document
       .getElementById('game-quit-btn')
       .addEventListener('click', function() {
+        network.emit(NetworkIds.DISCONNECT_GAME);
+        network.unlistenGameEvents();
         menu.showScreen('main-menu');
-        network.disconnect();
       });
 
     //
