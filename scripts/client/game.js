@@ -29,10 +29,10 @@ MyGame.screens['gameplay'] = (function(
     background = null,
     currentPowerups = [],
     powerupTextures = {
-      weapon : assets['weapon-powerup'],
-      bullet : assets['bullet-powerup'],
-      health : assets['health-powerup'],
-      armour : assets['armour-powerup']
+      weapon: assets['weapon-powerup'],
+      bullet: assets['bullet-powerup'],
+      health: assets['health-powerup'],
+      armour: assets['armour-powerup'],
     },
     nextExplosionId = 0,
     activePlayerCount = 0,
@@ -45,6 +45,8 @@ MyGame.screens['gameplay'] = (function(
   //
   //------------------------------------------------------------------
   function connectPlayerSelf({ player, otherPlayers }) {
+    console.log('player', player);
+
     playerSelf.initialize(player);
 
     for (let i = 0; i < otherPlayers.length; i++) {
@@ -185,10 +187,10 @@ MyGame.screens['gameplay'] = (function(
       let message = processMe.dequeue();
 
       switch (message.type) {
-        case NetworkIds.CONNECT_ACK:
+        case NetworkIds.SET_STARTING_POSITION:
           connectPlayerSelf(message.data);
           break;
-        case NetworkIds.CONNECT_OTHER:
+        case NetworkIds.OPPONENT_STARTING_POSITION:
           connectPlayerOther(message.data);
           break;
         case NetworkIds.DISCONNECT_OTHER:
@@ -292,7 +294,10 @@ MyGame.screens['gameplay'] = (function(
     }
 
     let countDiv = document.getElementById('playerCount');
-    countDiv.innerHTML = '<p class="statsParagraph">Active Players: ' + activePlayerCount.toString() + '</p>';
+    countDiv.innerHTML =
+      '<p class="statsParagraph">Active Players: ' +
+      activePlayerCount.toString() +
+      '</p>';
   }
 
   //------------------------------------------------------------------
@@ -417,7 +422,8 @@ MyGame.screens['gameplay'] = (function(
   function run() {
     chat.initializeGame();
 
-    network.emit(NetworkIds.START_GAME, {type: 'start-game'});
+    network.initializeGameEvents();
+    network.emit(NetworkIds.START_GAME, { type: 'start-game' });
     lastTimeStamp = performance.now();
     requestAnimationFrame(gameLoop);
   }

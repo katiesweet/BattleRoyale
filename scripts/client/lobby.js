@@ -6,7 +6,7 @@ MyGame.screens['lobby'] = (function(menu, chat, network) {
       .getElementById('lobby-back-btn')
       .addEventListener('click', function() {
         menu.showScreen('main-menu');
-        network.disconnect();
+        network.emit(NetworkIds.DISCONNECT_LOBBY, {});
       });
   }
 

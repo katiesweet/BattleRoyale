@@ -1,4 +1,4 @@
-MyGame.screens['main-menu'] = (function(menu) {
+MyGame.screens['main-menu'] = (function(menu, network) {
   'use strict';
 
   function initialize() {
@@ -9,10 +9,12 @@ MyGame.screens['main-menu'] = (function(menu) {
     });
   }
 
-  function run() {}
+  function run() {
+    network.connect();
+  }
 
   return {
     initialize: initialize,
     run: run,
   };
-})(MyGame.menu);
+})(MyGame.menu, MyGame.network);

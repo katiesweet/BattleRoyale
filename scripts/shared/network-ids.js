@@ -44,12 +44,24 @@
       value: 'fire',
       writable: false,
     },
-    CONNECT_ACK: {
-      value: 'connect-ack',
+    JOIN_LOBBY: {
+      value: 'join-lobby',
       writable: false,
     },
-    CONNECT_OTHER: {
-      value: 'connect-other',
+    JOIN_LOBBY_OTHER: {
+      value: 'join-lobby-other',
+      writable: false,
+    },
+    DICONNECT_LOBBY: {
+      value: 'disconnect-lobby',
+      writable: false,
+    },
+    DISCONNECT_LOBBY_OTHER: {
+      value: 'disconnect-lobby-other',
+      writable: false,
+    },
+    DISCONNECT_SELF: {
+      value: 'disconnect-self',
       writable: false,
     },
     DISCONNECT_OTHER: {
@@ -78,6 +90,14 @@
     },
     UPDATE_POWERUP: {
       value: 'powerups',
+      writable: false,
+    },
+    LOBBY_MESSAGE_CREATE: {
+      value: 'lobby-message-create',
+      writable: false,
+    },
+    LOBBY_MESSAGE_NEW: {
+      value: 'lobby-message-new',
       writable: false,
     },
     CHAT_MESSAGE_CREATE: {
@@ -115,6 +135,6 @@
     END_OF_GAME: {
       value: 'game-over',
       writable: false,
-    }
+    },
   });
 })(typeof exports === 'undefined' ? (this['NetworkIds'] = {}) : exports);

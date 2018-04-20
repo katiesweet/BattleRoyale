@@ -6,6 +6,9 @@
 'use strict';
 
 const present = require('present');
+const socketIo = require('socket.io');
+const socketIoJwt = require('socketio-jwt');
+
 const Player = require('./player');
 const Bullet = require('./bullet');
 const Barriers = require('./barriers');
@@ -13,29 +16,29 @@ const Powerups = require('./powerups');
 const Shield = require('./shield');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
-const socketIo = require('socket.io');
-const socketIoJwt = require('socketio-jwt');
 
 const SIMULATION_UPDATE_RATE_MS = 50;
 const STATE_UPDATE_RATE_MS = 100;
 let lastUpdate = 0;
 let quit = false;
-let activeClients = {};
+let gameStarted = false;
+let connectedClients = {};
+let inLobbyClients = {};
+let inGameClients = {};
 let newBullets = [];
 let activeBullets = [];
 let hits = [];
-let inputQueue = Queue.create();
 let nextBulletId = 1;
+let inputQueue = Queue.create();
 let barriers = Barriers.create();
 let powerups = Powerups.create({
-  weaponUpgrades : 25,
-  bullets : 100,
-  health : 25,
-  armour: 25
+  weaponUpgrades: 25,
+  bullets: 200,
+  health: 25,
+  armour: 25,
 });
 let shield = Shield.create();
 let io;
-let gameStarted = false;
 
 //------------------------------------------------------------------
 //
@@ -53,9 +56,9 @@ function createBullet(clientId, playerModel) {
       },
       direction: playerModel.direction,
       speed: playerModel.speed * playerModel.weaponStrength,
-      weaponStrength: playerModel.weaponStrength
+      weaponStrength: playerModel.weaponStrength,
     });
-    playerModel.numBullets = (playerModel.numBullets - 1);
+    playerModel.numBullets = playerModel.numBullets - 1;
     newBullets.push(bullet);
   }
 }
@@ -75,56 +78,58 @@ function processInput(elapsedTime) {
 
   while (!processMe.empty) {
     const input = processMe.dequeue();
-    const client = activeClients[input.clientId];
-    client.lastMessageId = input.message.id;
-    switch (input.message.type) {
-      case NetworkIds.INPUT_MOVE_UP:
-        client.player.moveUp(
-          input.message.elapsedTime,
-          barriers,
-          activeClients,
-          powerups
-        );
-        break;
-      case NetworkIds.INPUT_MOVE_LEFT:
-        client.player.moveLeft(
-          input.message.elapsedTime,
-          barriers,
-          activeClients,
-          powerups
-        );
-        break;
-      case NetworkIds.INPUT_MOVE_RIGHT:
-        client.player.moveRight(
-          input.message.elapsedTime,
-          barriers,
-          activeClients,
-          powerups
-        );
-        break;
-      case NetworkIds.INPUT_MOVE_DOWN:
-        client.player.moveDown(
-          input.message.elapsedTime,
-          barriers,
-          activeClients,
-          powerups
-        );
-        break;
-      case NetworkIds.INPUT_ROTATE_LEFT:
-        client.player.rotateLeft();
-        break;
-      case NetworkIds.INPUT_ROTATE_RIGHT:
-        client.player.rotateRight();
-        break;
-      case NetworkIds.INPUT_FIRE:
-        createBullet(input.clientId, client.player);
-        break;
-      case NetworkIds.USE_HEALTH:
-        client.player.useHealth();
-        break;
-      case NetworkIds.START_GAME:
-        gameStarted = true;
-        break;
+    if (inGameClients.hasOwnProperty(input.clientId)) {
+      const client = inGameClients[input.clientId];
+      client.lastMessageId = input.message.id;
+      switch (input.message.type) {
+        case NetworkIds.INPUT_MOVE_UP:
+          client.player.moveUp(
+            input.message.elapsedTime,
+            barriers,
+            inGameClients,
+            powerups
+          );
+          break;
+        case NetworkIds.INPUT_MOVE_LEFT:
+          client.player.moveLeft(
+            input.message.elapsedTime,
+            barriers,
+            inGameClients,
+            powerups
+          );
+          break;
+        case NetworkIds.INPUT_MOVE_RIGHT:
+          client.player.moveRight(
+            input.message.elapsedTime,
+            barriers,
+            inGameClients,
+            powerups
+          );
+          break;
+        case NetworkIds.INPUT_MOVE_DOWN:
+          client.player.moveDown(
+            input.message.elapsedTime,
+            barriers,
+            inGameClients,
+            powerups
+          );
+          break;
+        case NetworkIds.INPUT_ROTATE_LEFT:
+          client.player.rotateLeft();
+          break;
+        case NetworkIds.INPUT_ROTATE_RIGHT:
+          client.player.rotateRight();
+          break;
+        case NetworkIds.INPUT_FIRE:
+          createBullet(input.clientId, client.player);
+          break;
+        case NetworkIds.USE_HEALTH:
+          client.player.useHealth();
+          break;
+        case NetworkIds.START_GAME:
+          gameStarted = true;
+          break;
+      }
     }
   }
 }
@@ -152,8 +157,8 @@ function collided(obj1, obj2) {
 //------------------------------------------------------------------
 function update(elapsedTime, currentTime) {
   // Update clients
-  for (let clientId in activeClients) {
-    const player = activeClients[clientId].player;
+  for (let clientId in inGameClients) {
+    const player = inGameClients[clientId].player;
 
     if (player.health > 0 && player.update) {
       player.update(currentTime);
@@ -189,11 +194,11 @@ function update(elapsedTime, currentTime) {
   keepBullets = [];
   for (let bullet = 0; bullet < activeBullets.length; bullet++) {
     let hit = false;
-    for (let clientId in activeClients) {
+    for (let clientId in inGameClients) {
       //
       // Don't allow a bullet to hit the player it was fired from.
       if (clientId !== activeBullets[bullet].clientId) {
-        const player = activeClients[clientId].player;
+        const player = inGameClients[clientId].player;
 
         if (collided(activeBullets[bullet], player)) {
           hit = true;
@@ -209,7 +214,7 @@ function update(elapsedTime, currentTime) {
             if (player.health <= 0) {
               io.emit(NetworkIds.GAME_MESSAGE_NEW, {
                 firstUser:
-                  activeClients[activeBullets[bullet].clientId].player.username,
+                  inGameClients[activeBullets[bullet].clientId].player.username,
                 event: ' totally obliterated ',
                 secondUser: player.username,
               });
@@ -267,8 +272,8 @@ function updateClients(elapsedTime) {
   newBullets.length = 0;
 
   let activeCount = 0;
-  for (let clientId in activeClients) {
-    const client = activeClients[clientId];
+  for (let clientId in inGameClients) {
+    const client = inGameClients[clientId];
 
     const update = {
       clientId: clientId,
@@ -281,7 +286,6 @@ function updateClients(elapsedTime) {
       healthPacks: client.player.healthPacks,
       armourLevel: client.player.armourLevel,
       updateWindow: lastUpdate,
-
     };
 
     if (client.player.reportUpdate) {
@@ -289,7 +293,10 @@ function updateClients(elapsedTime) {
       client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
 
       // Since we moved, report all powerups in region
-      const powerupsInRegion = powerups.getSurroundingPowerups(client.player.position, 1);
+      const powerupsInRegion = powerups.getSurroundingPowerups(
+        client.player.position,
+        1
+      );
       client.socket.emit(NetworkIds.UPDATE_POWERUP, powerupsInRegion);
     }
 
@@ -312,15 +319,15 @@ function updateClients(elapsedTime) {
       y: shield.originY,
     });
 
-    if (activeClients[clientId].player.health > 0) {
-      activeCount += 1 ;
+    if (inGameClients[clientId].player.health > 0) {
+      activeCount += 1;
     }
   }
 
-  for (let clientId in activeClients) {
-    activeClients[clientId].player.reportUpdate = false;
+  for (let clientId in inGameClients) {
+    inGameClients[clientId].player.reportUpdate = false;
     //update client on players remaining
-    const client = activeClients[clientId];
+    const client = inGameClients[clientId];
     client.socket.emit(NetworkIds.PLAYER_COUNT, activeCount);
     if (activeCount <= 1) {
       client.socket.emit(NetworkIds.END_OF_GAME, activeCount);
@@ -343,7 +350,7 @@ function updateClients(elapsedTime) {
 //------------------------------------------------------------------
 function gameLoop(currentTime, elapsedTime) {
   processInput(elapsedTime);
-  update(elapsedTime, currentTime);
+  update(elapsedTime, currentTime, io);
   updateClients(elapsedTime);
 
   if (!quit) {
@@ -354,14 +361,8 @@ function gameLoop(currentTime, elapsedTime) {
   }
 }
 
-//------------------------------------------------------------------
-//
-// Get the socket.io server up and running so it can begin
-// collecting inputs from the connected clients.
-//
-//------------------------------------------------------------------
-function initializeSocketIO(httpServer) {
-  io = socketIo(httpServer);
+function initializeSocketIo(httpServer) {
+  const io = socketIo(httpServer);
 
   io.use(
     socketIoJwt.authorize({
@@ -370,74 +371,130 @@ function initializeSocketIO(httpServer) {
     })
   );
 
+  return io;
+}
+
+function joinLobby(socket) {
+  //
+  // Create an entry in our list of connected clients
+  const { username } = socket.decoded_token;
+  const player = Player.create(username, socket.id);
+  const otherPlayers = [];
+
+  for (let clientId in inLobbyClients) {
+    const client = inLobbyClients[clientId];
+
+    if (client.hasOwnProperty('player')) {
+      otherPlayers.push(client.player.toJSON());
+    }
+  }
+
+  socket.broadcast.emit(NetworkIds.JOIN_LOBBY_OTHER, player.toJSON());
+  socket.emit(NetworkIds.JOIN_LOBBY, {
+    player: player.toJSON(),
+    otherPlayers,
+  });
+
+  inLobbyClients[socket.id] = {
+    socket,
+    player,
+  };
+}
+
+function joinGame(socket, position) {
+  const client = inLobbyClients[socket.id];
+  const otherPlayers = [];
+
+  for (let clientId in inGameClients) {
+    const otherClient = inGameClients[clientId];
+
+    if (otherClient.hasOwnProperty('player')) {
+      otherPlayers.push(otherClient.player.toJSON());
+    }
+  }
+
+  client.player.setStartingPosition(position);
+  client.socket.emit(NetworkIds.SET_STARTING_POSITION, {
+    player: client.player.toJSON(),
+    otherPlayers,
+  });
+  client.socket.broadcast.emit(
+    NetworkIds.OPPONENT_STARTING_POSITION,
+    client.player.toJSON()
+  );
+
+  const update = {
+    clientId: socket.id,
+    lastMessageId: client.lastMessageId,
+    direction: client.player.direction,
+    position: client.player.position,
+    health: client.player.health,
+    updateWindow: lastUpdate,
+  };
+
+  client.socket.emit(NetworkIds.UPDATE_SELF, update);
+  client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
+
+  client.socket.broadcast.emit(NetworkIds.DISCONNECT_LOBBY_OTHER, {
+    clientId: socket.id,
+  });
+
+  inGameClients[socket.id] = inLobbyClients[socket.id];
+  delete inLobbyClients[socket.id];
+}
+
+function removeLobbyClient(socket) {
+  delete inLobbyClients[socket.id];
+
+  socket.broadcast.emit(NetworkIds.DISCONNECT_LOBBY_OTHER, {
+    clientId: socket.id,
+  });
+}
+
+function removeGameClient(socket) {
+  delete inGameClients[socket.id];
+
+  socket.broadcast.emit(NetworkIds.DISCONNECT_OTHER, {
+    clientId: socket.id,
+  });
+}
+
+//------------------------------------------------------------------
+//
+// Get the socket.io server up and running so it can begin
+// collecting inputs from the connected clients.
+//
+//------------------------------------------------------------------
+function initializeGameNetwork() {
   io.on('connection', function(socket) {
     console.log('Connection established: ', socket.id);
-    //
-    // Create an entry in our list of connected clients
-    const { username } = socket.decoded_token;
-    const newPlayer = Player.create(username, socket.id);
-    const otherPlayers = [];
 
-    for (let clientId in activeClients) {
-      const client = activeClients[clientId];
-
-      if (client.hasOwnProperty('player')) {
-        otherPlayers.push(client.player.toJSON());
-      }
-    }
-
-    socket.broadcast.emit(NetworkIds.CONNECT_OTHER, newPlayer.toJSON());
-    socket.emit(NetworkIds.CONNECT_ACK, {
-      player: newPlayer.toJSON(),
-      otherPlayers,
-    });
-
-    socket.on(NetworkIds.SET_STARTING_POSITION, ({ position }) => {
-      const client = activeClients[socket.id];
-
-      client.socket.emit(NetworkIds.SET_STARTING_POSITION, { position });
-      client.player.setStartingPosition(position);
-
-      const update = {
-        clientId: socket.id,
-        lastMessageId: client.lastMessageId,
-        direction: client.player.direction,
-        position: client.player.position,
-        health: client.player.health,
-        updateWindow: lastUpdate,
-      };
-
-      client.socket.emit(NetworkIds.UPDATE_SELF, update);
-      client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
-      client.socket.broadcast.emit(
-        NetworkIds.OPPONENT_STARTING_POSITION,
-        position
-      );
-    });
-
-    socket.on(NetworkIds.INPUT, data => {
-      inputQueue.enqueue({ clientId: socket.id, message: data });
-    });
-
-    socket.on(NetworkIds.START_GAME, data => {
-      inputQueue.enqueue({ clientId: socket.id, message: data });
-    });
-
-    socket.on(NetworkIds.CHAT_MESSAGE_CREATE, data => {
-      io.emit(NetworkIds.CHAT_MESSAGE_NEW, data);
-    });
+    socket.on(NetworkIds.JOIN_LOBBY, () => joinLobby(socket));
+    socket.on(NetworkIds.SET_STARTING_POSITION, position =>
+      joinGame(socket, position)
+    );
+    socket.on(NetworkIds.INPUT, data =>
+      inputQueue.enqueue({ clientId: socket.id, message: data })
+    );
+    socket.on(NetworkIds.START_GAME, data =>
+      inputQueue.enqueue({ clientId: socket.id, message: data })
+    );
+    socket.on(NetworkIds.LOBBY_MESSAGE_CREATE, data =>
+      io.emit(NetworkIds.LOBBY_MESSAGE_NEW, data)
+    );
+    socket.on(NetworkIds.CHAT_MESSAGE_CREATE, data =>
+      io.emit(NetworkIds.CHAT_MESSAGE_NEW, data)
+    );
+    socket.on(NetworkIds.DISCONNECT_LOBBY, () => removeLobbyClient(socket));
 
     socket.on('disconnect', function() {
-      delete activeClients[socket.id];
-      socket.broadcast.emit(NetworkIds.DISCONNECT_OTHER, {
-        clientId: socket.id,
-      });
+      if (inLobbyClients.hasOwnProperty(socket.id)) {
+        removeLobbyClient(socket);
+      }
+      if (inGameClients.hasOwnProperty(socket.id)) {
+        removeGameClient(socket);
+      }
     });
-
-    activeClients[socket.id] = {
-      socket: socket,
-      player: newPlayer,
-    };
   });
 }
 
@@ -447,7 +504,8 @@ function initializeSocketIO(httpServer) {
 //
 //------------------------------------------------------------------
 function initialize(httpServer) {
-  initializeSocketIO(httpServer);
+  io = initializeSocketIo(httpServer);
+  initializeGameNetwork();
   gameLoop(present(), 0);
 }
 
