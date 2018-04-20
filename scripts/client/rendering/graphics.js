@@ -315,17 +315,18 @@ MyGame.graphics = (function() {
 	//
 	//------------------------------------------------------------------
   function drawShield(shield, player) {
+    let mapWidth = 15 * 512;
     context.fillStyle = "rgba(0, 0, 0, 0.5)";
     context.beginPath();
     context.arc(
-      ((shield.x * 15 * 1024) - (player.position.x * 15 * 1024)),
-      ((shield.y * 15 * 1024) - (player.position.y * 15 * 1024)),
-      shield.radius * 15 * 1024,
+      ((shield.x * mapWidth) - (player.position.x * mapWidth)),
+      ((shield.y * mapWidth) - (player.position.y * mapWidth)),
+      shield.radius * mapWidth,
       0,
       2 * Math.PI,
       false,
     );
-    context.rect(15 * 1024, 0, -15 * 1024, 15 * 1024);
+    context.rect(mapWidth, 0, -mapWidth, mapWidth);
     context.fill();
   }
 
