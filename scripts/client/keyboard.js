@@ -157,7 +157,6 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
         network: NetworkIds.SPRINT,
         id: 0,
       },
-      // 'sprint': {'input': input.KeyEvent.DOM_VK_S, 'network': NetworkIds.INPUT_MOVE, 'id': 0},
     };
 
     document
@@ -223,7 +222,7 @@ MyGame.screens['keyboard-config'] = (function(menu, input) {
   function keyDown(event) {
     if (editing && action) {
       editing = false;
-      MyGame.unregisterEvent(codes[action], codes[action].id);
+      MyGame.unregisterEvent(codes[action].input, codes[action].id);
       codes[action].input = event.which;
       codes[action].id = MyGame.registerEvent(
         codes[action].network,
