@@ -53,6 +53,7 @@ MyGame.screens['gameplay'] = (function(
   //------------------------------------------------------------------
   function connectPlayerSelf({ player, otherPlayers, timeBeforeStart }) {
     playerSelf.initialize(player);
+    activePlayerCount++;
 
     for (let i = 0; i < otherPlayers.length; i++) {
       connectPlayerOther(otherPlayers[i]);
@@ -71,6 +72,7 @@ MyGame.screens['gameplay'] = (function(
     let player = components.PlayerRemote();
     player.initialize(data);
     playerOthers[data.clientId] = player;
+    activePlayerCount++;
   }
 
   //------------------------------------------------------------------
@@ -79,6 +81,7 @@ MyGame.screens['gameplay'] = (function(
   //
   //------------------------------------------------------------------
   function disconnectPlayerOther(player) {
+    activePlayerCount--;
     delete playerOthers[player.clientId];
   }
 
@@ -138,6 +141,10 @@ MyGame.screens['gameplay'] = (function(
   function updatePlayerSelf(data) {
     playerSelf.update(data);
     updateMessageHistory(data.lastMessageId);
+
+    if (playerSelf.health <= 0) {
+      activePlayerCount--;
+    }
   }
 
   //------------------------------------------------------------------
@@ -148,6 +155,10 @@ MyGame.screens['gameplay'] = (function(
   function updatePlayerOther(data) {
     if (playerOthers.hasOwnProperty(data.clientId)) {
       playerOthers[data.clientId].updateGoal(data);
+
+      if (data.health <= 0) {
+        activePlayerCount--;
+      }
     }
   }
 
@@ -224,9 +235,6 @@ MyGame.screens['gameplay'] = (function(
           break;
         case NetworkIds.SHIELD_INFO:
           updateShield(message.data);
-          break;
-        case NetworkIds.PLAYER_COUNT:
-          activePlayerCount = message.data;
           break;
         case NetworkIds.WINNER:
           window.alert('You are the champion!');

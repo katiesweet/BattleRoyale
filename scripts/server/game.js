@@ -357,13 +357,10 @@ function updateClients(elapsedTime) {
 
   for (let clientId in inGameClients) {
     inGameClients[clientId].player.reportUpdate = false;
-    //update client on players remaining
-    const client = inGameClients[clientId];
-    client.socket.emit(NetworkIds.PLAYER_COUNT, activeCount);
 
     if (activeCount <= 1) {
       gameStarted = false;
-      client.socket.emit(NetworkIds.END_OF_GAME, activeCount);
+      inGameClients[clientId].socket.emit(NetworkIds.END_OF_GAME, activeCount);
     }
   }
 
