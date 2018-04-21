@@ -92,6 +92,7 @@ MyGame.loader = (function() {
           'rendering/mini-map',
           'rendering/spawn-map',
           'rendering/powerups',
+          'rendering/particles'
         ],
         message: 'Renderers loaded',
         onComplete: null,
@@ -159,6 +160,10 @@ MyGame.loader = (function() {
         key: 'armour-powerup',
         source: 'assets/vest_powerup.png',
       },
+      {
+        key: 'light-particle',
+        source: 'assets/light-particle.png',
+      }
     ];
   //------------------------------------------------------------------
   //
