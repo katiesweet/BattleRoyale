@@ -137,6 +137,13 @@ function processInput(elapsedTime) {
   }
 }
 
+function distance(obj1, obj2) {
+  return Math.sqrt(
+    Math.pow(obj1.position.x - obj2.position.x, 2) +
+      Math.pow(obj1.position.y - obj2.position.y, 2)
+  );
+}
+
 //------------------------------------------------------------------
 //
 // Utility function to perform a hit test between two objects.  The
@@ -144,13 +151,10 @@ function processInput(elapsedTime) {
 //
 //------------------------------------------------------------------
 function collided(obj1, obj2) {
-  const distance = Math.sqrt(
-    Math.pow(obj1.position.x - obj2.position.x, 2) +
-      Math.pow(obj1.position.y - obj2.position.y, 2)
-  );
+  const dist = distance(obj1, obj2);
   const radii = obj1.radius + obj2.radius;
 
-  return distance <= radii;
+  return dist <= radii;
 }
 
 function randomPosition() {
@@ -306,10 +310,18 @@ function updateClients(elapsedTime) {
         NetworkIds.UPDATE_SELF,
         client.player.selfUpdateJSON()
       );
-      client.socket.broadcast.emit(
-        NetworkIds.UPDATE_OTHER,
-        client.player.otherUpdateJSON(lastUpdate)
-      );
+
+      for (let id in inGameClients) {
+        if (
+          id !== clientId &&
+          distance(client.player, inGameClients[id].player) < 1
+        ) {
+          inGameClients[id].socket.emit(
+            NetworkIds.UPDATE_OTHER,
+            client.player.otherUpdateJSON(lastUpdate)
+          );
+        }
+      }
 
       // Since we moved, report all powerups in region
       const powerupsInRegion = powerups.getSurroundingPowerups(
@@ -457,22 +469,11 @@ function joinGame(socket, position) {
     client.player.toJSON()
   );
 
-  const update = {
-    clientId: socket.id,
-    updateWindow: lastUpdate,
-    lastMessageId: client.lastMessageId,
-    direction: client.player.direction,
-    position: client.player.position,
-    health: client.player.health,
-    numBullets: client.player.numBullets,
-    weaponStrength: client.player.weaponStrength,
-    healthPacks: client.player.healthPacks,
-    armourLevel: client.player.armourLevel,
-    sprintLevel: client.player.sprintLevel,
-  };
-
-  client.socket.emit(NetworkIds.UPDATE_SELF, update);
-  client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
+  client.socket.emit(NetworkIds.UPDATE_SELF, client.player.selfUpdateJSON());
+  client.socket.broadcast.emit(
+    NetworkIds.UPDATE_OTHER,
+    client.player.otherUpdateJSON(lastUpdate)
+  );
 
   inGameClients[socket.id] = inLobbyClients[socket.id];
   delete inLobbyClients[socket.id];
@@ -507,7 +508,7 @@ function startGame() {
     });
     shield = Shield.create();
     countdownStarted = true;
-    timeBeforeStart = 15000; // 15 sec
+    timeBeforeStart = 10000; // 10 sec
     io.emit(NetworkIds.INITIATE_GAME_START);
   }
 }
