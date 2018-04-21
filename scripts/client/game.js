@@ -230,17 +230,41 @@ MyGame.screens['gameplay'] = (function(
           activePlayerCount = message.data;
           break;
         case NetworkIds.WINNER:
-          window.alert('You are the champion!');
+          let finalScores = JSON.parse(message.data);
+          network.emit(NetworkIds.DISCONNECT_GAME);
+          let alert = 'You are the champion! \nFinal Scores: \n';
+          alert += formatEndingAlert(finalScores);
+          window.alert(alert);
+          menu.showScreen('main-menu');
           break;
         case NetworkIds.END_OF_GAME:
+          let final = JSON.parse(message.data);
           network.emit(NetworkIds.DISCONNECT_GAME);
+          let alertString = 'Final Scores: \n' + formatEndingAlert(final);
+          window.alert(alertString);
           menu.showScreen('main-menu');
+          break;
         case NetworkIds.SCORE_UPDATE:
           score = message.data;
           break;
       }
     }
   }
+
+
+  //------------------------------------------------------------------
+  //
+  // Format final scores to display
+  //
+  //------------------------------------------------------------------
+  function formatEndingAlert(scores) {
+    let scoreString = '';
+    for (let s in scores) {
+      scoreString += (s.toString() + ': ' + scores[s].toString() + '\n');
+    }
+    return scoreString;
+  }
+
 
   //------------------------------------------------------------------
   //

@@ -353,9 +353,10 @@ function updateClients(elapsedTime) {
     }
   }
 
+  let finalScores = {};
   if (alivePlayers.length === 1) {
-    alivePlayers[0].socket.emit(NetworkIds.WINNER);
     alivePlayers[0].player.increaseScore(300);
+    finalScores = mapFinalScores();
   }
 
   for (let clientId in inGameClients) {
@@ -363,12 +364,19 @@ function updateClients(elapsedTime) {
     //update client on players remaining
     const client = inGameClients[clientId];
     client.socket.emit(NetworkIds.PLAYER_COUNT, activeCount);
-
-    if (activeCount <= 1) {
-      gameStarted = false;
-      client.socket.emit(NetworkIds.END_OF_GAME, activeCount);
-    }
     client.socket.emit(NetworkIds.SCORE_UPDATE, client.player.score);
+  }
+
+  if (alivePlayers.length === 1) {
+    alivePlayers[0].socket.emit(NetworkIds.WINNER, JSON.stringify(finalScores));
+    for (let clientId in inGameClients) {
+      const client = inGameClients[clientId];
+      inGameClients[clientId].player.reportUpdate = false;
+      gameStarted = false;
+      if (client.player.username != alivePlayers[0].player.username) {
+        client.socket.emit(NetworkIds.END_OF_GAME, JSON.stringify(finalScores));
+      }
+    }
   }
 
   //
@@ -379,6 +387,20 @@ function updateClients(elapsedTime) {
   // when to put out the next update.
   lastUpdate = 0;
 }
+
+//------------------------------------------------------------------
+//
+// Package final scores to send to clients
+//
+//------------------------------------------------------------------
+function mapFinalScores() {
+  let scores = {};
+  for (let clientId in inGameClients) {
+    scores[inGameClients[clientId].player.username] = inGameClients[clientId].player.score;
+  }
+  return scores;
+}
+
 
 //------------------------------------------------------------------
 //
