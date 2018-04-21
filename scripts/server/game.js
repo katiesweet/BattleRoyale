@@ -334,13 +334,17 @@ function updateClients(elapsedTime) {
     //
     // Report any new bullets to the active clients
     for (let bullet = 0; bullet < bulletMessages.length; bullet++) {
-      client.socket.emit(NetworkIds.BULLET_NEW, bulletMessages[bullet]);
+      if (distance(client.player, bulletMessages[bullet]) < 1) {
+        client.socket.emit(NetworkIds.BULLET_NEW, bulletMessages[bullet]);
+      }
     }
 
     //
     // Report any bullet hits to this client
     for (let hit = 0; hit < hits.length; hit++) {
-      client.socket.emit(NetworkIds.BULLET_HIT, hits[hit]);
+      if (distance(client.player, hits[hit]) < 1) {
+        client.socket.emit(NetworkIds.BULLET_HIT, hits[hit]);
+      }
     }
 
     // update client on shield status
@@ -354,19 +358,17 @@ function updateClients(elapsedTime) {
       activeCount += 1;
       alivePlayers.push(inGameClients[clientId]);
     }
+
+    inGameClients[clientId].player.reportUpdate = false;
   }
 
   if (alivePlayers.length === 1) {
     alivePlayers[0].socket.emit(NetworkIds.WINNER);
   }
 
-  for (let clientId in inGameClients) {
-    inGameClients[clientId].player.reportUpdate = false;
-
-    if (activeCount <= 1) {
-      gameStarted = false;
-      inGameClients[clientId].socket.emit(NetworkIds.END_OF_GAME, activeCount);
-    }
+  if (activeCount <= 1) {
+    gameStarted = false;
+    io.emit(NetworkIds.END_OF_GAME);
   }
 
   //
