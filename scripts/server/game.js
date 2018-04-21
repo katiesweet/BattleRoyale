@@ -17,8 +17,8 @@ const Shield = require('./shield');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
 
-const SIMULATION_UPDATE_RATE_MS = 50;
-const STATE_UPDATE_RATE_MS = 100;
+const SIMULATION_UPDATE_RATE_MS = 100;
+const STATE_UPDATE_RATE_MS = 20;
 let lastUpdate = 0;
 let quit = false;
 let countdownStarted = false;
@@ -83,6 +83,7 @@ function processInput(elapsedTime) {
     if (inGameClients.hasOwnProperty(input.clientId)) {
       const client = inGameClients[input.clientId];
       client.lastMessageId = input.message.id;
+
       switch (input.message.type) {
         case NetworkIds.INPUT_MOVE_UP:
           client.player.moveUp(
@@ -300,23 +301,15 @@ function updateClients(elapsedTime) {
   for (let clientId in inGameClients) {
     const client = inGameClients[clientId];
 
-    const update = {
-      clientId: clientId,
-      lastMessageId: client.lastMessageId,
-      direction: client.player.direction,
-      position: client.player.position,
-      health: client.player.health,
-      numBullets: client.player.numBullets,
-      weaponStrength: client.player.weaponStrength,
-      healthPacks: client.player.healthPacks,
-      armourLevel: client.player.armourLevel,
-      updateWindow: lastUpdate,
-      sprintLevel: client.player.sprintLevel,
-    };
-
     if (client.player.reportUpdate) {
-      client.socket.emit(NetworkIds.UPDATE_SELF, update);
-      client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
+      client.socket.emit(
+        NetworkIds.UPDATE_SELF,
+        client.player.selfUpdateJSON()
+      );
+      client.socket.broadcast.emit(
+        NetworkIds.UPDATE_OTHER,
+        client.player.otherUpdateJSON(lastUpdate)
+      );
 
       // Since we moved, report all powerups in region
       const powerupsInRegion = powerups.getSurroundingPowerups(

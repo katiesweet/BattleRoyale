@@ -72,6 +72,10 @@
       value: 'set-starting-position',
       writable: false,
     },
+    OPPONENT_STARTING_POSITION: {
+      value: 'opponent-start-position',
+      writable: false,
+    },
     UPDATE_SELF: {
       value: 'update-self',
       writable: false,
@@ -110,10 +114,6 @@
     },
     GAME_MESSAGE_NEW: {
       value: 'game-message-new',
-      writable: false,
-    },
-    OPPONENT_STARTING_POSITION: {
-      value: 'opponent-start-position',
       writable: false,
     },
     USE_HEALTH: {
