@@ -44,31 +44,6 @@
       "username": "andy",
       "hashedPassword": "$2a$10$r5I4/I8T8RWQph6Rngjf7eV.tWlHazAqGWtCM3NXXO/kyLNd.IV4i",
       "highscore": 0
-    },
-    {
-      "username": "sarahplayertwo",
-      "hashedPassword": "$2a$10$bVvV3NH8w5lnxguoP8P.nOIdiV73FccZ1/1xZacBORKrqv/YUHyby",
-      "highscore": 0
-    },
-    {
-      "username": "coolperson",
-      "hashedPassword": "$2a$10$NLxqhnDAhpwGPZeZf8cJFe2jxIn2.tdxLlgCCY/QZm8Oe8VXt3rvG",
-      "highscore": 0
-    },
-    {
-      "username": "nacho",
-      "hashedPassword": "$2a$10$YdrzespO8VpAegvThCXmBeX6gJ0GM4SHJyIH6iy8TtaXS/zXg8PRi",
-      "highscore": 0
-    },
-    {
-      "username": "NACHOOOO",
-      "hashedPassword": "$2a$10$qwH3oVDjrdIU/4nv2/vwHeZgAMvzuiI2xImKUmXTaH0Yx9s4m442C",
-      "highscore": 0
-    },
-    {
-      "username": "sarahhi",
-      "hashedPassword": "$2a$10$QaxaCqll/2d1swe397cTbOrOHkWnjnSNMm8q/pZYzwMtlimm5S716",
-      "highscore": 0
     }
   ]
 }
