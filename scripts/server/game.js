@@ -19,6 +19,7 @@ const Queue = require('../shared/queue.js');
 
 const SIMULATION_UPDATE_RATE_MS = 100;
 const STATE_UPDATE_RATE_MS = 20;
+const GAME_LENGTH = 8 * 60 * 1000; // 8 min in ms
 let lastUpdate = 0;
 let quit = false;
 let countdownStarted = false;
@@ -38,7 +39,7 @@ let powerups = Powerups.create({
   health: 25,
   armour: 25,
 });
-let shield = Shield.create();
+let shield = Shield.create({ gameLength: GAME_LENGTH });
 let io;
 
 //------------------------------------------------------------------
@@ -180,6 +181,10 @@ function update(elapsedTime, currentTime) {
       let position = randomPosition();
       inLobbyClients[id].socket.emit(NetworkIds.AUTO_JOIN_GAME);
       joinGame(inLobbyClients[id].socket, position);
+    }
+
+    for (let id in inGameClients) {
+      inGameClients[id].socket.emit(NetworkIds.SHIELD_INIT, shield.toJSON());
     }
   }
 
@@ -356,13 +361,6 @@ function updateClients(elapsedTime) {
       }
     }
 
-    // update client on shield status
-    client.socket.emit(NetworkIds.SHIELD_INFO, {
-      radius: shield.radius,
-      x: shield.originX,
-      y: shield.originY,
-    });
-
     if (inGameClients[clientId].player.health > 0) {
       activeCount += 1;
       alivePlayers.push(inGameClients[clientId]);
@@ -532,7 +530,7 @@ function startGame() {
       health: 25,
       armour: 50,
     });
-    shield = Shield.create();
+    shield = Shield.create({ gameLength: GAME_LENGTH });
     countdownStarted = true;
     timeBeforeStart = 10000; // 10 sec
     io.emit(NetworkIds.INITIATE_GAME_START);

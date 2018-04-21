@@ -50,8 +50,9 @@ MyGame.loader = (function() {
           'components/tiled-image',
           'components/viewport',
           'components/barriers',
+          'components/shield',
         ],
-        message: 'Player models loaded',
+        message: 'All models loaded',
         onComplete: null,
       },
       {

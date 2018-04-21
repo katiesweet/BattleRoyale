@@ -16,7 +16,7 @@ MyGame.network = (function() {
     NetworkIds.BULLET_HIT,
     NetworkIds.UPDATE_POWERUP,
     NetworkIds.UPDATE_SCORE,
-    NetworkIds.SHIELD_INFO,
+    NetworkIds.SHIELD_INIT,
     NetworkIds.END_OF_GAME,
     NetworkIds.WINNER,
   ];

@@ -20,6 +20,7 @@ MyGame.screens['gameplay'] = (function(
     myKeyboard = input.Keyboard(),
     barriers = components.Barriers(barrierJson),
     playerSelf = components.Player(barriers),
+    shield = components.Shield(),
     playerOthers = {},
     bullets = {},
     explosions = {},
@@ -34,7 +35,6 @@ MyGame.screens['gameplay'] = (function(
       health: assets['health-powerup'],
       armour: assets['armour-powerup'],
     },
-    shield = {},
     nextExplosionId = 0,
     activePlayerCount = 0,
     score = 0,
@@ -186,10 +186,6 @@ MyGame.screens['gameplay'] = (function(
     delete bullets[data.bulletId];
   }
 
-  function updateShield(data) {
-    shield = data;
-  }
-
   //------------------------------------------------------------------
   //
   // Process the registered input handlers here.
@@ -237,8 +233,8 @@ MyGame.screens['gameplay'] = (function(
         case NetworkIds.UPDATE_SCORE:
           score = message.data;
           break;
-        case NetworkIds.SHIELD_INFO:
-          updateShield(message.data);
+        case NetworkIds.SHIELD_INIT:
+          shield.initialize(message.data);
           break;
         case NetworkIds.WINNER:
           window.alert('You are the champion!');
@@ -308,6 +304,8 @@ MyGame.screens['gameplay'] = (function(
         delete explosions[id];
       }
     }
+
+    shield.update(elapsedTime);
 
     graphics.viewport.update(playerSelf);
   }
@@ -508,11 +506,11 @@ MyGame.screens['gameplay'] = (function(
 
     lastTimeStamp = performance.now();
     playerSelf = components.Player(barriers);
+    shield = components.Shield();
     playerOthers = {};
     bullets = {};
     explosions = {};
     currentPowerups = [];
-    shield = {};
     nextExplosionId = 0;
     activePlayerCount = 0;
     timeBeforeStart = 0;
