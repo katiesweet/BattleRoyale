@@ -19,6 +19,7 @@ MyGame.network = (function() {
     NetworkIds.PLAYER_COUNT,
     NetworkIds.END_OF_GAME,
     NetworkIds.WINNER,
+    NetworkIds.SCORE_UPDATE,
   ];
 
   function unlistenGameEvents() {

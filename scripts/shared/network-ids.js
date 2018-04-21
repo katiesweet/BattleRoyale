@@ -148,5 +148,9 @@
       value: 'sprint',
       writable: false,
     },
+    SCORE_UPDATE: {
+      value: 'score-update',
+      writable: false,
+    },
   });
 })(typeof exports === 'undefined' ? (this['NetworkIds'] = {}) : exports);
