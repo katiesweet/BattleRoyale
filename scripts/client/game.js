@@ -298,6 +298,7 @@ MyGame.screens['gameplay'] = (function(
         delete explosions[id];
       }
     }
+    renderer.ParticleSystem.update(elapsedTime, shield);
 
     graphics.viewport.update(playerSelf);
   }
@@ -314,6 +315,7 @@ MyGame.screens['gameplay'] = (function(
     renderer.MiniMap.render(playerSelf, explosions, shield);
 
     graphics.drawShield(shield, playerSelf);
+    renderer.ParticleSystem.render(playerSelf);
 
     renderer.Player.render(playerSelf, playerSelfTexture, skeletonTexture);
 
