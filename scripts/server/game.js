@@ -238,16 +238,25 @@ function update(elapsedTime, currentTime) {
           });
 
           if (player.health > 0) {
+            const shootingClient =
+              inGameClients[activeBullets[bullet].clientId];
             player.hitByBullet(activeBullets[bullet]);
 
             if (player.health <= 0) {
+              shootingClient.player.increaseScore(100);
               io.emit(NetworkIds.GAME_MESSAGE_NEW, {
-                firstUser:
-                  inGameClients[activeBullets[bullet].clientId].player.username,
+                firstUser: shootingClient.player.username,
                 event: ' totally obliterated ',
                 secondUser: player.username,
               });
+            } else {
+              shootingClient.player.increaseScore(50);
             }
+
+            shootingClient.socket.emit(
+              NetworkIds.UPDATE_SCORE,
+              shootingClient.player.score
+            );
           }
         }
       }
@@ -363,12 +372,13 @@ function updateClients(elapsedTime) {
   }
 
   if (alivePlayers.length === 1) {
-    alivePlayers[0].socket.emit(NetworkIds.WINNER);
-  }
-
-  if (activeCount <= 1) {
     gameStarted = false;
-    io.emit(NetworkIds.END_OF_GAME);
+    alivePlayers[0].player.increaseScore(300);
+
+    const finalScores = JSON.stringify(mapFinalScores());
+
+    alivePlayers[0].socket.emit(NetworkIds.WINNER);
+    io.emit(NetworkIds.END_OF_GAME, finalScores);
   }
 
   //
@@ -378,6 +388,20 @@ function updateClients(elapsedTime) {
   // Reset the elapsedt time since last update so we can know
   // when to put out the next update.
   lastUpdate = 0;
+}
+
+//------------------------------------------------------------------
+//
+// Package final scores to send to clients
+//
+//------------------------------------------------------------------
+function mapFinalScores() {
+  let scores = {};
+  for (let clientId in inGameClients) {
+    scores[inGameClients[clientId].player.username] =
+      inGameClients[clientId].player.score;
+  }
+  return scores;
 }
 
 //------------------------------------------------------------------

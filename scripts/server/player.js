@@ -31,6 +31,7 @@ function createPlayer(username, clientId) {
   let weaponStrength = 1; // Standard bullet strength is 1
   let healthPacks = 0; // Number of health packs character has
   let armourLevel = 1; // Standard amount of damage caused by being hit is 1
+  let score = 0;
 
   let sprintLevel = 1; // How much sprint time you have left (in seconds)
   let sprintMultiplier = 1;
@@ -102,6 +103,10 @@ function createPlayer(username, clientId) {
     get: () => sprintLevel,
   });
 
+  Object.defineProperty(that, 'score', {
+    get: () => score,
+  });
+
   that.toJSON = function() {
     return {
       clientId,
@@ -141,6 +146,10 @@ function createPlayer(username, clientId) {
       position,
       health,
     };
+  };
+
+  that.increaseScore = function(increase) {
+    score += increase;
   };
 
   that.setStartingPosition = function(start) {

@@ -37,6 +37,7 @@ MyGame.screens['gameplay'] = (function(
     shield = {},
     nextExplosionId = 0,
     activePlayerCount = 0,
+    score = 0,
     timeBeforeStart = 0,
     isCountingDown = false;
 
@@ -233,6 +234,9 @@ MyGame.screens['gameplay'] = (function(
         case NetworkIds.UPDATE_POWERUP:
           currentPowerups = message.data;
           break;
+        case NetworkIds.UPDATE_SCORE:
+          score = message.data;
+          break;
         case NetworkIds.SHIELD_INFO:
           updateShield(message.data);
           break;
@@ -240,12 +244,36 @@ MyGame.screens['gameplay'] = (function(
           window.alert('You are the champion!');
           break;
         case NetworkIds.END_OF_GAME:
+          let finalScores = JSON.parse(message.data);
+          let formattedAlert = formatEndingAlert(finalScores);
           network.emit(NetworkIds.DISCONNECT_GAME);
+          window.alert(`Final Scores:\n${formattedAlert}`);
           menu.showScreen('main-menu');
-          //whatever is supposed to happen at the end of the game...I wasn't sure
           break;
       }
     }
+  }
+
+  //------------------------------------------------------------------
+  //
+  // Format final scores to display
+  //
+  //------------------------------------------------------------------
+  function formatEndingAlert(scores) {
+    let usernames = Object.keys(scores);
+    let users = usernames.map(username => ({
+      username,
+      score: scores[username],
+    }));
+
+    users.sort((a, b) => b.score - a.score);
+
+    if (users.length > 20) {
+      users.splice(20);
+    }
+    return users.reduce((formatted, user, i) => {
+      return `${formatted}${i + 1}. ${user.username}: ${user.score}\n`;
+    }, '');
   }
 
   //------------------------------------------------------------------
@@ -327,6 +355,12 @@ MyGame.screens['gameplay'] = (function(
 
     if (playerCount.innerHTML !== activePlayerCount) {
       playerCount.innerHTML = activePlayerCount;
+    }
+
+    const playerScore = document.getElementById('player-score');
+
+    if (playerScore.innerHTML !== score) {
+      playerScore.innerHTML = score;
     }
 
     if (timeBeforeStart > 0) {

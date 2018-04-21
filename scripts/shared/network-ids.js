@@ -96,6 +96,10 @@
       value: 'powerups',
       writable: false,
     },
+    UPDATE_SCORE: {
+      value: 'update-score',
+      writable: false,
+    },
     LOBBY_MESSAGE_CREATE: {
       value: 'lobby-message-create',
       writable: false,
