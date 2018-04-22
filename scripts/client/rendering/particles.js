@@ -21,7 +21,6 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 				// direction: Random.nextCircleVector(),
         speed: nextGaussian( particlePack.spec.speed.mean, particlePack.spec.speed.stdev ),	// pixels per millisecond
 				// speed: Random.nextGaussian( particlePack.spec.speed.mean, particlePack.spec.speed.stdev ),	// pixels per millisecond
-				rotation: 0,
         lifetime: nextGaussian(particlePack.spec.lifetime.mean, particlePack.spec.lifetime.stdev),	// milliseconds
 				// lifetime: Random.nextGaussian(particlePack.spec.lifetime.mean, particlePack.spec.lifetime.stdev),	// milliseconds
 				alive: 0,
@@ -38,12 +37,8 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 			let keepMe = [];
 			for (let particle = 0; particle < particles.length; particle++) {
 				particles[particle].alive += elapsedTime;
-        if (particle == 0) {
-          console.log(particles[particle].speed, particles[particle].direction.x);
-        }
 				particles[particle].position.x += (elapsedTime * particles[particle].speed * particles[particle].direction.x);
 				particles[particle].position.y += (elapsedTime * particles[particle].speed * particles[particle].direction.y);
-				particles[particle].rotation += particles[particle].speed / .5;
 
 				if (particles[particle].alive <= particles[particle].lifetime) {
 					keepMe.push(particles[particle]);
@@ -62,11 +57,6 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
       for (let particle = 0; particle < particles.length; particle++) {
         if (particles[particle].alive >= 100) {
           let part = particles[particle];
-          // console.log(part.position);
-          // console.log(player.position, '----');
-
-          // console.log(part.position.x * mapWidth) - (player.position.x * mapWidth);
-          // console.log(part.position.y * mapWidth) - (player.position.y * mapWidth);
           graphics.drawImage(particlePack.image,
             (part.position.x * mapWidth) - (player.position.x * mapWidth),
             (part.position.y * mapWidth) - (player.position.y * mapWidth),
@@ -75,7 +65,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
       }
     }
 
-    function nextCircleVector(scale) {
+    function nextCircleVector(scale = 1) {
       let angle = Math.random() * 2 * Math.PI;
 
       return {
