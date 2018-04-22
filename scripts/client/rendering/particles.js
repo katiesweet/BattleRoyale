@@ -1,51 +1,46 @@
-const random = require('./random');
+// const random = require('scripts/server/random');
 
 MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 	let that = {};
-
 	that.systems = [];
 
-	that.createParticle(shield, specs) {
+	that.createParticle = function(shield, specs) {
 		let particlePack = {};
 		let particles = [];
 		particlePack.spec = {
 			position: { x: specs.x, y: specs.y},
 			speed: { mean: 0.07, stdev: 0.025},
-			lifetime: { mean: 2000, stdev: 1000 },
-			size: { mean: 5, stdev: 2 }
+			lifetime: { mean: 5000, stdev: 1000 },
+			size: { mean: 10, stdev: 2 }
 		}
 		// initialize particles
-		for (let particle = 0; particle < 25; particle++) {
+		for (let particle = 0; particle < 20; particle++) {
 			let p = {
 				position: { x: particlePack.spec.position.x, y: particlePack.spec.position.y },
-				direction: Random.nextCircleVector(),
-				speed: Random.nextGaussian( particlePack.spec.speed.mean, particlePack.spec.speed.stdev ),	// pixels per millisecond
+        direction: nextCircleVector(),
+				// direction: Random.nextCircleVector(),
+        speed: nextGaussian( particlePack.spec.speed.mean, particlePack.spec.speed.stdev ),	// pixels per millisecond
+				// speed: Random.nextGaussian( particlePack.spec.speed.mean, particlePack.spec.speed.stdev ),	// pixels per millisecond
 				rotation: 0,
-				lifetime: Random.nextGaussian(particlePack.spec.lifetime.mean, particlePack.spec.lifetime.stdev),	// milliseconds
+        lifetime: nextGaussian(particlePack.spec.lifetime.mean, particlePack.spec.lifetime.stdev),	// milliseconds
+				// lifetime: Random.nextGaussian(particlePack.spec.lifetime.mean, particlePack.spec.lifetime.stdev),	// milliseconds
 				alive: 0,
-				size: Random.nextGaussian(particlePack.spec.size.mean, particlePack.spec.size.stdev),
+        size: nextGaussian(particlePack.spec.size.mean, particlePack.spec.size.stdev),
+				// size: Random.nextGaussian(particlePack.spec.size.mean, particlePack.spec.size.stdev),
 			};
 			particles.push(p);
 		}
 		// set up image
-		particlePack.image = new Image();
-		particlePack.image.onload = function () {
-			that.render = function(player) {
-				for (let particle = 0; particle < particles.length; particle++) {
-					if (particles[particle].alive >= 100) {
-						let part = particles[particle];
-						graphics.drawImage(particlePack.image, particle.x, particle.y, particle.size, particle.size, true);
-					}
-				}
-			};
-		};
-		particlePack.image.src = assets['light-particle'];
+		particlePack.image = assets['light-particle'];
 
     // set up update function
 		particlePack.update = function(elapsedTime) {
 			let keepMe = [];
 			for (let particle = 0; particle < particles.length; particle++) {
 				particles[particle].alive += elapsedTime;
+        if (particle == 0) {
+          console.log(particles[particle].speed, particles[particle].direction.x);
+        }
 				particles[particle].position.x += (elapsedTime * particles[particle].speed * particles[particle].direction.x);
 				particles[particle].position.y += (elapsedTime * particles[particle].speed * particles[particle].direction.y);
 				particles[particle].rotation += particles[particle].speed / .5;
@@ -62,123 +57,163 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 			}
 		};
 
-		particlePack.render = function() {};
+    particlePack.render = function(player) {
+      let mapWidth = 15 * 512;
+      for (let particle = 0; particle < particles.length; particle++) {
+        if (particles[particle].alive >= 100) {
+          let part = particles[particle];
+          // console.log(part.position);
+          // console.log(player.position, '----');
+
+          // console.log(part.position.x * mapWidth) - (player.position.x * mapWidth);
+          // console.log(part.position.y * mapWidth) - (player.position.y * mapWidth);
+          graphics.drawImage(particlePack.image,
+            (part.position.x * mapWidth) - (player.position.x * mapWidth),
+            (part.position.y * mapWidth) - (player.position.y * mapWidth),
+            part.size, part.size, true);
+        }
+      }
+    }
+
+    function nextCircleVector(scale) {
+      let angle = Math.random() * 2 * Math.PI;
+
+      return {
+        x: Math.cos(angle) * scale,
+        y: Math.sin(angle) * scale,
+      };
+    }
+
+    function nextGaussian(mean, stdDev) {
+      let x1 = 0,
+        x2 = 0,
+        y1 = 0,
+        z = 0;
+
+      do {
+        x1 = 2 * Math.random() - 1;
+        x2 = 2 * Math.random() - 1;
+        z = x1 * x1 + x2 * x2;
+      } while (z >= 1);
+
+      z = Math.sqrt(-2 * Math.log(z) / z);
+      y1 = x1 * z;
+      y2 = x2 * z;
+
+      return mean + y1 * stdDev;
+    }
 
 		return particlePack;
+  }
+
+
+
+
+	that.update = function(elapsedTime, shield) {
+    if (Object.keys(shield).length > 0) {
+      let points = {};
+      let left = graphics.viewport.left;
+      let top = graphics.viewport.top;
+      let width = graphics.world.width;
+      let height = graphics.world.height;
+      points['p1'] = {
+        x: left, y: top,
+      };
+      points['p2'] = {
+        x: left + width, y: top,
+      };
+      points['p3'] = {
+        x: left + width, y: top + height,
+      };
+      points['p4'] = {
+        x: left, y: top + height,
+      };
+      // check for quad1
+      let draw = false;
+      for (let p in points) {
+        if (points[p].x >= shield.x && points[p].y >= shield.y) {
+          // console.log('QUAD1');
+          draw = true;
+          break;
+        }
+      }
+      if (draw) {
+        for (let i = 0; i < shield.radius * 1; i ++) {
+          let randomAngle = Math.floor(Math.random() * 90);
+          that.systems.push(that.createParticle(shield, {
+            x: Math.cos(randomAngle) * shield.radius,
+            y: Math.sin(randomAngle) * shield.radius,
+          }));
+        }
+      }
+      // check for quad2
+      draw = false;
+      for (let p in points) {
+        if (points[p].x <= shield.x && points[p].y >= shield.y) {
+          draw = true;
+          // console.log('QUAD2');
+          break;
+        }
+      }
+      if (draw) {
+        for (let i = 0; i < shield.radius * 1; i ++) {
+          let randomAngle =Math.floor(Math.random() * 90) + 90;
+          that.systems.push(that.createParticle(shield, {
+            x: Math.cos(randomAngle) * shield.radius,
+            y: Math.sin(randomAngle) * shield.radius,
+          }));
+        }
+      }
+      // check for quad3
+      draw = false;
+      for (let p in points) {
+        if (points[p].x <= shield.x && points[p].y <= shield.y) {
+          // console.log('QUAD3');
+          draw = true;
+          break;
+        }
+      }
+      if (draw) {
+        for (let i = 0; i < shield.radius * 1; i ++) {
+          let randomAngle =Math.floor(Math.random() * 90) + 180;
+          that.systems.push(that.createParticle(shield, {
+            x: Math.cos(randomAngle) * shield.radius,
+            y: Math.sin(randomAngle) * shield.radius,
+          }));
+        }
+      }
+
+      // check for quad4
+      draw = false;
+      for (let p in points) {
+        if (points[p].x >= shield.x && points[p].y <= shield.y) {
+          // console.log('QUAD4');
+          draw = true;
+          break;
+        }
+      }
+      if (draw) {
+        for (let i = 0; i < shield.radius * 1; i ++) {
+          let randomAngle =Math.floor(Math.random() * 90) + 270;
+          that.systems.push(that.createParticle(shield, {
+            x: Math.cos(randomAngle) * shield.radius,
+            y: Math.sin(randomAngle) * shield.radius,
+          }));
+        }
+      }
+      let keepMe = [];
+      for (var system in that.systems) {
+        if (that.systems[system].update(elapsedTime)) {
+          keepMe.push(that.systems[system]);
+        }
+      }
+      that.systems = keepMe;
+    }
 	}
 
-	that.updateParticles = function(elapsedTime, shield) {
-    let points = {};
-    let left = graphics.viewport.left;
-    let top = graphics.viewport.top;
-    let width = graphics.world.width;
-    let height = graphics.world.height;
-    points['p1'] = {
-      x: left, y: top,
-      // pairx: left + width, pairy: top,
-      // off1x: left + width, off1y: top + height,
-      // off2x: left, off2y: top + height,
-    };
-    points['p2'] = {
-      x: left + width, y: top,
-      // pairx: left, pairy: top,
-      // off1x: left + width, off1y: top + height,
-      // off2x: left, off2y: top + height
-    };
-    points['p3'] = {
-      x: left + width, y: top + height,
-      // pairx: left, pairy: top + height
-      // off1x: left, off1y: top,
-      // off2x: left + width, off2y: top,
-    };
-    points['p4'] = {
-      x: left, y: top + height,
-      // pairx:left + width, pairy: top + height,
-      // off1x: left, off1y: top,
-      // off2x: left + width, off2y: top
-    };
-
-
-    // let dist = Math.sqrt(Math.pow(points['p1'].x - points['p3'].x, 2) + Math.pow(points['p1'].y - points['p3'].y, 2));
-
-    // check for quad1
-    let draw = false;
-    for (let p in points) {
-      if (p.x >= shield.originX && p.y >= shield.originY) {
-        draw = true;
-      }
-    }
-    if (draw) {
-      for (let i = 0; i < radius * 2; i ++) {
-  			let randomAngle =Math.floor(Math.random() * 90);
-  			that.systems.push(that.createParticle(shield, {
-  				x: Math.cos(randomAngle) * shield.radius,
-  				y: Math.sin(randomAngle) * shield.radius,
-  			}));
-  		}
-    }
-    // check for quad2
-    let draw = false;
-    for (let p in points) {
-      if (p.x <= shield.originX && p.y >= shield.originY) {
-        draw = true;
-      }
-    }
-    if (draw) {
-      for (let i = 0; i < radius * 3; i ++) {
-  			let randomAngle =Math.floor(Math.random() * 90) + 90;
-  			that.systems.push(that.createParticle(shield, {
-  				x: Math.cos(randomAngle) * shield.radius,
-  				y: Math.sin(randomAngle) * shield.radius,
-  			}));
-  		}
-    }
-    // check for quad3
-    let draw = false;
-    for (let p in points) {
-      if (p.x <= shield.originX && p.y <= shield.originY) {
-        draw = true;
-      }
-    }
-    if (draw) {
-      for (let i = 0; i < radius * 3; i ++) {
-  			let randomAngle =Math.floor(Math.random() * 90) + 180;
-  			that.systems.push(that.createParticle(shield, {
-  				x: Math.cos(randomAngle) * shield.radius,
-  				y: Math.sin(randomAngle) * shield.radius,
-  			}));
-  		}
-    }
-
-    // check for quad4
-    let draw = false;
-    for (let p in points) {
-      if (p.x >= shield.originX && p.y <= shield.originY) {
-        draw = true;
-      }
-    }
-    if (draw) {
-      for (let i = 0; i < radius * 3; i ++) {
-  			let randomAngle =Math.floor(Math.random() * 90) + 270;
-  			that.systems.push(that.createParticle(shield, {
-  				x: Math.cos(randomAngle) * shield.radius,
-  				y: Math.sin(randomAngle) * shield.radius,
-  			}));
-  		}
-    }
-
-		let keepMe = [];
+	that.render = function(player) {
 		for (var system in that.systems) {
-			if (system.update(elapsedTime)) {
-				keepMe.push(system);
-			}
-		}
-		that.systems = keepMe;
-	}
-
-	that.renderParticles = function(player) {
-		for (var system in that.systems) {
-			system.render(player);
+			that.systems[system].render(player);
 		}
 	}
 
