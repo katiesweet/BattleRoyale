@@ -21,7 +21,6 @@ const SIMULATION_UPDATE_RATE_MS = 100;
 const STATE_UPDATE_RATE_MS = 20;
 const GAME_LENGTH = 8 * 60 * 1000; // 8 min in ms
 let lastUpdate = 0;
-let quit = false;
 let countdownStarted = false;
 let gameStarted = false;
 let timeBeforeStart = 0;
@@ -247,21 +246,23 @@ function update(elapsedTime, currentTime) {
               inGameClients[activeBullets[bullet].clientId];
             player.hitByBullet(activeBullets[bullet]);
 
-            if (player.health <= 0) {
-              shootingClient.player.increaseScore(100);
-              io.emit(NetworkIds.GAME_MESSAGE_NEW, {
-                firstUser: shootingClient.player.username,
-                event: ' totally obliterated ',
-                secondUser: player.username,
-              });
-            } else {
-              shootingClient.player.increaseScore(50);
-            }
+            if (shootingClient) {
+              if (player.health <= 0) {
+                shootingClient.player.increaseScore(100);
+                io.emit(NetworkIds.GAME_MESSAGE_NEW, {
+                  firstUser: shootingClient.player.username,
+                  event: ' totally obliterated ',
+                  secondUser: player.username,
+                });
+              } else {
+                shootingClient.player.increaseScore(50);
+              }
 
-            shootingClient.socket.emit(
-              NetworkIds.UPDATE_SCORE,
-              shootingClient.player.score
-            );
+              shootingClient.socket.emit(
+                NetworkIds.UPDATE_SCORE,
+                shootingClient.player.score
+              );
+            }
           }
         }
       }
@@ -334,6 +335,11 @@ function updateClients(elapsedTime) {
             NetworkIds.UPDATE_OTHER,
             client.player.otherUpdateJSON(lastUpdate)
           );
+
+          client.socket.emit(
+            NetworkIds.UPDATE_OTHER,
+            inGameClients[id].player.otherUpdateJSON(lastUpdate)
+          );
         }
       }
 
@@ -377,6 +383,13 @@ function updateClients(elapsedTime) {
 
     alivePlayers[0].socket.emit(NetworkIds.WINNER);
     io.emit(NetworkIds.END_OF_GAME, finalScores);
+
+    inGameClients = {};
+    newBullets = [];
+    activeBullets = [];
+    hits = [];
+    countdownStarted = false;
+    gameStarted = false;
   }
 
   //
@@ -414,12 +427,10 @@ function gameLoop(currentTime, elapsedTime) {
   update(elapsedTime, currentTime, io);
   updateClients(elapsedTime);
 
-  if (!quit) {
-    setTimeout(() => {
-      let now = present();
-      gameLoop(now, now - currentTime);
-    }, SIMULATION_UPDATE_RATE_MS);
-  }
+  setTimeout(() => {
+    let now = present();
+    gameLoop(now, now - currentTime);
+  }, SIMULATION_UPDATE_RATE_MS);
 }
 
 function initializeSocketIo(httpServer) {
@@ -521,6 +532,7 @@ function removeGameClient(socket) {
 
 function startGame() {
   if (!gameStarted) {
+    inGameClients = {};
     newBullets = [];
     activeBullets = [];
     hits = [];

@@ -329,12 +329,16 @@ MyGame.screens['gameplay'] = (function(
       graphics.createFieldOfViewClippingRegion(playerSelf.fieldOfView);
     }
 
+    const now = performance.now();
+
     for (let id in playerOthers) {
-      renderer.PlayerRemote.render(
-        playerOthers[id],
-        playerOtherTexture,
-        skeletonTexture
-      );
+      if (playerSelf.health <= 0 || now - playerOthers[id].lastUpdate < 3000) {
+        renderer.PlayerRemote.render(
+          playerOthers[id],
+          playerOtherTexture,
+          skeletonTexture
+        );
+      }
     }
 
     renderer.Powerups.render(currentPowerups, powerupTextures);
