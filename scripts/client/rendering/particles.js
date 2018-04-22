@@ -109,7 +109,13 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
       }
     }
     if (draw) {
-
+      for (let i = 0; i < radius * 2; i ++) {
+  			let randomAngle =Math.floor(Math.random() * 90);
+  			that.systems.push(that.createParticle(shield, {
+  				x: Math.cos(randomAngle) * shield.radius,
+  				y: Math.sin(randomAngle) * shield.radius,
+  			}));
+  		}
     }
     // check for quad2
     let draw = false;
@@ -119,7 +125,13 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
       }
     }
     if (draw) {
-
+      for (let i = 0; i < radius * 3; i ++) {
+  			let randomAngle =Math.floor(Math.random() * 90) + 90;
+  			that.systems.push(that.createParticle(shield, {
+  				x: Math.cos(randomAngle) * shield.radius,
+  				y: Math.sin(randomAngle) * shield.radius,
+  			}));
+  		}
     }
     // check for quad3
     let draw = false;
@@ -129,7 +141,13 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
       }
     }
     if (draw) {
-
+      for (let i = 0; i < radius * 3; i ++) {
+  			let randomAngle =Math.floor(Math.random() * 90) + 180;
+  			that.systems.push(that.createParticle(shield, {
+  				x: Math.cos(randomAngle) * shield.radius,
+  				y: Math.sin(randomAngle) * shield.radius,
+  			}));
+  		}
     }
 
     // check for quad4
@@ -140,12 +158,15 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
       }
     }
     if (draw) {
-
+      for (let i = 0; i < radius * 3; i ++) {
+  			let randomAngle =Math.floor(Math.random() * 90) + 270;
+  			that.systems.push(that.createParticle(shield, {
+  				x: Math.cos(randomAngle) * shield.radius,
+  				y: Math.sin(randomAngle) * shield.radius,
+  			}));
+  		}
     }
 
-
-
-		let randomAngle = Math.random() * Math.PI * 2;
 		let keepMe = [];
 		for (var system in that.systems) {
 			if (system.update(elapsedTime)) {
