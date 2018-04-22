@@ -68,13 +68,83 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 	}
 
 	that.updateParticles = function(elapsedTime, shield) {
-		for (let i = 0; i < 10; i ++) {
-			let randomAngle = Math.random() * Math.PI * 3
-			that.systems.push(that.createParticle(shield, {
-				x: Math.cos(randomAngle) * shield.radius,
-				y: Math.sin(randomAngle) * shield.radius,
-			}));
-		}
+    let points = {};
+    let left = graphics.viewport.left;
+    let top = graphics.viewport.top;
+    let width = graphics.world.width;
+    let height = graphics.world.height;
+    points['p1'] = {
+      x: left, y: top,
+      // pairx: left + width, pairy: top,
+      // off1x: left + width, off1y: top + height,
+      // off2x: left, off2y: top + height,
+    };
+    points['p2'] = {
+      x: left + width, y: top,
+      // pairx: left, pairy: top,
+      // off1x: left + width, off1y: top + height,
+      // off2x: left, off2y: top + height
+    };
+    points['p3'] = {
+      x: left + width, y: top + height,
+      // pairx: left, pairy: top + height
+      // off1x: left, off1y: top,
+      // off2x: left + width, off2y: top,
+    };
+    points['p4'] = {
+      x: left, y: top + height,
+      // pairx:left + width, pairy: top + height,
+      // off1x: left, off1y: top,
+      // off2x: left + width, off2y: top
+    };
+
+
+    // let dist = Math.sqrt(Math.pow(points['p1'].x - points['p3'].x, 2) + Math.pow(points['p1'].y - points['p3'].y, 2));
+
+    // check for quad1
+    let draw = false;
+    for (let p in points) {
+      if (p.x >= shield.originX && p.y >= shield.originY) {
+        draw = true;
+      }
+    }
+    if (draw) {
+
+    }
+    // check for quad2
+    let draw = false;
+    for (let p in points) {
+      if (p.x <= shield.originX && p.y >= shield.originY) {
+        draw = true;
+      }
+    }
+    if (draw) {
+
+    }
+    // check for quad3
+    let draw = false;
+    for (let p in points) {
+      if (p.x <= shield.originX && p.y <= shield.originY) {
+        draw = true;
+      }
+    }
+    if (draw) {
+
+    }
+
+    // check for quad4
+    let draw = false;
+    for (let p in points) {
+      if (p.x >= shield.originX && p.y <= shield.originY) {
+        draw = true;
+      }
+    }
+    if (draw) {
+
+    }
+
+
+
 		let randomAngle = Math.random() * Math.PI * 2;
 		let keepMe = [];
 		for (var system in that.systems) {
