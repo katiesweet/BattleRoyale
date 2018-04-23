@@ -43,7 +43,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 			particles = keepMe;
 		};
 
-    particlePack.render = function(player) {
+    particlePack.render = function(player, shield) {
 	    for (let particle = 0; particle < particles.length; particle++) {
         let part = particles[particle];
 
@@ -56,10 +56,20 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 				// 	(part.position.y * mapWidth) - (player.position.y * mapWidth),
         //   .05, .05, false);
 
-					graphics.drawImage(part.image,
-						(part.position.x),
-						(part.position.y),
-						0.1, 0.1, true);
+					// graphics.drawImage(part.image,
+					// 	(part.position.x * mapWidth) - ((shield.x * mapWidth) - (player.position.x * mapWidth)),
+					// 	(part.position.y * mapWidth) - ((shield.y * mapWidth) - (player.position.y * mapWidth)),
+					// 	0.1, 0.1, false);
+
+					// console.log((part.position.x * mapWidth) -  (player.position.x * mapWidth))
+					// console.log((part.position.y * mapWidth) - (player.position.y * mapWidth));
+					// function drawShieldParticle(size, position, image, shield, player) {
+
+					graphics.drawShieldParticle(0.1, part.position, part.image, shield, player);
+
+
+						// (part.position.x * mapWidth) - ((shield.x * mapWidth) - (player.position.x * mapWidth)),
+						// (part.position.y * mapWidth) - ((shield.y * mapWidth) - (player.position.y * mapWidth)),
 
 				// graphics.drawRectangle('black', part.position.x, part.position.y, 3, 3, false);
 					// function drawRectangle(style, left, top, width, height, useViewport) {
@@ -108,9 +118,9 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
     }
 	}
 
-	that.render = function(player) {
+	that.render = function(player, shield) {
 			for (var system in that.systems) {
-				that.systems[system].render(player);
+				that.systems[system].render(player, shield);
 			}
 	}
 

@@ -315,7 +315,7 @@ MyGame.screens['gameplay'] = (function(
     renderer.MiniMap.render(playerSelf, explosions, shield);
 
     graphics.drawShield(shield, playerSelf);
-    renderer.ParticleSystem.render(playerSelf);
+    renderer.ParticleSystem.render(playerSelf, shield);
 
     renderer.Player.render(playerSelf, playerSelfTexture, skeletonTexture);
 
