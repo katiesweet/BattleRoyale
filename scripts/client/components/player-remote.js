@@ -12,7 +12,7 @@ MyGame.components.PlayerRemote = function() {
     height: 0.075,
   };
   let state = {
-    direction: 0,
+    rotation: 0,
     position: {
       x: 0,
       y: 0,
@@ -20,7 +20,7 @@ MyGame.components.PlayerRemote = function() {
     health: 0,
   };
   let goal = {
-    direction: 0,
+    rotation: 0,
     position: {
       x: 0,
       y: 0,
@@ -61,19 +61,19 @@ MyGame.components.PlayerRemote = function() {
   that.initialize = function(spec) {
     state.position.x = spec.position.x;
     state.position.y = spec.position.y;
-    state.direction = spec.direction;
+    state.rotation = spec.rotation;
     state.health = spec.health;
 
     goal.position.x = spec.position.x;
     goal.position.y = spec.position.y;
-    goal.direction = spec.direction;
+    goal.rotation = spec.rotation;
     goal.health = spec.health;
     goal.updateWindow = 0;
 
     size.x = spec.size.x;
     size.y = spec.size.y;
 
-    that.sprite.updateRotationAnimation(state.direction);
+    that.sprite.updateRotationAnimation(state.rotation);
     username = spec.username;
     lastUpdate = performance.now();
   };
@@ -90,9 +90,9 @@ MyGame.components.PlayerRemote = function() {
 
     goal.position.x = spec.position.x;
     goal.position.y = spec.position.y;
-    goal.direction = spec.direction;
+    goal.rotation = spec.rotation;
     goal.health = spec.health;
-    that.sprite.updateRotationAnimation(spec.direction);
+    that.sprite.updateRotationAnimation(spec.rotation);
     lastUpdate = performance.now();
   };
 
@@ -110,7 +110,7 @@ MyGame.components.PlayerRemote = function() {
     if (updateFraction > 0) {
       //
       // Turn first, then move.
-      state.direction = goal.direction;
+      state.rotation = goal.rotation;
       state.health = goal.health;
 
       state.position.x -= (state.position.x - goal.position.x) * updateFraction;
