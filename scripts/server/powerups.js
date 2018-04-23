@@ -15,53 +15,57 @@ const random = require('./random');
 function createPowerups(spec) {
   let that = {};
   let currentPowerupId = 0;
-  let powerups = [];
+  let powerups = {};
+  let recentlyRemoved = [];
+
+  Object.defineProperty(that, 'recentlyRemoved', {
+    get: () => recentlyRemoved,
+    set: value => {
+      recentlyRemoved = value;
+    },
+  });
 
   for (let i = 0; i < spec.weaponUpgrades; ++i) {
-    powerups.push({
-      id: currentPowerupId++,
+    powerups[currentPowerupId++] = {
       type: 'weapon',
       position: {
         x: random.nextDouble() * 15,
         y: random.nextDouble() * 15,
       },
       radius: 0.03,
-    });
+    };
   }
   for (let i = 0; i < spec.bullets; ++i) {
-    powerups.push({
-      id: currentPowerupId++,
+    powerups[currentPowerupId++] = {
       type: 'bullet',
       position: {
         x: random.nextDouble() * 15,
         y: random.nextDouble() * 15,
       },
       radius: 0.04,
-    });
+    };
   }
 
   for (let i = 0; i < spec.health; ++i) {
-    powerups.push({
-      id: currentPowerupId++,
+    powerups[currentPowerupId++] = {
       type: 'health',
       position: {
         x: random.nextDouble() * 15,
         y: random.nextDouble() * 15,
       },
       radius: 0.02,
-    });
+    };
   }
 
   for (let i = 0; i < spec.health; ++i) {
-    powerups.push({
-      id: currentPowerupId++,
+    powerups[currentPowerupId++] = {
       type: 'armour',
       position: {
         x: random.nextDouble() * 15,
         y: random.nextDouble() * 15,
       },
       radius: 0.02,
-    });
+    };
   }
 
   function collided(powerup, location, radius) {
@@ -76,23 +80,31 @@ function createPowerups(spec) {
   }
 
   that.getSurroundingPowerups = function(location, radius) {
-    let powerupsInRegion = [];
-    for (let i = 0; i < powerups.length; ++i) {
-      if (collided(powerups[i], location, radius)) {
-        powerupsInRegion.push(powerups[i]);
+    let powerupsInRegion = {};
+    for (let powerup in powerups) {
+      if (collided(powerups[powerup], location, radius)) {
+        powerupsInRegion[powerup] = powerups[powerup];
       }
     }
     return powerupsInRegion;
   };
 
+  that.toJSON = function() {
+    return {
+      powerups
+    };
+  }
+
   that.removePowerup = function(id) {
-    let keptPowerups = [];
-    for (let i = 0; i < powerups.length; ++i) {
-      if (powerups[i].id != id) {
-        keptPowerups.push(powerups[i]);
-      }
-    }
-    powerups = keptPowerups;
+    delete powerups[id]
+    recentlyRemoved.push(id);
+    // let keptPowerups = [];
+    // for (let i = 0; i < powerups.length; ++i) {
+    //   if (powerups[i].id != id) {
+    //     keptPowerups.push(powerups[i]);
+    //   }
+    // }
+    // powerups = keptPowerups;
   };
 
   return that;

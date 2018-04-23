@@ -92,8 +92,12 @@
       value: 'update-other',
       writable: false,
     },
-    UPDATE_POWERUP: {
-      value: 'powerups',
+    POWERUP_INIT: {
+      value: 'powerup-init',
+      writable: false,
+    },
+    REMOVE_POWERUPS: {
+      value: 'remove-powerups',
       writable: false,
     },
     UPDATE_SCORE: {

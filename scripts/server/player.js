@@ -372,20 +372,21 @@ function createPlayer(username, clientId) {
       size.radius
     );
 
-    for (let i = 0; i < acquiredPowerups.length; ++i) {
-      if (acquiredPowerups[i].type == 'weapon' && weaponStrength <= 1) {
+    // for (let i = 0; i < acquiredPowerups.length; ++i) {
+    for (let id in acquiredPowerups) {
+      if (acquiredPowerups[id].type == 'weapon' && weaponStrength <= 1) {
         // Walked over a weapon powerup, and don't already have one
         weaponStrength = 2;
-        powerups.removePowerup(acquiredPowerups[i].id);
-      } else if (acquiredPowerups[i].type == 'bullet') {
+        powerups.removePowerup(id);
+      } else if (acquiredPowerups[id].type == 'bullet') {
         numBullets += 20;
-        powerups.removePowerup(acquiredPowerups[i].id);
-      } else if (acquiredPowerups[i].type == 'health') {
+        powerups.removePowerup(id);
+      } else if (acquiredPowerups[id].type == 'health') {
         healthPacks += 1;
-        powerups.removePowerup(acquiredPowerups[i].id);
-      } else if (acquiredPowerups[i].type == 'armour' && armourLevel <= 1) {
+        powerups.removePowerup(id);
+      } else if (acquiredPowerups[id].type == 'armour' && armourLevel <= 1) {
         armourLevel = 2;
-        powerups.removePowerup(acquiredPowerups[i].id);
+        powerups.removePowerup(id);
       }
     }
   }

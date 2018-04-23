@@ -23,7 +23,7 @@ MyGame.components.Player = function(barriers) {
 
   let fieldOfView = {
     angle: 2.25, // * Math.PI/4
-    radius: 0.4,
+    radius: 0.5,
   };
 
   let numBullets = 0;
