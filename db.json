@@ -18,12 +18,12 @@
     {
       "username": "1@1.com",
       "hashedPassword": "$2a$10$BtxpqsFVl2ObSWmAYUzOjO1PlJYHgMmcTXJHecIsAQRWAWu3i2KfC",
-      "highscore": 0
+      "highscore": 550
     },
     {
       "username": "asdf",
       "hashedPassword": "$2a$10$wPDuHYPpp9rux0JrQIbCU.8IiM7iaeQqfRCFbH7bpim5.i8Iek/Bu",
-      "highscore": 0
+      "highscore": 550
     },
     {
       "username": "test",
@@ -47,13 +47,8 @@
     },
     {
       "username": "sarahplayertwo",
-      "hashedPassword": "$2a$10$A7bzG4Az99FQdb0bignlZObtzDR/l4/PTF4tDN5BJfoSKpAytfs3S",
-      "highscore": 0
-    },
-    {
-      "username": "nacho",
-      "hashedPassword": "$2a$10$oeLwzgDqik5zi2DvxDSSyuOBvm0M02O8bnpWN/YnSThiLc9qPtYcK",
-      "highscore": 0
+      "hashedPassword": "$2a$10$iWXOb4cTwJrHjc0Kwjv5eOOhJqDAwC7.HRb6FJcLR9YAcBFrlU3PW",
+      "highscore": 300
     }
   ]
 }

@@ -23,7 +23,7 @@ MyGame.components.Player = function(barriers) {
 
   let fieldOfView = {
     angle: 2.25, // * Math.PI/4
-    radius: 0.4,
+    radius: 0.5,
   };
 
   let numBullets = 0;
@@ -142,6 +142,11 @@ MyGame.components.Player = function(barriers) {
 
     username = spec.username;
     health = spec.health;
+    numBullets = spec.numBullets;
+    weaponStrength = spec.weaponStrength;
+    healthPacks = spec.healthPacks;
+    armourLevel = spec.armourLevel;
+    sprintLevel = spec.sprintLevel;
   };
 
   //------------------------------------------------------------------
@@ -306,12 +311,13 @@ MyGame.components.Player = function(barriers) {
     position.y = spec.position.y;
     direction = spec.direction;
     health = spec.health;
-    that.sprite.updateRotationAnimation(direction);
     numBullets = spec.numBullets;
     weaponStrength = spec.weaponStrength;
     healthPacks = spec.healthPacks;
     armourLevel = spec.armourLevel;
     sprintLevel = spec.sprintLevel;
+
+    that.sprite.updateRotationAnimation(direction);
   };
 
   return that;

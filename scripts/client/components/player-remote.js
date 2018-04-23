@@ -28,6 +28,7 @@ MyGame.components.PlayerRemote = function() {
     health: 0,
     updateWindow: 0, // Server reported time elapsed since last update
   };
+  let lastUpdate = performance.now();
 
   that.sprite = MyGame.components.CowboySprite({
     walkingRate: 100,
@@ -53,12 +54,15 @@ MyGame.components.PlayerRemote = function() {
     get: () => health,
   });
 
+  Object.defineProperty(that, 'lastUpdate', {
+    get: () => lastUpdate,
+  });
+
   that.initialize = function(spec) {
     state.position.x = spec.position.x;
     state.position.y = spec.position.y;
     state.direction = spec.direction;
     state.health = spec.health;
-    state.lastUpdate = performance.now();
 
     goal.position.x = spec.position.x;
     goal.position.y = spec.position.y;
@@ -71,6 +75,7 @@ MyGame.components.PlayerRemote = function() {
 
     that.sprite.updateRotationAnimation(state.direction);
     username = spec.username;
+    lastUpdate = performance.now();
   };
 
   that.updateGoal = function(spec) {
@@ -88,6 +93,7 @@ MyGame.components.PlayerRemote = function() {
     goal.direction = spec.direction;
     goal.health = spec.health;
     that.sprite.updateRotationAnimation(spec.direction);
+    lastUpdate = performance.now();
   };
 
   //------------------------------------------------------------------

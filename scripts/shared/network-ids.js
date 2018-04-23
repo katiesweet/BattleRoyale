@@ -44,6 +44,14 @@
       value: 'fire',
       writable: false,
     },
+    SPRINT: {
+      value: 'sprint',
+      writable: false,
+    },
+    USE_HEALTH: {
+      value: 'use-health',
+      writable: false,
+    },
     JOIN_LOBBY: {
       value: 'join-lobby',
       writable: false,
@@ -72,6 +80,10 @@
       value: 'set-starting-position',
       writable: false,
     },
+    OPPONENT_STARTING_POSITION: {
+      value: 'opponent-start-position',
+      writable: false,
+    },
     UPDATE_SELF: {
       value: 'update-self',
       writable: false,
@@ -80,16 +92,24 @@
       value: 'update-other',
       writable: false,
     },
+    POWERUP_INIT: {
+      value: 'powerup-init',
+      writable: false,
+    },
+    REMOVE_POWERUPS: {
+      value: 'remove-powerups',
+      writable: false,
+    },
+    UPDATE_SCORE: {
+      value: 'update-score',
+      writable: false,
+    },
     BULLET_NEW: {
       value: 'bullet-new',
       writable: false,
     },
     BULLET_HIT: {
       value: 'bullet-hit',
-      writable: false,
-    },
-    UPDATE_POWERUP: {
-      value: 'powerups',
       writable: false,
     },
     LOBBY_MESSAGE_CREATE: {
@@ -112,16 +132,8 @@
       value: 'game-message-new',
       writable: false,
     },
-    OPPONENT_STARTING_POSITION: {
-      value: 'opponent-start-position',
-      writable: false,
-    },
-    USE_HEALTH: {
-      value: 'use-health',
-      writable: false,
-    },
-    SHIELD_INFO: {
-      value: 'shield-info',
+    SHIELD_INIT: {
+      value: 'shield-init',
       writable: false,
     },
     INITIATE_GAME_START: {
@@ -132,24 +144,12 @@
       value: 'auto-join-game',
       writable: false,
     },
-    PLAYER_COUNT: {
-      value: 'player-count',
-      writable: false,
-    },
     END_OF_GAME: {
       value: 'game-over',
       writable: false,
     },
     WINNER: {
       value: 'winner',
-      writable: false,
-    },
-    SPRINT: {
-      value: 'sprint',
-      writable: false,
-    },
-    SCORE_UPDATE: {
-      value: 'score-update',
       writable: false,
     },
   });
