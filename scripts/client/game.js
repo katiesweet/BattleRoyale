@@ -314,9 +314,7 @@ MyGame.screens['gameplay'] = (function(
     renderer.TiledImage.render(background, graphics.viewport);
     renderer.MiniMap.render(playerSelf, explosions, shield);
 
-    // graphics.drawShield(shield, playerSelf);
-    // function drawInvertedCircle(style, center, radius, useViewport) {
-    // console.log()
+    // draw shield
     graphics.drawInvertedCircle("rgba(0, 0, 0, 0.5)", {x: shield.x, y: shield.y}, shield.radius, true);
 
     renderer.ParticleSystem.render(playerSelf, shield);

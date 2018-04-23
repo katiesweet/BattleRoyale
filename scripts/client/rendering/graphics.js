@@ -226,27 +226,9 @@ MyGame.graphics = (function() {
     context.fill();
   }
 
-
-  // function drawShield(shield, player) {
-  //   let mapWidth = 15 * 512;
-  //   context.fillStyle = "rgba(0, 0, 0, 0.5)";
-  //   context.beginPath();
-  //
-  //   context.arc(
-  //     ((shield.x * mapWidth) - (player.position.x * mapWidth)),
-  //     ((shield.y * mapWidth) - (player.position.y * mapWidth)),
-  //     shield.radius * mapWidth,
-  //     0,
-  //     2 * Math.PI,
-  //     false,
-  //   );
-  //   context.rect(mapWidth, 0, -mapWidth, mapWidth);
-  //   context.fill();
-  // }
-
   //------------------------------------------------------------------
   //
-  // Draw a circle into the local canvas coordinate system.
+  // Draw an inverted circle into the local canvas coordinate system.
   //
   //------------------------------------------------------------------
   function drawInvertedCircle(style, center, radius, useViewport) {
@@ -350,27 +332,6 @@ MyGame.graphics = (function() {
     context.restore();
   }
 
-  //------------------------------------------------------------------
-	//
-	// Draws shield relative to the 'unit world'.
-	//
-	//------------------------------------------------------------------
-  function drawShield(shield, player) {
-    let mapWidth = 15 * 512;
-    context.fillStyle = "rgba(0, 0, 0, 0.5)";
-    context.beginPath();
-
-    context.arc(
-      ((shield.x * mapWidth) - (player.position.x * mapWidth)),
-      ((shield.y * mapWidth) - (player.position.y * mapWidth)),
-      shield.radius * mapWidth,
-      0,
-      2 * Math.PI,
-      false,
-    );
-    context.rect(mapWidth, 0, -mapWidth, mapWidth);
-    context.fill();
-  }
 
 	//------------------------------------------------------------------
   //
@@ -406,7 +367,6 @@ MyGame.graphics = (function() {
     drawRectangle: drawRectangle,
     drawFilledRectangle: drawFilledRectangle,
     drawText: drawText,
-    drawShield: drawShield,
     drawFieldOfView: drawFieldOfView,
     createFieldOfViewClippingRegion: createFieldOfViewClippingRegion,
     removeFieldOfViewClippingRegion: removeFieldOfViewClippingRegion,

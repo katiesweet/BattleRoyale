@@ -22,7 +22,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 				}
 			}
 
-			for (let particle = 0; particle < shield.radius * 7; particle++) {
+			for (let particle = 0; particle < shield.radius * 5; particle++) {
 				let randomAngle = Math.round(Math.random() * 360);
 				let p = {
 					position: { x: (Math.cos(randomAngle) * shield.radius) + shield.x, y: (Math.sin(randomAngle) * shield.radius) + shield.y},
@@ -40,7 +40,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
     particlePack.render = function(player, shield) {
 	    for (let particle = 0; particle < particles.length; particle++) {
         let part = particles[particle];
-					graphics.drawCircle("rgb(79, 79, 79)", part.position, part.size, true);
+					graphics.drawCircle("rgb(0, 0, 0, 0.5)", part.position, part.size, true);
 	    }
     }
 
