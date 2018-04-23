@@ -40,7 +40,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
     particlePack.render = function(player, shield) {
 	    for (let particle = 0; particle < particles.length; particle++) {
         let part = particles[particle];
-					graphics.drawCircle("rgb(145, 101, 53)", part.position, part.size, true);
+					graphics.drawCircle("rgb(79, 79, 79)", part.position, part.size, true);
 	    }
     }
 
