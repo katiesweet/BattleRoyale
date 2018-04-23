@@ -16,6 +16,7 @@ const Powerups = require('./powerups');
 const Shield = require('./shield');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
+const db = require('./database');
 
 const SIMULATION_UPDATE_RATE_MS = 100;
 const STATE_UPDATE_RATE_MS = 20;
@@ -379,6 +380,11 @@ function updateClients(elapsedTime) {
 
     alivePlayers[0].socket.emit(NetworkIds.WINNER);
     io.emit(NetworkIds.END_OF_GAME, finalScores);
+
+    for (let id in inGameClients) {
+      const player = inGameClients[id].player;
+      db.updateHighscore(player.username, player.score);
+    }
 
     inGameClients = {};
     newBullets = [];
