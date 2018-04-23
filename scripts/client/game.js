@@ -307,7 +307,7 @@ MyGame.screens['gameplay'] = (function(
         delete explosions[id];
       }
     }
-    renderer.ParticleSystem.update(elapsedTime, shield);
+    renderer.ParticleSystem.update(elapsedTime, shield, playerSelf);
 
     shield.update(elapsedTime);
 

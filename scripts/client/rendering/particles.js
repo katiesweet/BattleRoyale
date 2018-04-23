@@ -11,7 +11,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 			size: { mean: 0.02, stdev: 0.001 }
 		}
 
-		particlePack.update = function(elapsedTime, shield) {
+		particlePack.update = function(elapsedTime, shield, angleMin, angleMax, count) {
 			let keepMe = [];
 			for (let particle = 0; particle < particles.length; particle++) {
 				particles[particle].alive += elapsedTime;
@@ -22,8 +22,8 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 				}
 			}
 
-			for (let particle = 0; particle < shield.radius * 5; particle++) {
-				let randomAngle = Math.round(Math.random() * 360);
+			for (let particle = 0; particle < shield.radius * 2 * count; particle++) {
+				let randomAngle = Math.round((Math.random() * angleMax) + angleMin);
 				let p = {
 					position: { x: (Math.cos(randomAngle) * shield.radius) + shield.center.x, y: (Math.sin(randomAngle) * shield.radius) + shield.center.y},
 					direction: nextCircleVector(),
@@ -79,12 +79,44 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 		return particlePack;
   }
 
-	that.update = function(elapsedTime, shield) {
+	that.update = function(elapsedTime, shield, player) {
 		if (!that.systems.length) {
 			that.systems.push(that.createParticle(shield))
 		}
+
+		let angleMinRange = 360;
+		let angleMaxRange = 0;
+		let count = 0;
+		if (player.position.x >= shield.center.x && player.position.y >= shield.center.y) {
+			// quad 1
+			angleMinRange = Math.min(0, angleMinRange);
+			angleMaxRange = Math.max(90, angleMaxRange);
+			count ++;
+		}
+		if (player.position.x <= shield.center.x && player.position.y >= shield.center.y)	{
+			// quad 2
+			angleMinRange = Math.min(90, angleMinRange);
+			angleMaxRange = Math.max(180, angleMaxRange);
+			count++;
+		}
+		if (player.position.x <= shield.center.x && player.position.y <= shield.center.y) {
+			// quad 3
+			angleMinRange = Math.min(180, angleMinRange);
+			angleMaxRange = Math.max(270, angleMaxRange);
+			count++;
+		}
+		if (player.position.x >= shield.center.x && player.position.y <= shield.center.y) {
+			// quad 4
+			angleMinRange = Math.min(270, angleMinRange);
+			angleMaxRange = Math.max(360, angleMaxRange);
+			count++;
+		}
+
+
+		// TODO once radius becomes small enough
+
     for (let system in that.systems) {
-			that.systems[system].update(elapsedTime, shield);
+			that.systems[system].update(elapsedTime, shield, angleMinRange, angleMaxRange, count);
     }
 	}
 
