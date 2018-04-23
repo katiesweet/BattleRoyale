@@ -245,7 +245,7 @@ MyGame.graphics = (function() {
       2 * Math.PI,
       false
     );
-    context.rect(15 * world.size, 0, - 15 * world.size, 15 * world.size);
+    context.rect(15 * world.size, 0, -15 * world.size, 15 * world.size);
     context.fill();
   }
 
@@ -331,7 +331,6 @@ MyGame.graphics = (function() {
   function removeFieldOfViewClippingRegion() {
     context.restore();
   }
-
 
   //------------------------------------------------------------------
   //

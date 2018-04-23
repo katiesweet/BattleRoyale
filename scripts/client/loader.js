@@ -373,9 +373,12 @@ MyGame.loader = (function() {
     // 15360,
     // 15360,
     // 1024
-    7680,
-    7680,
-    512
+    // 7680,
+    // 7680,
+    // 512
+    5760,
+    5760,
+    384
   );
 
   loadMapObjects('assets/map_objects.json', function(barriers) {
