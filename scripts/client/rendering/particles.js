@@ -112,9 +112,6 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 			count++;
 		}
 
-
-		// TODO once radius becomes small enough
-
     for (let system in that.systems) {
 			that.systems[system].update(elapsedTime, shield, angleMinRange, angleMaxRange, count);
     }
