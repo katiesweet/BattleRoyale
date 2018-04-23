@@ -15,7 +15,8 @@ MyGame.components.Player = function(barriers) {
     height: 0.075,
     radius: 0.04,
   };
-  let direction = 0;
+  // let direction = 0;
+  let rotation = 0;
   let rotateRate = 0;
   let speed = 0;
   let username = '';
@@ -39,11 +40,11 @@ MyGame.components.Player = function(barriers) {
     walkingRate: 100,
   });
 
-  Object.defineProperty(that, 'direction', {
-    get: () => direction,
+  Object.defineProperty(that, 'rotation', {
+    get: () => rotation,
     set: value => {
-      direction = value;
-      that.sprite.updateRotationAnimation(direction);
+      rotation = value;
+      that.sprite.updateRotationAnimation(rotation);
     },
   });
 
@@ -105,13 +106,20 @@ MyGame.components.Player = function(barriers) {
   });
 
   function getFieldOfView() {
-    let firstAngle = (direction + fieldOfView.angle / 2) * Math.PI / 4;
+    let scaledRotation = rotation;
+    while (scaledRotation < 0) {
+        scaledRotation = (2 * Math.PI) + scaledRotation;
+    }
+    scaledRotation = scaledRotation % (2 * Math.PI);
+
+
+    let firstAngle = scaledRotation + (fieldOfView.angle / 2 * Math.PI / 4);
     let p2 = {
       x: position.x + Math.cos(firstAngle) * fieldOfView.radius,
       y: position.y - Math.sin(firstAngle) * fieldOfView.radius,
     };
 
-    let secondAngle = (direction - fieldOfView.angle / 2) * Math.PI / 4;
+    let secondAngle = scaledRotation - (fieldOfView.angle / 2 * Math.PI / 4);
     let p3 = {
       x: position.x + Math.cos(secondAngle) * fieldOfView.radius,
       y: position.y - Math.sin(secondAngle) * fieldOfView.radius,
@@ -135,10 +143,10 @@ MyGame.components.Player = function(barriers) {
     size.height = spec.size.height;
     size.radius = spec.size.radius;
 
-    direction = spec.direction;
+    rotation = spec.rotation;
     speed = spec.speed;
     rotateRate = spec.rotateRate;
-    that.sprite.updateRotationAnimation(direction);
+    that.sprite.updateRotationAnimation(rotation);
 
     username = spec.username;
     health = spec.health;
@@ -288,12 +296,13 @@ MyGame.components.Player = function(barriers) {
   // Public function that rotates the player right.
   //
   //------------------------------------------------------------------
-  that.rotateRight = function() {
-    direction -= 1;
-    if (direction < 0) {
-      direction = 7;
-    }
-    that.sprite.updateRotationAnimation(direction);
+  that.rotateRight = function(elapsedTime) {
+    // direction -= 1;
+    // if (direction < 0) {
+    //   direction = 7;
+    // }
+    rotation -= rotateRate * elapsedTime;
+    that.sprite.updateRotationAnimation(rotation);
   };
 
   //------------------------------------------------------------------
@@ -301,15 +310,17 @@ MyGame.components.Player = function(barriers) {
   // Public function that rotates the player left.
   //
   //------------------------------------------------------------------
-  that.rotateLeft = function() {
-    direction = (direction + 1) % 8;
-    that.sprite.updateRotationAnimation(direction);
+  that.rotateLeft = function(elapsedTime) {
+    // direction = (direction + 1) % 8;
+    rotation += rotateRate * elapsedTime;
+    that.sprite.updateRotationAnimation(rotation);
   };
 
   that.update = function(spec) {
     position.x = spec.position.x;
     position.y = spec.position.y;
-    direction = spec.direction;
+    // direction = spec.direction;
+    rotation = spec.rotation;
     health = spec.health;
     numBullets = spec.numBullets;
     weaponStrength = spec.weaponStrength;
@@ -317,7 +328,7 @@ MyGame.components.Player = function(barriers) {
     armourLevel = spec.armourLevel;
     sprintLevel = spec.sprintLevel;
 
-    that.sprite.updateRotationAnimation(direction);
+    that.sprite.updateRotationAnimation(rotation);
   };
 
   return that;

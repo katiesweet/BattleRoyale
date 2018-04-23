@@ -27,9 +27,9 @@ MyGame.components.Bullet = function(spec) {
   //
   //------------------------------------------------------------------
   that.update = function(elapsedTime) {
-    let angle = spec.direction * Math.PI / 4;
-    let vectorX = Math.cos(angle);
-    let vectorY = Math.sin(angle);
+    // let angle = spec.direction * Math.PI / 4;
+    let vectorX = Math.cos(spec.direction);
+    let vectorY = Math.sin(spec.direction);
 
     spec.position.x += vectorX * elapsedTime * spec.speed;
     spec.position.y -= vectorY * elapsedTime * spec.speed;

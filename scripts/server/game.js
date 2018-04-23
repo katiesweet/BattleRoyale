@@ -55,7 +55,7 @@ function createBullet(clientId, playerModel) {
         x: playerModel.position.x,
         y: playerModel.position.y,
       },
-      direction: playerModel.direction,
+      direction: playerModel.rotation,
       speed: playerModel.speed * playerModel.weaponStrength,
       weaponStrength: playerModel.weaponStrength,
     });
@@ -118,10 +118,14 @@ function processInput(elapsedTime) {
           );
           break;
         case NetworkIds.INPUT_ROTATE_LEFT:
-          client.player.rotateLeft();
+          client.player.rotateLeft(
+            input.message.elapsedTime
+          );
           break;
         case NetworkIds.INPUT_ROTATE_RIGHT:
-          client.player.rotateRight();
+          client.player.rotateRight(
+            input.message.elapsedTime
+          );
           break;
         case NetworkIds.INPUT_FIRE:
           createBullet(input.clientId, client.player);
