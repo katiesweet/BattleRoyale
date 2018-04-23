@@ -23,19 +23,6 @@ router.get('/highscores', async (req, res) => {
   res.status(200).send(highscores);
 });
 
-router.post('/highscores', async (req, res) => {
-  if (!req.user) {
-    res.status(403).send('You must be logged in to post a highscore.');
-  }
-
-  const { score } = req.body;
-  const { username } = req.user;
-
-  const highscore = await db.updateHighscore(username, score);
-
-  res.status(200).send(highscore);
-});
-
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
