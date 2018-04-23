@@ -161,9 +161,17 @@ MyGame.loader = (function() {
         source: 'assets/vest_powerup.png',
       },
       {
-        key: 'light-particle',
-        source: 'assets/light-particle.png',
-      }
+        key: 'dark-clouds-1',
+        source: 'assets/darkclouds1.png',
+      },
+      {
+        key: 'dark-clouds-2',
+        source: 'assets/darkclouds2.png',
+      },
+      {
+        key: 'dark-clouds-3',
+        source: 'assets/darkclouds3.png',
+      },
     ];
   //------------------------------------------------------------------
   //

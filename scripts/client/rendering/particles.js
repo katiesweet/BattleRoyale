@@ -2,6 +2,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 	let that = {};
 	that.systems = [];
 	let mapWidth = 15 * 512;
+	let images = [assets['dark-clouds-1'], assets['dark-clouds-2'], assets['dark-clouds-3']];
 
 	that.createParticle = function() {
 		let particlePack = {};
@@ -11,7 +12,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 			lifetime: { mean: 800, stdev: 500 },
 			size: { mean: 0.05, stdev: 0 }
 		}
-		particlePack.image = assets['light-particle'];
+
 
 		particlePack.update = function(elapsedTime, shield) {
 			let keepMe = [];
@@ -27,6 +28,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 			for (let particle = 0; particle < shield.radius * 12; particle++) {
 				let randomAngle = Math.round(Math.random() * 360);
 				let randomAdd = Math.round(Math.random() * 5) - 2;
+				let randomSelect = Math.round(Math.random() * 2);
 				let p = {
 					position: { x: (Math.cos(randomAngle) * shield.radius) + randomAdd, y: (Math.sin(randomAngle) * shield.radius) + randomAdd},
 					direction: nextCircleVector(),
@@ -34,6 +36,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 	        lifetime: nextGaussian(particlePack.spec.lifetime.mean, particlePack.spec.lifetime.stdev),	// milliseconds
 					alive: 0,
 	        size: nextGaussian(particlePack.spec.size.mean, particlePack.spec.size.stdev),
+					image: images[randomSelect],
 				};
 				keepMe.push(p);
 			}
@@ -53,7 +56,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 				// 	(part.position.y * mapWidth) - (player.position.y * mapWidth),
         //   .05, .05, false);
 
-					graphics.drawImage(particlePack.image,
+					graphics.drawImage(part.image,
 						(part.position.x),
 						(part.position.y),
 						0.1, 0.1, true);
