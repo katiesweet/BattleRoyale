@@ -35,8 +35,6 @@ function createShield(spec) {
     }
   }
 
-  console.log(center);
-
   let rate = radius / spec.gameLength;
 
   Object.defineProperty(that, 'center', {
