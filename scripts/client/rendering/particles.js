@@ -37,10 +37,14 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 			particles = keepMe;
 		};
 
-    particlePack.render = function() {
+    particlePack.render = function(player) {
 	    for (let particle = 0; particle < particles.length; particle++) {
-        let part = particles[particle];
+				let part = particles[particle];
+				let xForm = Math.pow(part.position.x - player.position.x, 2);
+				let yForm = Math.pow(part.position.y - player.position.y, 2);
+				if (Math.sqrt(xForm + yForm) <= 1) {
 					graphics.drawCircle("rgb(0, 0, 0, 0.5)", part.position, part.size, true);
+				}
 	    }
     }
 
@@ -84,9 +88,9 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
     }
 	}
 
-	that.render = function() {
+	that.render = function(player) {
 			for (var system in that.systems) {
-				that.systems[system].render();
+				that.systems[system].render(player);
 			}
 	}
 
