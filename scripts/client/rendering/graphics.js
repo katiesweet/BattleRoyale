@@ -315,7 +315,7 @@ MyGame.graphics = (function() {
   //
   //------------------------------------------------------------------
   function drawShield(shield, player) {
-    const mapWidth = 15 * 512;
+    const mapWidth = 15 * 384;
     context.fillStyle = 'rgba(0, 0, 0, 0.5)';
     context.beginPath();
     context.arc(
