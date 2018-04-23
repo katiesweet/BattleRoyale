@@ -307,6 +307,7 @@ MyGame.screens['gameplay'] = (function(
         delete explosions[id];
       }
     }
+    renderer.ParticleSystem.update(elapsedTime, shield, playerSelf);
 
     shield.update(elapsedTime);
 
@@ -324,7 +325,10 @@ MyGame.screens['gameplay'] = (function(
     renderer.TiledImage.render(background, graphics.viewport);
     renderer.MiniMap.render(playerSelf, explosions, shield);
 
-    graphics.drawShield(shield, playerSelf);
+    // draw shield
+    graphics.drawInvertedCircle("rgba(0, 0, 0, 0.5)", shield.center, shield.radius, true);
+
+    renderer.ParticleSystem.render(playerSelf);
 
     renderer.Player.render(playerSelf, playerSelfTexture, skeletonTexture);
 

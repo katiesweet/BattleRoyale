@@ -94,6 +94,7 @@ MyGame.loader = (function() {
           'rendering/mini-map',
           'rendering/spawn-map',
           'rendering/powerups',
+          'rendering/particles'
         ],
         message: 'Renderers loaded',
         onComplete: null,

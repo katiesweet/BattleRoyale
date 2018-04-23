@@ -44,6 +44,11 @@
       "username": "andy",
       "hashedPassword": "$2a$10$r5I4/I8T8RWQph6Rngjf7eV.tWlHazAqGWtCM3NXXO/kyLNd.IV4i",
       "highscore": 0
+    },
+    {
+      "username": "sarahplayertwo",
+      "hashedPassword": "$2a$10$iWXOb4cTwJrHjc0Kwjv5eOOhJqDAwC7.HRb6FJcLR9YAcBFrlU3PW",
+      "highscore": 300
     }
   ]
 }

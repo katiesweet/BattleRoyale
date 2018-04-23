@@ -228,6 +228,29 @@ MyGame.graphics = (function() {
 
   //------------------------------------------------------------------
   //
+  // Draw an inverted circle into the local canvas coordinate system.
+  //
+  //------------------------------------------------------------------
+  function drawInvertedCircle(style, center, radius, useViewport) {
+    var adjustLeft = useViewport === true ? viewport.left : 0,
+      adjustTop = useViewport === true ? viewport.top : 0;
+
+    context.fillStyle = style;
+    context.beginPath();
+    context.arc(
+      0.5 + world.left + (center.x - adjustLeft) * world.size,
+      0.5 + world.top + (center.y - adjustTop) * world.size,
+      radius * world.size,
+      0,
+      2 * Math.PI,
+      false
+    );
+    context.rect(15 * world.size, 0, -15 * world.size, 15 * world.size);
+    context.fill();
+  }
+
+  //------------------------------------------------------------------
+  //
   // Draws a rectangle relative to the 'unit world'.
   //
   //------------------------------------------------------------------
@@ -311,27 +334,6 @@ MyGame.graphics = (function() {
 
   //------------------------------------------------------------------
   //
-  // Draws shield relative to the 'unit world'.
-  //
-  //------------------------------------------------------------------
-  function drawShield(shield, player) {
-    const mapWidth = 15 * 384;
-    context.fillStyle = 'rgba(0, 0, 0, 0.5)';
-    context.beginPath();
-    context.arc(
-      shield.center.x * mapWidth - player.position.x * mapWidth,
-      shield.center.y * mapWidth - player.position.y * mapWidth,
-      shield.radius * mapWidth,
-      0,
-      2 * Math.PI,
-      false
-    );
-    context.rect(mapWidth, 0, -mapWidth, mapWidth);
-    context.fill();
-  }
-
-  //------------------------------------------------------------------
-  //
   // Draws text centered relative to the 'unit world'.
   //
   //------------------------------------------------------------------
@@ -358,12 +360,12 @@ MyGame.graphics = (function() {
     drawImage: drawImage,
     drawImageSpriteSheet: drawImageSpriteSheet,
     drawCircle: drawCircle,
+    drawInvertedCircle: drawInvertedCircle,
     world: world,
     viewport: viewport,
     drawRectangle: drawRectangle,
     drawFilledRectangle: drawFilledRectangle,
     drawText: drawText,
-    drawShield: drawShield,
     drawFieldOfView: drawFieldOfView,
     createFieldOfViewClippingRegion: createFieldOfViewClippingRegion,
     removeFieldOfViewClippingRegion: removeFieldOfViewClippingRegion,
