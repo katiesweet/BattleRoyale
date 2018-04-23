@@ -317,6 +317,7 @@ function updateClients(elapsedTime) {
 
   let activeCount = 0;
   const alivePlayers = [];
+
   for (let clientId in inGameClients) {
     const client = inGameClients[clientId];
 
@@ -326,29 +327,24 @@ function updateClients(elapsedTime) {
         client.player.selfUpdateJSON()
       );
 
-      for (let id in inGameClients) {
-        if (
-          id !== clientId &&
-          distance(client.player, inGameClients[id].player) < 1
-        ) {
-          inGameClients[id].socket.emit(
-            NetworkIds.UPDATE_OTHER,
-            client.player.otherUpdateJSON(lastUpdate)
-          );
-
-          client.socket.emit(
-            NetworkIds.UPDATE_OTHER,
-            inGameClients[id].player.otherUpdateJSON(lastUpdate)
-          );
-        }
-      }
-
       // Since we moved, report all powerups in region
       const powerupsInRegion = powerups.getSurroundingPowerups(
         client.player.position,
         1
       );
       client.socket.emit(NetworkIds.UPDATE_POWERUP, powerupsInRegion);
+    }
+
+    for (let id in inGameClients) {
+      if (
+        id !== clientId &&
+        distance(client.player, inGameClients[id].player) < 1
+      ) {
+        client.socket.emit(
+          NetworkIds.UPDATE_OTHER,
+          inGameClients[id].player.otherUpdateJSON(lastUpdate)
+        );
+      }
     }
 
     //
