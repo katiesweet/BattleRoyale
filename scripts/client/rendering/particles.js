@@ -25,7 +25,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 			for (let particle = 0; particle < shield.radius * 5; particle++) {
 				let randomAngle = Math.round(Math.random() * 360);
 				let p = {
-					position: { x: (Math.cos(randomAngle) * shield.radius) + shield.x, y: (Math.sin(randomAngle) * shield.radius) + shield.y},
+					position: { x: (Math.cos(randomAngle) * shield.radius) + shield.center.x, y: (Math.sin(randomAngle) * shield.radius) + shield.center.y},
 					direction: nextCircleVector(),
 	        speed: nextGaussian( particlePack.spec.speed.mean, particlePack.spec.speed.stdev ),	// pixels per millisecond
 	        lifetime: nextGaussian(particlePack.spec.lifetime.mean, particlePack.spec.lifetime.stdev),	// milliseconds
