@@ -54,15 +54,15 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 
     particlePack.render = function(player) {
       let mapWidth = 15 * 512;
-      for (let particle = 0; particle < particles.length; particle++) {
-        if (particles[particle].alive >= 100) {
-          let part = particles[particle];
-          graphics.drawImage(particlePack.image,
-            (part.position.x * mapWidth) - (player.position.x * mapWidth),
-            (part.position.y * mapWidth) - (player.position.y * mapWidth),
-            part.size, part.size, true);
-        }
-      }
+      // for (let particle = 0; particle < particles.length; particle++) {
+      //   if (particles[particle].alive >= 100) {
+      //     let part = particles[particle];
+      //     graphics.drawImage(particlePack.image,
+      //       (part.position.x * mapWidth) - (player.position.x * mapWidth),
+      //       (part.position.y * mapWidth) - (player.position.y * mapWidth),
+      //       part.size, part.size, true);
+      //   }
+      // }
     }
 
     function nextCircleVector(scale = 1) {
@@ -106,6 +106,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
       let top = graphics.viewport.top;
       let width = graphics.world.width;
       let height = graphics.world.height;
+
       points['p1'] = {
         x: left, y: top,
       };
@@ -119,10 +120,11 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
         x: left, y: top + height,
       };
       // check for quad1
+      // console.log(points[0])
       let draw = false;
       for (let p in points) {
         if (points[p].x >= shield.x && points[p].y >= shield.y) {
-          // console.log('QUAD1');
+          console.log('QUAD1');
           draw = true;
           break;
         }
@@ -141,7 +143,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
       for (let p in points) {
         if (points[p].x <= shield.x && points[p].y >= shield.y) {
           draw = true;
-          // console.log('QUAD2');
+          console.log('QUAD2');
           break;
         }
       }
@@ -158,7 +160,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
       draw = false;
       for (let p in points) {
         if (points[p].x <= shield.x && points[p].y <= shield.y) {
-          // console.log('QUAD3');
+          console.log('QUAD3');
           draw = true;
           break;
         }
@@ -177,7 +179,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
       draw = false;
       for (let p in points) {
         if (points[p].x >= shield.x && points[p].y <= shield.y) {
-          // console.log('QUAD4');
+          console.log('QUAD4');
           draw = true;
           break;
         }
