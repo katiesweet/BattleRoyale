@@ -18,12 +18,12 @@
     {
       "username": "1@1.com",
       "hashedPassword": "$2a$10$BtxpqsFVl2ObSWmAYUzOjO1PlJYHgMmcTXJHecIsAQRWAWu3i2KfC",
-      "highscore": 0
+      "highscore": 550
     },
     {
       "username": "asdf",
       "hashedPassword": "$2a$10$wPDuHYPpp9rux0JrQIbCU.8IiM7iaeQqfRCFbH7bpim5.i8Iek/Bu",
-      "highscore": 0
+      "highscore": 550
     },
     {
       "username": "test",
