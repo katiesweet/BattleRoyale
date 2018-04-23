@@ -185,6 +185,7 @@ function update(elapsedTime, currentTime) {
 
     for (let id in inGameClients) {
       inGameClients[id].socket.emit(NetworkIds.SHIELD_INIT, shield.toJSON());
+      inGameClients[id].socket.emit(NetworkIds.POWERUP_INIT, powerups.toJSON());
     }
   }
 
@@ -316,6 +317,14 @@ function updateClients(elapsedTime) {
   }
   newBullets.length = 0;
 
+  //
+  // Send to all clients if any powerups were taken
+  const powerupsToRemove = powerups.recentlyRemoved;
+  powerups.recentlyRemoved = [];
+  if (powerupsToRemove.length > 0) {
+    io.emit(NetworkIds.REMOVE_POWERUPS, powerupsToRemove);
+  }
+
   let activeCount = 0;
   const alivePlayers = [];
 
@@ -327,13 +336,6 @@ function updateClients(elapsedTime) {
         NetworkIds.UPDATE_SELF,
         client.player.selfUpdateJSON()
       );
-
-      // Since we moved, report all powerups in region
-      const powerupsInRegion = powerups.getSurroundingPowerups(
-        client.player.position,
-        1
-      );
-      client.socket.emit(NetworkIds.UPDATE_POWERUP, powerupsInRegion);
     }
 
     for (let id in inGameClients) {

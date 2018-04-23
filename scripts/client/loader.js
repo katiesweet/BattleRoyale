@@ -51,6 +51,7 @@ MyGame.loader = (function() {
           'components/viewport',
           'components/barriers',
           'components/shield',
+          'components/powerups'
         ],
         message: 'All models loaded',
         onComplete: null,
