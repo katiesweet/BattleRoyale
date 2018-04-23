@@ -16,6 +16,7 @@ const Powerups = require('./powerups');
 const Shield = require('./shield');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
+const db = require('./database');
 
 const SIMULATION_UPDATE_RATE_MS = 100;
 const STATE_UPDATE_RATE_MS = 20;
@@ -188,6 +189,7 @@ function update(elapsedTime, currentTime) {
 
     for (let id in inGameClients) {
       inGameClients[id].socket.emit(NetworkIds.SHIELD_INIT, shield.toJSON());
+      inGameClients[id].socket.emit(NetworkIds.POWERUP_INIT, powerups.toJSON());
     }
   }
 
@@ -319,8 +321,17 @@ function updateClients(elapsedTime) {
   }
   newBullets.length = 0;
 
+  //
+  // Send to all clients if any powerups were taken
+  const powerupsToRemove = powerups.recentlyRemoved;
+  powerups.recentlyRemoved = [];
+  if (powerupsToRemove.length > 0) {
+    io.emit(NetworkIds.REMOVE_POWERUPS, powerupsToRemove);
+  }
+
   let activeCount = 0;
   const alivePlayers = [];
+
   for (let clientId in inGameClients) {
     const client = inGameClients[clientId];
 
@@ -329,30 +340,18 @@ function updateClients(elapsedTime) {
         NetworkIds.UPDATE_SELF,
         client.player.selfUpdateJSON()
       );
+    }
 
-      for (let id in inGameClients) {
-        if (
-          id !== clientId &&
-          distance(client.player, inGameClients[id].player) < 1
-        ) {
-          inGameClients[id].socket.emit(
-            NetworkIds.UPDATE_OTHER,
-            client.player.otherUpdateJSON(lastUpdate)
-          );
-
-          client.socket.emit(
-            NetworkIds.UPDATE_OTHER,
-            inGameClients[id].player.otherUpdateJSON(lastUpdate)
-          );
-        }
+    for (let id in inGameClients) {
+      if (
+        id !== clientId &&
+        distance(client.player, inGameClients[id].player) < 1
+      ) {
+        client.socket.emit(
+          NetworkIds.UPDATE_OTHER,
+          inGameClients[id].player.otherUpdateJSON(lastUpdate)
+        );
       }
-
-      // Since we moved, report all powerups in region
-      const powerupsInRegion = powerups.getSurroundingPowerups(
-        client.player.position,
-        1
-      );
-      client.socket.emit(NetworkIds.UPDATE_POWERUP, powerupsInRegion);
     }
 
     //
@@ -387,6 +386,11 @@ function updateClients(elapsedTime) {
 
     alivePlayers[0].socket.emit(NetworkIds.WINNER);
     io.emit(NetworkIds.END_OF_GAME, finalScores);
+
+    for (let id in inGameClients) {
+      const player = inGameClients[id].player;
+      db.updateHighscore(player.username, player.score);
+    }
 
     inGameClients = {};
     newBullets = [];

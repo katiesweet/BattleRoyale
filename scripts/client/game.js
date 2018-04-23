@@ -24,7 +24,7 @@ MyGame.screens['gameplay'] = (function(
     playerOthers = {},
     bullets = {},
     explosions = {},
-    currentPowerups = [],
+    currentPowerups = components.Powerups(),
     background = null,
     playerSelfTexture = assets['player-self'],
     playerOtherTexture = assets['player-other'],
@@ -227,14 +227,17 @@ MyGame.screens['gameplay'] = (function(
         case NetworkIds.BULLET_HIT:
           bulletHit(message.data);
           break;
-        case NetworkIds.UPDATE_POWERUP:
-          currentPowerups = message.data;
+        case NetworkIds.REMOVE_POWERUPS:
+          currentPowerups.removePowerups(message.data);
           break;
         case NetworkIds.UPDATE_SCORE:
           score = message.data;
           break;
         case NetworkIds.SHIELD_INIT:
           shield.initialize(message.data);
+          break;
+        case NetworkIds.POWERUP_INIT:
+          currentPowerups.initialize(message.data);
           break;
         case NetworkIds.WINNER:
           window.alert('You are the champion!');
@@ -341,7 +344,8 @@ MyGame.screens['gameplay'] = (function(
       }
     }
 
-    renderer.Powerups.render(currentPowerups, powerupTextures);
+    const surroundingPowerups = currentPowerups.getWithinRegion(playerSelf.position, 1);
+    renderer.Powerups.render(surroundingPowerups, powerupTextures);
 
     graphics.removeFieldOfViewClippingRegion();
 
@@ -487,7 +491,7 @@ MyGame.screens['gameplay'] = (function(
     graphics.viewport.set(
       0,
       0,
-      0.4,
+      0.5,
       graphics.world.width,
       graphics.world.height
     ); // The buffer can't really be any larger than world.buffer, guess I could protect against that.
@@ -515,7 +519,7 @@ MyGame.screens['gameplay'] = (function(
     playerOthers = {};
     bullets = {};
     explosions = {};
-    currentPowerups = [];
+    currentPowerups = components.Powerups();
     nextExplosionId = 0;
     activePlayerCount = 0;
     timeBeforeStart = 0;
