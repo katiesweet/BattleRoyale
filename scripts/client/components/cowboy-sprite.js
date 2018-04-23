@@ -25,7 +25,6 @@ MyGame.components.CowboySprite = function(spec) {
             scaledRotation = (2 * Math.PI) + scaledRotation;
         }
         scaledRotation = scaledRotation % (2 * Math.PI);
-        console.log("Adjusted: ", scaledRotation);
 
         if (scaledRotation < Math.PI/8 || scaledRotation > 15 * Math.PI / 8) {
             that.rotateAnimationNumber = 3;
@@ -60,7 +59,7 @@ MyGame.components.CowboySprite = function(spec) {
         //     that.rotateAnimationNumber = direction + 3;
         // }
         // else if (direction == 7) {
-        //     that.rotateAnimationNumber = 2; 
+        //     that.rotateAnimationNumber = 2;
         // }
         // else {
         //     console.log("Unexpected rotation number: ", direction);
@@ -69,4 +68,3 @@ MyGame.components.CowboySprite = function(spec) {
 
     return that;
 }
-
