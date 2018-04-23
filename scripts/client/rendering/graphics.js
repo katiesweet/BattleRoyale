@@ -319,8 +319,6 @@ MyGame.graphics = (function() {
     context.fillStyle = "rgba(0, 0, 0, 0.5)";
     context.beginPath();
 
-    console.log(((shield.x * mapWidth) - (player.position.x * mapWidth)), ((shield.y * mapWidth) - (player.position.y * mapWidth)));
-
     context.arc(
       ((shield.x * mapWidth) - (player.position.x * mapWidth)),
       ((shield.y * mapWidth) - (player.position.y * mapWidth)),
@@ -331,27 +329,6 @@ MyGame.graphics = (function() {
     );
     context.rect(mapWidth, 0, -mapWidth, mapWidth);
     context.fill();
-  }
-
-  function drawShieldParticle(size, position, image, shield, player) {
-    // function drawImage(center, size, rotation, image) {
-      // context.save();
-      // context.translate(center.x, center.y);
-      // context.rotate(rotation);
-      // context.translate(-center.x, -center.y);
-      let mapWidth = 15 * 512;
-      // console.log()
-      context.drawImage(
-        image,
-        (position.x * mapWidth) - (player.position.x * mapWidth),
-        (position.y * mapWidth) - (player.position.y * mapWidth),
-        size, size);
-
-
-        // (position.x * mapWidth) + ((shield.x * mapWidth) - (player.position.x * mapWidth)),
-        // (position.y * mapWidth) + ((shield.y * mapWidth) - (player.position.y * mapWidth)),
-      // context.restore();
-    // }
   }
 
 	//------------------------------------------------------------------
@@ -391,6 +368,5 @@ MyGame.graphics = (function() {
     drawFieldOfView: drawFieldOfView,
     createFieldOfViewClippingRegion: createFieldOfViewClippingRegion,
     removeFieldOfViewClippingRegion: removeFieldOfViewClippingRegion,
-    drawShieldParticle: drawShieldParticle,
   };
 })();
