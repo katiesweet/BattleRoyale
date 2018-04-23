@@ -409,11 +409,12 @@ MyGame.screens['gameplay'] = (function(
 
     let rate = 0;
     if (
-      action == 'fire' ||
-      action == 'rotate-left' ||
-      action == 'rotate-right'
+      action == 'fire'
+      // action == 'fire' ||
+      // action == 'rotate-left' ||
+      // action == 'rotate-right'
     ) {
-      rate = 200;
+      rate = 250;
     }
 
     let id = myKeyboard.registerHandler(
@@ -441,9 +442,9 @@ MyGame.screens['gameplay'] = (function(
         } else if (action == 'move-down') {
           playerSelf.moveDown(elapsedTime);
         } else if (action == 'rotate-right') {
-          playerSelf.rotateRight();
+          playerSelf.rotateRight(elapsedTime);
         } else if (action == 'rotate-left') {
-          playerSelf.rotateLeft();
+          playerSelf.rotateLeft(elapsedTime);
         } else if (action == 'fire') {
           if (playerSelf.numBullets > 0) {
             MyGame.assets['kaboom'].currentTime = 0;

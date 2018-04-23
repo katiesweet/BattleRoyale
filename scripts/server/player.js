@@ -22,8 +22,9 @@ function createPlayer(username, clientId) {
     height: 0.075,
     radius: 0.04,
   };
-  let direction = random.nextRange(0, 7); // * Math.PI/4
-  let rotateRate = Math.PI / 750; // radians per millisecond
+  // let direction = random.nextRange(0, 7); // * Math.PI/4
+  let rotation = 0;
+  let rotateRate = Math.PI / 1000; // radians per millisecond
   let speed = 0.0002; // unit distance per millisecond
   let reportUpdate = false; // Indicates if this model was updated during the last update
   let health = 1.0;
@@ -45,8 +46,8 @@ function createPlayer(username, clientId) {
     get: () => clientId,
   });
 
-  Object.defineProperty(that, 'direction', {
-    get: () => direction,
+  Object.defineProperty(that, 'rotation', {
+    get: () => rotation,
   });
 
   Object.defineProperty(that, 'position', {
@@ -111,7 +112,7 @@ function createPlayer(username, clientId) {
     return {
       clientId,
       username,
-      direction,
+      rotation,
       position,
       size,
       rotateRate,
@@ -127,7 +128,7 @@ function createPlayer(username, clientId) {
 
   that.selfUpdateJSON = function() {
     return {
-      direction,
+      rotation,
       position,
       health,
       numBullets,
@@ -142,7 +143,7 @@ function createPlayer(username, clientId) {
     return {
       updateWindow,
       clientId,
-      direction,
+      rotation,
       position,
       health,
     };
@@ -228,22 +229,10 @@ function createPlayer(username, clientId) {
   that.moveUp = function(elapsedTime, barriers, activeClients, powerups) {
     reportUpdate = true;
 
-    // let angle = direction * Math.PI / 4;
-    // let vectorX = Math.cos(angle);
-    // let vectorY = Math.sin(angle);
-
-    // let proposedPosition = {
-    //   x: position.x + vectorX * elapsedTime * speed,
-    //   y: position.y - vectorY * elapsedTime * speed,
-    // };
-
     let proposedPosition = {
       x: position.x,
       y: position.y - elapsedTime * speed * sprintMultiplier,
     };
-
-    // position.x += vectorX * elapsedTime * speed;
-    // position.y -= vectorY * elapsedTime * speed;
 
     if (!checkIfCausesCollision(proposedPosition, barriers, activeClients)) {
       position = proposedPosition;
@@ -253,16 +242,6 @@ function createPlayer(username, clientId) {
 
   that.moveLeft = function(elapsedTime, barriers, activeClients, powerups) {
     reportUpdate = true;
-
-    // let angleFacing = direction * Math.PI / 4;
-    // let leftAngle = angleFacing + Math.PI / 2;
-    // let vectorX = Math.cos(leftAngle);
-    // let vectorY = Math.sin(leftAngle);
-
-    // let proposedPosition = {
-    //   x: position.x + vectorX * elapsedTime * speed,
-    //   y: position.y - vectorY * elapsedTime * speed,
-    // };
 
     let proposedPosition = {
       x: position.x - elapsedTime * speed * sprintMultiplier,
@@ -278,16 +257,6 @@ function createPlayer(username, clientId) {
   that.moveRight = function(elapsedTime, barriers, activeClients, powerups) {
     reportUpdate = true;
 
-    // let angleFacing = direction * Math.PI / 4;
-    // let leftAngle = angleFacing - Math.PI / 2;
-    // let vectorX = Math.cos(leftAngle);
-    // let vectorY = Math.sin(leftAngle);
-
-    // let proposedPosition = {
-    //   x: position.x + vectorX * elapsedTime * speed,
-    //   y: position.y - vectorY * elapsedTime * speed,
-    // };
-
     let proposedPosition = {
       x: position.x + elapsedTime * speed * sprintMultiplier,
       y: position.y,
@@ -302,16 +271,6 @@ function createPlayer(username, clientId) {
 
   that.moveDown = function(elapsedTime, barriers, activeClients, powerups) {
     reportUpdate = true;
-
-    // let angleFacing = direction * Math.PI / 4;
-    // let leftAngle = angleFacing + Math.PI;
-    // let vectorX = Math.cos(leftAngle);
-    // let vectorY = Math.sin(leftAngle);
-
-    // let proposedPosition = {
-    //   x: position.x + vectorX * elapsedTime * speed,
-    //   y: position.y - vectorY * elapsedTime * speed,
-    // };
 
     let proposedPosition = {
       x: position.x,
@@ -347,12 +306,9 @@ function createPlayer(username, clientId) {
   //
   //------------------------------------------------------------------
 
-  that.rotateRight = function() {
+  that.rotateRight = function(elapsedTime) {
     reportUpdate = true;
-    direction -= 1;
-    if (direction < 0) {
-      direction = 7;
-    }
+    rotation -= rotateRate * elapsedTime;
   };
 
   //------------------------------------------------------------------
@@ -361,9 +317,9 @@ function createPlayer(username, clientId) {
   // last rotate took place.
   //
   //------------------------------------------------------------------
-  that.rotateLeft = function() {
+  that.rotateLeft = function(elapsedTime) {
     reportUpdate = true;
-    direction = (direction + 1) % 8;
+    rotation += rotateRate * elapsedTime;
   };
 
   function checkForPowerups(powerups) {
