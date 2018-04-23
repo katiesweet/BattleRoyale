@@ -50,23 +50,25 @@
 			</ul>
 		</div>
 		<div id="lobby" class="screen">
-			<div class="lobby-actions">
-				<button id="lobby-back-btn">Back</button>
-				<button id="start-game-btn" class="disabled">Start Game</button>
-			</div>
-			<div class="waiting-room">
-				<div class="player-list">
-					<h2>Players</h2>
-					<div id="lobby-player-list" class="players"></div>
+			<div class="lobby">
+				<div class="lobby-actions">
+					<button id="lobby-back-btn">Back</button>
+					<button id="start-game-btn" class="disabled">Start Game</button>
 				</div>
-				<div class="game-chat">
-					<div id="lobby-message-list" class="messages"></div>
+				<div class="waiting-room">
+					<div class="player-list">
+						<h2>Players</h2>
+						<div id="lobby-player-list" class="players"></div>
+					</div>
+					<div class="game-chat">
+						<div id="lobby-message-list" class="messages"></div>
 
-					<div class="new-message">
-						<div class="input">
-							<textarea id="lobby-new-message" rows="1"></textarea>
+						<div class="new-message">
+							<div class="input">
+								<textarea id="lobby-new-message" rows="1"></textarea>
+							</div>
+							<button id="lobby-send-message" class="send-message-btn">Send</button>
 						</div>
-						<button id="lobby-send-message" class="send-message-btn">Send</button>
 					</div>
 				</div>
 			</div>
