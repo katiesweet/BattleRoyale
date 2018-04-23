@@ -31,12 +31,6 @@ MyGame.components.Powerups = function() {
                 powerupsInRegion.push(powerups[powerup]);
             }
         }
-
-        // for (let i = 0; i < powerups.length; ++i) {
-        //     if (collided(powerups[i], location, radius)) {
-        //         powerupsInRegion.push(powerups[i]);
-        //     }
-        // }
         return powerupsInRegion;
     };
   
