@@ -188,14 +188,14 @@ function update(elapsedTime, currentTime) {
       player.update(currentTime);
     }
 
-    // if (player.health > 0 && shield.collides(player.position, gameStarted)) {
-    //   player.dieByShield();
-    //
-    //   io.emit(NetworkIds.GAME_MESSAGE_NEW, {
-    //     firstUser: player.username,
-    //     event: ' was vaporized by the shield',
-    //   });
-    // }
+    if (player.health > 0 && shield.collides(player.position, gameStarted)) {
+      player.dieByShield();
+
+      io.emit(NetworkIds.GAME_MESSAGE_NEW, {
+        firstUser: player.username,
+        event: ' was vaporized by the shield',
+      });
+    }
   }
 
   for (let bullet = 0; bullet < newBullets.length; bullet++) {
