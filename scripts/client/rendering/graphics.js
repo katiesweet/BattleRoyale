@@ -310,27 +310,27 @@ MyGame.graphics = (function() {
   }
 
   //------------------------------------------------------------------
-	//
-	// Draws shield relative to the 'unit world'.
-	//
-	//------------------------------------------------------------------
+  //
+  // Draws shield relative to the 'unit world'.
+  //
+  //------------------------------------------------------------------
   function drawShield(shield, player) {
-    let mapWidth = 15 * 512;
-    context.fillStyle = "rgba(0, 0, 0, 0.5)";
+    const mapWidth = 15 * 512;
+    context.fillStyle = 'rgba(0, 0, 0, 0.5)';
     context.beginPath();
     context.arc(
-      ((shield.x * mapWidth) - (player.position.x * mapWidth)),
-      ((shield.y * mapWidth) - (player.position.y * mapWidth)),
+      shield.center.x * mapWidth - player.position.x * mapWidth,
+      shield.center.y * mapWidth - player.position.y * mapWidth,
       shield.radius * mapWidth,
       0,
       2 * Math.PI,
-      false,
+      false
     );
     context.rect(mapWidth, 0, -mapWidth, mapWidth);
     context.fill();
   }
 
-	//------------------------------------------------------------------
+  //------------------------------------------------------------------
   //
   // Draws text centered relative to the 'unit world'.
   //

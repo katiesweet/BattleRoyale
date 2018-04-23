@@ -121,7 +121,7 @@ MyGame.screens['pregame'] = (function(
     document.getElementById('spawn-map').addEventListener('click', setLocation);
 
     lastTime = performance.now();
-    timeRemaining = 15000;
+    timeRemaining = 10000;
     requestAnimationFrame(updateCountdown);
   }
 

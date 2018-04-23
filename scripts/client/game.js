@@ -20,6 +20,7 @@ MyGame.screens['gameplay'] = (function(
     myKeyboard = input.Keyboard(),
     barriers = components.Barriers(barrierJson),
     playerSelf = components.Player(barriers),
+    shield = components.Shield(),
     playerOthers = {},
     bullets = {},
     explosions = {},
@@ -34,7 +35,6 @@ MyGame.screens['gameplay'] = (function(
       health: assets['health-powerup'],
       armour: assets['armour-powerup'],
     },
-    shield = {},
     nextExplosionId = 0,
     activePlayerCount = 0,
     score = 0,
@@ -54,6 +54,7 @@ MyGame.screens['gameplay'] = (function(
   //------------------------------------------------------------------
   function connectPlayerSelf({ player, otherPlayers, timeBeforeStart }) {
     playerSelf.initialize(player);
+    activePlayerCount++;
 
     for (let i = 0; i < otherPlayers.length; i++) {
       connectPlayerOther(otherPlayers[i]);
@@ -72,6 +73,7 @@ MyGame.screens['gameplay'] = (function(
     let player = components.PlayerRemote();
     player.initialize(data);
     playerOthers[data.clientId] = player;
+    activePlayerCount++;
   }
 
   //------------------------------------------------------------------
@@ -80,6 +82,7 @@ MyGame.screens['gameplay'] = (function(
   //
   //------------------------------------------------------------------
   function disconnectPlayerOther(player) {
+    activePlayerCount--;
     delete playerOthers[player.clientId];
   }
 
@@ -139,6 +142,10 @@ MyGame.screens['gameplay'] = (function(
   function updatePlayerSelf(data) {
     playerSelf.update(data);
     updateMessageHistory(data.lastMessageId);
+
+    if (playerSelf.health <= 0) {
+      activePlayerCount--;
+    }
   }
 
   //------------------------------------------------------------------
@@ -149,6 +156,10 @@ MyGame.screens['gameplay'] = (function(
   function updatePlayerOther(data) {
     if (playerOthers.hasOwnProperty(data.clientId)) {
       playerOthers[data.clientId].updateGoal(data);
+
+      if (data.health <= 0) {
+        activePlayerCount--;
+      }
     }
   }
 
@@ -173,10 +184,6 @@ MyGame.screens['gameplay'] = (function(
     // When we receive a hit notification, go ahead and remove the
     // associated bullet from the client model.
     delete bullets[data.bulletId];
-  }
-
-  function updateShield(data) {
-    shield = data;
   }
 
   //------------------------------------------------------------------
@@ -223,34 +230,25 @@ MyGame.screens['gameplay'] = (function(
         case NetworkIds.UPDATE_POWERUP:
           currentPowerups = message.data;
           break;
-        case NetworkIds.SHIELD_INFO:
-          updateShield(message.data);
+        case NetworkIds.UPDATE_SCORE:
+          score = message.data;
           break;
-        case NetworkIds.PLAYER_COUNT:
-          activePlayerCount = message.data;
+        case NetworkIds.SHIELD_INIT:
+          shield.initialize(message.data);
           break;
         case NetworkIds.WINNER:
-          let finalScores = JSON.parse(message.data);
-          network.emit(NetworkIds.DISCONNECT_GAME);
-          let alert = 'You are the champion! \nFinal Scores: \n';
-          alert += formatEndingAlert(finalScores);
-          window.alert(alert);
-          menu.showScreen('main-menu');
+          window.alert('You are the champion!');
           break;
         case NetworkIds.END_OF_GAME:
-          let final = JSON.parse(message.data);
+          let finalScores = JSON.parse(message.data);
+          let formattedAlert = formatEndingAlert(finalScores);
           network.emit(NetworkIds.DISCONNECT_GAME);
-          let alertString = 'Final Scores: \n' + formatEndingAlert(final);
-          window.alert(alertString);
+          window.alert(`Final Scores:\n${formattedAlert}`);
           menu.showScreen('main-menu');
-          break;
-        case NetworkIds.SCORE_UPDATE:
-          score = message.data;
           break;
       }
     }
   }
-
 
   //------------------------------------------------------------------
   //
@@ -258,13 +256,21 @@ MyGame.screens['gameplay'] = (function(
   //
   //------------------------------------------------------------------
   function formatEndingAlert(scores) {
-    let scoreString = '';
-    for (let s in scores) {
-      scoreString += (s.toString() + ': ' + scores[s].toString() + '\n');
-    }
-    return scoreString;
-  }
+    let usernames = Object.keys(scores);
+    let users = usernames.map(username => ({
+      username,
+      score: scores[username],
+    }));
 
+    users.sort((a, b) => b.score - a.score);
+
+    if (users.length > 20) {
+      users.splice(20);
+    }
+    return users.reduce((formatted, user, i) => {
+      return `${formatted}${i + 1}. ${user.username}: ${user.score}\n`;
+    }, '');
+  }
 
   //------------------------------------------------------------------
   //
@@ -299,6 +305,8 @@ MyGame.screens['gameplay'] = (function(
       }
     }
 
+    shield.update(elapsedTime);
+
     graphics.viewport.update(playerSelf);
   }
 
@@ -321,12 +329,16 @@ MyGame.screens['gameplay'] = (function(
       graphics.createFieldOfViewClippingRegion(playerSelf.fieldOfView);
     }
 
+    const now = performance.now();
+
     for (let id in playerOthers) {
-      renderer.PlayerRemote.render(
-        playerOthers[id],
-        playerOtherTexture,
-        skeletonTexture
-      );
+      if (playerSelf.health <= 0 || now - playerOthers[id].lastUpdate < 3000) {
+        renderer.PlayerRemote.render(
+          playerOthers[id],
+          playerOtherTexture,
+          skeletonTexture
+        );
+      }
     }
 
     renderer.Powerups.render(currentPowerups, powerupTextures);
@@ -347,8 +359,11 @@ MyGame.screens['gameplay'] = (function(
       playerCount.innerHTML = activePlayerCount;
     }
 
-    const playerScore = document.getElementById('playerScore');
-    playerScore.innerHTML = `<p class="statsParagraph">Score: ${score}</p>`;
+    const playerScore = document.getElementById('player-score');
+
+    if (playerScore.innerHTML !== score) {
+      playerScore.innerHTML = score;
+    }
 
     if (timeBeforeStart > 0) {
       const countdown = document.getElementById('countdown-timer');
@@ -495,11 +510,11 @@ MyGame.screens['gameplay'] = (function(
 
     lastTimeStamp = performance.now();
     playerSelf = components.Player(barriers);
+    shield = components.Shield();
     playerOthers = {};
     bullets = {};
     explosions = {};
     currentPowerups = [];
-    shield = {};
     nextExplosionId = 0;
     activePlayerCount = 0;
     timeBeforeStart = 0;

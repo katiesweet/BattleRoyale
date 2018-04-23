@@ -17,10 +17,10 @@ const Shield = require('./shield');
 const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
 
-const SIMULATION_UPDATE_RATE_MS = 50;
-const STATE_UPDATE_RATE_MS = 100;
+const SIMULATION_UPDATE_RATE_MS = 100;
+const STATE_UPDATE_RATE_MS = 20;
+const GAME_LENGTH = 8 * 60 * 1000; // 8 min in ms
 let lastUpdate = 0;
-let quit = false;
 let countdownStarted = false;
 let gameStarted = false;
 let timeBeforeStart = 0;
@@ -38,7 +38,7 @@ let powerups = Powerups.create({
   health: 25,
   armour: 25,
 });
-let shield = Shield.create();
+let shield = Shield.create({ gameLength: GAME_LENGTH });
 let io;
 
 //------------------------------------------------------------------
@@ -83,6 +83,7 @@ function processInput(elapsedTime) {
     if (inGameClients.hasOwnProperty(input.clientId)) {
       const client = inGameClients[input.clientId];
       client.lastMessageId = input.message.id;
+
       switch (input.message.type) {
         case NetworkIds.INPUT_MOVE_UP:
           client.player.moveUp(
@@ -136,6 +137,13 @@ function processInput(elapsedTime) {
   }
 }
 
+function distance(obj1, obj2) {
+  return Math.sqrt(
+    Math.pow(obj1.position.x - obj2.position.x, 2) +
+      Math.pow(obj1.position.y - obj2.position.y, 2)
+  );
+}
+
 //------------------------------------------------------------------
 //
 // Utility function to perform a hit test between two objects.  The
@@ -143,13 +151,10 @@ function processInput(elapsedTime) {
 //
 //------------------------------------------------------------------
 function collided(obj1, obj2) {
-  const distance = Math.sqrt(
-    Math.pow(obj1.position.x - obj2.position.x, 2) +
-      Math.pow(obj1.position.y - obj2.position.y, 2)
-  );
+  const dist = distance(obj1, obj2);
   const radii = obj1.radius + obj2.radius;
 
-  return distance <= radii;
+  return dist <= radii;
 }
 
 function randomPosition() {
@@ -175,6 +180,10 @@ function update(elapsedTime, currentTime) {
       let position = randomPosition();
       inLobbyClients[id].socket.emit(NetworkIds.AUTO_JOIN_GAME);
       joinGame(inLobbyClients[id].socket, position);
+    }
+
+    for (let id in inGameClients) {
+      inGameClients[id].socket.emit(NetworkIds.SHIELD_INIT, shield.toJSON());
     }
   }
 
@@ -233,17 +242,26 @@ function update(elapsedTime, currentTime) {
           });
 
           if (player.health > 0) {
+            const shootingClient =
+              inGameClients[activeBullets[bullet].clientId];
             player.hitByBullet(activeBullets[bullet]);
-            if (player.health <= 0) {
-              inGameClients[activeBullets[bullet].clientId].player.increaseScore(100);
-              io.emit(NetworkIds.GAME_MESSAGE_NEW, {
-                firstUser:
-                  inGameClients[activeBullets[bullet].clientId].player.username,
-                event: ' totally obliterated ',
-                secondUser: player.username,
-              });
-            } else {
-              inGameClients[activeBullets[bullet].clientId].player.increaseScore(50);
+
+            if (shootingClient) {
+              if (player.health <= 0) {
+                shootingClient.player.increaseScore(100);
+                io.emit(NetworkIds.GAME_MESSAGE_NEW, {
+                  firstUser: shootingClient.player.username,
+                  event: ' totally obliterated ',
+                  secondUser: player.username,
+                });
+              } else {
+                shootingClient.player.increaseScore(50);
+              }
+
+              shootingClient.socket.emit(
+                NetworkIds.UPDATE_SCORE,
+                shootingClient.player.score
+              );
             }
           }
         }
@@ -302,23 +320,28 @@ function updateClients(elapsedTime) {
   for (let clientId in inGameClients) {
     const client = inGameClients[clientId];
 
-    const update = {
-      clientId: clientId,
-      lastMessageId: client.lastMessageId,
-      direction: client.player.direction,
-      position: client.player.position,
-      health: client.player.health,
-      numBullets: client.player.numBullets,
-      weaponStrength: client.player.weaponStrength,
-      healthPacks: client.player.healthPacks,
-      armourLevel: client.player.armourLevel,
-      updateWindow: lastUpdate,
-      sprintLevel: client.player.sprintLevel,
-    };
-
     if (client.player.reportUpdate) {
-      client.socket.emit(NetworkIds.UPDATE_SELF, update);
-      client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
+      client.socket.emit(
+        NetworkIds.UPDATE_SELF,
+        client.player.selfUpdateJSON()
+      );
+
+      for (let id in inGameClients) {
+        if (
+          id !== clientId &&
+          distance(client.player, inGameClients[id].player) < 1
+        ) {
+          inGameClients[id].socket.emit(
+            NetworkIds.UPDATE_OTHER,
+            client.player.otherUpdateJSON(lastUpdate)
+          );
+
+          client.socket.emit(
+            NetworkIds.UPDATE_OTHER,
+            inGameClients[id].player.otherUpdateJSON(lastUpdate)
+          );
+        }
+      }
 
       // Since we moved, report all powerups in region
       const powerupsInRegion = powerups.getSurroundingPowerups(
@@ -331,52 +354,42 @@ function updateClients(elapsedTime) {
     //
     // Report any new bullets to the active clients
     for (let bullet = 0; bullet < bulletMessages.length; bullet++) {
-      client.socket.emit(NetworkIds.BULLET_NEW, bulletMessages[bullet]);
+      if (distance(client.player, bulletMessages[bullet]) < 1) {
+        client.socket.emit(NetworkIds.BULLET_NEW, bulletMessages[bullet]);
+      }
     }
 
     //
     // Report any bullet hits to this client
     for (let hit = 0; hit < hits.length; hit++) {
-      client.socket.emit(NetworkIds.BULLET_HIT, hits[hit]);
+      if (distance(client.player, hits[hit]) < 1) {
+        client.socket.emit(NetworkIds.BULLET_HIT, hits[hit]);
+      }
     }
-
-    // update client on shield status
-    client.socket.emit(NetworkIds.SHIELD_INFO, {
-      radius: shield.radius,
-      x: shield.originX,
-      y: shield.originY,
-    });
 
     if (inGameClients[clientId].player.health > 0) {
       activeCount += 1;
       alivePlayers.push(inGameClients[clientId]);
     }
-  }
 
-  let finalScores = {};
-  if (alivePlayers.length === 1) {
-    alivePlayers[0].player.increaseScore(300);
-    finalScores = mapFinalScores();
-  }
-
-  for (let clientId in inGameClients) {
     inGameClients[clientId].player.reportUpdate = false;
-    //update client on players remaining
-    const client = inGameClients[clientId];
-    client.socket.emit(NetworkIds.PLAYER_COUNT, activeCount);
-    client.socket.emit(NetworkIds.SCORE_UPDATE, client.player.score);
   }
 
   if (alivePlayers.length === 1) {
-    alivePlayers[0].socket.emit(NetworkIds.WINNER, JSON.stringify(finalScores));
-    for (let clientId in inGameClients) {
-      const client = inGameClients[clientId];
-      inGameClients[clientId].player.reportUpdate = false;
-      gameStarted = false;
-      if (client.player.username != alivePlayers[0].player.username) {
-        client.socket.emit(NetworkIds.END_OF_GAME, JSON.stringify(finalScores));
-      }
-    }
+    gameStarted = false;
+    alivePlayers[0].player.increaseScore(300);
+
+    const finalScores = JSON.stringify(mapFinalScores());
+
+    alivePlayers[0].socket.emit(NetworkIds.WINNER);
+    io.emit(NetworkIds.END_OF_GAME, finalScores);
+
+    inGameClients = {};
+    newBullets = [];
+    activeBullets = [];
+    hits = [];
+    countdownStarted = false;
+    gameStarted = false;
   }
 
   //
@@ -396,11 +409,11 @@ function updateClients(elapsedTime) {
 function mapFinalScores() {
   let scores = {};
   for (let clientId in inGameClients) {
-    scores[inGameClients[clientId].player.username] = inGameClients[clientId].player.score;
+    scores[inGameClients[clientId].player.username] =
+      inGameClients[clientId].player.score;
   }
   return scores;
 }
-
 
 //------------------------------------------------------------------
 //
@@ -414,12 +427,10 @@ function gameLoop(currentTime, elapsedTime) {
   update(elapsedTime, currentTime, io);
   updateClients(elapsedTime);
 
-  if (!quit) {
-    setTimeout(() => {
-      let now = present();
-      gameLoop(now, now - currentTime);
-    }, SIMULATION_UPDATE_RATE_MS);
-  }
+  setTimeout(() => {
+    let now = present();
+    gameLoop(now, now - currentTime);
+  }, SIMULATION_UPDATE_RATE_MS);
 }
 
 function initializeSocketIo(httpServer) {
@@ -493,22 +504,11 @@ function joinGame(socket, position) {
     client.player.toJSON()
   );
 
-  const update = {
-    clientId: socket.id,
-    updateWindow: lastUpdate,
-    lastMessageId: client.lastMessageId,
-    direction: client.player.direction,
-    position: client.player.position,
-    health: client.player.health,
-    numBullets: client.player.numBullets,
-    weaponStrength: client.player.weaponStrength,
-    healthPacks: client.player.healthPacks,
-    armourLevel: client.player.armourLevel,
-    sprintLevel: client.player.sprintLevel,
-  };
-
-  client.socket.emit(NetworkIds.UPDATE_SELF, update);
-  client.socket.broadcast.emit(NetworkIds.UPDATE_OTHER, update);
+  client.socket.emit(NetworkIds.UPDATE_SELF, client.player.selfUpdateJSON());
+  client.socket.broadcast.emit(
+    NetworkIds.UPDATE_OTHER,
+    client.player.otherUpdateJSON(lastUpdate)
+  );
 
   inGameClients[socket.id] = inLobbyClients[socket.id];
   delete inLobbyClients[socket.id];
@@ -532,6 +532,7 @@ function removeGameClient(socket) {
 
 function startGame() {
   if (!gameStarted) {
+    inGameClients = {};
     newBullets = [];
     activeBullets = [];
     hits = [];
@@ -541,9 +542,9 @@ function startGame() {
       health: 25,
       armour: 50,
     });
-    shield = Shield.create();
+    shield = Shield.create({ gameLength: GAME_LENGTH });
     countdownStarted = true;
-    timeBeforeStart = 15000; // 15 sec
+    timeBeforeStart = 10000; // 10 sec
     io.emit(NetworkIds.INITIATE_GAME_START);
   }
 }

@@ -15,11 +15,10 @@ MyGame.network = (function() {
     NetworkIds.BULLET_NEW,
     NetworkIds.BULLET_HIT,
     NetworkIds.UPDATE_POWERUP,
-    NetworkIds.SHIELD_INFO,
-    NetworkIds.PLAYER_COUNT,
+    NetworkIds.UPDATE_SCORE,
+    NetworkIds.SHIELD_INIT,
     NetworkIds.END_OF_GAME,
     NetworkIds.WINNER,
-    NetworkIds.SCORE_UPDATE,
   ];
 
   function unlistenGameEvents() {

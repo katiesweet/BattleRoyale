@@ -125,9 +125,32 @@ function createPlayer(username, clientId) {
     };
   };
 
+  that.selfUpdateJSON = function() {
+    return {
+      direction,
+      position,
+      health,
+      numBullets,
+      weaponStrength,
+      healthPacks,
+      armourLevel,
+      sprintLevel,
+    };
+  };
+
+  that.otherUpdateJSON = function(updateWindow) {
+    return {
+      updateWindow,
+      clientId,
+      direction,
+      position,
+      health,
+    };
+  };
+
   that.increaseScore = function(increase) {
     score += increase;
-  }
+  };
 
   that.setStartingPosition = function(start) {
     reportUpdate = true;
