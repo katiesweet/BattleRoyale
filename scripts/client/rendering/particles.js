@@ -8,7 +8,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 		particlePack.spec = {
 			speed: { mean: 0.0001, stdev: 0},
 			lifetime: { mean: 800, stdev: 500 },
-			size: { mean: 0.0009, stdev: .0005 }
+			size: { mean: 0.01, stdev: 0.001 }
 		}
 
 		particlePack.update = function(elapsedTime, shield) {
