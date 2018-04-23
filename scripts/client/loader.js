@@ -160,18 +160,6 @@ MyGame.loader = (function() {
         key: 'armour-powerup',
         source: 'assets/vest_powerup.png',
       },
-      {
-        key: 'dark-clouds-1',
-        source: 'assets/darkclouds1.png',
-      },
-      {
-        key: 'dark-clouds-2',
-        source: 'assets/darkclouds2.png',
-      },
-      {
-        key: 'dark-clouds-3',
-        source: 'assets/darkclouds3.png',
-      },
     ];
   //------------------------------------------------------------------
   //

@@ -317,7 +317,7 @@ MyGame.screens['gameplay'] = (function(
     // draw shield
     graphics.drawInvertedCircle("rgba(0, 0, 0, 0.5)", {x: shield.x, y: shield.y}, shield.radius, true);
 
-    renderer.ParticleSystem.render(playerSelf, shield);
+    renderer.ParticleSystem.render();
 
     renderer.Player.render(playerSelf, playerSelfTexture, skeletonTexture);
 

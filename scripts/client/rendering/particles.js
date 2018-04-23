@@ -37,7 +37,7 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
 			particles = keepMe;
 		};
 
-    particlePack.render = function(player, shield) {
+    particlePack.render = function() {
 	    for (let particle = 0; particle < particles.length; particle++) {
         let part = particles[particle];
 					graphics.drawCircle("rgb(0, 0, 0, 0.5)", part.position, part.size, true);
@@ -84,9 +84,9 @@ MyGame.renderer.ParticleSystem = (function(graphics, assets) {
     }
 	}
 
-	that.render = function(player, shield) {
+	that.render = function() {
 			for (var system in that.systems) {
-				that.systems[system].render(player, shield);
+				that.systems[system].render();
 			}
 	}
 
