@@ -87,39 +87,36 @@
 					<div class="mini-map-window">
 						<canvas id="mini-map"></canvas>
 					</div>
-					<div class="inventory">
-						<label>Stats:</label>
+					<div class="options">
 						<div class="inventory-item">
-							<label for="player-count">Active Players: </label>
-							<var id="player-count"></var>
-							<label for="player-score">Score: </label>
-							<var id="player-score"></var>
+							<span>Active Players: </span>
+							<span id="player-count"></span>
 						</div>
+						<div class="inventory-item">
+							<span>Score: </span>
+							<span id="player-score"></span>
+						</div>
+						<div class="inventory">
+							<div class="inventory-item">
+								<span>Gun: </span>
+								<span id="gun-type">Standard Pistol</span>
+							</div>
+							<div class="inventory-item">
+								<span>Bullets: </span>
+								<span id="num-bullets">0</span>
+							</div>
+							<div class="inventory-item">
+								<span>Armour: </span>
+								<span id="armour-type">None</span>
+							</div>
+							<div class="inventory-item">
+								<span>Health Packets: </span>
+								<span id="num-health">0</span>
+							</div>
+						</div>
+
+						<button id="game-quit-btn">Quit</button>
 					</div>
-					<div class="inventory">
-						<label>Inventory:</label>
-						<div class="inventory-item">
-							<label for="gun-type">Gun: </label>
-							<var id="gun-type">Standard Pistol</var>
-						</div>
-						<div class="inventory-item">
-							<label for="num-bullets">Bullets: </label>
-							<var id="num-bullets">0</var>
-						</div>
-						<div class="inventory-item">
-							<label for="armour-type">Armour: </label>
-							<var id="armour-type">None</var>
-						</div>
-						<div class="inventory-item">
-							<label for="num-health">Health Packets: </label>
-							<var id="num-health">0</var>
-						</div>
-					</div>
-					<ul class="options">
-						<li>
-							<button id="game-quit-btn">Quit</button>
-						</li>
-					</ul>
 				</div>
 				<div class="game-window">
 					<h1 id="countdown-timer" class="countdown-timer"></h1>
@@ -139,7 +136,7 @@
 		</div>
 		<div id="keyboard-config" class="screen">
 			<div class="centered">
-				<label>Keyboard Configuration</label>
+				<div>Keyboard Configuration</div>
 				<p>Click on any action to edit the key it corresponds to.
 					<table class="config" align="center">
 						<tr>
