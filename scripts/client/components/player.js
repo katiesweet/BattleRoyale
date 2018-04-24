@@ -15,7 +15,6 @@ MyGame.components.Player = function(barriers) {
     height: 0.075,
     radius: 0.04,
   };
-  // let direction = 0;
   let rotation = 0;
   let rotateRate = 0;
   let speed = 0;
@@ -108,18 +107,17 @@ MyGame.components.Player = function(barriers) {
   function getFieldOfView() {
     let scaledRotation = rotation;
     while (scaledRotation < 0) {
-        scaledRotation = (2 * Math.PI) + scaledRotation;
+      scaledRotation = 2 * Math.PI + scaledRotation;
     }
     scaledRotation = scaledRotation % (2 * Math.PI);
 
-
-    let firstAngle = scaledRotation + (fieldOfView.angle / 2 * Math.PI / 4);
+    let firstAngle = scaledRotation + fieldOfView.angle / 2 * Math.PI / 4;
     let p2 = {
       x: position.x + Math.cos(firstAngle) * fieldOfView.radius,
       y: position.y - Math.sin(firstAngle) * fieldOfView.radius,
     };
 
-    let secondAngle = scaledRotation - (fieldOfView.angle / 2 * Math.PI / 4);
+    let secondAngle = scaledRotation - fieldOfView.angle / 2 * Math.PI / 4;
     let p3 = {
       x: position.x + Math.cos(secondAngle) * fieldOfView.radius,
       y: position.y - Math.sin(secondAngle) * fieldOfView.radius,
@@ -163,17 +161,6 @@ MyGame.components.Player = function(barriers) {
   //
   //------------------------------------------------------------------
   that.moveUp = function(elapsedTime) {
-    // let angle = direction * Math.PI / 4;
-    // let vectorX = Math.cos(angle);
-    // let vectorY = Math.sin(angle);
-
-    // let proposedPosition = {
-    //   x : position.x + vectorX * elapsedTime * speed,
-    //   y : position.y - vectorY * elapsedTime * speed
-    // }
-
-    // position.x += vectorX * elapsedTime * speed;
-    // position.y -= vectorY * elapsedTime * speed;
     let proposedPosition = {
       x: position.x,
       y: position.y - elapsedTime * speed * sprintMultiplier,
@@ -188,16 +175,6 @@ MyGame.components.Player = function(barriers) {
   };
 
   that.moveLeft = function(elapsedTime) {
-    // let angleFacing = direction * Math.PI / 4;
-    // let leftAngle = angleFacing + Math.PI / 2;
-    // let vectorX = Math.cos(leftAngle);
-    // let vectorY = Math.sin(leftAngle);
-
-    // let proposedPosition = {
-    //   x : position.x + vectorX * elapsedTime * speed,
-    //   y : position.y - vectorY * elapsedTime * speed
-    // }
-
     let proposedPosition = {
       x: position.x - elapsedTime * speed * sprintMultiplier,
       y: position.y,
@@ -212,16 +189,6 @@ MyGame.components.Player = function(barriers) {
   };
 
   that.moveRight = function(elapsedTime) {
-    // let angleFacing = direction * Math.PI / 4;
-    // let leftAngle = angleFacing - Math.PI / 2;
-    // let vectorX = Math.cos(leftAngle);
-    // let vectorY = Math.sin(leftAngle);
-
-    // let proposedPosition = {
-    //   x : position.x + vectorX * elapsedTime * speed,
-    //   y : position.y - vectorY * elapsedTime * speed
-    // }
-
     let proposedPosition = {
       x: position.x + elapsedTime * speed * sprintMultiplier,
       y: position.y,
@@ -236,15 +203,6 @@ MyGame.components.Player = function(barriers) {
   };
 
   that.moveDown = function(elapsedTime) {
-    // let angleFacing = direction * Math.PI / 4;
-    // let leftAngle = angleFacing + Math.PI;
-    // let vectorX = Math.cos(leftAngle);
-    // let vectorY = Math.sin(leftAngle);
-
-    // let proposedPosition = {
-    //   x : position.x + vectorX * elapsedTime * speed,
-    //   y : position.y - vectorY * elapsedTime * speed
-    // }
     let proposedPosition = {
       x: position.x,
       y: position.y + elapsedTime * speed * sprintMultiplier,
@@ -297,10 +255,6 @@ MyGame.components.Player = function(barriers) {
   //
   //------------------------------------------------------------------
   that.rotateRight = function(elapsedTime) {
-    // direction -= 1;
-    // if (direction < 0) {
-    //   direction = 7;
-    // }
     rotation -= rotateRate * elapsedTime;
     that.sprite.updateRotationAnimation(rotation);
   };
@@ -311,7 +265,6 @@ MyGame.components.Player = function(barriers) {
   //
   //------------------------------------------------------------------
   that.rotateLeft = function(elapsedTime) {
-    // direction = (direction + 1) % 8;
     rotation += rotateRate * elapsedTime;
     that.sprite.updateRotationAnimation(rotation);
   };
@@ -319,7 +272,6 @@ MyGame.components.Player = function(barriers) {
   that.update = function(spec) {
     position.x = spec.position.x;
     position.y = spec.position.y;
-    // direction = spec.direction;
     rotation = spec.rotation;
     health = spec.health;
     numBullets = spec.numBullets;

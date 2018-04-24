@@ -71,6 +71,10 @@ MyGame.network = (function() {
     queue = Queue.create();
   }
 
+  function nextMessageId() {
+    return messageId++;
+  }
+
   return {
     history,
     connect,
@@ -82,6 +86,7 @@ MyGame.network = (function() {
     initializeGameEvents,
     getQueue,
     resetQueue,
+    nextMessageId,
     enqueue: queue.enqueue,
     dequeue: queue.dequeue,
   };
