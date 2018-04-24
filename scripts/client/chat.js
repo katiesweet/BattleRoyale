@@ -143,6 +143,7 @@ MyGame.chat = (function(network) {
     message.appendChild(username);
     message.appendChild(text);
     messageList.appendChild(message);
+    messageList.scrollTop = messageList.scrollHeight;
   }
 
   function renderGameMessage(data, lobby = false) {
@@ -171,6 +172,7 @@ MyGame.chat = (function(network) {
 
     message.appendChild(text);
     messageList.appendChild(message);
+    messageList.scrollTop = messageList.scrollHeight;
   }
 
   return {

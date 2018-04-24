@@ -105,7 +105,8 @@ MyGame.renderer.Player = (function(graphics, assets) {
     graphics.drawRectangle(
       'rgba(0, 0, 0, 1)',
       model.position.x - model.size.width / 2,
-      model.position.y - (model.size.height / 2 + healthBarHeight * 2 + sprintBarHeight * 1.5),
+      model.position.y -
+        (model.size.height / 2 + healthBarHeight * 2 + sprintBarHeight * 1.5),
       model.size.width,
       sprintBarHeight,
       true
@@ -116,7 +117,8 @@ MyGame.renderer.Player = (function(graphics, assets) {
     graphics.drawFilledRectangle(
       'rgba(173,216,230, 1)',
       model.position.x - model.size.width / 2,
-      model.position.y - (model.size.height / 2 + healthBarHeight * 2 + sprintBarHeight * 1.5),
+      model.position.y -
+        (model.size.height / 2 + healthBarHeight * 2 + sprintBarHeight * 1.5),
       model.size.width,
       sprintBarHeight,
       true
@@ -127,13 +129,13 @@ MyGame.renderer.Player = (function(graphics, assets) {
     graphics.drawFilledRectangle(
       'rgba(0,0,255, 1)',
       model.position.x - model.size.width / 2,
-      model.position.y - (model.size.height / 2 + healthBarHeight * 2 + sprintBarHeight * 1.5),
+      model.position.y -
+        (model.size.height / 2 + healthBarHeight * 2 + sprintBarHeight * 1.5),
       model.size.width * model.sprintLevel,
       sprintBarHeight,
       true
     );
   }
-
 
   function renderFieldOfView(model) {
     graphics.drawFieldOfView(model.fieldOfView, true);
@@ -141,17 +143,31 @@ MyGame.renderer.Player = (function(graphics, assets) {
 
   function renderInventory(model) {
     let weaponType = document.getElementById('gun-type');
-    weaponType.innerHTML = (model.weaponStrength > 1) ? 'Upgraded Pistol' : 'Standard Pistol';
+    let pistolType =
+      model.weaponStrength > 1 ? 'Upgraded Pistol' : 'Standard Pistol';
+
+    if (weaponType.innerHTML !== pistolType) {
+      weaponType.innerHTML = pistolType;
+    }
 
     let numBullets = document.getElementById('num-bullets');
-    numBullets.innerHTML = model.numBullets;
+
+    if (numBullets.innerHTML !== model.numBullets) {
+      numBullets.innerHTML = model.numBullets;
+    }
 
     let armourType = document.getElementById('armour-type');
-    armourType.innerHTML = (model.armourLevel > 1) ? 'Vest' : 'None';
+    let vestType = model.armourLevel > 1 ? 'Vest' : 'None';
+
+    if (armourType.innerHTML !== vestType) {
+      armourType.innerHTML = vestType;
+    }
 
     let numHealth = document.getElementById('num-health');
-    numHealth.innerHTML = model.healthPacks;
 
+    if (numHealth.innerHTML !== model.healthPacks) {
+      numHealth.innerHTML = model.healthPacks;
+    }
   }
 
   // ------------------------------------------------------------------

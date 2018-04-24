@@ -39,7 +39,8 @@ MyGame.screens['gameplay'] = (function(
     activePlayerCount = 0,
     score = 0,
     timeBeforeStart = 0,
-    isCountingDown = false;
+    isCountingDown = false,
+    deadPlayers = {};
 
   function showCountdown(time) {
     isCountingDown = true;
@@ -143,8 +144,12 @@ MyGame.screens['gameplay'] = (function(
     playerSelf.update(data);
     updateMessageHistory(data.lastMessageId);
 
-    if (playerSelf.health <= 0) {
+    if (
+      playerSelf.health <= 0 &&
+      !deadPlayers.hasOwnProperty(playerSelf.username)
+    ) {
       activePlayerCount--;
+      deadPlayers[playerSelf.username] = true;
     }
   }
 
@@ -157,8 +162,12 @@ MyGame.screens['gameplay'] = (function(
     if (playerOthers.hasOwnProperty(data.clientId)) {
       playerOthers[data.clientId].updateGoal(data);
 
-      if (data.health <= 0) {
+      if (
+        data.health <= 0 &&
+        !deadPlayers.hasOwnProperty(playerOthers[data.clientId].username)
+      ) {
         activePlayerCount--;
+        deadPlayers[playerOthers[data.clientId].username] = true;
       }
     }
   }
@@ -529,6 +538,7 @@ MyGame.screens['gameplay'] = (function(
     activePlayerCount = 0;
     timeBeforeStart = 0;
     isCountingDown = false;
+    deadPlayers = [];
 
     requestAnimationFrame(gameLoop);
   }

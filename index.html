@@ -50,23 +50,25 @@
 			</ul>
 		</div>
 		<div id="lobby" class="screen">
-			<div class="lobby-actions">
-				<button id="lobby-back-btn">Back</button>
-				<button id="start-game-btn" class="disabled">Start Game</button>
-			</div>
-			<div class="waiting-room">
-				<div class="player-list">
-					<h2>Players</h2>
-					<div id="lobby-player-list" class="players"></div>
+			<div class="lobby">
+				<div class="lobby-actions">
+					<button id="lobby-back-btn">Back</button>
+					<button id="start-game-btn" class="disabled">Start Game</button>
 				</div>
-				<div class="game-chat">
-					<div id="lobby-message-list" class="messages"></div>
+				<div class="waiting-room">
+					<div class="player-list">
+						<h2>Players</h2>
+						<div id="lobby-player-list" class="players"></div>
+					</div>
+					<div class="game-chat">
+						<div id="lobby-message-list" class="messages"></div>
 
-					<div class="new-message">
-						<div class="input">
-							<textarea id="lobby-new-message" rows="1"></textarea>
+						<div class="new-message">
+							<div class="input">
+								<textarea id="lobby-new-message" rows="1"></textarea>
+							</div>
+							<button id="lobby-send-message" class="send-message-btn">Send</button>
 						</div>
-						<button id="lobby-send-message" class="send-message-btn">Send</button>
 					</div>
 				</div>
 			</div>
@@ -85,39 +87,38 @@
 					<div class="mini-map-window">
 						<canvas id="mini-map"></canvas>
 					</div>
-					<div class="inventory">
-						<label>Stats:</label>
-						<div class="inventory-item">
-							<label for="player-count">Active Players: </label>
-							<var id="player-count"></var>
-							<label for="player-score">Score: </label>
-							<var id="player-score"></var>
+					<div class="options">
+						<div class="stats">
+							<div class="inventory-item">
+								<span class="title">Players: </span>
+								<span id="player-count"></span>
+							</div>
+							<div class="inventory-item">
+								<span class="title">Score: </span>
+								<span id="player-score"></span>
+							</div>
 						</div>
+						<div class="inventory">
+							<div class="inventory-item">
+								<span class="title">Gun: </span>
+								<span id="gun-type">Standard Pistol</span>
+							</div>
+							<div class="inventory-item">
+								<span class="title">Bullets: </span>
+								<span id="num-bullets">0</span>
+							</div>
+							<div class="inventory-item">
+								<span class="title">Armour: </span>
+								<span id="armour-type">None</span>
+							</div>
+							<div class="inventory-item">
+								<span class="title">Health Packets: </span>
+								<span id="num-health">0</span>
+							</div>
+						</div>
+
+						<button id="game-quit-btn">Quit</button>
 					</div>
-					<div class="inventory">
-						<label>Inventory:</label>
-						<div class="inventory-item">
-							<label for="gun-type">Gun: </label>
-							<var id="gun-type">Standard Pistol</var>
-						</div>
-						<div class="inventory-item">
-							<label for="num-bullets">Bullets: </label>
-							<var id="num-bullets">0</var>
-						</div>
-						<div class="inventory-item">
-							<label for="armour-type">Armour: </label>
-							<var id="armour-type">None</var>
-						</div>
-						<div class="inventory-item">
-							<label for="num-health">Health Packets: </label>
-							<var id="num-health">0</var>
-						</div>
-					</div>
-					<ul class="options">
-						<li>
-							<button id="game-quit-btn">Quit</button>
-						</li>
-					</ul>
 				</div>
 				<div class="game-window">
 					<h1 id="countdown-timer" class="countdown-timer"></h1>
@@ -137,7 +138,7 @@
 		</div>
 		<div id="keyboard-config" class="screen">
 			<div class="centered">
-				<label>Keyboard Configuration</label>
+				<div>Keyboard Configuration</div>
 				<p>Click on any action to edit the key it corresponds to.
 					<table class="config" align="center">
 						<tr>

@@ -18,8 +18,8 @@ const NetworkIds = require('../shared/network-ids');
 const Queue = require('../shared/queue.js');
 const db = require('./database');
 
-const SIMULATION_UPDATE_RATE_MS = 100;
-const STATE_UPDATE_RATE_MS = 20;
+const SIMULATION_UPDATE_RATE_MS = 100; // 10/sec
+const STATE_UPDATE_RATE_MS = 30; // 3/sec
 const GAME_LENGTH = 8 * 60 * 1000; // 8 min in ms
 let lastUpdate = 0;
 let countdownStarted = false;
