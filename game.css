@@ -235,18 +235,6 @@ ul.menu > li {
   display: none;
 }
 
-.game-container {
-  width: 100%;
-  display: flex !important;
-  flex-direction: row;
-}
-
-.game-container > .game-window {
-  background-color: saddlebrown;
-  padding: 10px 0;
-  position: relative;
-}
-
 .countdown-timer {
   position: absolute;
   top: 50%;
@@ -260,17 +248,16 @@ ul.menu > li {
   margin: 0;
 }
 
-.game-container > .game-menu {
-  width: calc((100vw - 100vh + 20px) / 2);
-  min-width: 100px;
-  height: 100vh;
-  background-color: saddlebrown;
-  position: relative;
+.game-container {
+  width: 100%;
+  display: flex !important;
+  flex-direction: row;
 }
 
-.game-container > .game-menu > .mini-map-window {
+.game-container > .game-window {
   background-color: saddlebrown;
-  padding: 10px 0 0 10px;
+  padding: 10px 0;
+  position: relative;
 }
 
 .game-container > .game-chat {
@@ -280,39 +267,76 @@ ul.menu > li {
   height: 100vh;
 }
 
-.game-menu > .inventory {
-  width: 100%;
-  padding: 10px 10px 0;
-  color: whitesmoke;
-  -webkit-text-stroke: 2px #2e2e2e;
-  -moz-text-stroke: 2px #2e2e2e;
+.game-container > .game-menu {
+  width: calc((100vw - 100vh + 20px) / 2);
+  min-width: 100px;
+  height: 100vh;
+  background-color: saddlebrown;
+  display: flex;
+  flex-direction: column;
 }
 
-.game-menu > .inventory > label {
-  text-align: center;
-  font-size: calc(0.01em + 5vh);
-}
-
-.game-menu > .inventory > .inventory-item > label {
-  font-size: calc(0.01em + 4vh);
-}
-
-.game-menu > .inventory > .inventory-item > var {
-  font-size: calc(0.01em + 4vh);
+.game-container > .game-menu > .mini-map-window {
+  background-color: saddlebrown;
+  padding: 10px 0 0 10px;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .game-menu > .options {
-  position: absolute;
-  list-style-type: none;
-  padding: 0;
+  flex-grow: 1;
   width: 100%;
-  padding: 0 10px;
-  margin: 0;
-  bottom: 10px;
+  padding: 5px 10px;
+  position: relative;
 }
 
-.game-menu > .options > li > button {
-  width: 100%;
+.game-menu > .options > .stats {
+  margin-top: 5px;
+  padding: 5px;
+  border-top: 1px solid #1c1c1c;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.game-menu > .options > .inventory {
+  margin-top: 5px;
+  padding: 5px;
+  border-top: 1px solid #1c1c1c;
+  border-bottom: 1px solid #1c1c1c;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.game-menu > .options .inventory-item {
+  display: flex;
+  flex-direction: column;
+  padding-right: 20px;
+  padding-bottom: 10px;
+}
+
+.game-menu > .options .inventory-item > span {
+  white-space: nowrap;
+}
+
+.game-menu > .options .inventory-item > span:not(.title) {
+  font-size: calc(0.01em + 2.5vh);
+  color: #1c1c1c;
+  padding-left: 3px;
+}
+
+.game-menu > .options .inventory-item > .title {
+  font-size: calc(0.01em + 3.5vh);
+  color: whitesmoke;
+  -webkit-text-stroke: 2px #1c1c1c;
+  -moz-text-stroke: 2px #1c1c1c;
+}
+
+.game-menu > .options > button {
+  width: calc(100% - 30px);
   color: #1c1c1c;
   border: 1px solid #1c1c1c;
   border-radius: 4px;
@@ -320,17 +344,19 @@ ul.menu > li {
   border: 2px solid #1c1c1c;
   color: #1c1c1c;
   font-weight: 500;
+  position: absolute;
+  bottom: 10px;
 }
 
-.game-menu > .options > li > button:hover {
+.game-menu > .options > button:hover {
   background-color: white;
 }
 
-.game-menu > .options > li > button:active {
+.game-menu > .options > button:active {
   background-color: #cccccc;
 }
 
-.game-menu > .options > li > button:focus {
+.game-menu > .options > button:focus {
   outline: none;
 }
 
@@ -437,9 +463,20 @@ ul.menu > li {
   outline: none;
 }
 
-.lobby-actions {
+.lobby {
   margin: 50px auto 0;
-  width: 800px;
+  height: calc(100vh - 100px) !important;
+  width: 70vw !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.lobby-actions {
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -450,8 +487,10 @@ ul.menu > li {
 }
 
 .waiting-room {
+  flex-grow: 1;
   margin: 10px auto 0;
-  width: 800px;
+  width: 100%;
+  max-width: 800px;
   background-color: saddlebrown;
   display: flex;
   flex-direction: row;
@@ -499,7 +538,6 @@ ul.menu > li {
 }
 
 .waiting-room > .game-chat {
-  height: 600px;
   width: 600px;
 }
 
@@ -512,11 +550,12 @@ ul.menu > li {
 
 .pregame-container > h1 {
   margin: 20px 0 0;
-  font-size: calc(0.5em + 5vh);
+  font-size: calc(0.5em + 3.5vh);
   color: whitesmoke;
   -webkit-text-stroke: 1px #1c1c1c;
   -moz-text-stroke: 1px #1c1c1c;
   text-align: center;
+  white-space: nowrap;
 }
 
 .pregame-container > canvas {
