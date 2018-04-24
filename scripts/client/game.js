@@ -120,10 +120,10 @@ MyGame.screens['gameplay'] = (function(
           playerSelf.moveDown(message.elapsedTime, barriers);
           break;
         case 'rotate-left':
-          playerSelf.rotateLeft();
+          playerSelf.rotateLeft(message.elapsedTime);
           break;
         case 'rotate-right':
-          playerSelf.rotateRight();
+          playerSelf.rotateRight(message.elapsedTime);
           break;
         case 'sprint':
           playerSelf.sprint();

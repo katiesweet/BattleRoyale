@@ -16,11 +16,9 @@ MyGame.components.CowboySprite = function(spec) {
   };
 
   that.updateRotationAnimation = function(rotation) {
-    // let scaledRotation = rotation % (2 * Math.PI);
-    // if (scaledRotation < 0) {
-    //     scaledRotation = (2 * Math.PI) - scaledRotation;
-    // }
-    let scaledRotation = rotation;
+    console.log('rotaiton', rotation);
+
+    let scaledRotation = Number(rotation);
     while (scaledRotation < 0) {
       scaledRotation = 2 * Math.PI + scaledRotation;
     }
