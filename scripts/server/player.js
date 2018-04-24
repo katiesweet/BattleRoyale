@@ -126,8 +126,9 @@ function createPlayer(username, clientId) {
     };
   };
 
-  that.selfUpdateJSON = function() {
+  that.selfUpdateJSON = function(lastMessageId) {
     return {
+      lastMessageId,
       rotation,
       position,
       health,

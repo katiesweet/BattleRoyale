@@ -334,7 +334,7 @@ function updateClients(elapsedTime) {
     if (client.player.reportUpdate) {
       client.socket.emit(
         NetworkIds.UPDATE_SELF,
-        client.player.selfUpdateJSON()
+        client.player.selfUpdateJSON(client.lastMessageId)
       );
     }
 
@@ -508,7 +508,10 @@ function joinGame(socket, position) {
     client.player.toJSON()
   );
 
-  client.socket.emit(NetworkIds.UPDATE_SELF, client.player.selfUpdateJSON());
+  client.socket.emit(
+    NetworkIds.UPDATE_SELF,
+    client.player.selfUpdateJSON(client.lastMessageId)
+  );
   client.socket.broadcast.emit(
     NetworkIds.UPDATE_OTHER,
     client.player.otherUpdateJSON(lastUpdate)

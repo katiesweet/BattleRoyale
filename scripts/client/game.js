@@ -108,22 +108,22 @@ MyGame.screens['gameplay'] = (function(
 
       switch (message.type) {
         case 'move-up':
-          playerSelf.moveUp(input.message.elapsedTime, barriers);
+          playerSelf.moveUp(message.elapsedTime, barriers);
           break;
         case 'move-left':
-          playerSelf.moveLeft(input.message.elapsedTime, barriers);
+          playerSelf.moveLeft(message.elapsedTime, barriers);
           break;
         case 'move-right':
-          playerSelf.moveRight(input.message.elapsedTime, barriers);
+          playerSelf.moveRight(message.elapsedTime, barriers);
           break;
         case 'move-down':
-          playerSelf.moveDown(input.message.elapsedTime, barriers);
+          playerSelf.moveDown(message.elapsedTime, barriers);
           break;
         case 'rotate-left':
-          playerSelf.rotateLeft();
+          playerSelf.rotateLeft(message.elapsedTime);
           break;
         case 'rotate-right':
-          playerSelf.rotateRight();
+          playerSelf.rotateRight(message.elapsedTime);
           break;
         case 'sprint':
           playerSelf.sprint();
@@ -429,12 +429,7 @@ MyGame.screens['gameplay'] = (function(
     }
 
     let rate = 0;
-    if (
-      action == 'fire'
-      // action == 'fire' ||
-      // action == 'rotate-left' ||
-      // action == 'rotate-right'
-    ) {
+    if (action == 'fire') {
       rate = 250;
     }
 
@@ -445,23 +440,21 @@ MyGame.screens['gameplay'] = (function(
         }
 
         let message = {
-          id: network.messageId++,
+          id: network.nextMessageId(),
           elapsedTime: elapsedTime,
           type: networkId,
         };
         network.emit(NetworkIds.INPUT, message);
         network.history.enqueue(message);
 
-        // if (action.indexOf('move') >= 0) {
-        //   playerSelf.move(elapsedTime);
         if (action == 'move-up') {
-          playerSelf.moveUp(elapsedTime);
+          playerSelf.moveUp(elapsedTime, barriers);
         } else if (action == 'move-left') {
-          playerSelf.moveLeft(elapsedTime);
+          playerSelf.moveLeft(elapsedTime, barriers);
         } else if (action == 'move-right') {
-          playerSelf.moveRight(elapsedTime);
+          playerSelf.moveRight(elapsedTime, barriers);
         } else if (action == 'move-down') {
-          playerSelf.moveDown(elapsedTime);
+          playerSelf.moveDown(elapsedTime, barriers);
         } else if (action == 'rotate-right') {
           playerSelf.rotateRight(elapsedTime);
         } else if (action == 'rotate-left') {
